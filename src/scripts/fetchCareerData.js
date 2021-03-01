@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const fetchCareerData = async () => {
   try {
-    const resp = await fetch(process.env.GIT_CONNECTED_API_URL);
+    const resp = await fetch(process.env.CAREER_DATA_API_URL);
     return resp.json();
   } catch (e) {}
 };
