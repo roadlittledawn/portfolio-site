@@ -1,0 +1,298 @@
+{
+  "basics": {
+    "name": "Clinton Langosch",
+    "label": "Software Engineer | @newrelic",
+    "image": "https://avatars3.githubusercontent.com/u/2952843?v=4",
+    "email": "",
+    "phone": "",
+    "url": null,
+    "summary": "Self-taught programmer. Solid skills in basic front end technologies (HTML, CSS, JavaScript), back end technologies (PHP, MySQL), and tools (git, SSH, Docker). Hungry for opportunities to work with knowledgable teammates, help build great user experiences, and grow with your team. Currently, leveling up my Node.js, React.js, and GraphQL skills.",
+    "profiles": [
+      {
+        "network": "gitconnected",
+        "username": "roadlittledawn",
+        "url": "https://gitconnected.com/roadlittledawn"
+      },
+      {
+        "network": "GitHub",
+        "username": "roadlittledawn",
+        "url": "https://github.com/roadlittledawn"
+      },
+      {
+        "network": "LinkedIn",
+        "url": "https://www.linkedin.com/in/clinton-langosch",
+        "username": "clinton-langosch"
+      }
+    ],
+    "headline": "Builder and life-long learner  B-)",
+    "blog": null,
+    "yearsOfExperience": 3,
+    "username": "roadlittledawn",
+    "locationAsString": "Portland, OR",
+    "region": "Portland, OR",
+    "karma": 24,
+    "id": "2d2d2674-788f-4ca5-b38b-69a6b2cb58d6",
+    "followers": 2,
+    "following": 1,
+    "picture": "https://avatars3.githubusercontent.com/u/2952843?v=4",
+    "website": null
+  },
+  "skills": [
+    {
+      "name": "React",
+      "level": "Intermediate",
+      "keywords": [],
+      "rating": 3,
+      "yearsOfExperience": 3
+    },
+    {
+      "name": "Javascript",
+      "level": "Intermediate",
+      "keywords": [],
+      "rating": 3,
+      "yearsOfExperience": 5
+    },
+    {
+      "name": "Apache",
+      "level": "Beginner",
+      "keywords": [],
+      "rating": 2,
+      "yearsOfExperience": 6
+    },
+    {
+      "name": "GraphQL",
+      "level": "Intermediate",
+      "keywords": [],
+      "rating": 3,
+      "yearsOfExperience": 2
+    },
+    {
+      "name": "PHP",
+      "level": "Intermediate",
+      "keywords": [],
+      "rating": 3,
+      "yearsOfExperience": 9
+    },
+    {
+      "name": "HTML",
+      "level": "Expert",
+      "keywords": [],
+      "rating": 5,
+      "yearsOfExperience": 9
+    },
+    {
+      "name": "CSS / SCSS",
+      "level": "Advanced",
+      "keywords": [],
+      "rating": 4,
+      "yearsOfExperience": 9
+    },
+    {
+      "name": "Node.js",
+      "level": "Beginner",
+      "keywords": [],
+      "rating": 2,
+      "yearsOfExperience": 2
+    },
+    {
+      "name": "MySQL",
+      "level": "Intermediate",
+      "keywords": [],
+      "rating": 3,
+      "yearsOfExperience": 9
+    },
+    {
+      "name": "MongoDB",
+      "level": "Beginner",
+      "keywords": [],
+      "rating": 2,
+      "yearsOfExperience": 2
+    }
+  ],
+  "projects": [
+    {
+      "name": "elasticsearch-indexer",
+      "description": "",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "elasticsearch-indexer",
+      "website": "",
+      "summary": "Node.js app to crawl sites, record crawl history in dynamoDB, and index in AWS elasticsearch service",
+      "primaryLanguage": "JavaScript",
+      "languages": [
+        "JavaScript"
+      ],
+      "libraries": [],
+      "githubUrl": "https://github.com/roadlittledawn/elasticsearch-indexer",
+      "repositoryUrl": "https://github.com/roadlittledawn/elasticsearch-indexer",
+      "start": {
+        "month": 1
+      },
+      "end": {
+        "month": 1
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "learn-js",
+      "description": "",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "learn-js",
+      "website": "",
+      "summary": "Repo for learning all things javascript",
+      "primaryLanguage": "JavaScript",
+      "languages": [
+        "JavaScript"
+      ],
+      "libraries": [],
+      "githubUrl": "https://github.com/roadlittledawn/learn-js",
+      "repositoryUrl": "https://github.com/roadlittledawn/learn-js",
+      "start": {
+        "month": 1
+      },
+      "end": {
+        "month": 1
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "docs as a service api",
+      "description": "Integrations with the API included:\n\nfeeding a data dictionary service definitions to display in product UI, \n\nfeeding content for product announcements / releases to the product UI,\n\ndevelop ad hoc scripts to ingest large amount of content and add programmatically,\n\ndevelop a React app to search product information / content across six websites",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "Docs as a Service API",
+      "website": "",
+      "summary": "Develop REST API to serve Docs as a Service",
+      "primaryLanguage": "",
+      "languages": [],
+      "libraries": [],
+      "githubUrl": "",
+      "repositoryUrl": "",
+      "start": {
+        "month": 1
+      },
+      "end": {
+        "month": 1
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "docs-website",
+      "description": "WIP : Open source docs.newrelic.com in GitHub + Gatsby JAM stack",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "docs-website",
+      "website": "",
+      "summary": "New Relic Docs + Gatsby",
+      "primaryLanguage": "",
+      "languages": [
+        "JavaScript"
+      ],
+      "libraries": [
+        "React",
+        "Gatsby"
+      ],
+      "githubUrl": "https://github.com/newrelic/docs-website",
+      "repositoryUrl": "https://github.com/newrelic/docs-website",
+      "start": {
+        "month": 1
+      },
+      "end": {
+        "month": 1
+      },
+      "images": [],
+      "videos": []
+    }
+  ],
+  "work": [
+    {
+      "name": "New Relic",
+      "location": "",
+      "description": "",
+      "position": "Software Engineer, Developer Experience",
+      "url": "",
+      "startDate": "2020-08-01",
+      "endDate": "",
+      "summary": "Joined Developer Experience team. Develop developer.newrelic.com , docs.newrelic.com in open sourced repos that use Github and Gatsby.\n\nWe also develop and maintain back end services that feed help content to the product UI.",
+      "highlights": [
+        "Migrate from Drupal to GitHub + Gatsby static site to be fully open sourced and part of JAM stack"
+      ],
+      "isCurrentRole": true,
+      "start": {
+        "year": 2020,
+        "month": 8
+      },
+      "end": {},
+      "company": "New Relic",
+      "website": ""
+    },
+    {
+      "name": "New Relic",
+      "location": "Portland, OR",
+      "description": "",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "2017-10-01",
+      "endDate": "2020-08-01",
+      "summary": "Develop Drupal-based content management system on front and back end for docs.newrelic.com and learn.newrelic.com.",
+      "highlights": [
+        "Lead Docs as a Service (DaaS) initaitive to build out REST API / JSON resources to enable other teams to integrate with our site. Examples: programmatically publish release notes, install procedures in the product UI, data dictionary terms fed to UI to display definitions to users in product UI, etc.",
+        "Develop prototype of product UI component (called Nerdlet) in React.js to surface search results from disparate sites.",
+        "Help launch Japanese version of site in partnership with vendor."
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2017,
+        "month": 10
+      },
+      "end": {
+        "year": 2020,
+        "month": 8
+      },
+      "company": "New Relic",
+      "website": ""
+    }
+  ],
+  "publications": [],
+  "education": [],
+  "volunteer": [],
+  "awards": [],
+  "languages": [],
+  "interests": [],
+  "references": [],
+  "certificates": [],
+  "meta": {
+    "note": "This is a combined version of the old and new JSON Resume API to provide maximum compatibility. You will notice duplicated values in different fields.",
+    "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/master/resume.json",
+    "version": "v1.0.0",
+    "lastModified": "2020-12-29T15:53:00"
+  }
+}
