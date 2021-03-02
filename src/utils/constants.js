@@ -1,7 +1,8 @@
-export const SITE = {
-  LAYOUT: {
-    CONTENT_PADDING: "2rem",
-    MAX_WIDTH: "1480px",
-    MOBILE_BREAKPOINT: "760px",
+const siteOptions = {
+  layout: {
+    contentPadding: "2rem",
+    maxWidth: "1480px",
+    mobileBreakpoint: "760px",
   },
 };
+export default siteOptions;

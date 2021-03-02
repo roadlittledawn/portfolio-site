@@ -7,14 +7,14 @@ import { css } from "@emotion/react";
 // import MobileNavigation from "./MobileNavigation";
 import { graphql, useStaticQuery, Link } from "gatsby";
 import { useToggle } from "react-use";
-import { SITE } from "../utils/constants";
+import siteOptions from "../utils/constants";
 
 const MobileHeader = ({ children }) => {
   const [isOpen, toggle] = useToggle(false);
 
   const {
-    LAYOUT: { MOBILE_BREAKPOINT },
-  } = SITE;
+    layout: { mobileBreakpoint },
+  } = siteOptions;
 
   return (
     <header
@@ -24,7 +24,7 @@ const MobileHeader = ({ children }) => {
         justify-content: space-between;
         align-items: center;
 
-        @media screen and (max-width: ${MOBILE_BREAKPOINT}) {
+        @media screen and (max-width: ${mobileBreakpoint}) {
           display: flex;
         }
       `}

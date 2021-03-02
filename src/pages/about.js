@@ -2,13 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { graphql } from "gatsby";
-import Layout from "../layouts/MainLayout";
+import MainLayout from "../layouts/MainLayout";
 
 const AboutPage = () => {
   return (
     <>
-      <h1>About</h1>
-      <Layout.Content>Content here</Layout.Content>
+      <MainLayout>
+        <h1>About</h1>
+        Content here
+      </MainLayout>
     </>
   );
 };

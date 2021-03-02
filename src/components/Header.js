@@ -115,13 +115,13 @@ const Header = ({ className }) => {
               `}
             >
               <li>
-                <Link to="/about">Docs</Link>
+                <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/experience">Developers</Link>
+                <Link to="/experience">Experience</Link>
               </li>
               <li>
-                <Link to="/projects">Open Source</Link>
+                <Link to="/projects">Projects</Link>
               </li>
             </ul>
           </nav>
