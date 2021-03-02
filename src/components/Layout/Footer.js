@@ -6,8 +6,6 @@ import { graphql, useStaticQuery, Link } from "gatsby";
 import { css } from "@emotion/react";
 
 const Footer = ({ className }) => {
-  const { siteMetadata } = site;
-
   return (
     <footer
       className={className}

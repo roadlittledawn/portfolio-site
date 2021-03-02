@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { graphql, Link } from "gatsby";
 // import DarkModeToggle from './DarkModeToggle';
 
@@ -145,18 +145,14 @@ const Header = ({ className }) => {
                 }
               }
             `}
-          >
-            <li>
-              <DarkModeToggle css={[actionIcon, action]} size="0.875rem" />
-            </li>
-          </ul>
+          ></ul>
         </div>
       </div>
     </>
   );
 };
 
-GlobalHeader.propTypes = {
+Header.propTypes = {
   className: PropTypes.string,
 };
 
