@@ -1,6 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: "Clinton Langosch Portfolio Site",
+    siteUrl: "http://clintonlangosch.com",
+    titleTemplate: "%s | Clinton Langosch",
   },
   plugins: [
     "gatsby-plugin-emotion",
