@@ -62,70 +62,8 @@ const Header = ({ className }) => {
             padding: 0 var(--site-content-padding);
           `}
         >
-          <nav
-            css={css`
-              display: flex;
-              align-items: center;
-              height: 100%;
-              overflow: hidden;
-              position: relative;
-
-              @media screen and (max-width: 800px) {
-                &::after {
-                  content: "";
-                  position: absolute;
-                  right: 0;
-                  height: 100%;
-                  width: 2rem;
-                  pointer-events: none;
-                  background: linear-gradient(
-                    to right,
-                    ${rgba("#f4f5f5", 0)},
-                    var(--color-neutrals-100)
-                  );
-
-                  .dark-mode & {
-                    background: linear-gradient(
-                      to right,
-                      ${rgba("#22353c", 0)},
-                      var(--color-dark-100)
-                    );
-                  }
-                }
-              }
-            `}
-          >
-            <ul
-              css={css`
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                list-style-type: none;
-                white-space: nowrap;
-                overflow-x: auto;
-                position: relative;
-                -webkit-overflow-scrolling: touch;
-                -ms-overflow-style: -ms-autohiding-scrollbar;
-
-                > li {
-                  margin: 0;
-                  flex: 0 0 auto;
-                }
-              `}
-            >
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/experience">Experience</Link>
-              </li>
-              <li>
-                <Link to="/projects">Projects</Link>
-              </li>
-            </ul>
-          </nav>
-
+          <div>Clinton Langosch</div>
+          <div>Software Engineer | @newrelic</div>
           <ul
             css={css`
               margin: 0;
@@ -145,7 +83,13 @@ const Header = ({ className }) => {
                 }
               }
             `}
-          ></ul>
+          >
+            <li>
+              <Link to={"https://gitconnected.com/roadlittledawn/resume"}>
+                View resume
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </>
