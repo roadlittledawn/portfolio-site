@@ -10,7 +10,6 @@ import { graphql, Link } from "gatsby";
 // import Icon from './Icon';
 // import GlobalNavLink from "./GlobalNavLink";
 import useMedia from "use-media";
-import { rgba } from "polished";
 
 const action = css`
   color: var(--secondary-text-color);
@@ -39,13 +38,17 @@ const Header = ({ className }) => {
 
   return (
     <>
-      <div
+      <header
         className={className}
         css={css`
-          background-color: var(--color-neutrals-100);
-          position: sticky;
+          background-color: var(--color-white);
+          position: relative;
           top: 0;
           z-index: 80;
+
+          a {
+            text-decoration: none;
+          }
 
           .dark-mode & {
             background-color: var(--color-dark-100);
@@ -60,38 +63,56 @@ const Header = ({ className }) => {
             max-width: var(--site-max-width);
             margin: 0 auto;
             padding: 0 var(--site-content-padding);
+            align-items: center;
           `}
         >
-          <div>Clinton Langosch</div>
-          <div>Software Engineer | @newrelic</div>
-          <ul
-            css={css`
-              margin: 0;
-              margin-left: 1rem;
-              padding: 0;
-              display: flex;
-              list-style-type: none;
-              align-items: center;
-              flex: 1;
+          <div>
+            <Link
+              to={"/"}
+              css={css`
+                font-size: 2rem;
+                font-weight: 900;
+                text-transform: uppercase;
+                color: var(--color-neutrals-700);
+              `}
+            >
+              Clinton Langosch
+            </Link>
+          </div>
+          <nav>
+            <ul
+              css={css`
+                margin: 0;
+                margin-left: 1rem;
+                padding: 0;
+                display: flex;
+                list-style-type: none;
 
-              > li {
-                transition: all 0.2s ease-out;
-                color: var(--secondary-text-color);
+                > li {
+                  transition: all 0.2s ease-out;
+                  color: var(--secondary-text-color);
 
-                &:not(:first-of-type) {
-                  margin-left: 0.5rem;
+                  &:not(:first-of-type) {
+                    margin-left: 0.5rem;
+                  }
                 }
-              }
-            `}
-          >
-            <li>
-              <Link to={"https://gitconnected.com/roadlittledawn/resume"}>
-                View resume
-              </Link>
-            </li>
-          </ul>
+              `}
+            >
+              <li>
+                <Link to={"/experience"}>Experience</Link>
+              </li>
+              <li>
+                <Link to={"/projects"}>Projects</Link>
+              </li>
+              <li>
+                <Link to={"https://gitconnected.com/roadlittledawn/resume"}>
+                  Resume
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
-      </div>
+      </header>
     </>
   );
 };

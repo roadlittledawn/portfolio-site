@@ -21,38 +21,6 @@ const MainLayout = ({ data = {}, children, pageContext }) => {
       <Header />
       <MobileHeader>Mobile nav</MobileHeader>
       <Layout>
-        <Layout.Sidebar>
-          <Link
-            to="/"
-            css={css`
-              display: block;
-              margin-bottom: 1rem;
-              text-decoration: none;
-            `}
-          >
-            Me
-          </Link>
-          <Link
-            to="/experience"
-            css={css`
-              display: block;
-              margin-bottom: 1rem;
-              text-decoration: none;
-            `}
-          >
-            Experience
-          </Link>
-          <Link
-            to="/projects"
-            css={css`
-              display: block;
-              margin-bottom: 1rem;
-              text-decoration: none;
-            `}
-          >
-            Projects
-          </Link>
-        </Layout.Sidebar>
         <Layout.Main
           css={css`
             display: ${isMobileNavOpen ? "none" : "block"};
