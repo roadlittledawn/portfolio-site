@@ -22,7 +22,7 @@ const IndexPage = ({ data }) => {
         >
           <div
             css={css`
-              width: 40%;
+              width: 60%;
             `}
           >
             <h1>Hello there. My name is Clinton and I'm a developer</h1>
@@ -39,7 +39,7 @@ const IndexPage = ({ data }) => {
 
           <div
             css={css`
-              width: 60%;
+              width: 40%;
               text-align: center;
             `}
           >
