@@ -26,11 +26,11 @@
     ],
     "headline": "Builder and life-long learner  B-)",
     "blog": null,
-    "yearsOfExperience": 3,
+    "yearsOfExperience": 4,
     "username": "roadlittledawn",
     "locationAsString": "Portland, OR",
     "region": "Portland, OR",
-    "karma": 24,
+    "karma": 28,
     "id": "2d2d2674-788f-4ca5-b38b-69a6b2cb58d6",
     "followers": 2,
     "following": 1,
@@ -111,97 +111,9 @@
   ],
   "projects": [
     {
-      "name": "elasticsearch-indexer",
-      "description": "",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "",
-      "displayName": "elasticsearch-indexer",
-      "website": "",
-      "summary": "Node.js app to crawl sites, record crawl history in dynamoDB, and index in AWS elasticsearch service",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript"
-      ],
-      "libraries": [],
-      "githubUrl": "https://github.com/roadlittledawn/elasticsearch-indexer",
-      "repositoryUrl": "https://github.com/roadlittledawn/elasticsearch-indexer",
-      "start": {
-        "month": 1
-      },
-      "end": {
-        "month": 1
-      },
-      "images": [],
-      "videos": []
-    },
-    {
-      "name": "learn-js",
-      "description": "",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "",
-      "displayName": "learn-js",
-      "website": "",
-      "summary": "Repo for learning all things javascript",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript"
-      ],
-      "libraries": [],
-      "githubUrl": "https://github.com/roadlittledawn/learn-js",
-      "repositoryUrl": "https://github.com/roadlittledawn/learn-js",
-      "start": {
-        "month": 1
-      },
-      "end": {
-        "month": 1
-      },
-      "images": [],
-      "videos": []
-    },
-    {
-      "name": "docs as a service api",
-      "description": "Integrations with the API included:\n\nfeeding a data dictionary service definitions to display in product UI, \n\nfeeding content for product announcements / releases to the product UI,\n\ndevelop ad hoc scripts to ingest large amount of content and add programmatically,\n\ndevelop a React app to search product information / content across six websites",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "",
-      "displayName": "Docs as a Service API",
-      "website": "",
-      "summary": "Develop REST API to serve Docs as a Service",
-      "primaryLanguage": "",
-      "languages": [],
-      "libraries": [],
-      "githubUrl": "",
-      "repositoryUrl": "",
-      "start": {
-        "month": 1
-      },
-      "end": {
-        "month": 1
-      },
-      "images": [],
-      "videos": []
-    },
-    {
       "name": "docs-website",
-      "description": "WIP : Open source docs.newrelic.com in GitHub + Gatsby JAM stack",
-      "url": "",
+      "description": "",
+      "url": "https://docs.newrelic.com",
       "highlights": [],
       "keywords": [],
       "roles": [],
@@ -210,23 +122,165 @@
       "entity": "",
       "type": "",
       "displayName": "docs-website",
-      "website": "",
-      "summary": "New Relic Docs + Gatsby",
-      "primaryLanguage": "",
+      "website": "https://docs.newrelic.com",
+      "summary": "Source code and public issue backlog for @newrelic docs.",
+      "primaryLanguage": "JavaScript",
       "languages": [
-        "JavaScript"
+        "JavaScript",
+        "Python"
       ],
-      "libraries": [
-        "React",
-        "Gatsby"
-      ],
+      "libraries": [],
       "githubUrl": "https://github.com/newrelic/docs-website",
       "repositoryUrl": "https://github.com/newrelic/docs-website",
       "start": {
-        "month": 1
+        "year": null,
+        "month": null,
+        "day": null
       },
       "end": {
-        "month": 1
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "developer-website",
+      "description": "",
+      "url": "https://developer.newrelic.com",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "developer-website",
+      "website": "https://developer.newrelic.com",
+      "summary": "Source code for the New Relic Developer Site.",
+      "primaryLanguage": "JavaScript",
+      "languages": [
+        "JavaScript",
+        "SCSS"
+      ],
+      "libraries": [],
+      "githubUrl": "https://github.com/newrelic/developer-website",
+      "repositoryUrl": "https://github.com/newrelic/developer-website",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "opensource-website",
+      "description": "",
+      "url": "https://opensource.newrelic.com",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "opensource-website",
+      "website": "https://opensource.newrelic.com",
+      "summary": "Source code for New Relic's Opensource site.",
+      "primaryLanguage": "JavaScript",
+      "languages": [
+        "CSS",
+        "SCSS",
+        "JavaScript"
+      ],
+      "libraries": [],
+      "githubUrl": "https://github.com/newrelic/opensource-website",
+      "repositoryUrl": "https://github.com/newrelic/opensource-website",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "gatsby-theme-newrelic",
+      "description": "",
+      "url": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "gatsby-theme-newrelic",
+      "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
+      "summary": "Source code for New Relic's Gatsby site theme.",
+      "primaryLanguage": "JavaScript",
+      "languages": [
+        "JavaScript"
+      ],
+      "libraries": [],
+      "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
+      "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "gatsby-plugin-json-output",
+      "description": "",
+      "url": "https://www.npmjs.com/package/gatsby-plugin-json-output",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "gatsby-plugin-json-output",
+      "website": "https://www.npmjs.com/package/gatsby-plugin-json-output",
+      "summary": "`gatsby-plugin-json-output` is a Gatsby plugin that generates JSON versions and feeds of your Gatsby content. Fetch JSON content from Gatsby with API-like static feeds that automatically update with your builds.",
+      "primaryLanguage": "TypeScript",
+      "languages": [
+        "TypeScript",
+        "JavaScript"
+      ],
+      "libraries": [],
+      "githubUrl": "https://github.com/dominicfallows/gatsby-plugin-json-output",
+      "repositoryUrl": "https://github.com/dominicfallows/gatsby-plugin-json-output",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
       },
       "images": [],
       "videos": []
@@ -237,11 +291,11 @@
       "name": "New Relic",
       "location": "",
       "description": "",
-      "position": "Software Engineer, Developer Experience",
+      "position": "Software Engineer, Developer Enablement",
       "url": "",
       "startDate": "2020-08-01",
       "endDate": "",
-      "summary": "Joined Developer Experience team. Develop developer.newrelic.com , docs.newrelic.com in open sourced repos that use Github and Gatsby.\n\nWe also develop and maintain back end services that feed help content to the product UI.",
+      "summary": "Joined Developer Enablement team. Develop developer.newrelic.com , docs.newrelic.com in open sourced repos that use Github and Gatsby.\n\nWe also develop and maintain back end services that feed help content to the product UI.",
       "highlights": [
         "Migrate from Drupal to GitHub + Gatsby static site to be fully open sourced and part of JAM stack"
       ],
