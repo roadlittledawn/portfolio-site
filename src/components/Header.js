@@ -4,11 +4,6 @@ import { css } from "@emotion/react";
 import { graphql, Link } from "gatsby";
 // import DarkModeToggle from './DarkModeToggle';
 
-// import Button from "./Button";
-// import Dropdown from "./Dropdown";
-// import NewRelicLogo from './NewRelicLogo';
-// import Icon from './Icon';
-// import GlobalNavLink from "./GlobalNavLink";
 import useMedia from "use-media";
 
 const action = css`
@@ -76,6 +71,7 @@ const Header = ({ className }) => {
                 color: var(--color-neutrals-700);
               `}
             >
+              {/* 🅒🅛🅘🅝🅣🅞🅝 🅛🅐🅝🅖🅞🅢🅒🅗 */}
               Clinton Langosch
             </Link>
           </div>
