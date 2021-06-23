@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { graphql, Link } from "gatsby";
+import clintonLogo from "../images/clinton-logo.png";
 // import DarkModeToggle from './DarkModeToggle';
 
 import useMedia from "use-media";
@@ -61,7 +62,11 @@ const Header = ({ className }) => {
             align-items: center;
           `}
         >
-          <div>
+          <div
+            css={css`
+              max-width: 33%;
+            `}
+          >
             <Link
               to={"/"}
               css={css`
@@ -71,8 +76,12 @@ const Header = ({ className }) => {
                 color: var(--color-neutrals-700);
               `}
             >
-              {/* 🅒🅛🅘🅝🅣🅞🅝 🅛🅐🅝🅖🅞🅢🅒🅗 */}
-              Clinton Langosch
+              <img
+                css={css`
+                  width: 100%;
+                `}
+                src={clintonLogo}
+              />
             </Link>
           </div>
           <nav>
