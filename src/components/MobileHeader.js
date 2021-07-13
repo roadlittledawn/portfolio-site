@@ -7,7 +7,7 @@ import { css } from "@emotion/react";
 // import MobileNavigation from "./MobileNavigation";
 import { graphql, useStaticQuery, Link } from "gatsby";
 import { useToggle } from "react-use";
-import siteOptions from "../utils/constants";
+import { siteOptions } from "../utils/constants";
 
 const MobileHeader = ({ children }) => {
   const [isOpen, toggle] = useToggle(false);
