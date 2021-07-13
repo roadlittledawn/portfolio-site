@@ -15,6 +15,8 @@ const Footer = ({ className }) => {
       css={css`
         color: var(--secondary-text-color);
         z-index: 1;
+        position: absolute;
+        bottom: 0;
 
         .dark-mode & {
           background-color: var(--color-dark-050);
