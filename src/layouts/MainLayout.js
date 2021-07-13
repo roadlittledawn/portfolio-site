@@ -41,6 +41,11 @@ const MainLayout = ({ children }) => {
         <Layout.Main
           css={css`
             display: ${isMobileNavOpen ? "none" : "block"};
+            > section {
+              @media screen and (max-width: 980px) {
+                flex-wrap: wrap;
+              }
+            }
           `}
         >
           {children}
