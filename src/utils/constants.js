@@ -7,4 +7,6 @@ export const siteOptions = {
 };
 export const SOCIAL_ICON_NAMES = {
   GitHub: "github",
+  LinkedIn: "linkedin",
+  gitconnected: "git-branch",
 };

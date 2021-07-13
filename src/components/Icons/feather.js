@@ -19,7 +19,7 @@ export default {
       <circle xmlns="http://www.w3.org/2000/svg" cx="4" cy="4" r="2" />
     </>
   ),
-  gitconnected: (
+  "git-branch": (
     <>
       <line xmlns="http://www.w3.org/2000/svg" x1="6" y1="3" x2="6" y2="15" />
       <circle xmlns="http://www.w3.org/2000/svg" cx="18" cy="6" r="3" />

@@ -66,7 +66,7 @@ const MainLayout = ({ children }) => {
               <Link to={profile.url}>
                 <FeatherIcon
                   title={profile.network}
-                  name={profile.network.toLowerCase()}
+                  name={SOCIAL_ICON_NAMES[profile.network]}
                 />
               </Link>
             ))}
