@@ -4,12 +4,29 @@ import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
 import SEO from "../components/SEO";
 import MobileHeader from "../components/MobileHeader";
+import FeatherIcon from "../components/Icons";
 // import { Logo, MobileHeader } from "@newrelic/gatsby-theme-newrelic";
-import { graphql, Link } from "gatsby";
+import { graphql, useStaticQuery, Link } from "gatsby";
 import { css } from "@emotion/react";
+import { SOCIAL_ICON_NAMES } from "../utils/constants";
+import FeatherSVG from "../components/FeatherSVG";
 
-const MainLayout = ({ data = {}, children, pageContext }) => {
+const MainLayout = ({ children }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  const {
+    basics: { profiles },
+  } = useStaticQuery(graphql`
+    query {
+      basics {
+        profiles {
+          network
+          url
+          username
+        }
+      }
+    }
+  `);
 
   // useEffect(() => {
   //   setIsMobileNavOpen(false);
@@ -28,6 +45,33 @@ const MainLayout = ({ data = {}, children, pageContext }) => {
         >
           {children}
         </Layout.Main>
+        <aside
+          css={css`
+            position: fixed;
+            bottom: 0;
+            right: 1em;
+            width: 30px;
+          `}
+        >
+          <nav
+            css={css`
+              display: flex;
+              flex-direction: column;
+              > * {
+                margin: 0.5em 0;
+              }
+            `}
+          >
+            {profiles.map((profile) => (
+              <Link to={profile.url}>
+                <FeatherIcon
+                  title={profile.network}
+                  name={profile.network.toLowerCase()}
+                />
+              </Link>
+            ))}
+          </nav>
+        </aside>
         <Layout.Footer />
       </Layout>
     </>
