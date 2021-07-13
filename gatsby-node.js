@@ -5,6 +5,19 @@ const {
   work,
 } = require("./src/data/careerData.json");
 
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      alias: {
+        path: require.resolve("path-browserify"),
+      },
+      fallback: {
+        fs: false,
+      },
+    },
+  });
+};
+
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
-import { graphq, Link } from "gatsby";
+import { graphql, Link } from "gatsby";
 import MainLayout from "../layouts/MainLayout";
 
 const ProjectsPage = ({ data }) => {
