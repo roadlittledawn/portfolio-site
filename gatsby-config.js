@@ -1,19 +1,14 @@
 module.exports = {
   siteMetadata: {
     title: "Clinton Langosch Portfolio Site",
+    siteUrl: "http://clintonlangosch.com",
+    titleTemplate: "%s | Clinton Langosch",
   },
   plugins: [
     "gatsby-plugin-emotion",
-    {
-      resolve: "gatsby-plugin-google-analytics",
-      options: {
-        trackingId: "263906713",
-      },
-    },
     "gatsby-plugin-sharp",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
-    "gatsby-plugin-offline",
     {
       resolve: "gatsby-plugin-manifest",
       options: {
