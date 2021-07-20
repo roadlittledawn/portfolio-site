@@ -1,1 +1,1 @@
-export { default } from "./featherIcon";
+export { default } from "./FeatherIcon";
