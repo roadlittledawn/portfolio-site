@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { css } from "@emotion/react";
 import { graphql, Link } from "gatsby";
 import MainLayout from "../layouts/MainLayout";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import LayoutContext from "./src/components/LayoutContext";
-import siteOptions from "./src/utils/constants";
+import { siteOptions } from "./src/utils/constants";
 
 export const wrapRootElement = ({ element }) => {
   const { layout } = siteOptions;
