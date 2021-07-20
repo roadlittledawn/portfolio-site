@@ -5,11 +5,9 @@ import Header from "../components/Header";
 import SEO from "../components/SEO";
 import MobileHeader from "../components/MobileHeader";
 import FeatherIcon from "../components/Icons";
-// import { Logo, MobileHeader } from "@newrelic/gatsby-theme-newrelic";
 import { graphql, useStaticQuery, Link } from "gatsby";
 import { css } from "@emotion/react";
 import { SOCIAL_ICON_NAMES } from "../utils/constants";
-import FeatherSVG from "../components/FeatherSVG";
 
 const MainLayout = ({ children }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
