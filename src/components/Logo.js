@@ -13,7 +13,7 @@ const Logo = ({ color }) => (
     css={css`
       fill: ${color};
       -webkit-transition: -webkit-transform 0.8s ease-in-out;
-      transition: transform 0.8s ease-in-out;
+      transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
       &:hover {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
