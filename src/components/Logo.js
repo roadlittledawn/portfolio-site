@@ -97,7 +97,7 @@ const Logo = ({ color }) => (
 );
 
 Logo.propTypes = {
-  props: PropTypes.node,
+  color: PropTypes.string,
 };
 
 export default Logo;

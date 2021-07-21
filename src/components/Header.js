@@ -73,12 +73,6 @@ const Header = ({ className }) => {
               css={css`
                 display: flex;
                 align-items: center;
-                -webkit-transition: -webkit-transform 0.8s ease-in-out;
-                transition: transform 0.8s ease-in-out;
-                &:hover {
-                  -webkit-transform: rotate(360deg);
-                  transform: rotate(360deg);
-                }
               `}
             >
               <Logo color="black" />
