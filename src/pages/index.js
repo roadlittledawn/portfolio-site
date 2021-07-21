@@ -23,10 +23,11 @@ const IndexPage = ({ data }) => {
         >
           <div
             css={css`
-              width: 60%;
+              max-width: 60%;
+              order: 2;
             `}
           >
-            <h1>Hello there. My name is Clinton and I'm a developer</h1>
+            <h1>Hello there. My name is Clinton and I&apos;m a developer</h1>
             <p
               css={css`
                 font-size: 1.5rem;
@@ -40,15 +41,18 @@ const IndexPage = ({ data }) => {
 
           <div
             css={css`
+              order: 1;
               width: 40%;
               text-align: center;
             `}
           >
             <img
               src={image}
+              alt="Headshot of Clinton"
               css={css`
                 border-radius: 50%;
-                width: 400px;
+                width: 100%;
+                max-width: 400px;
               `}
             />
           </div>
