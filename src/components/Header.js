@@ -1,33 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
-import { graphql, Link } from "gatsby";
-import clintonLogo from "../images/logo-sun-dark.png";
+import { Link } from "gatsby";
+
 import Logo from "../components/Logo";
-// import DarkModeToggle from './DarkModeToggle';
 
 import useMedia from "use-media";
-
-const action = css`
-  color: var(--secondary-text-color);
-  transition: all 0.2s ease-out;
-
-  &:hover {
-    color: var(--secondary-text-hover-color);
-  }
-`;
-
-const actionLink = css`
-  ${action};
-
-  display: flex;
-  align-items: center;
-`;
-
-const actionIcon = css`
-  display: block;
-  cursor: pointer;
-`;
 
 const Header = ({ className }) => {
   const hideLogoText = useMedia({ maxWidth: "655px" });
@@ -76,13 +54,6 @@ const Header = ({ className }) => {
               `}
             >
               <Logo color="black" />
-              {/* <img
-                css={css`
-                  width: 8vw;
-                  min-width: 100px;
-                `}
-                src={clintonLogo}
-              /> */}
             </Link>
           </div>
           <nav>
