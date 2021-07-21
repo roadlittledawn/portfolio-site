@@ -66,8 +66,9 @@ const MainLayout = ({ children }) => {
             `}
           >
             {profiles.map((profile) => (
-              <Link to={profile.url}>
+              <Link to={profile.url} key={`link-${profile.network}`}>
                 <FeatherIcon
+                  key={`icon-${profile.network}`}
                   title={profile.network}
                   name={SOCIAL_ICON_NAMES[profile.network]}
                 />
