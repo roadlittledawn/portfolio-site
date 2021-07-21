@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import featherIcons from "./feather";
-import feather from "./feather";
 
 const FeatherIcon = ({ name, className, size, title, defs, props }) => {
   const featherSVG = featherIcons[name];

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { graphql, Link } from "gatsby";
-import clintonLogo from "../images/clinton-logo.png";
+import clintonLogo from "../images/logo-sun-dark.png";
+import Logo from "../components/Logo";
 // import DarkModeToggle from './DarkModeToggle';
 
 import useMedia from "use-media";
@@ -70,18 +71,24 @@ const Header = ({ className }) => {
             <Link
               to={"/"}
               css={css`
-                font-size: 2rem;
-                font-weight: 900;
-                text-transform: uppercase;
-                color: var(--color-neutrals-700);
+                display: flex;
+                align-items: center;
+                -webkit-transition: -webkit-transform 0.8s ease-in-out;
+                transition: transform 0.8s ease-in-out;
+                &:hover {
+                  -webkit-transform: rotate(360deg);
+                  transform: rotate(360deg);
+                }
               `}
             >
-              <img
+              <Logo color="black" />
+              {/* <img
                 css={css`
-                  width: 100%;
+                  width: 8vw;
+                  min-width: 100px;
                 `}
                 src={clintonLogo}
-              />
+              /> */}
             </Link>
           </div>
           <nav>
