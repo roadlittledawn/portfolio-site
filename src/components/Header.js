@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
 
 import Logo from "../components/Logo";
+import FeatherIcon from "../components/Icons";
+import { SOCIAL_ICON_NAMES } from "../utils/constants";
 
-import useMedia from "use-media";
+// import useMedia from "use-media";
 
-const Header = ({ className }) => {
-  const hideLogoText = useMedia({ maxWidth: "655px" });
-  const useCondensedHeader = useMedia({ maxWidth: "585px" });
+const Header = ({ profiles, className }) => {
+  // const hideLogoText = useMedia({ maxWidth: "655px" });
+  // const useCondensedHeader = useMedia({ maxWidth: "585px" });
 
   return (
     <>
@@ -63,6 +65,7 @@ const Header = ({ className }) => {
                 margin-left: 1rem;
                 padding: 0;
                 display: flex;
+                align-items: center;
                 list-style-type: none;
 
                 > li {
@@ -70,7 +73,7 @@ const Header = ({ className }) => {
                   color: var(--secondary-text-color);
 
                   &:not(:first-of-type) {
-                    margin-left: 0.5rem;
+                    margin-left: 1em;
                   }
                 }
               `}
@@ -86,6 +89,22 @@ const Header = ({ className }) => {
                   Resume
                 </Link>
               </li>
+              {profiles.map((profile) => (
+                <li
+                  key={`li-${profile.network}`}
+                  css={css`
+                    width: 2em;
+                  `}
+                >
+                  <Link to={profile.url} key={`link-${profile.network}`}>
+                    <FeatherIcon
+                      key={`icon-${profile.network}`}
+                      title={profile.network}
+                      name={SOCIAL_ICON_NAMES[profile.network]}
+                    />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
@@ -95,6 +114,7 @@ const Header = ({ className }) => {
 };
 
 Header.propTypes = {
+  profiles: PropTypes.array,
   className: PropTypes.string,
 };
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import featherIcons from "./feather";
 
-const FeatherIcon = ({ name, className, size, title, defs, props }) => {
+const FeatherIcon = ({ name, size, title, defs, props, strokeColor }) => {
   const featherSVG = featherIcons[name];
 
   if (featherSVG) {
@@ -16,7 +16,7 @@ const FeatherIcon = ({ name, className, size, title, defs, props }) => {
           width: ${size};
           height: ${size};
           fill: none;
-          stroke: currentColor;
+          stroke: ${strokeColor || "currentColor"};
           stroke-width: 2;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -33,7 +33,8 @@ const FeatherIcon = ({ name, className, size, title, defs, props }) => {
 };
 
 FeatherIcon.propTypes = {
-  className: PropTypes.string,
+  name: PropTypes.string,
+  strokeColor: PropTypes.string,
 };
 
 export default FeatherIcon;
