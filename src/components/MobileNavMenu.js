@@ -12,14 +12,14 @@ const MobileNavMenu = ({ open }) => {
         flex-direction: column;
         justify-content: center;
         background: #effffa;
-        transform: ${open ? "translateX(0)" : "translateX(100%)"};
+        /* transform: ${open ? "translateX(0)" : "translateX(100%)"}; */
         height: 100vh;
         text-align: left;
         padding: 2rem;
         position: absolute;
         top: 0;
         right: 0;
-        transition: transform 1s ease-in-out;
+        /* transition: transformm 0.3s ease-in-out; */
 
         @media (max-width: 576px) {
           width: 100%;
@@ -46,24 +46,9 @@ const MobileNavMenu = ({ open }) => {
         }
       `}
     >
-      <Link href="/experience">
-        <span role="img" aria-label="about us">
-          💁🏻‍♂️
-        </span>
-        Experience
-      </Link>
-      <Link href="/projects">
-        <span role="img" aria-label="price">
-          💸
-        </span>
-        Projects
-      </Link>
-      <Link href="https://gitconnected.com/roadlittledawn/resume">
-        <span role="img" aria-label="contact">
-          📩
-        </span>
-        Resume
-      </Link>
+      <Link href="/experience">Experience</Link>
+      <Link href="/projects">Projects</Link>
+      <Link href="https://gitconnected.com/roadlittledawn/resume">Resume</Link>
     </nav>
   );
 };

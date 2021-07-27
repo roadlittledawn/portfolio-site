@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
+import { useMedia } from "react-use";
 import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
 import SEO from "../components/SEO";
-// import MobileHeader from "../components/MobileHeader";
+import MobileNav from "../components/MobileNav";
 
 import { css } from "@emotion/react";
 
@@ -33,7 +34,7 @@ const MainLayout = ({ children }) => {
     <>
       <SEO />
       <Header profiles={profiles} />
-      {/* <MobileHeader>Mobile nav</MobileHeader> */}
+      <MobileNav />
       <Layout>
         <Layout.Main
           css={css`

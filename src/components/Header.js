@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 
 import Logo from "../components/Logo";
 import FeatherIcon from "../components/Icons";
-import { SOCIAL_ICON_NAMES } from "../utils/constants";
+import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
 
 // import useMedia from "use-media";
 
@@ -58,7 +58,15 @@ const Header = ({ profiles, className }) => {
               <Logo color="black" />
             </Link>
           </div>
-          <nav>
+          <nav
+            css={css`
+              display: block;
+              @media screen and (max-width: ${siteOptions.layout
+                  .mobileBreakpoint}) {
+                display: none;
+              }
+            `}
+          >
             <ul
               css={css`
                 margin: 0;

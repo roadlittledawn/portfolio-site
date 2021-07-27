@@ -35,7 +35,9 @@ const IndexPage = ({ data }) => {
               }
             `}
           >
-            <h1>Hello there. My name is Clinton and I&apos;m a developer</h1>
+            <h1>
+              Hello there. My name is Clinton and I&apos;m a software engineer
+            </h1>
             <p
               css={css`
                 font-size: 1.5rem;
