@@ -34,7 +34,7 @@ const MainLayout = ({ children }) => {
     <>
       <SEO />
       <Header profiles={profiles} />
-      <MobileNav />
+      <MobileNav profiles={profiles} />
       <Layout>
         <Layout.Main
           css={css`

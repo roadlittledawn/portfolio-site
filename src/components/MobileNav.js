@@ -5,7 +5,7 @@ import Hamburger from "./Hamburger";
 import MobileNavMenu from "./MobileNavMenu";
 import { siteOptions } from "../utils/constants";
 
-const MobileNav = () => {
+const MobileNav = ({ profiles }) => {
   const [open, setOpen] = useState(false);
   const mobileNavRef = useRef();
   // useEffect(() => {
@@ -32,14 +32,13 @@ const MobileNav = () => {
       `}
     >
       <Hamburger open={open} onClick={() => setOpen(!open)} />
-      <MobileNavMenu open={open} />
+      <MobileNavMenu open={open} profiles={profiles} />
     </div>
   );
 };
 
 MobileNav.propTypes = {
-  data: PropTypes.object.isRequired,
-  location: PropTypes.object,
+  profiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default MobileNav;
