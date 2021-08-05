@@ -1,14 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import Logo from './Logo';
 
-import { graphql, useStaticQuery, Link } from "gatsby";
 import { css } from "@emotion/react";
-import FeatherSVG from "../FeatherSVG";
+import { Link } from "gatsby";
+import FeatherIcon from "../Icons/FeatherIcon";
+import { siteOptions, SOCIAL_ICON_NAMES } from "../../utils/constants";
 
 const currentYear = new Date().getFullYear();
 
-const Footer = ({ className }) => {
+const Footer = ({ profiles, className }) => {
+  const { layout } = siteOptions;
   return (
     <footer
       className={className}
@@ -16,7 +17,12 @@ const Footer = ({ className }) => {
         color: var(--secondary-text-color);
         z-index: 1;
         position: absolute;
+        width: 100%;
         bottom: 0;
+        color: var(--color-neutrals-600);
+        @media screen and (max-width: ${layout.mobileBreakpoint}) {
+          position: relative;
+        }
 
         .dark-mode & {
           background-color: var(--color-dark-050);
@@ -27,28 +33,54 @@ const Footer = ({ className }) => {
         }
       `}
     >
+      <ul
+        css={css`
+          margin: 0;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          list-style-type: none;
+        `}
+      >
+        {profiles.map((profile) => (
+          <li
+            key={`li-${profile.network}`}
+            css={css`
+              width: 2em;
+              margin: 0 1em;
+            `}
+          >
+            <Link to={profile.url} key={`link-${profile.network}`}>
+              <FeatherIcon
+                key={`icon-${profile.network}`}
+                title={profile.network}
+                name={SOCIAL_ICON_NAMES[profile.network]}
+                strokeColor={"var(--color-neutrals-600)"}
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
       <div
         css={css`
-          font-size: 0.75rem;
-          align-items: center;
-          justify-content: space-between;
+          font-size: 1em;
           display: flex;
           padding: 1rem var(--site-content-padding);
           max-width: var(--site-max-width);
           margin: 0 auto;
-
-          @media screen and (max-width: 550px) {
-            flex-direction: column;
+          justify-content: center;
+          @media screen and (max-width: ${layout.mobileBreakpoint}) {
             justify-content: center;
           }
         `}
       >
-        <div
-          css={css`
-            align-self: flex-start;
-          `}
-        >
-          Clinton Langosch {currentYear}
+        <div>
+          Made with Clinton Langosch&apos;s blood, sweat, and tears{" "}
+          <span aria-label="upside down smile emoji" role="img">
+            🙃
+          </span>
+          <span> | © {currentYear}</span>
         </div>
       </div>
     </footer>
@@ -56,6 +88,7 @@ const Footer = ({ className }) => {
 };
 
 Footer.propTypes = {
+  profiles: PropTypes.array,
   className: PropTypes.string,
 };
 

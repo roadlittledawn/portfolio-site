@@ -3,11 +3,15 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { graphql } from "gatsby";
 import MainLayout from "../layouts/MainLayout";
+import { siteOptions } from "../utils/constants";
 
 const IndexPage = ({ data }) => {
   const {
     basics: { summary, image },
   } = data;
+  const {
+    layout: { mobileBreakpoint },
+  } = siteOptions;
   return (
     <>
       <MainLayout>
@@ -24,9 +28,16 @@ const IndexPage = ({ data }) => {
           <div
             css={css`
               width: 60%;
+
+              @media screen and (max-width: ${mobileBreakpoint}) {
+                width: 100%;
+                order: 2;
+              }
             `}
           >
-            <h1>Hello there. My name is Clinton and I'm a developer</h1>
+            <h1>
+              Hello there. My name is Clinton and I&apos;m a software engineer
+            </h1>
             <p
               css={css`
                 font-size: 1.5rem;
@@ -42,13 +53,19 @@ const IndexPage = ({ data }) => {
             css={css`
               width: 40%;
               text-align: center;
+              @media screen and (max-width: ${siteOptions.mobileBreakpoint}) {
+                width: 100%;
+                order: 1;
+              }
             `}
           >
             <img
               src={image}
+              alt="Headshot of Clinton"
               css={css`
                 border-radius: 50%;
-                width: 400px;
+                width: 100%;
+                max-width: 400px;
               `}
             />
           </div>

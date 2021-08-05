@@ -11,33 +11,10 @@ const Layout = ({ className, children }) => {
     <div
       className={className}
       css={css`
-        --sidebar-width: 300px;
-
-        display: grid;
-        /* 
-        Use this for sidebar
-        grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-        grid-template-areas:
-          "sidebar main"
-          "sidebar footer";
-        grid-template-rows: 1fr auto; */
-
+        position: relative;
         min-height: calc(100vh - var(--global-header-height));
         margin: 0 auto;
         max-width: var(--site-max-width);
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-          "main"
-          "footer";
-        grid-template-rows: unset;
-
-        /* @media screen and (max-width: 760px) {
-          grid-template-columns: minmax(0, 1fr);
-          grid-template-areas:
-            "main"
-            "footer";
-          grid-template-rows: unset;
-        } */
       `}
     >
       {children}
