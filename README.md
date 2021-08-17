@@ -17,7 +17,7 @@ This portfolio site is built with Gatsby.js.
 
 ## Skills
 
-- Display them somehow. Filterable component/page?
+- Add tools / processes data, then tile
 
 ## Misc
 
