@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 
 export default css`
+  --tile-border-color: var(--color-neutrals-600);
+  --border-color: var(--color-neutrals-400);
   .light-mode {
     --primary-background-color: var(--color-white);
     --primary-text-color: var(--color-neutrals-700);
