@@ -16,7 +16,7 @@ const Footer = ({ profiles, className }) => {
       css={css`
         color: var(--secondary-text-color);
         z-index: 1;
-        position: absolute;
+        position: relative;
         width: 100%;
         bottom: 0;
         color: var(--color-neutrals-600);
