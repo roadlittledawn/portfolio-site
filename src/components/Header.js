@@ -51,8 +51,24 @@ const Header = ({ profiles, className }) => {
             <Link
               to={"/"}
               css={css`
-                display: flex;
+                /* display: flex; */
                 align-items: center;
+                position: relative;
+                &:hover {
+                  &::before {
+                    position: absolute;
+                    content: "";
+                    height: 20px;
+                    width: 20px;
+                    background-color: #fddf99;
+                    border-radius: 50%;
+                    left: 50%;
+                    top: 0;
+                    transform: translate(-77%, -400%);
+                    z-index: 100;
+                    box-shadow: 0 0 60px 30px #fddf99;
+                  }
+                }
               `}
             >
               <Logo color="black" />

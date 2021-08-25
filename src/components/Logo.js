@@ -13,10 +13,24 @@ const Logo = ({ color }) => (
     css={css`
       fill: ${color};
       -webkit-transition: -webkit-transform 0.8s ease-in-out;
-      transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+      /* transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1); */
+      transition: box-shadow 1s ease-in;
+      &::before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border-radius: 50%;
+        left: 50%;
+        top: 0;
+        transform: translate(-77%, 315%);
+        z-index: 100;
+        box-shadow: 0 0 60px 30px #fff;
+      }
       &:hover {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
+        /* -webkit-transform: rotate(360deg); */
+        /* transform: rotate(360deg); */
       }
     `}
   >
