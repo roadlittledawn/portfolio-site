@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useStaticQuery, graphql } from "gatsby";
+import { useMedia } from "react-use";
 import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
 import SEO from "../components/SEO";
-import MobileHeader from "../components/MobileHeader";
-import FeatherIcon from "../components/Icons";
-import { graphql, useStaticQuery, Link } from "gatsby";
+import MobileNav from "../components/MobileNav";
+
 import { css } from "@emotion/react";
-import { SOCIAL_ICON_NAMES } from "../utils/constants";
 
 const MainLayout = ({ children }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -33,8 +33,8 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <SEO />
-      <Header />
-      <MobileHeader>Mobile nav</MobileHeader>
+      <Header profiles={profiles} />
+      <MobileNav profiles={profiles} />
       <Layout>
         <Layout.Main
           css={css`
@@ -48,34 +48,8 @@ const MainLayout = ({ children }) => {
         >
           {children}
         </Layout.Main>
-        <aside
-          css={css`
-            position: fixed;
-            bottom: 0;
-            right: 1em;
-            width: 30px;
-          `}
-        >
-          <nav
-            css={css`
-              display: flex;
-              flex-direction: column;
-              > * {
-                margin: 0.5em 0;
-              }
-            `}
-          >
-            {profiles.map((profile) => (
-              <Link to={profile.url}>
-                <FeatherIcon
-                  title={profile.network}
-                  name={SOCIAL_ICON_NAMES[profile.network]}
-                />
-              </Link>
-            ))}
-          </nav>
-        </aside>
-        <Layout.Footer />
+
+        <Layout.Footer profiles={profiles} />
       </Layout>
     </>
   );

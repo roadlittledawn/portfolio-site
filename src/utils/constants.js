@@ -10,3 +10,29 @@ export const SOCIAL_ICON_NAMES = {
   LinkedIn: "linkedin",
   gitconnected: "git-branch",
 };
+
+export const SKILL_RATINGS = {
+  MAX: 5,
+  LEVEL: {
+    TEXT: {
+      1: "Learning",
+      2: "Beginner",
+      3: "Intermediate",
+      4: "Advanced",
+      5: "Expert",
+    },
+  },
+};
+
+export const SKILL_CATEGORY = {
+  HTML: "frontend",
+  "CSS / SCSS": "frontend",
+  React: "frontend",
+  Javascript: "frontend",
+  GraphQL: "frontend",
+  PHP: "backend",
+  MySQL: "backend",
+  "Node.js": "backend",
+  MongoDB: "backend",
+  Apache: "backend",
+};

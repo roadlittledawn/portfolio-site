@@ -1,36 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
-import { graphql, Link } from "gatsby";
-import clintonLogo from "../images/clinton-logo.png";
-// import DarkModeToggle from './DarkModeToggle';
+import { Link } from "gatsby";
 
-import useMedia from "use-media";
+import Logo from "../components/Logo";
+import FeatherIcon from "../components/Icons";
+import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
 
-const action = css`
-  color: var(--secondary-text-color);
-  transition: all 0.2s ease-out;
+// import useMedia from "use-media";
 
-  &:hover {
-    color: var(--secondary-text-hover-color);
-  }
-`;
-
-const actionLink = css`
-  ${action};
-
-  display: flex;
-  align-items: center;
-`;
-
-const actionIcon = css`
-  display: block;
-  cursor: pointer;
-`;
-
-const Header = ({ className }) => {
-  const hideLogoText = useMedia({ maxWidth: "655px" });
-  const useCondensedHeader = useMedia({ maxWidth: "585px" });
+const Header = ({ profiles, className }) => {
+  // const hideLogoText = useMedia({ maxWidth: "655px" });
+  // const useCondensedHeader = useMedia({ maxWidth: "585px" });
 
   return (
     <>
@@ -70,27 +51,29 @@ const Header = ({ className }) => {
             <Link
               to={"/"}
               css={css`
-                font-size: 2rem;
-                font-weight: 900;
-                text-transform: uppercase;
-                color: var(--color-neutrals-700);
+                display: flex;
+                align-items: center;
               `}
             >
-              <img
-                css={css`
-                  width: 100%;
-                `}
-                src={clintonLogo}
-              />
+              <Logo color="black" />
             </Link>
           </div>
-          <nav>
+          <nav
+            css={css`
+              display: block;
+              @media screen and (max-width: ${siteOptions.layout
+                  .mobileBreakpoint}) {
+                display: none;
+              }
+            `}
+          >
             <ul
               css={css`
                 margin: 0;
                 margin-left: 1rem;
                 padding: 0;
                 display: flex;
+                align-items: center;
                 list-style-type: none;
 
                 > li {
@@ -98,7 +81,7 @@ const Header = ({ className }) => {
                   color: var(--secondary-text-color);
 
                   &:not(:first-of-type) {
-                    margin-left: 0.5rem;
+                    margin-left: 1em;
                   }
                 }
               `}
@@ -114,6 +97,22 @@ const Header = ({ className }) => {
                   Resume
                 </Link>
               </li>
+              {profiles.map((profile) => (
+                <li
+                  key={`li-${profile.network}`}
+                  css={css`
+                    width: 2em;
+                  `}
+                >
+                  <Link to={profile.url} key={`link-${profile.network}`}>
+                    <FeatherIcon
+                      key={`icon-${profile.network}`}
+                      title={profile.network}
+                      name={SOCIAL_ICON_NAMES[profile.network]}
+                    />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
@@ -123,6 +122,7 @@ const Header = ({ className }) => {
 };
 
 Header.propTypes = {
+  profiles: PropTypes.array,
   className: PropTypes.string,
 };
 

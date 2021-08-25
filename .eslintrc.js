@@ -1,5 +1,9 @@
 module.exports = {
-  extends: ["plugin:jsx-a11y/recommended", "plugin:react-hooks/recommended"],
+  extends: [
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+  ],
   plugins: ["react", "jsx-a11y"],
   settings: {
     react: {
