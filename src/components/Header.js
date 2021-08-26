@@ -93,6 +93,9 @@ const Header = ({ profiles, className }) => {
                 <Link to={"/projects"}>Projects</Link>
               </li>
               <li>
+                <Link to={"/skills"}>Skills</Link>
+              </li>
+              <li>
                 <Link to={"https://gitconnected.com/roadlittledawn/resume"}>
                   Resume
                 </Link>

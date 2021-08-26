@@ -12,11 +12,22 @@ const Logo = ({ color }) => (
     size="160px"
     css={css`
       fill: ${color};
-      -webkit-transition: -webkit-transform 0.8s ease-in-out;
-      transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+      /* -webkit-transition: -webkit-transform 0.8s ease-in-out;
+      transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1); */
+      transition: box-shadow 1s ease-in;
+      border-radius: 50%;
       &:hover {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
+        /* -webkit-transform: rotate(360deg);
+        transform: rotate(360deg); */
+        border-radius: 50%;
+        box-shadow: inset 0 0 50px #fff,
+          /* inner white */ inset 20px 0 80px #f0f,
+          /* inner left magenta short */ inset -20px 0 80px #0ff,
+          /* inner right cyan short */ inset 20px 0 300px #f0f,
+          /* inner left magenta broad */ inset -20px 0 300px #0ff,
+          /* inner right cyan broad */ 0 0 50px #fff,
+          /* outer white */ -10px 0 80px #f0f,
+          /* outer left magenta */ 10px 0 80px #0ff; /* outer right cyan */
       }
     `}
   >
