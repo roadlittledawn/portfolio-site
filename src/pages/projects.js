@@ -21,6 +21,7 @@ const ProjectsPage = ({ data }) => {
             flex-wrap: wrap;
             > * {
               width: 25%;
+              min-width: 300px;
             }
             @media screen and (max-width: ${siteOptions.layout
                 .mobileBreakpoint}) {
@@ -54,7 +55,7 @@ const ProjectsPage = ({ data }) => {
                         css={css`
                           font-size: 0.75em;
                           background-color: var(--color-neutrals-300);
-                          padding: 0.25em;
+                          padding: 0.25em 0.75em;
                           margin: 0.25em;
                         `}
                       >

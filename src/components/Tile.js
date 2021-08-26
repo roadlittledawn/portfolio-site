@@ -33,6 +33,10 @@ const Tile = ({ children, icon, className }) => {
         border-radius: 0.25rem;
         box-shadow: var(--shadow-3);
 
+        :hover {
+          transform: translateY(-2px);
+        }
+
         @media screen and (max-width: 1050px) {
           min-height: 175px;
 
