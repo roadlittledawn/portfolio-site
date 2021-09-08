@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/784104a7-d750-4a1a-b38f-17308981182b/deploy-status)](https://app.netlify.com/sites/clintonlangosch/deploys)
+
 This portfolio site is built with Gatsby.js.
 
 # TODO
