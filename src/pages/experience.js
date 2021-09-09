@@ -16,24 +16,25 @@ const ExperiencePage = ({ data }) => {
     <>
       <MainLayout>
         <h1>Experience</h1>
-        {gigs.map((gig) => (
+        {gigs.map((gig, index) => (
           <section
+            key={`gig-${index}`}
             css={css`
               margin: 3rem 0;
             `}
           >
             <h2>{gig.position}</h2>
-            <p>
-              {gig.name}{" "}
+            <div>{gig.name}</div>
+            <div>
               {`${getNameOfMonth(gig.start.month)} ${gig.start.year}`} {`to`}{" "}
               {gig.isCurrentRole
                 ? "Present"
-                : `${getNameOfMonth(gig.start.month)}${gig.end.year}`}
-            </p>
+                : `${getNameOfMonth(gig.start.month)} ${gig.end.year}`}
+            </div>
             <p>{gig.summary}</p>
             <ul>
-              {gig.highlights.map((highlight) => (
-                <li>{highlight}</li>
+              {gig.highlights.map((highlight, index) => (
+                <li key={`highlight-${index}`}>{highlight}</li>
               ))}
             </ul>
           </section>
