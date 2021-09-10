@@ -21,6 +21,10 @@ This portfolio site is built with Gatsby.js.
 
 - Add tools / processes data, then tile
 
+## Experience
+
+- set sort on jobs
+
 ## Misc
 
 - Dark mode: Add it for funsies
