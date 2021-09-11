@@ -6,7 +6,7 @@
     "email": "",
     "phone": "",
     "url": null,
-    "summary": "Self-taught programmer. Solid skills in basic front end technologies (HTML, CSS, JavaScript), back end technologies (PHP, MySQL), and tools (git, SSH, Docker). Hungry for opportunities to work with knowledgable teammates, help build great user experiences, and grow with your team. Currently, leveling up my Node.js, React.js, and GraphQL skills.",
+    "summary": "Front end engineer with some back end experience. Steeped in CMS development, in-product help, and services that connect them. I’m currently a software engineer / technical product manager at New Relic.",
     "profiles": [
       {
         "network": "gitconnected",
@@ -30,7 +30,7 @@
     "username": "roadlittledawn",
     "locationAsString": "Portland, OR",
     "region": "Portland, OR",
-    "karma": 28,
+    "karma": 37,
     "id": "2d2d2674-788f-4ca5-b38b-69a6b2cb58d6",
     "followers": 2,
     "following": 1,
@@ -249,41 +249,6 @@
       },
       "images": [],
       "videos": []
-    },
-    {
-      "name": "gatsby-plugin-json-output",
-      "description": "",
-      "url": "https://www.npmjs.com/package/gatsby-plugin-json-output",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "",
-      "displayName": "gatsby-plugin-json-output",
-      "website": "https://www.npmjs.com/package/gatsby-plugin-json-output",
-      "summary": "`gatsby-plugin-json-output` is a Gatsby plugin that generates JSON versions and feeds of your Gatsby content. Fetch JSON content from Gatsby with API-like static feeds that automatically update with your builds.",
-      "primaryLanguage": "TypeScript",
-      "languages": [
-        "TypeScript",
-        "JavaScript"
-      ],
-      "libraries": [],
-      "githubUrl": "https://github.com/dominicfallows/gatsby-plugin-json-output",
-      "repositoryUrl": "https://github.com/dominicfallows/gatsby-plugin-json-output",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": []
     }
   ],
   "work": [
@@ -295,9 +260,11 @@
       "url": "",
       "startDate": "2020-08-01",
       "endDate": "",
-      "summary": "Joined Developer Enablement team. Develop developer.newrelic.com , docs.newrelic.com in open sourced repos that use Github and Gatsby.\n\nWe also develop and maintain back end services that feed help content to the product UI.",
+      "summary": "We develop and maintain sites and services around technical content, product documentation, and opensource projects to help developers get the most out of New Relic.",
       "highlights": [
-        "Migrate from Drupal to GitHub + Gatsby static site to be fully open sourced and part of JAM stack"
+        "Migrate from Drupal to GitHub + Gatsby static site to be fully open sourced and part of JAM stack",
+        "Develop various Gatsby sites including docs.newrelic.com, developer.newrelic.com, opensource.newrelic.com, and our `gatsby-newrelic-theme`.",
+        "Develop and maintain services that connect help content to the product UI."
       ],
       "isCurrentRole": true,
       "start": {
@@ -330,6 +297,28 @@
       "end": {
         "year": 2020,
         "month": 8
+      },
+      "company": "New Relic",
+      "website": ""
+    },
+    {
+      "name": "New Relic",
+      "location": "Portland",
+      "description": "",
+      "position": "Technical Writer",
+      "url": "",
+      "startDate": "2014-08-01",
+      "endDate": "2017-10-01",
+      "summary": "Research and write technical documentation and tutorials for the company's performance monitoring software products. Help develop and manage Drupal CMS",
+      "highlights": [],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2014,
+        "month": 8
+      },
+      "end": {
+        "year": 2017,
+        "month": 10
       },
       "company": "New Relic",
       "website": ""

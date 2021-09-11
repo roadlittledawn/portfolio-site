@@ -83,7 +83,12 @@ const renderSkill = (skillName, skillRating) => (
       justify-content: space-between;
     `}
   >
-    <div>
+    <div
+      css={css`
+        text-align: center;
+        width: 5rem;
+      `}
+    >
       <div>
         <Icon name={skillName} viewbox="0 0 128 128" size="2em" />
       </div>

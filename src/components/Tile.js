@@ -103,7 +103,7 @@ const iconStyles = css`
     height: 4rem;
     width: 4rem;
     border: 1px solid var(--color-neutrals-600);
-    background-color: var(--color-white);
+    background-color: var(--primary-background-color);
     z-index: 1;
   }
   &:hover {
