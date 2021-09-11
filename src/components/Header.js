@@ -6,6 +6,7 @@ import { Link } from "gatsby";
 import Logo from "../components/Logo";
 import FeatherIcon from "../components/Icons";
 import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
+import DarkModeToggle from "./DarkModeToggle";
 
 // import useMedia from "use-media";
 
@@ -18,17 +19,12 @@ const Header = ({ profiles, className }) => {
       <header
         className={className}
         css={css`
-          background-color: var(--color-white);
           position: relative;
           top: 0;
           z-index: 80;
 
           a {
             text-decoration: none;
-          }
-
-          .dark-mode & {
-            background-color: var(--color-dark-100);
           }
         `}
       >
@@ -71,7 +67,7 @@ const Header = ({ profiles, className }) => {
                 }
               `}
             >
-              <Logo color="black" />
+              <Logo />
             </Link>
           </div>
           <nav
@@ -102,6 +98,9 @@ const Header = ({ profiles, className }) => {
                 }
               `}
             >
+              <li>
+                <DarkModeToggle size="0.875rem" />
+              </li>
               <li>
                 <Link to={"/experience"}>Experience</Link>
               </li>

@@ -24,10 +24,6 @@ const Footer = ({ profiles, className }) => {
           position: relative;
         }
 
-        .dark-mode & {
-          background-color: var(--color-dark-050);
-        }
-
         a {
           color: currentColor;
         }

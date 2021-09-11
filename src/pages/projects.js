@@ -41,8 +41,24 @@ const ProjectsPage = ({ data }) => {
                 `}
               >
                 <Tile key={project.name}>
-                  <h2>{project.name}</h2>
-                  <p>{project.summary}</p>
+                  <h2
+                    css={css`
+                      .dark-mode & {
+                        color: var(--color-neutrals-300);
+                      }
+                    `}
+                  >
+                    {project.name}
+                  </h2>
+                  <p
+                    css={css`
+                      .dark-mode & {
+                        color: var(--primary-text-color);
+                      }
+                    `}
+                  >
+                    {project.summary}
+                  </p>
                   <div
                     css={css`
                       display: flex;
@@ -57,6 +73,10 @@ const ProjectsPage = ({ data }) => {
                           background-color: var(--color-neutrals-300);
                           padding: 0.25em 0.75em;
                           margin: 0.25em;
+
+                          .dark-mode & {
+                            background-color: var(--color-dark-300);
+                          }
                         `}
                       >
                         {language}

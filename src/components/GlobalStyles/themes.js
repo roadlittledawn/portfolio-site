@@ -37,7 +37,7 @@ export default css`
   }
 
   .dark-mode {
-    --primary-background-color: #1c2a2f;
+    --primary-background-color: #232728;
     --primary-text-color: var(--color-dark-700);
     --primary-text-hover-color: var(--color-dark-900);
 
