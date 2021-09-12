@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 
 import FeatherIcon from "./Icons/FeatherIcon";
 import { SOCIAL_ICON_NAMES } from "../utils/constants";
+import DarkModeToggle from "./DarkModeToggle";
 
 const MobileNavMenu = ({ open, profiles }) => {
   return (
@@ -14,7 +15,7 @@ const MobileNavMenu = ({ open, profiles }) => {
         display: ${open ? "flex" : "none"};
         flex-direction: column;
         justify-content: center;
-        background: #effffa;
+        background-color: var(--color-teal-100);
         /* transform: ${open ? "translateX(0)" : "translateX(100%)"}; */
         height: 100vh;
         text-align: left;
@@ -34,7 +35,7 @@ const MobileNavMenu = ({ open, profiles }) => {
           padding: 2rem 0;
           font-weight: bold;
           letter-spacing: 0.5rem;
-          color: #0d0c1d;
+          color: var(--color-dark-100);
           text-decoration: none;
           transition: color 0.3s linear;
 
@@ -42,17 +43,26 @@ const MobileNavMenu = ({ open, profiles }) => {
             font-size: 1.5rem;
             text-align: center;
           }
-
-          &:hover {
-            color: #343078;
-          }
         }
       `}
     >
+      <div
+        css={css`
+          text-align: center;
+        `}
+      >
+        <DarkModeToggle
+          size="2rem"
+          css={css`
+            color: var(--color-dark-100);
+          `}
+        />
+      </div>
       <Link href="/experience">Experience</Link>
       <Link href="/projects">Projects</Link>
       <Link href="/skills">Skills</Link>
       <Link href="https://gitconnected.com/roadlittledawn/resume">Resume</Link>
+
       <div>
         <ul
           css={css`
