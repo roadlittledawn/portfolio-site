@@ -6,8 +6,8 @@ import { css } from "@emotion/react";
 const NavLink = ({ to, children }) => {
   const isInternal = to.startsWith("/");
   const isCurrent =
-    (typeof window !== "undefined" && window.location.pathname === to) ||
-    window.location.pathname === `${to}/`;
+    typeof window !== "undefined" &&
+    (window.location.pathname === to || window.location.pathname === `${to}/`);
 
   if (isInternal) {
     return (
