@@ -8,10 +8,7 @@ const ExperiencePage = ({ data }) => {
   const {
     allWork: { nodes: gigs },
   } = data;
-  const getNameOfMonth = (monthNumber) =>
-    new Date(2021, monthNumber - 1, 10).toLocaleString("default", {
-      month: "long",
-    });
+
   return (
     <>
       <MainLayout>
@@ -22,6 +19,11 @@ const ExperiencePage = ({ data }) => {
           `}
         >
           {gigs
+            .sort(
+              (a, b) =>
+                convertToUnixTime(`${a.end.year}-${a.end.month}-01`) >
+                convertToUnixTime(`${b.end.year}-${b.end.month}-01`)
+            )
             .sort((a) => (a.isCurrentRole ? -1 : 1))
             .map((gig, index) => (
               <div
@@ -69,7 +71,7 @@ const ExperiencePage = ({ data }) => {
                   {`to`}{" "}
                   {gig.isCurrentRole
                     ? "Present"
-                    : `${getNameOfMonth(gig.start.month)} ${gig.end.year}`}
+                    : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
                 </div>
                 <h2>{gig.position}</h2>
                 <div>{gig.name}</div>
@@ -90,6 +92,13 @@ const ExperiencePage = ({ data }) => {
 ExperiencePage.propTypes = {
   data: PropTypes.object,
 };
+
+const getNameOfMonth = (monthNumber) =>
+  new Date(2021, monthNumber - 1, 10).toLocaleString("default", {
+    month: "long",
+  });
+
+const convertToUnixTime = (dateStamp) => new Date(dateStamp).getTime();
 
 export const pageQuery = graphql`
   query {
