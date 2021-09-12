@@ -6,6 +6,7 @@ import MainLayout from "../layouts/MainLayout";
 import Tile from "../components/Tile";
 
 import { siteOptions } from "../utils/constants";
+import PageTitle from "../components/PageTitle";
 
 const ProjectsPage = ({ data }) => {
   const {
@@ -14,7 +15,7 @@ const ProjectsPage = ({ data }) => {
   return (
     <>
       <MainLayout>
-        <h1>Projects</h1>
+        <PageTitle>Projects</PageTitle>
         <div
           css={css`
             display: flex;
@@ -52,9 +53,7 @@ const ProjectsPage = ({ data }) => {
                   </h2>
                   <p
                     css={css`
-                      .dark-mode & {
-                        color: var(--primary-text-color);
-                      }
+                      color: var(--primary-text-color);
                     `}
                   >
                     {project.summary}

@@ -7,12 +7,13 @@ import Tile from "../components/Tile";
 import ProgressBar from "../components/ProgressBar";
 import Icon from "../components/Icons";
 import { SKILL_CATEGORY, siteOptions } from "../utils/constants";
+import PageTitle from "../components/PageTitle";
 
 const SkillsPage = ({ data }) => {
   const { nodes: skills } = data.allSkills;
   return (
     <MainLayout>
-      <h1>Skills</h1>
+      <PageTitle>Skills</PageTitle>
 
       <div
         css={css`

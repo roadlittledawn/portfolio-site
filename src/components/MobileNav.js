@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import { css } from "@emotion/react";
 import Hamburger from "./Hamburger";
 import MobileNavMenu from "./MobileNavMenu";
+import DarkModeToggle from "./DarkModeToggle";
 import { siteOptions } from "../utils/constants";
 
 const MobileNav = ({ profiles }) => {
