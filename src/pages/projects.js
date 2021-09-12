@@ -53,9 +53,7 @@ const ProjectsPage = ({ data }) => {
                   </h2>
                   <p
                     css={css`
-                      .dark-mode & {
-                        color: var(--primary-text-color);
-                      }
+                      color: var(--primary-text-color);
                     `}
                   >
                     {project.summary}
