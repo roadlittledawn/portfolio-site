@@ -51,6 +51,7 @@ const MobileNavMenu = ({ open, profiles }) => {
     >
       <Link href="/experience">Experience</Link>
       <Link href="/projects">Projects</Link>
+      <Link href="/skills">Skills</Link>
       <Link href="https://gitconnected.com/roadlittledawn/resume">Resume</Link>
       <div>
         <ul
