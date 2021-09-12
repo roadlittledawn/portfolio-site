@@ -36,6 +36,10 @@ const Hamburger = ({ open, onClick }) => {
           position: relative;
           transform-origin: 1px;
 
+          .dark-mode & {
+            background: var(--color-dark-700);
+          }
+
           :first-child {
             transform: ${open ? "rotate(45deg)" : "rotate(0)"};
           }

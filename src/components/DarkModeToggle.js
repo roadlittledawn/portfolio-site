@@ -16,6 +16,8 @@ const DarkModeToggle = ({ className, size, onClick }) => {
 
   return (
     <button
+      className={className}
+      title="Light / dark mode toggle"
       onClick={(e) => {
         darkMode.toggle();
 
@@ -35,11 +37,7 @@ const DarkModeToggle = ({ className, size, onClick }) => {
         }
       `}
     >
-      <Icon
-        name={darkMode.value ? "sun" : "moon"}
-        className={className}
-        size={size}
-      />
+      <Icon name={darkMode.value ? "sun" : "moon"} size={size} />
     </button>
   );
 };
