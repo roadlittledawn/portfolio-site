@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { graphql } from "gatsby";
 import MainLayout from "../layouts/MainLayout";
+import PageTitle from "../components/PageTitle";
 
 const ExperiencePage = ({ data }) => {
   const {
@@ -12,10 +13,11 @@ const ExperiencePage = ({ data }) => {
   return (
     <>
       <MainLayout>
-        <h1>Experience</h1>
+        <PageTitle>Experience</PageTitle>
         <section
           css={css`
-            margin: 3em 0;
+            margin: 3em auto;
+            max-width: 800px;
           `}
         >
           {gigs

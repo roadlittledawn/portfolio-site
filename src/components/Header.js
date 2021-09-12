@@ -7,6 +7,7 @@ import Logo from "../components/Logo";
 import FeatherIcon from "../components/Icons";
 import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
 import DarkModeToggle from "./DarkModeToggle";
+import NavLink from "./NavLink";
 
 // import useMedia from "use-media";
 
@@ -102,35 +103,37 @@ const Header = ({ profiles, className }) => {
                 <DarkModeToggle size="0.875rem" />
               </li>
               <li>
-                <Link to={"/experience"}>Experience</Link>
+                <NavLink to={"/experience"}>Experience</NavLink>
               </li>
               <li>
-                <Link to={"/projects"}>Projects</Link>
+                <NavLink to={"/projects"}>Projects</NavLink>
               </li>
               <li>
-                <Link to={"/skills"}>Skills</Link>
+                <NavLink to={"/skills"}>Skills</NavLink>
               </li>
               <li>
-                <Link to={"https://gitconnected.com/roadlittledawn/resume"}>
+                <NavLink to={"https://gitconnected.com/roadlittledawn/resume"}>
                   Resume
-                </Link>
+                </NavLink>
               </li>
-              {profiles.map((profile) => (
-                <li
-                  key={`li-${profile.network}`}
-                  css={css`
-                    width: 2em;
-                  `}
-                >
-                  <Link to={profile.url} key={`link-${profile.network}`}>
-                    <FeatherIcon
-                      key={`icon-${profile.network}`}
-                      title={profile.network}
-                      name={SOCIAL_ICON_NAMES[profile.network]}
-                    />
-                  </Link>
-                </li>
-              ))}
+              {profiles
+                .filter((profile) => profile.network !== "gitconnected")
+                .map((profile) => (
+                  <li
+                    key={`li-${profile.network}`}
+                    css={css`
+                      width: 1.5em;
+                    `}
+                  >
+                    <NavLink to={profile.url} key={`link-${profile.network}`}>
+                      <FeatherIcon
+                        key={`icon-${profile.network}`}
+                        title={profile.network}
+                        name={SOCIAL_ICON_NAMES[profile.network]}
+                      />
+                    </NavLink>
+                  </li>
+                ))}
             </ul>
           </nav>
         </div>
