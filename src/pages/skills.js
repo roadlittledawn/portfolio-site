@@ -8,66 +8,70 @@ import ProgressBar from "../components/ProgressBar";
 import Icon from "../components/Icons";
 import { SKILL_CATEGORY, siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
+import SEO from "../components/SEO";
 
 const SkillsPage = ({ data }) => {
   const { nodes: skills } = data.allSkills;
   return (
-    <MainLayout>
-      <PageTitle>Skills</PageTitle>
+    <>
+      <SEO title="Skills" />
+      <MainLayout>
+        <PageTitle>Skills</PageTitle>
 
-      <div
-        css={css`
-          display: flex;
-          > * {
-            width: 50%;
-          }
-          @media screen and (max-width: ${siteOptions.layout
-              .mobileBreakpoint}) {
-            flex-wrap: wrap;
+        <div
+          css={css`
+            display: flex;
             > * {
-              width: 100%;
+              width: 50%;
             }
-          }
-        `}
-      >
-        <Tile
-          icon="window"
-          css={css`
-            margin: 1em;
+            @media screen and (max-width: ${siteOptions.layout
+                .mobileBreakpoint}) {
+              flex-wrap: wrap;
+              > * {
+                width: 100%;
+              }
+            }
           `}
         >
-          <h2
+          <Tile
+            icon="window"
             css={css`
-              text-align: center;
+              margin: 1em;
             `}
           >
-            Frontend
-          </h2>
-          {skills
-            .filter((skill) => SKILL_CATEGORY[skill.name] === "frontend")
-            .sort((a, b) => b.rating - a.rating)
-            .map((skill) => renderSkill(skill.name, skill.rating))}
-        </Tile>
-        <Tile
-          icon="terminal"
-          css={css`
-            margin: 1em;
-          `}
-        >
-          <h2
+            <h2
+              css={css`
+                text-align: center;
+              `}
+            >
+              Frontend
+            </h2>
+            {skills
+              .filter((skill) => SKILL_CATEGORY[skill.name] === "frontend")
+              .sort((a, b) => b.rating - a.rating)
+              .map((skill) => renderSkill(skill.name, skill.rating))}
+          </Tile>
+          <Tile
+            icon="terminal"
             css={css`
-              text-align: center;
+              margin: 1em;
             `}
           >
-            Backend
-          </h2>
-          {skills
-            .filter((skill) => SKILL_CATEGORY[skill.name] === "backend")
-            .sort((a, b) => b.rating - a.rating)
-            .map((skill) => renderSkill(skill.name, skill.rating))}
-        </Tile>
-      </div>
-    </MainLayout>
+            <h2
+              css={css`
+                text-align: center;
+              `}
+            >
+              Backend
+            </h2>
+            {skills
+              .filter((skill) => SKILL_CATEGORY[skill.name] === "backend")
+              .sort((a, b) => b.rating - a.rating)
+              .map((skill) => renderSkill(skill.name, skill.rating))}
+          </Tile>
+        </div>
+      </MainLayout>
+    </>
   );
 };
 

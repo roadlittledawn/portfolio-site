@@ -2,10 +2,11 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
 import { graphql } from "gatsby";
+import SEO from "../components/SEO";
 import MainLayout from "../layouts/MainLayout";
 import { siteOptions } from "../utils/constants";
 
-const IndexPage = ({ data }) => {
+const HomePage = ({ data }) => {
   const {
     basics: { summary, image },
   } = data;
@@ -14,6 +15,7 @@ const IndexPage = ({ data }) => {
   } = siteOptions;
   return (
     <>
+      <SEO title="Home" />
       <MainLayout>
         <section
           css={css`
@@ -75,7 +77,7 @@ const IndexPage = ({ data }) => {
   );
 };
 
-IndexPage.propTypes = {
+HomePage.propTypes = {
   data: PropTypes.object,
 };
 
@@ -101,4 +103,4 @@ export const pageQuery = graphql`
   }
 `;
 
-export default IndexPage;
+export default HomePage;

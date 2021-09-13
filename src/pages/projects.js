@@ -2,6 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
 import { graphql, Link } from "gatsby";
+import SEO from "../components/SEO";
 import MainLayout from "../layouts/MainLayout";
 import Tile from "../components/Tile";
 
@@ -14,6 +15,7 @@ const ProjectsPage = ({ data }) => {
   } = data;
   return (
     <>
+      <SEO title="Projects" />
       <MainLayout>
         <PageTitle>Projects</PageTitle>
         <div

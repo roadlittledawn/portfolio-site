@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import { useMedia } from "react-use";
 import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
-import SEO from "../components/SEO";
+
 import MobileNav from "../components/MobileNav";
 
 import { css } from "@emotion/react";
@@ -32,7 +32,6 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      <SEO />
       <Header profiles={profiles} />
       <MobileNav profiles={profiles} />
       <Layout>
