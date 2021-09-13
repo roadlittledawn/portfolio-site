@@ -2,30 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { graphql, useStaticQuery } from "gatsby";
-import path from "path";
 
-const SEO = ({ title, location, children }) => {
+const SEO = ({ title, children }) => {
   const {
     site: { siteMetadata },
   } = useStaticQuery(graphql`
     query {
       site {
         siteMetadata {
-          title
+          defaultTitle: title
           titleTemplate
-          siteUrl
         }
       }
     }
   `);
 
-  const { defaultTitle, titleTemplate, siteUrl } = siteMetadata;
-
-  const template = title ? titleTemplate : "%s";
+  const { defaultTitle, titleTemplate } = siteMetadata;
 
   return (
-    <Helmet titleTemplate={template}>
+    <Helmet titleTemplate={titleTemplate}>
       <title>{title || defaultTitle}</title>
+      <html lang="en" />
       {children}
     </Helmet>
   );

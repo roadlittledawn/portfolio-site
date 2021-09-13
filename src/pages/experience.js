@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import { graphql } from "gatsby";
 import MainLayout from "../layouts/MainLayout";
 import PageTitle from "../components/PageTitle";
+import SEO from "../components/SEO";
 
 const ExperiencePage = ({ data }) => {
   const {
@@ -12,6 +13,7 @@ const ExperiencePage = ({ data }) => {
 
   return (
     <>
+      <SEO title="Experience" />
       <MainLayout>
         <PageTitle>Experience</PageTitle>
         <section
