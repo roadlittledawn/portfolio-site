@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: "Clinton Langosch Portfolio Site",
-    siteUrl: "http://clintonlangosch.com",
+    title: "Clinton Langosch Portfolio",
+    siteUrl: "https://clintonlangosch.com",
     titleTemplate: "%s | Clinton Langosch",
   },
   plugins: [
