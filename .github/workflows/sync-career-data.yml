@@ -36,6 +36,8 @@ jobs:
 
       - name: Fetch career data
         run: yarn run sync
+        env:
+          CAREER_DATA_API_URL: ${{ secrets.CAREER_DATA_API_URL }}
 
       - name: Temporarily disable branch protection
         id: disable-branch-protection
