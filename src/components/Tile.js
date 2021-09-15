@@ -56,8 +56,8 @@ const Tile = ({ children, icon, className }) => {
             margin-bottom: 2rem;
           }
         }
-        ${icon && iconStyles}
         ${tileStyles}
+        ${icon && iconStyles}
       `}
     >
       {icon && (
@@ -105,6 +105,12 @@ const iconStyles = css`
     border: 1px solid var(--color-neutrals-600);
     background-color: var(--primary-background-color);
     z-index: 1;
+    .light-mode & {
+      background-color: #ffffff;
+    }
+    .dark-mode & {
+      background-color: #232728;
+    }
   }
   &:hover {
     color: currentColor;
