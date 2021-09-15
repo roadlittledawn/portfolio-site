@@ -18,6 +18,7 @@ const ProjectsPage = ({ data }) => {
       <SEO title="Projects" />
       <MainLayout>
         <PageTitle>Projects</PageTitle>
+        <p>Lately, I&apos;ve been spending most my time on these projects:</p>
         <div
           css={css`
             display: flex;
