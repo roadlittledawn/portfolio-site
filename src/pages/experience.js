@@ -23,12 +23,7 @@ const ExperiencePage = ({ data }) => {
           `}
         >
           {gigs
-            .sort(
-              (a, b) =>
-                convertToUnixTime(`${a.end.year}-${a.end.month}-01`) >
-                convertToUnixTime(`${b.end.year}-${b.end.month}-01`)
-            )
-            .sort((a) => (a.isCurrentRole ? -1 : 1))
+            .sort((a) => (a.isCurrentRole ? -1 : 0))
             .map((gig, index) => (
               <div
                 key={`gig-${index}`}
@@ -106,7 +101,7 @@ const convertToUnixTime = (dateStamp) => new Date(dateStamp).getTime();
 
 export const pageQuery = graphql`
   query {
-    allWork {
+    allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
       nodes {
         summary
         isCurrentRole
