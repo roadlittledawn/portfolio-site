@@ -39,24 +39,26 @@ const Footer = ({ profiles, className }) => {
           list-style-type: none;
         `}
       >
-        {profiles.map((profile) => (
-          <li
-            key={`li-${profile.network}`}
-            css={css`
-              width: 2em;
-              margin: 0 1em;
-            `}
-          >
-            <Link to={profile.url} key={`link-${profile.network}`}>
-              <FeatherIcon
-                key={`icon-${profile.network}`}
-                title={profile.network}
-                name={SOCIAL_ICON_NAMES[profile.network]}
-                strokeColor={"var(--color-neutrals-600)"}
-              />
-            </Link>
-          </li>
-        ))}
+        {profiles
+          .filter((profile) => profile.network !== "gitconnected")
+          .map((profile) => (
+            <li
+              key={`li-${profile.network}`}
+              css={css`
+                width: 2em;
+                margin: 0 1em;
+              `}
+            >
+              <Link to={profile.url} key={`link-${profile.network}`}>
+                <FeatherIcon
+                  key={`icon-${profile.network}`}
+                  title={profile.network}
+                  name={SOCIAL_ICON_NAMES[profile.network]}
+                  strokeColor={"var(--color-neutrals-600)"}
+                />
+              </Link>
+            </li>
+          ))}
       </ul>
       <div
         css={css`
