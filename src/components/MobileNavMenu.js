@@ -74,23 +74,25 @@ const MobileNavMenu = ({ open, profiles }) => {
             list-style-type: none;
           `}
         >
-          {profiles.map((profile) => (
-            <li
-              key={`li-${profile.network}`}
-              css={css`
-                width: 2em;
-                margin: 0 1em;
-              `}
-            >
-              <Link to={profile.url} key={`link-${profile.network}`}>
-                <FeatherIcon
-                  key={`icon-${profile.network}`}
-                  title={profile.network}
-                  name={SOCIAL_ICON_NAMES[profile.network]}
-                />
-              </Link>
-            </li>
-          ))}
+          {profiles
+            .filter((profile) => profile.network !== "gitconnected")
+            .map((profile) => (
+              <li
+                key={`li-${profile.network}`}
+                css={css`
+                  width: 2em;
+                  margin: 0 1em;
+                `}
+              >
+                <Link to={profile.url} key={`link-${profile.network}`}>
+                  <FeatherIcon
+                    key={`icon-${profile.network}`}
+                    title={profile.network}
+                    name={SOCIAL_ICON_NAMES[profile.network]}
+                  />
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
     </nav>
