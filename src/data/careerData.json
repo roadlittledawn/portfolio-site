@@ -30,7 +30,7 @@
     "username": "roadlittledawn",
     "locationAsString": "Portland, OR",
     "region": "Portland, OR",
-    "karma": 39,
+    "karma": 41,
     "id": "2d2d2674-788f-4ca5-b38b-69a6b2cb58d6",
     "followers": 2,
     "following": 1,
@@ -287,7 +287,7 @@
       "highlights": [
         "Lead Docs as a Service (DaaS) initaitive to build out REST API / JSON resources to enable other teams to integrate with our site. Examples: programmatically publish release notes, install procedures in the product UI, data dictionary terms fed to UI to display definitions to users in product UI, etc.",
         "Develop prototype of product UI component (called Nerdlet) in React.js to surface search results from disparate sites.",
-        "Help launch Japanese version of site in partnership with vendor."
+        "Develop integration to translate site in Japanese"
       ],
       "isCurrentRole": false,
       "start": {
