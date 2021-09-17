@@ -9,6 +9,7 @@ module.exports = {
     "gatsby-plugin-sharp",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
+    "gatsby-plugin-use-dark-mode",
     {
       resolve: "gatsby-plugin-manifest",
       options: {
