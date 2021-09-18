@@ -47,10 +47,10 @@
     },
     {
       "name": "Javascript",
-      "level": "Intermediate",
+      "level": "Advanced",
       "keywords": [],
-      "rating": 3,
-      "yearsOfExperience": 5
+      "rating": 4,
+      "yearsOfExperience": 4
     },
     {
       "name": "Apache",
@@ -89,10 +89,10 @@
     },
     {
       "name": "Node.js",
-      "level": "Beginner",
+      "level": "Advanced",
       "keywords": [],
-      "rating": 2,
-      "yearsOfExperience": 2
+      "rating": 4,
+      "yearsOfExperience": 1
     },
     {
       "name": "MySQL",
