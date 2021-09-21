@@ -135,7 +135,7 @@ const SkillsPageFilterable = ({ data }) => {
                       margin-bottom: 0.5em;
                     `}
                   >
-                    <Icon name={skill.name} viewbox="0 0 128 128" size="2em" />
+                    <Icon name={skill.name} viewbox="0 0 128 128" size="3em" />
                   </div>
                   <div>{skill.name}</div>
                 </Tile>
