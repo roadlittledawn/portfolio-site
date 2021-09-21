@@ -37,52 +37,58 @@ const SkillsPageFilterable = ({ data }) => {
     setFormState((prevState) => ({ ...prevState, minRating }));
   };
 
+  const handleRatingFilterSelect = (e) => {
+    const { value } = e.target;
+    let skillsFiltered = allSkills.filter((skill) => value <= skill.rating);
+
+    setSkills(skillsFiltered);
+    setFormState((prevState) => ({ ...prevState, minRating: value }));
+  };
+
   return (
     <>
       <SEO title="Skills" />
       <MainLayout>
         <PageTitle>Skills</PageTitle>
-        {/* <div>
-          <select onChange={(e) => handleRatingFilter(e)}>
-            <option value={1}>All the things</option>
-            <option value={4}>Stuff I&apos;m pretty good at</option>
-          </select>
-        </div> */}
         <div
           css={css`
             display: flex;
+            flex-direction: row;
             margin: 2em 0;
-            > *:not(:first-child) {
-              margin-left: 1em;
-            }
           `}
         >
-          <Button
-            onClick={() => handleRatingFilter(1)}
-            css={css`
-              background-color: ${formState.minRating === 1
-                ? "var(--color-teal-500)"
-                : "transparent"};
-              color: ${formState.minRating === 1
-                ? "var(--color-white)"
-                : "var(--color-teal-500)"};
-            `}
-          >
-            All the things!
-          </Button>
-          <Button
-            onClick={() => handleRatingFilter(4)}
-            css={css`
-              background-color: ${formState.minRating === 4
-                ? "var(--color-teal-500)"
-                : "transparent"};
-              color: ${formState.minRating === 4
-                ? "var(--color-white)"
-                : "var(--color-teal-500)"};
-            `}
-          >
-            In my wheelhouse
-          </Button>
+          <div css={css``}>
+            <label
+              htmlFor="skillFilter"
+              css={css`
+                font-weight: bold;
+              `}
+            >
+              Skill level
+            </label>
+            <select
+              id="skillFilter"
+              css={css`
+                background-color: transparent;
+                margin: 0.25em 0;
+                width: 100%;
+                cursor: pointer;
+                border-radius: 0.25rem;
+                border: 1px solid var(--color-neutrals-500);
+                padding: 0.5em;
+
+                .dark-mode & {
+                  color: var(--color-dark-700);
+                  background-color: var(--color-dark-300);
+                  border: var(--color-dark-300);
+                }
+              `}
+              onChange={(e) => handleRatingFilterSelect(e)}
+            >
+              <option value={1}>All the things</option>
+              <option value={4}>Stuff I&apos;m pretty good at</option>
+            </select>
+          </div>
         </div>
         <div
           css={css`
