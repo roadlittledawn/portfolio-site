@@ -9,12 +9,7 @@ import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
 import DarkModeToggle from "./DarkModeToggle";
 import NavLink from "./NavLink";
 
-// import useMedia from "use-media";
-
 const Header = ({ profiles, className }) => {
-  // const hideLogoText = useMedia({ maxWidth: "655px" });
-  // const useCondensedHeader = useMedia({ maxWidth: "585px" });
-
   return (
     <>
       <header
@@ -48,7 +43,6 @@ const Header = ({ profiles, className }) => {
             <Link
               to={"/"}
               css={css`
-                /* display: flex; */
                 align-items: center;
                 position: relative;
                 &:hover {

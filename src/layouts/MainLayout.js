@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
-import { useMedia } from "react-use";
+
 import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
 
 import MobileNav from "../components/MobileNav";
 
-import { css } from "@emotion/react";
-
 const MainLayout = ({ children }) => {
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-
   const {
     basics: { profiles },
   } = useStaticQuery(graphql`
@@ -26,27 +22,12 @@ const MainLayout = ({ children }) => {
     }
   `);
 
-  // useEffect(() => {
-  //   setIsMobileNavOpen(false);
-  // }, [location.pathname]);
-
   return (
     <>
       <Header profiles={profiles} />
       <MobileNav profiles={profiles} />
       <Layout>
-        <Layout.Main
-          css={css`
-            display: ${isMobileNavOpen ? "none" : "block"};
-            > section {
-              @media screen and (max-width: 980px) {
-                flex-wrap: wrap;
-              }
-            }
-          `}
-        >
-          {children}
-        </Layout.Main>
+        <Layout.Main>{children}</Layout.Main>
 
         <Layout.Footer profiles={profiles} />
       </Layout>
