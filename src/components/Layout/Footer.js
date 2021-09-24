@@ -16,9 +16,9 @@ const Footer = ({ profiles, className }) => {
       css={css`
         color: var(--secondary-text-color);
         z-index: 1;
-        position: relative;
+        position: absolute;
         width: 100%;
-        bottom: 0;
+        bottom: 1em;
         color: var(--color-neutrals-600);
         @media screen and (max-width: ${layout.mobileBreakpoint}) {
           position: relative;
