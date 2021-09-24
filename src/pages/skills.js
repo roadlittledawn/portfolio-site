@@ -17,8 +17,8 @@ const SKILL_RATINGS_BAR_COLOR = {
   5: { light: `var(--color-green-200)`, dark: `var(--color-green-600)` },
 };
 
-const filterByRating = (minSkillLevel) => (skill) => {
-  return minSkillLevel <= skill.rating;
+const filterByRating = (minSkillLevel, maxSkillLevel) => (skill) => {
+  return minSkillLevel <= skill.rating && maxSkillLevel >= skill.rating;
 };
 
 const filterByCategory = (category) => (skill) => {
@@ -34,23 +34,26 @@ const SkillsPageFilterable = ({ data }) => {
 
   const [formState, setFormState] = useState({
     minSkillLevel: 1,
+    maxSkillLevel: 5,
     category: "",
   });
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const minSkillLevel = queryParams.get("minSkillLevel");
+    const maxSkillLevel = queryParams.get("maxSkillLevel");
     const category = queryParams.get("category");
     setFormState(() => ({
       minSkillLevel: minSkillLevel || 1,
+      maxSkillLevel: maxSkillLevel || 5,
       category: category || "",
     }));
   }, []);
 
   useEffect(() => {
-    const { minSkillLevel, category } = formState;
+    const { minSkillLevel, maxSkillLevel, category } = formState;
     let filteredSkills = allSkills
-      .filter(filterByRating(minSkillLevel))
+      .filter(filterByRating(minSkillLevel, maxSkillLevel))
       .filter(filterByCategory(category));
 
     setSkills(filteredSkills);
@@ -119,16 +122,18 @@ const SkillsPageFilterable = ({ data }) => {
                   border: var(--color-dark-300);
                 }
               `}
-              value={formState.minSkillLevel}
+              value={`${formState.minSkillLevel},${formState.maxSkillLevel}`}
               onChange={(e) =>
                 setFormState((state) => ({
                   ...state,
-                  minSkillLevel: e.target.value,
+                  minSkillLevel: e.target.value.split(",")[0],
+                  maxSkillLevel: e.target.value.split(",")[1],
                 }))
               }
             >
-              <option value={1}>All the things</option>
-              <option value={4}>Stuff I&apos;m pretty good at</option>
+              <option value="1,5">All the things</option>
+              <option value="4,5">Stuff I&apos;m pretty good at</option>
+              <option value="1,2">Stuff I&apos;m still learning</option>
             </select>
           </div>
           <div css={css``}>
