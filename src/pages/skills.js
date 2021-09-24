@@ -9,8 +9,6 @@ import { SKILL_CATEGORY, SKILL_RATINGS, siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 import SEO from "../components/SEO";
 
-// import { navigate } from "@reach/router";
-
 const SKILL_RATINGS_BAR_COLOR = {
   1: { light: `var(--color-red-200)`, dark: `var(--color-red-600)` },
   2: { light: `var(--color-red-200)`, dark: `var(--color-red-600)` },
@@ -19,8 +17,8 @@ const SKILL_RATINGS_BAR_COLOR = {
   5: { light: `var(--color-green-200)`, dark: `var(--color-green-600)` },
 };
 
-const filterByRating = (minRating) => (skill) => {
-  return minRating <= skill.rating;
+const filterByRating = (minSkillLevel) => (skill) => {
+  return minSkillLevel <= skill.rating;
 };
 
 const filterByCategory = (category) => (skill) => {
@@ -33,23 +31,39 @@ const filterByCategory = (category) => (skill) => {
 const SkillsPageFilterable = ({ data }) => {
   const allSkills = data.allSkills.nodes;
   const [skills, setSkills] = useState(allSkills);
-  const params = new URLSearchParams(location.search);
-  const minSkillLevel = params.get("minSkillLevel");
-  const category = params.get("category");
 
   const [formState, setFormState] = useState({
-    minRating: minSkillLevel || 1,
-    category: category || "",
+    minSkillLevel: 1,
+    category: "",
   });
 
   useEffect(() => {
-    const { minRating, category } = formState;
+    const queryParams = new URLSearchParams(location.search);
+    const minSkillLevel = queryParams.get("minSkillLevel");
+    const category = queryParams.get("category");
+    setFormState(() => ({
+      minSkillLevel: minSkillLevel || 1,
+      category: category || "",
+    }));
+  }, []);
+
+  useEffect(() => {
+    const { minSkillLevel, category } = formState;
     let filteredSkills = allSkills
-      .filter(filterByRating(minRating))
+      .filter(filterByRating(minSkillLevel))
       .filter(filterByCategory(category));
 
     setSkills(filteredSkills);
-  }, [allSkills, formState]);
+    setParams(formState);
+  }, [formState, allSkills]);
+
+  const setParams = (paramsToSet) => {
+    const url = new URL(window.location);
+    Object.entries(paramsToSet).forEach(([key, value]) => {
+      value ? url.searchParams.set(key, value) : url.searchParams.delete(key);
+    });
+    window.history.replaceState({}, "", url);
+  };
 
   return (
     <>
@@ -81,7 +95,7 @@ const SkillsPageFilterable = ({ data }) => {
         >
           <div css={css``}>
             <label
-              htmlFor="skillFilter"
+              htmlFor="ratingFilter"
               css={css`
                 font-weight: bold;
               `}
@@ -89,7 +103,7 @@ const SkillsPageFilterable = ({ data }) => {
               Skill level
             </label>
             <select
-              id="skillFilter"
+              id="ratingFilter"
               css={css`
                 background-color: transparent;
                 margin: 0.25em 0;
@@ -105,11 +119,11 @@ const SkillsPageFilterable = ({ data }) => {
                   border: var(--color-dark-300);
                 }
               `}
-              // onChange={(e) => handleRatingFilterSelect(e)}
+              value={formState.minSkillLevel}
               onChange={(e) =>
                 setFormState((state) => ({
                   ...state,
-                  minRating: e.target.value,
+                  minSkillLevel: e.target.value,
                 }))
               }
             >
@@ -143,13 +157,13 @@ const SkillsPageFilterable = ({ data }) => {
                   border: var(--color-dark-300);
                 }
               `}
-              // onChange={(e) => handleCategoryFilter(e)}
-              onChange={(e) =>
+              value={formState.category || "all"}
+              onChange={(e) => {
                 setFormState((state) => ({
                   ...state,
                   category: e.target.value,
-                }))
-              }
+                }));
+              }}
             >
               <option value={"all"}>All the things</option>
               <option value={"frontend"}>Front end</option>
