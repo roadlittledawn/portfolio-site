@@ -72,7 +72,7 @@ const SkillsPageFilterable = ({ data }) => {
     <>
       <SEO title="Skills" />
       <MainLayout>
-        <PageTitle>Skills</PageTitle>
+        <PageTitle>What I use</PageTitle>
         <div
           css={css`
             display: flex;
