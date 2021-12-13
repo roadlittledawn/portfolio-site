@@ -147,7 +147,7 @@ Tile.defaultProps = {
 };
 
 Tile.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array,
   icon: PropTypes.string,
   title: PropTypes.string,
 };

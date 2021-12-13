@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 import React, { useEffect, useState } from "react";
+import { navigate } from "gatsby-link";
 import { css } from "@emotion/react";
 import MainLayout from "../layouts/MainLayout";
 import Tile from "../components/Tile";
@@ -28,7 +29,7 @@ const filterByCategory = (category) => (skill) => {
   return SKILL_CATEGORY[skill.name] === category;
 };
 
-const SkillsPageFilterable = ({ data }) => {
+const SkillsPageFilterable = ({ data, location }) => {
   const allSkills = data.allSkills.nodes;
   const [skills, setSkills] = useState(allSkills);
 
@@ -48,7 +49,7 @@ const SkillsPageFilterable = ({ data }) => {
       maxSkillLevel: maxSkillLevel || 5,
       category: category || "",
     }));
-  }, []);
+  }, [location.search]);
 
   useEffect(() => {
     const { minSkillLevel, maxSkillLevel, category } = formState;
@@ -61,11 +62,16 @@ const SkillsPageFilterable = ({ data }) => {
   }, [formState, allSkills]);
 
   const setParams = (paramsToSet) => {
-    const url = new URL(window.location);
+    const searchParams = new URLSearchParams(location.search);
     Object.entries(paramsToSet).forEach(([key, value]) => {
-      value ? url.searchParams.set(key, value) : url.searchParams.delete(key);
+      value ? searchParams.set(key, value) : searchParams.delete(key);
     });
-    window.history.replaceState({}, "", url);
+
+    // window.history.replaceState({}, "", url);
+
+    window.history.pushState(null, null, "?" + searchParams.toString());
+
+    // navigate(`${url.pathname}${url.search}`);
   };
 
   return (

@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { css } from "@emotion/react";
-import { Link } from "gatsby";
 import FeatherIcon from "../Icons/FeatherIcon";
 import { siteOptions, SOCIAL_ICON_NAMES } from "../../utils/constants";
 
@@ -49,14 +48,19 @@ const Footer = ({ profiles, className }) => {
                 margin: 0 1em;
               `}
             >
-              <Link to={profile.url} key={`link-${profile.network}`}>
+              <a
+                href={profile.url}
+                key={`link-${profile.network}`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FeatherIcon
                   key={`icon-${profile.network}`}
                   title={profile.network}
                   name={SOCIAL_ICON_NAMES[profile.network]}
                   strokeColor={"var(--color-neutrals-600)"}
                 />
-              </Link>
+              </a>
             </li>
           ))}
       </ul>
