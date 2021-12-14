@@ -58,10 +58,10 @@ const MobileNavMenu = ({ open, profiles }) => {
           `}
         />
       </div>
-      <Link href="/experience">Experience</Link>
-      <Link href="/projects">Projects</Link>
-      <Link href="/skills">Skills</Link>
-      <Link href="https://gitconnected.com/roadlittledawn/resume">Resume</Link>
+      <Link to="/experience">Experience</Link>
+      <Link to="/projects">Projects</Link>
+      <Link to="/skills">Skills</Link>
+      <a href="https://gitconnected.com/roadlittledawn/resume">Resume</a>
 
       <div>
         <ul
@@ -84,13 +84,13 @@ const MobileNavMenu = ({ open, profiles }) => {
                   margin: 0 1em;
                 `}
               >
-                <Link to={profile.url} key={`link-${profile.network}`}>
+                <a href={profile.url} key={`link-${profile.network}`}>
                   <FeatherIcon
                     key={`icon-${profile.network}`}
                     title={profile.network}
                     name={SOCIAL_ICON_NAMES[profile.network]}
                   />
-                </Link>
+                </a>
               </li>
             ))}
         </ul>

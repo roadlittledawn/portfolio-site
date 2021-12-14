@@ -38,8 +38,8 @@ const ProjectsPage = ({ data }) => {
         >
           {projects.map((project) => (
             <>
-              <Link
-                to={project.repositoryUrl}
+              <a
+                href={project.repositoryUrl}
                 css={css`
                   text-decoration: none;
                 `}
@@ -86,7 +86,7 @@ const ProjectsPage = ({ data }) => {
                     ))}
                   </div>
                 </Tile>
-              </Link>
+              </a>
             </>
           ))}
         </div>
