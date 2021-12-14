@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 import React, { useEffect, useState } from "react";
-import { navigate } from "gatsby-link";
+import { navigate } from "@reach/router";
 import { css } from "@emotion/react";
 import MainLayout from "../layouts/MainLayout";
 import Tile from "../components/Tile";
@@ -31,12 +31,11 @@ const filterByCategory = (category) => (skill) => {
 
 const SkillsPageFilterable = ({ data, location }) => {
   const allSkills = data.allSkills.nodes;
-  const [skills, setSkills] = useState(allSkills);
 
   const [formState, setFormState] = useState({
     minSkillLevel: 1,
     maxSkillLevel: 5,
-    category: "",
+    category: "all",
   });
 
   useEffect(() => {
@@ -47,32 +46,25 @@ const SkillsPageFilterable = ({ data, location }) => {
     setFormState(() => ({
       minSkillLevel: minSkillLevel || 1,
       maxSkillLevel: maxSkillLevel || 5,
-      category: category || "",
+      category: category || "all",
     }));
   }, [location.search]);
 
-  useEffect(() => {
-    const { minSkillLevel, maxSkillLevel, category } = formState;
-    let filteredSkills = allSkills
-      .filter(filterByRating(minSkillLevel, maxSkillLevel))
-      .filter(filterByCategory(category));
-
-    setSkills(filteredSkills);
-    setParams(formState);
-  }, [formState, allSkills]);
-
-  const setParams = (paramsToSet) => {
-    const searchParams = new URLSearchParams(location.search);
-    Object.entries(paramsToSet).forEach(([key, value]) => {
-      value ? searchParams.set(key, value) : searchParams.delete(key);
-    });
-
-    // window.history.replaceState({}, "", url);
-
-    window.history.pushState(null, null, "?" + searchParams.toString());
-
-    // navigate(`${url.pathname}${url.search}`);
+  const handleFilterChange = (e, valueType) => {
+    const params = new URLSearchParams(location.search);
+    if (valueType === "range") {
+      params.set("minSkillLevel", e.target.value.split(",")[0]);
+      params.set("maxSkillLevel", e.target.value.split(",")[1]);
+    }
+    if (valueType === "category") {
+      params.set("category", e.target.value);
+    }
+    navigate(`?${params.toString()}`);
   };
+
+  const filteredSkills = allSkills
+    .filter(filterByRating(formState.minSkillLevel, formState.maxSkillLevel))
+    .filter(filterByCategory(formState.category));
 
   return (
     <>
@@ -129,13 +121,7 @@ const SkillsPageFilterable = ({ data, location }) => {
                 }
               `}
               value={`${formState.minSkillLevel},${formState.maxSkillLevel}`}
-              onChange={(e) =>
-                setFormState((state) => ({
-                  ...state,
-                  minSkillLevel: e.target.value.split(",")[0],
-                  maxSkillLevel: e.target.value.split(",")[1],
-                }))
-              }
+              onChange={(e) => handleFilterChange(e, "range")}
             >
               <option value="1,5">All the things</option>
               <option value="4,5">Stuff I&apos;m pretty good at</option>
@@ -169,16 +155,11 @@ const SkillsPageFilterable = ({ data, location }) => {
                 }
               `}
               value={formState.category || "all"}
-              onChange={(e) => {
-                setFormState((state) => ({
-                  ...state,
-                  category: e.target.value,
-                }));
-              }}
+              onChange={(e) => handleFilterChange(e, "category")}
             >
-              <option value={"all"}>All the things</option>
-              <option value={"frontend"}>Front end</option>
-              <option value={"backend"}>Back end</option>
+              <option value="all">All the things</option>
+              <option value="frontend">Front end</option>
+              <option value="backend">Back end</option>
             </select>
           </div>
         </div>
@@ -189,8 +170,8 @@ const SkillsPageFilterable = ({ data, location }) => {
             grid-gap: 1rem;
           `}
         >
-          {skills &&
-            skills
+          {filteredSkills &&
+            filteredSkills
               .sort((a, b) => b.rating - a.rating)
               .map((skill) => (
                 <Tile
@@ -244,6 +225,7 @@ const SkillsPageFilterable = ({ data, location }) => {
 
 SkillsPageFilterable.propTypes = {
   data: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export const pageQuery = graphql`
