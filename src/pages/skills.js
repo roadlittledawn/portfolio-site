@@ -182,8 +182,9 @@ const SkillsPageFilterable = ({ data, location }) => {
                     justify-content: center;
                     align-items: center;
                     text-align: center;
+                    max-height: 125px;
                     margin: 0;
-                    padding: 0.5em;
+                    padding: 3em;
 
                     & :after {
                       content: "";
