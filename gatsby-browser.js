@@ -5,9 +5,7 @@ import { siteOptions } from "./src/utils/constants";
 export const wrapRootElement = ({ element }) => {
   const { layout } = siteOptions;
   return (
-    <LayoutContext.Provider value={siteOptions.layout}>
-      {element}
-    </LayoutContext.Provider>
+    <LayoutContext.Provider value={layout}>{element}</LayoutContext.Provider>
   );
 };
 

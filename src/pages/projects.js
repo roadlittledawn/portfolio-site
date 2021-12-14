@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import PropTypes from "prop-types";
-import { graphql, Link } from "gatsby";
+import { graphql } from "gatsby";
 import SEO from "../components/SEO";
 import MainLayout from "../layouts/MainLayout";
 import Tile from "../components/Tile";
@@ -43,6 +43,8 @@ const ProjectsPage = ({ data }) => {
                 css={css`
                   text-decoration: none;
                 `}
+                target="_blank"
+                rel="noreferrer"
               >
                 <Tile key={project.name}>
                   <h2
