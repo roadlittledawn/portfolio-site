@@ -16,7 +16,6 @@ module.exports = {
         icon: "src/images/favicon.png",
       },
     },
-    "gatsby-plugin-mdx",
     "gatsby-transformer-sharp",
     {
       resolve: "gatsby-source-filesystem",
