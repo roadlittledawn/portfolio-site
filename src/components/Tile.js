@@ -23,7 +23,7 @@ const Tile = ({ children, icon, className }) => {
     <div
       className={className}
       css={css`
-        padding: 1.5rem;
+        padding: 1em;
         margin: 1em;
         color: currentColor;
         position: relative;
@@ -38,7 +38,7 @@ const Tile = ({ children, icon, className }) => {
         }
 
         @media screen and (max-width: 1050px) {
-          min-height: 175px;
+          /* min-height: 175px; */
 
           &:not(:last-child) {
             margin-bottom: 2rem;
