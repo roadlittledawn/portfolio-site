@@ -119,14 +119,10 @@ const Header = ({ profiles, className }) => {
               {profiles
                 .filter((profile) => profile.network !== "gitconnected")
                 .map((profile) => (
-                  <li
-                    key={`li-${profile.network}`}
-                    css={css`
-                      width: 1.5em;
-                    `}
-                  >
+                  <li key={`li-${profile.network}`}>
                     <NavLink to={profile.url} key={`link-${profile.network}`}>
                       <FeatherIcon
+                        size="1.5em"
                         key={`icon-${profile.network}`}
                         title={profile.network}
                         name={SOCIAL_ICON_NAMES[profile.network]}
