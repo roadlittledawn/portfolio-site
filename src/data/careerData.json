@@ -256,7 +256,7 @@
       "name": "New Relic",
       "location": "",
       "description": "",
-      "position": "Software Engineer, Developer Enablement",
+      "position": "Software Engineer / Technical Product Mgr, Developer Enablement",
       "url": "",
       "startDate": "2020-08-01",
       "endDate": "",
@@ -265,7 +265,8 @@
         "Migrate from Drupal to GitHub + React static site to be fully open sourced and part of JAM stack",
         "Develop various React / Node based sites including docs.newrelic.com, developer.newrelic.com, opensource.newrelic.com, and our `gatsby-newrelic-theme`.",
         "Develop and maintain services that connect help content to the product UI.",
-        "Develop and maintain translation workflows / tooling to localize content into many different languages"
+        "Develop and maintain translation workflows / tooling to localize content into many different languages",
+        "Serve as technical product mgr to help develop roadmap, prioritize backlog, scope and plan upcoming work, provide technical input in strategic decisions"
       ],
       "isCurrentRole": true,
       "start": {
