@@ -6,7 +6,7 @@
     "email": "",
     "phone": "",
     "url": null,
-    "summary": "Front end engineer with some back end experience. Steeped in CMS development, in-product help, and services that connect them. I’m currently a software engineer / technical product manager at New Relic.",
+    "summary": "Full stack engineer with some back end experience. Steeped in CMS development, in-product help, and services that connect them. I’m currently a software engineer / technical product manager at New Relic.",
     "profiles": [
       {
         "network": "gitconnected",
@@ -30,7 +30,7 @@
     "username": "roadlittledawn",
     "locationAsString": "Portland, OR",
     "region": "Portland, OR",
-    "karma": 41,
+    "karma": 48,
     "id": "2d2d2674-788f-4ca5-b38b-69a6b2cb58d6",
     "followers": 2,
     "following": 1,
@@ -43,7 +43,7 @@
       "level": "Intermediate",
       "keywords": [],
       "rating": 3,
-      "yearsOfExperience": 3
+      "yearsOfExperience": 4
     },
     {
       "name": "Javascript",
@@ -57,35 +57,35 @@
       "level": "Beginner",
       "keywords": [],
       "rating": 2,
-      "yearsOfExperience": 6
+      "yearsOfExperience": 7
     },
     {
       "name": "GraphQL",
       "level": "Intermediate",
       "keywords": [],
       "rating": 3,
-      "yearsOfExperience": 2
+      "yearsOfExperience": 3
     },
     {
       "name": "PHP",
       "level": "Intermediate",
       "keywords": [],
       "rating": 3,
-      "yearsOfExperience": 9
+      "yearsOfExperience": 10
     },
     {
       "name": "HTML",
       "level": "Expert",
       "keywords": [],
       "rating": 5,
-      "yearsOfExperience": 9
+      "yearsOfExperience": 10
     },
     {
       "name": "CSS / SCSS",
       "level": "Advanced",
       "keywords": [],
       "rating": 4,
-      "yearsOfExperience": 9
+      "yearsOfExperience": 10
     },
     {
       "name": "Node.js",
@@ -99,14 +99,14 @@
       "level": "Intermediate",
       "keywords": [],
       "rating": 3,
-      "yearsOfExperience": 9
+      "yearsOfExperience": 10
     },
     {
       "name": "MongoDB",
       "level": "Beginner",
       "keywords": [],
       "rating": 2,
-      "yearsOfExperience": 2
+      "yearsOfExperience": 3
     }
   ],
   "projects": [
@@ -262,9 +262,10 @@
       "endDate": "",
       "summary": "We develop and maintain sites and services around technical content, product documentation, and opensource projects to help developers get the most out of New Relic.",
       "highlights": [
-        "Migrate from Drupal to GitHub + Gatsby static site to be fully open sourced and part of JAM stack",
-        "Develop various Gatsby sites including docs.newrelic.com, developer.newrelic.com, opensource.newrelic.com, and our `gatsby-newrelic-theme`.",
-        "Develop and maintain services that connect help content to the product UI."
+        "Migrate from Drupal to GitHub + React static site to be fully open sourced and part of JAM stack",
+        "Develop various React / Node based sites including docs.newrelic.com, developer.newrelic.com, opensource.newrelic.com, and our `gatsby-newrelic-theme`.",
+        "Develop and maintain services that connect help content to the product UI.",
+        "Develop and maintain translation workflows / tooling to localize content into many different languages"
       ],
       "isCurrentRole": true,
       "start": {
