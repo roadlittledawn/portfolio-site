@@ -9,11 +9,13 @@ import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
 import DarkModeToggle from "./DarkModeToggle";
 import NavLink from "./NavLink";
 
-// import useMedia from "use-media";
+import useMedia from "use-media";
 
 const Header = ({ profiles, className }) => {
   // const hideLogoText = useMedia({ maxWidth: "655px" });
-  // const useCondensedHeader = useMedia({ maxWidth: "585px" });
+  const useCondensedHeader = useMedia({
+    maxWidth: siteOptions.layout.mobileBreakpoint,
+  });
 
   return (
     <>
@@ -33,6 +35,7 @@ const Header = ({ profiles, className }) => {
           css={css`
             height: var(--global-header-height);
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             max-width: var(--site-max-width);
             margin: 0 auto;
@@ -42,38 +45,55 @@ const Header = ({ profiles, className }) => {
         >
           <div
             css={css`
-              max-width: 33%;
+              max-width: 500px;
+              @media screen and (max-width: ${siteOptions.layout
+                  .mobileBreakpoint}) {
+                max-width: 75vw;
+              }
             `}
           >
             <Link
               to={"/"}
               css={css`
-                /* display: flex; */
                 align-items: center;
                 position: relative;
                 &:hover {
                   &::before {
                     position: absolute;
                     content: "";
-                    height: 20px;
-                    width: 20px;
+                    height: 7px;
+                    width: 9px;
                     background-color: #fddf99;
                     border-radius: 50%;
-                    left: 50%;
+                    left: 0;
                     top: 0;
-                    transform: translate(-77%, -400%);
+                    transform: translate(389%, -1087%);
                     z-index: 100;
-                    box-shadow: 0 0 60px 30px #fddf99;
+                    box-shadow: 0 0 30px 15px #fddf99;
+                  }
+                }
+                @media screen and (max-width: ${siteOptions.layout
+                    .mobileBreakpoint}) {
+                  &:hover {
+                    &::before {
+                      display: none;
+                    }
                   }
                 }
               `}
             >
-              <Logo />
+              <Logo
+                width={useCondensedHeader ? "100%" : "500px"}
+                height="160px"
+              />
             </Link>
           </div>
           <nav
             css={css`
               display: block;
+              @media screen and (max-width: 1108px) {
+                transform: translateY(-35px);
+              }
               @media screen and (max-width: ${siteOptions.layout
                   .mobileBreakpoint}) {
                 display: none;
@@ -86,6 +106,7 @@ const Header = ({ profiles, className }) => {
                 margin-left: 1rem;
                 padding: 0;
                 display: flex;
+                flex-wrap: wrap;
                 align-items: center;
                 list-style-type: none;
 
