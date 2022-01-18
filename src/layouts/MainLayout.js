@@ -32,24 +32,32 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      <Header profiles={profiles} />
-      <MobileNav profiles={profiles} />
-      <Layout>
-        <Layout.Main
-          css={css`
-            display: ${isMobileNavOpen ? "none" : "block"};
-            > section {
-              @media screen and (max-width: 980px) {
-                flex-wrap: wrap;
+      <div
+        css={css`
+          display: flex;
+          min-height: 100vh;
+          flex-direction: column;
+          justify-content: flex-start;
+        `}
+      >
+        <Header profiles={profiles} />
+        <MobileNav profiles={profiles} />
+        <Layout>
+          <Layout.Main
+            css={css`
+              display: ${isMobileNavOpen ? "none" : "block"};
+              > section {
+                @media screen and (max-width: 980px) {
+                  flex-wrap: wrap;
+                }
               }
-            }
-          `}
-        >
-          {children}
-        </Layout.Main>
-
+            `}
+          >
+            {children}
+          </Layout.Main>
+        </Layout>
         <Layout.Footer profiles={profiles} />
-      </Layout>
+      </div>
     </>
   );
 };
