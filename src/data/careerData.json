@@ -3,9 +3,9 @@
     "name": "Clinton Langosch",
     "label": "Software Engineer | @newrelic",
     "image": "https://avatars3.githubusercontent.com/u/2952843?v=4",
-    "email": "",
+    "email": "clinton.langosch@gmail.com",
     "phone": "",
-    "url": null,
+    "url": "https://clintonlangosch.com",
     "summary": "Full stack engineer with some back end experience. Steeped in CMS development, in-product help, and services that connect them. I’m currently a software engineer / technical product manager at New Relic.",
     "profiles": [
       {
@@ -30,12 +30,12 @@
     "username": "roadlittledawn",
     "locationAsString": "Portland, OR",
     "region": "Portland, OR",
-    "karma": 48,
+    "karma": 52,
     "id": "2d2d2674-788f-4ca5-b38b-69a6b2cb58d6",
     "followers": 2,
     "following": 1,
     "picture": "https://avatars3.githubusercontent.com/u/2952843?v=4",
-    "website": null
+    "website": "https://clintonlangosch.com"
   },
   "skills": [
     {
@@ -112,7 +112,7 @@
   "projects": [
     {
       "name": "docs-website",
-      "description": "",
+      "description": "- React.js based static site generated (SSG) with Gatsby\n- CI / CD workflows and deployment\n- Includes migration tooling from Drupal to markdown/MDX based content \n- Human / machine translation tooling / workflows\n- Central repo for Docs as a Service (DaaS) data / endpoints",
       "url": "https://docs.newrelic.com",
       "highlights": [],
       "keywords": [],
@@ -121,15 +121,21 @@
       "endDate": "",
       "entity": "",
       "type": "",
-      "displayName": "docs-website",
+      "displayName": "newrelic/docs-website",
       "website": "https://docs.newrelic.com",
-      "summary": "Source code and public issue backlog for @newrelic docs.",
+      "summary": "React.js / Node.js based, open source static site for for all things New Relic docs / help content",
       "primaryLanguage": "JavaScript",
       "languages": [
         "JavaScript",
-        "Python"
+        "Node.js"
       ],
-      "libraries": [],
+      "libraries": [
+        "Docker",
+        "React.js",
+        "localization",
+        "internationalization",
+        "PostgreSQL"
+      ],
       "githubUrl": "https://github.com/newrelic/docs-website",
       "repositoryUrl": "https://github.com/newrelic/docs-website",
       "start": {
@@ -147,7 +153,7 @@
     },
     {
       "name": "developer-website",
-      "description": "",
+      "description": "- React.js based static site generated (SSG) with Gatsby\n- CI / CD workflows and deployment\n- Interactive docs for New Relic UI platform SDK\n- Includes embeddable pages for reusing guides in other New Relic sites",
       "url": "https://developer.newrelic.com",
       "highlights": [],
       "keywords": [],
@@ -156,15 +162,17 @@
       "endDate": "",
       "entity": "",
       "type": "",
-      "displayName": "developer-website",
+      "displayName": "newrelic/developer-website",
       "website": "https://developer.newrelic.com",
-      "summary": "Source code for the New Relic Developer Site.",
+      "summary": "React.js / Node.js based, open source static site for in-depth, developer-focused content for New Relic APIs, platform tools, developer advocacy, etc.",
       "primaryLanguage": "JavaScript",
       "languages": [
-        "JavaScript",
-        "SCSS"
+        "Node.js",
+        "JavaScript"
       ],
-      "libraries": [],
+      "libraries": [
+        "React.js"
+      ],
       "githubUrl": "https://github.com/newrelic/developer-website",
       "repositoryUrl": "https://github.com/newrelic/developer-website",
       "start": {
@@ -181,9 +189,9 @@
       "videos": []
     },
     {
-      "name": "opensource-website",
-      "description": "",
-      "url": "https://opensource.newrelic.com",
+      "name": "gatsby-theme-newrelic",
+      "description": "- Serves as a utility / component library for all New Relic Gatsby sites to unify look and feel and functionality\n- CI / CD workflows and deployment to NPM\n- Includes a global header and federated search UI across all New Relic websites\n- Includes internationalization utilities / components",
+      "url": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
       "highlights": [],
       "keywords": [],
       "roles": [],
@@ -191,18 +199,21 @@
       "endDate": "",
       "entity": "",
       "type": "",
-      "displayName": "opensource-website",
-      "website": "https://opensource.newrelic.com",
-      "summary": "Source code for New Relic's Opensource site.",
+      "displayName": "newrelic/gatsby-theme-newrelic",
+      "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
+      "summary": "A demo site + NPM package that serves as a central component / utility library for all New Relic Gatsby sites",
       "primaryLanguage": "JavaScript",
       "languages": [
-        "CSS",
-        "SCSS",
-        "JavaScript"
+        "JavaScript",
+        "Node.js"
       ],
-      "libraries": [],
-      "githubUrl": "https://github.com/newrelic/opensource-website",
-      "repositoryUrl": "https://github.com/newrelic/opensource-website",
+      "libraries": [
+        "Gatsby",
+        "React.js",
+        "NPM"
+      ],
+      "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
+      "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "start": {
         "year": null,
         "month": null,
@@ -217,9 +228,9 @@
       "videos": []
     },
     {
-      "name": "gatsby-theme-newrelic",
-      "description": "",
-      "url": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
+      "name": "opensource-website",
+      "description": "- React.js based static site generated (SSG) with Gatsby\n- CI / CD workflows and deployment\n- Includes sourcing lots of github data for hundreds of New Relic's open source projects",
+      "url": "https://opensource.newrelic.com",
       "highlights": [],
       "keywords": [],
       "roles": [],
@@ -227,16 +238,19 @@
       "endDate": "",
       "entity": "",
       "type": "",
-      "displayName": "gatsby-theme-newrelic",
-      "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
-      "summary": "Source code for New Relic's Gatsby site theme.",
+      "displayName": "newrelic/opensource-website",
+      "website": "https://opensource.newrelic.com",
+      "summary": "React.js / Node.js based, open source static site for exploring New Relic's open source program and its projects.",
       "primaryLanguage": "JavaScript",
       "languages": [
-        "JavaScript"
+        "JavaScript",
+        "Node.js"
       ],
-      "libraries": [],
-      "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
-      "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
+      "libraries": [
+        "React.js"
+      ],
+      "githubUrl": "https://github.com/newrelic/opensource-website",
+      "repositoryUrl": "https://github.com/newrelic/opensource-website",
       "start": {
         "year": null,
         "month": null,
