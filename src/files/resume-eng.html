@@ -1,0 +1,156 @@
+<html>
+
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300&family=Julius+Sans+One&display=swap');
+
+    :root {
+      --color-teal-300: #70ccd3;
+      --font-family-base: sans-serif;
+      --font-family-headings: "Josefin Sans", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-family-base);
+      font-size: 16px;
+    }
+
+    h1,
+    h2 {
+      font-family: var(--font-family-headings);
+    }
+
+    h1 {
+      font-size: 2.75em;
+    }
+
+    h1 span:first-of-type {
+      font-weight: lighter;
+    }
+
+    h2 {
+      font-size: 2em;
+    }
+
+    h3 {
+      font-size: 1.15em;
+      font-weight: lighter;
+    }
+
+    .headshot-box {
+      border-radius: 50%;
+      width: 155px;
+      background-color: var(--color-teal-300);
+      text-align: center;
+      padding: 8px;
+    }
+
+    img.headshot {
+      border-radius: 50%;
+      width: 155px;
+    }
+
+    .flex-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .flex-container>* {
+      margin: 0 1em;
+    }
+
+    .left-sidebar {
+      background-color: #232728;
+      margin-left: 0;
+      padding: 1em;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .left-sidebar h2 {
+      color: var(--color-teal-300);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="flex-container">
+
+    <div class="left-sidebar">
+      <div class="headshot-box">
+        <img src="https://avatars3.githubusercontent.com/u/2952843?v=4" alt="Headshot of Clinton" class="headshot">
+      </div>
+      <div>
+        <h2>contact</h2>
+      </div>
+      <div>
+        <h2>skills</h2>
+      </div>
+    </div>
+
+    <div>
+      <h1><span>Clinton</span><br />Langosch</h1>
+      <div>
+        <p>Full stack engineer with some back end experience. Steeped in CMS development, in-product help, and services
+          that
+          connect them. I'm currently a software engineer / technical product manager at New Relic.</p>
+      </div>
+
+      <div>
+
+        <h2>experience</h2>
+
+        <div>
+          <h3><span>New Relic</span> <span>|</span> <span>Software Engineer</span></h3>
+          <div>
+            We develop and maintain sites and services around technical content, product documentation, and opensource
+            projects to help developers get the most out of New Relic.
+          </div>
+          <ul>
+            <li>
+              Migrate from Drupal to GitHub + React static site to be fully open sourced and part of JAM stack.
+            </li>
+            <li>Develop various React / Node based sites including docs.newrelic.com, developer.newrelic.com,
+              opensource.newrelic.com, and our gatsby-newrelic-theme.</li>
+            <li>Develop and maintain services that connect help content to the product UI.</li>
+            <li>Develop and maintain translation workflows / tooling to localize content into many different languages.
+            </li>
+            <li>Serve as technical product mgr to help develop roadmap, prioritize backlog, scope and plan upcoming
+              work,
+              provide technical input in strategic decisions.</li>
+          </ul>
+        </div>
+
+
+        <div>
+          <h3><span>New Relic</span> <span>|</span> <span>Software Engineer</span></h3>
+          <div>
+            Develop Drupal-based content management system on front and back end for docs.newrelic.com and
+            learn.newrelic.com.
+          </div>
+          <ul>
+            <li>
+              Lead Docs as a Service (DaaS) initaitive to build out REST API / JSON resources to enable other teams to
+              integrate with our site. Examples: programmatically publish release notes, install procedures in the
+              product UI, data dictionary terms fed to UI to display definitions to users in product UI, etc.
+            </li>
+            <li>Develop various React / Node based sites including docs.newrelic.com, developer.newrelic.com,
+              opensource.newrelic.com, and our gatsby-newrelic-theme.</li>
+            <li>Develop prototype of product UI component (called Nerdlet) in React.js to surface search results from
+              disparate sites.</li>
+            <li>Develop integration to translate site in Japanese
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+</body>
+
+</html>
