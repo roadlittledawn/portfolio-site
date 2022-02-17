@@ -7,9 +7,9 @@
     :root {
       --color-teal-300: #70ccd3;
       --color-teal-600: #006c75;
+      --color-gray-200: #919394;
       --color-gray-700: #232728;
       --color-dark-700: #a5bbbd;
-
       --primary-background-color: var(--color-gray-700);
       --main-background-color: white;
 
@@ -18,8 +18,11 @@
 
       --sidebar-width: 250px;
       --header-height: 125px;
+      --main-gutter-width: 2em;
 
       --img-size: 155px;
+
+      --timeline-color: var(--color-gray-200);
     }
 
     body {
@@ -104,6 +107,7 @@
 
     .header-name {
       background-color: var(--main-background-color);
+      padding-left: var(--main-gutter-width);
     }
 
     .header-contacts {
@@ -149,11 +153,12 @@
       color: var(--color-teal-300);
     }
 
+
     .sidebar a {
       color: var(--color-teal-300);
     }
 
-    .sidebar-wrapper h2::after {
+    .sidebar-wrapper div:first-of-type h2::after {
       content: "";
       position: absolute;
       top: 1em;
@@ -163,15 +168,41 @@
       margin: .5em 0;
     }
 
+    .sidebar-wrapper div:not(:first-of-type) h2 {
+      margin: 1em 0 .5em 0;
+      padding-bottom: .5em;
+      border-bottom: 2px solid var(--color-teal-300);
+    }
+
+    .skills-list {
+      list-style-type: none;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: .8em;
+      padding: 0;
+    }
+
+    .skills-list li {
+      padding: .5em;
+      border: solid 1px var(--color-teal-300);
+      border-radius: 10px;
+      margin: .25em;
+    }
+
     .main-summary {
       grid-area: main-summary;
       background-color: var(--main-background-color);
+      padding: 0 1em 0 var(--main-gutter-width);
+    }
+
+    .main-summary>* {
+      max-width: 700px;
     }
 
     .main {
       grid-area: main;
       background-color: var(--main-background-color);
-      padding: 0 2em;
+      padding: 0 2em 0 var(--main-gutter-width);
       position: relative;
     }
 
@@ -183,6 +214,39 @@
       border-bottom: solid 2px var(--color-gray-700);
       left: 0;
       margin: .5em 0;
+    }
+
+    .history-item {
+      position: relative;
+      padding: 0 0 1em 1.5em;
+    }
+
+    .history-item::before {
+      content: "";
+      position: absolute;
+      transform: translate(1px, 12px);
+      left: 0;
+      height: calc(100% - 12px);
+      width: 2px;
+      background-color: var(--timeline-color);
+    }
+
+    .history-item h3::before {
+      content: "⦿";
+      color: var(--timeline-color);
+      position: absolute;
+      top: 0;
+      transform: translate(-5px, -8px);
+      left: 0;
+      font-size: 18px;
+    }
+
+    .history-item :first-child {
+      margin-top: 0;
+    }
+
+    .history-item :last-child {
+      margin-bottom: 0;
     }
   </style>
 </head>
@@ -250,7 +314,7 @@
 
         <h2>experience</h2>
 
-        <div>
+        <div class="history-item">
           <h3><span>New Relic</span> <span>|</span> <span>Software Engineer</span></h3>
           <div>
             We develop and maintain sites and services around technical content, product documentation, and opensource
@@ -272,7 +336,7 @@
         </div>
 
 
-        <div>
+        <div class="history-item">
           <h3><span>New Relic</span> <span>|</span> <span>Software Engineer</span></h3>
           <div>
             Develop Drupal-based content management system on front and back end for docs.newrelic.com and
