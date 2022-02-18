@@ -7,13 +7,23 @@
     :root {
       --color-teal-300: #70ccd3;
       --color-teal-600: #006c75;
+      --color-gray-200: #919394;
+      --color-gray-400: #656869;
       --color-gray-700: #232728;
       --color-dark-700: #a5bbbd;
-
-      --primary-background-color: white;
+      --primary-background-color: var(--color-gray-700);
+      --main-background-color: white;
 
       --font-family-base: sans-serif;
       --font-family-headings: "Josefin Sans", sans-serif;
+
+      --sidebar-width: 250px;
+      --header-height: 125px;
+      --main-gutter-width: 2em;
+
+      --img-size: 155px;
+
+      --timeline-color: var(--color-gray-200);
     }
 
     body {
@@ -39,11 +49,13 @@
 
     h2 {
       font-size: 2em;
+      margin: 0 0 1em 0;
     }
 
     h3 {
       font-size: 1.15em;
       font-weight: lighter;
+      margin: .5em 0 0 0;
     }
 
     a {
@@ -55,41 +67,112 @@
       height: 100vh;
     }
 
-    .flex-container {
+    .center-vertical {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .flex-container.align-items-center {
-      align-items: center;
+    .grid-container {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) auto 1px;
+      grid-template-rows: var(--header-height) 100px auto;
+
+      grid-template-areas:
+        "header-logo header-name header-name"
+        ". main-summary main-summary"
+        "sidebar main main";
     }
 
-    .headshot-box {
+    .header-logo {
+      grid-area: header-logo;
+      height: 100%;
+      padding-top: 1em;
+      background-color: var(--color-gray-700);
+    }
+
+    .header-img {
+      width: calc(var(--img-size) + 5px);
+      height: var(--img-size);
       border-radius: 50%;
-      width: 155px;
       background-color: var(--color-teal-300);
       text-align: center;
       padding: 4px;
+      margin: 0 auto;
     }
 
-    img.headshot {
+    .header-img img {
       border-radius: 50%;
-      width: 155px;
+      width: var(--img-size);
     }
 
-    .left-sidebar {
+    .header-name {
+      background-color: var(--main-background-color);
+      padding-left: var(--main-gutter-width);
+    }
+
+    .header-contacts {
+      background-color: var(--main-background-color);
+    }
+
+    .header-contacts .wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .header-contacts .wrapper>* {
+      padding-right: 1em;
+    }
+
+    .header-contacts .wrapper>* div {
+      margin: .25em 0;
+    }
+
+    .sidebar {
+      grid-area: sidebar;
       background-color: var(--color-gray-700);
       color: var(--color-dark-700);
-      margin: 0 1em 0 0;
-      padding: 1em;
+    }
+
+    .sidebar-wrapper {
+      position: relative;
+      margin: 0 0 0 1.5em;
       display: flex;
       align-items: flex-start;
       flex-direction: column;
     }
 
-    .left-sidebar h2 {
+    .sidebar-wrapper>* {
+      position: relative;
+      width: 100%;
+    }
+
+    .sidebar h2 {
       color: var(--color-teal-300);
+    }
+
+
+    .sidebar a {
+      color: var(--color-teal-300);
+    }
+
+    .sidebar-wrapper div:first-of-type h2::after {
+      content: "";
+      position: absolute;
+      top: 1em;
+      width: 100%;
+      border-bottom: solid 2px var(--color-teal-300);
+      left: 0;
+      margin: .5em 0;
+    }
+
+    .sidebar-wrapper div:not(:first-of-type) h2 {
+      margin: 1em 0 .5em 0;
+      padding-bottom: .5em;
+      border-bottom: 2px solid var(--color-teal-300);
     }
 
     .skills-list {
@@ -107,72 +190,194 @@
       margin: .25em;
     }
 
-    .main {
-      margin: 0 1em 0 2em;
+    .social-container>*:not(h2) {
+      display: flex;
+      align-items: center;
+      height: 3em
     }
 
-    .main .header .contact>* {
-      font-size: .8em;
-      margin: .25em 0;
+    .social-icon {
+      width: 1.5em;
+      height: 1.5em;
+      fill: var(--color-gray-700);
+      stroke: var(--color-teal-300);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      border: 1px solid var(--color-teal-300);
+      border-radius: 50%;
+      padding: .25em;
+      margin-right: .5em;
+      background-color: var(--color-teal-300);
+    }
+
+    .main-summary {
+      grid-area: main-summary;
+      background-color: var(--main-background-color);
+      padding: 0 1em 0 var(--main-gutter-width);
+    }
+
+    .main-summary>* {
+      max-width: 700px;
+    }
+
+    .main {
+      grid-area: main;
+      background-color: var(--main-background-color);
+      padding: 0 2em 0 var(--main-gutter-width);
+      position: relative;
+    }
+
+    .main h2:first-of-type::after {
+      content: "";
+      position: absolute;
+      top: 1em;
+      width: 100%;
+      border-bottom: solid 2px var(--color-gray-700);
+      left: 0;
+      margin: .5em 0;
+    }
+
+    .history-item {
+      position: relative;
+      padding: 0 0 1em 1.5em;
+    }
+
+    .history-item:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      transform: translate(1px, 12px);
+      left: 0;
+      height: calc(100% - 12px);
+      width: 2px;
+      background-color: var(--timeline-color);
+    }
+
+    .history-item h3::before {
+      content: "⦿";
+      color: var(--timeline-color);
+      position: absolute;
+      top: 0;
+      transform: translate(-5px, -8px);
+      left: 0;
+      font-size: 18px;
+    }
+
+    .history-item :first-child {
+      margin-top: 0;
+    }
+
+    .history-item :last-child {
+      margin-bottom: 0;
+    }
+
+    .history-item .timeframe {
+      color: var(--color-gray-400);
+      font-style: italic;
+      font-size: .85em;
+      margin: 1em 0;
+    }
+
+    .history-item ul {
+      padding-left: 1em;
+    }
+
+    .history-item ul li:not(:last-child) {
+      margin-bottom: .5em;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="page flex-container">
-
-    <div class="left-sidebar">
-      <div class="headshot-box">
+  <div class="page grid-container">
+    <div class="header-logo">
+      <div class="header-img">
         <img src="https://avatars3.githubusercontent.com/u/2952843?v=4" alt="Headshot of Clinton" class="headshot">
       </div>
-      <div>
-        <h2>skills</h2>
-        <div>Front end</div>
-        <ul class="skills-list">
-          <li>JavaScript</li>
-          <li>React.js</li>
-          <li>GraphQL</li>
-        </ul>
-        <div>Back end</div>
-        <ul class="skills-list">
-          <li>MySQL</li>
-          <li>Node.js</li>
-          <li>PostgreSQL</li>
-          <li>MongoDB</li>
-        </ul>
+    </div>
+
+    <div class="header-name center-vertical">
+      <h1><span>Clinton</span> Langosch</h1>
+    </div>
+
+    <div class="main-summary">
+      <p>Full stack engineer with some back end experience. Steeped in CMS development, in-product help, and
+        services that connect them. I'm currently a software engineer / technical product manager at New Relic.</p>
+    </div>
+
+    <div class="sidebar">
+
+      <div class="sidebar-wrapper">
+
+        <div>
+
+          <h2>skills</h2>
+
+          <div>Front end</div>
+          <ul class="skills-list">
+            <li>CSS</li>
+            <li>HTML</li>
+            <li>JavaScript</li>
+            <li>React.js</li>
+            <li>GraphQL</li>
+            <li>Sass</li>
+          </ul>
+
+          <div>Back end</div>
+          <ul class="skills-list">
+            <li>MySQL</li>
+            <li>Node.js</li>
+            <li>PHP</li>
+            <li>PostgreSQL</li>
+            <li>MongoDB</li>
+          </ul>
+
+        </div>
+
+        <div class="social-container">
+          <h2>contact</h2>
+
+          <div><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="social-icon">
+                <title>Portfolio site</title>
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="9" y1="21" x2="9" y2="9" />
+              </svg></span><a href="https://clintonlangosch.com">clintonlangosch.com</a></div>
+          <div><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="social-icon">
+                <title>GitHub</title>
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                </path>
+              </svg></span><a href="https://github.com/roadlittledawn">roadlittledawn</a></div>
+          <div><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="social-icon">
+                <title>LinkedIn</title>
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect xmlns="http://www.w3.org/2000/svg" x="2" y="9" width="4" height="12"></rect>
+                <circle xmlns="http://www.w3.org/2000/svg" cx="4" cy="4" r="2"></circle>
+              </svg></span><a href="https://www.linkedin.com/in/clinton-langosch">clinton-langosch</a></div>
+          <div><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="social-icon">
+                <title>Email address</title>
+                <path xmlns="http://www.w3.org/2000/svg"
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline xmlns="http://www.w3.org/2000/svg" points="22,6 12,13 2,6" />
+              </svg></span><a href="mailto:clinton.langosch@gmail.com">clinton.langosch@gmail.com</a></div>
+
+        </div>
+
       </div>
 
     </div>
 
     <div class="main">
 
-      <div class="header flex-container align-items-center">
-
-        <h1><span>Clinton</span><br />Langosch</h1>
-
-        <div class="contact">
-          <div><a href="https://clintonlangosch.com">clintonlangosch.com</a></div>
-          <div><a href="https://github.com/roadlittledawn">roadlittledawn</a></div>
-          <div><a href="https://www.linkedin.com/in/clinton-langosch">clinton-langosch</a></div>
-          <div><a href="mailto:clinton.langosch@gmail.com">clinton.langosch@gmail.com</a></div>
-        </div>
-
-      </div>
-
-      <div>
-        <p>Full stack engineer with some back end experience. Steeped in CMS development, in-product help, and
-          services
-          that
-          connect them. I'm currently a software engineer / technical product manager at New Relic.</p>
-      </div>
-
       <div>
 
         <h2>experience</h2>
 
-        <div>
+        <div class="history-item">
           <h3><span>New Relic</span> <span>|</span> <span>Software Engineer</span></h3>
+          <div class="timeframe">Aug 2020 - Present</div>
           <div>
             We develop and maintain sites and services around technical content, product documentation, and opensource
             projects to help developers get the most out of New Relic.
@@ -193,8 +398,9 @@
         </div>
 
 
-        <div>
+        <div class="history-item">
           <h3><span>New Relic</span> <span>|</span> <span>Software Engineer</span></h3>
+          <div class="timeframe">Oct 2017 - Aug 2020</div>
           <div>
             Develop Drupal-based content management system on front and back end for docs.newrelic.com and
             learn.newrelic.com.
@@ -217,6 +423,8 @@
       </div>
 
     </div>
+
+  </div>
 
 </body>
 
