@@ -221,7 +221,7 @@
       padding: 0 0 1em 1.5em;
     }
 
-    .history-item::before {
+    .history-item:not(:last-child)::before {
       content: "";
       position: absolute;
       transform: translate(1px, 12px);
