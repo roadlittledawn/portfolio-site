@@ -8,6 +8,7 @@ import FeatherIcon from "../components/Icons";
 import { SOCIAL_ICON_NAMES, siteOptions } from "../utils/constants";
 import DarkModeToggle from "./DarkModeToggle";
 import NavLink from "./NavLink";
+import resumePdfLink from "../files/resume-eng.pdf";
 
 import useMedia from "use-media";
 
@@ -133,9 +134,7 @@ const Header = ({ profiles, className }) => {
                 <NavLink to={"/skills"}>Skills</NavLink>
               </li>
               <li>
-                <NavLink to={"https://gitconnected.com/roadlittledawn/resume"}>
-                  Resume
-                </NavLink>
+                <NavLink to={resumePdfLink}>Resume</NavLink>
               </li>
               {profiles
                 .filter((profile) => profile.network !== "gitconnected")
