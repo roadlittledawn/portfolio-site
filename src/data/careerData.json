@@ -125,10 +125,7 @@
       "website": "https://docs.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for for all things New Relic docs / help content",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
+      "languages": ["JavaScript", "Node.js"],
       "libraries": [
         "Docker",
         "React.js",
@@ -166,13 +163,8 @@
       "website": "https://developer.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for in-depth, developer-focused content for New Relic APIs, platform tools, developer advocacy, etc.",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "Node.js",
-        "JavaScript"
-      ],
-      "libraries": [
-        "React.js"
-      ],
+      "languages": ["Node.js", "JavaScript"],
+      "libraries": ["React.js"],
       "githubUrl": "https://github.com/newrelic/developer-website",
       "repositoryUrl": "https://github.com/newrelic/developer-website",
       "start": {
@@ -203,15 +195,8 @@
       "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
       "summary": "A demo site + NPM package that serves as a central component / utility library for all New Relic Gatsby sites",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "Gatsby",
-        "React.js",
-        "NPM"
-      ],
+      "languages": ["JavaScript", "Node.js"],
+      "libraries": ["Gatsby", "React.js", "NPM"],
       "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "start": {
@@ -242,13 +227,8 @@
       "website": "https://opensource.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for exploring New Relic's open source program and its projects.",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "React.js"
-      ],
+      "languages": ["JavaScript", "Node.js"],
+      "libraries": ["React.js"],
       "githubUrl": "https://github.com/newrelic/opensource-website",
       "repositoryUrl": "https://github.com/newrelic/opensource-website",
       "start": {
@@ -270,7 +250,7 @@
       "name": "New Relic",
       "location": "",
       "description": "",
-      "position": "Software Engineer / Technical Product Mgr, Developer Enablement",
+      "position": "Software Engineer",
       "url": "",
       "startDate": "2020-08-01",
       "endDate": "",
