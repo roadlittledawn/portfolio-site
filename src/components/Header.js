@@ -134,7 +134,7 @@ const Header = ({ profiles, className }) => {
                 <NavLink to={"/skills"}>Skills</NavLink>
               </li>
               <li>
-                <NavLink to={resumePdfLink}>Resume</NavLink>
+                <NavLink to={"/resume"}>Resume</NavLink>
               </li>
               {profiles
                 .filter((profile) => profile.network !== "gitconnected")
