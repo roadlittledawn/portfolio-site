@@ -6,7 +6,6 @@ import { css } from "@emotion/react";
 import FeatherIcon from "./Icons/FeatherIcon";
 import { SOCIAL_ICON_NAMES } from "../utils/constants";
 import DarkModeToggle from "./DarkModeToggle";
-import resumePdfLink from "../files/resume-eng.pdf";
 
 const MobileNavMenu = ({ open, profiles }) => {
   return (
@@ -62,7 +61,7 @@ const MobileNavMenu = ({ open, profiles }) => {
       <Link to="/experience">Experience</Link>
       <Link to="/projects">Projects</Link>
       <Link to="/skills">Skills</Link>
-      <a href={resumePdfLink}>Resume</a>
+      <Link href="/resume">Resume</Link>
 
       <div>
         <ul

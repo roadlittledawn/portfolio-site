@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 import SEO from "../components/SEO";
 import cx from "classnames";
 import { css } from "@emotion/react";
-import { siteOptions } from "../utils/constants";
+import { SKILL_CATEGORY } from "../utils/constants";
+import { getNameOfMonth } from "../utils/time";
 import PageTitle from "../components/PageTitle";
 import MainLayout from "../layouts/MainLayout";
 import * as styles from "./Resume.module.scss";
+import resumePdfLink from "../files/resume-eng.pdf";
+import FeatherIcon from "../components/Icons/FeatherIcon";
 
 const ResumePage = ({ data, location }) => {
   const [isEmbed, setIsEmbed] = useState(0);
@@ -33,11 +36,52 @@ const ResumePage = ({ data, location }) => {
             <PageTitle>Resume</PageTitle>
             <div
               css={css`
+                margin: 1em 0;
+                display: flex;
+                justify-content: flex-end;
+              `}
+            >
+              <Link
+                to={resumePdfLink}
+                css={css`
+                  border: 1px solid transparent;
+                  border-radius: 10px;
+                  text-decoration: none;
+                  padding: 0.5em 1em;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  :hover {
+                    color: var(--color-teal-700);
+                    border: 1px solid var(--color-teal-300);
+                    background-color: var(--color-teal-300);
+                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                      0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                  }
+                `}
+              >
+                <FeatherIcon
+                  name="save"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 4px 0;
+                  `}
+                />{" "}
+                Save as PDF or Print
+              </Link>
+            </div>
+            <div
+              css={css`
                 max-width: 8.5in;
                 height: 11in;
                 width: 100%;
                 padding: 0.1in;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                .dark-mode & {
+                  border: 1px solid var(--color-neutrals-400);
+                  box-shadow: 0 5px 10px #70ccd370;
+                }
               `}
             >
               {renderContent(data)}
@@ -50,9 +94,10 @@ const ResumePage = ({ data, location }) => {
 };
 
 const renderContent = (data) => {
-  console.log({ styles });
   const {
-    allWork: { nodes: workItems },
+    basics,
+    allSkills: { nodes: skills },
+    allWork: { nodes: workHistory },
   } = data;
   return (
     <>
@@ -61,7 +106,7 @@ const renderContent = (data) => {
           <div className={styles.headerLogo}>
             <div className={styles.headerImg}>
               <img
-                src="https://avatars3.githubusercontent.com/u/2952843?v=4"
+                src={basics.image}
                 alt="Headshot of Clinton"
                 className={styles.headshot}
               />
@@ -75,12 +120,7 @@ const renderContent = (data) => {
           </div>
 
           <div className={styles.mainSummary}>
-            <p>
-              Full stack engineer with some back end experience. Steeped in CMS
-              development, in-product help, and services that connect them. I'm
-              currently a software engineer / technical product manager at New
-              Relic.
-            </p>
+            <p>{basics.summary}</p>
           </div>
 
           <div className={styles.sidebar}>
@@ -90,21 +130,24 @@ const renderContent = (data) => {
 
                 <div>Front end</div>
                 <ul className={styles.skillsList}>
-                  <li>CSS</li>
-                  <li>HTML</li>
-                  <li>JavaScript</li>
-                  <li>React.js</li>
-                  <li>GraphQL</li>
-                  <li>Sass</li>
+                  {skills
+                    .filter(
+                      (skill) => SKILL_CATEGORY[skill.name] === "frontend"
+                    )
+                    .sort((a, b) => a.name > b.name)
+                    .map((skill) => (
+                      <li key={skill.name}>{skill.name}</li>
+                    ))}
                 </ul>
 
                 <div>Back end</div>
                 <ul className={styles.skillsList}>
-                  <li>MySQL</li>
-                  <li>Node.js</li>
-                  <li>PHP</li>
-                  <li>PostgreSQL</li>
-                  <li>MongoDB</li>
+                  {skills
+                    .filter((skill) => SKILL_CATEGORY[skill.name] === "backend")
+                    .sort((a, b) => a.name > b.name)
+                    .map((skill) => (
+                      <li key={skill.name}>{skill.name}</li>
+                    ))}
                 </ul>
               </div>
 
@@ -197,74 +240,36 @@ const renderContent = (data) => {
             <div>
               <h2>experience</h2>
 
-              <div className={styles.historyItem}>
-                <h3>
-                  <span>New Relic</span> <span>|</span>{" "}
-                  <span>Software Engineer</span>
-                </h3>
-                <div className={styles.timeframe}>Aug 2020 - Present</div>
-                <div>
-                  We develop and maintain sites and services around technical
-                  content, product documentation, and opensource projects to
-                  help developers get the most out of New Relic.
+              {workHistory.map((gig, index) => (
+                <div
+                  className={styles.historyItem}
+                  key={`${gig.company}${index}`}
+                >
+                  <h3>
+                    <span>{gig.company}</span> <span>|</span>{" "}
+                    <span>{gig.position}</span>
+                  </h3>
+                  <div className={styles.timeframe}>
+                    {" "}
+                    {`${getNameOfMonth(gig.start.month)} ${
+                      gig.start.year
+                    }`}{" "}
+                    {`to`}{" "}
+                    {gig.isCurrentRole
+                      ? "Present"
+                      : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
+                  </div>
+                  <div>
+                    <ul>
+                      {gig.highlights.map((highlight, index) => (
+                        <li key={`${gig.company}-highlight-${index}`}>
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <ul>
-                  <li>
-                    Migrate from Drupal to GitHub + React static site to be
-                    fully open sourced and part of JAM stack.
-                  </li>
-                  <li>
-                    Develop various React / Node based sites including
-                    docs.newrelic.com, developer.newrelic.com,
-                    opensource.newrelic.com, and our gatsby-newrelic-theme.
-                  </li>
-                  <li>
-                    Develop and maintain services that connect help content to
-                    the product UI.
-                  </li>
-                  <li>
-                    Develop and maintain translation workflows / tooling to
-                    localize content into many different languages.
-                  </li>
-                  <li>
-                    Serve as technical product mgr to help develop roadmap,
-                    prioritize backlog, scope and plan upcoming work, provide
-                    technical input in strategic decisions.
-                  </li>
-                </ul>
-              </div>
-
-              <div className={styles.historyItem}>
-                <h3>
-                  <span>New Relic</span> <span>|</span>{" "}
-                  <span>Software Engineer</span>
-                </h3>
-                <div className={styles.timeframe}>Oct 2017 - Aug 2020</div>
-                <div>
-                  Develop Drupal-based content management system on front and
-                  back end for docs.newrelic.com and learn.newrelic.com.
-                </div>
-                <ul>
-                  <li>
-                    Lead Docs as a Service (DaaS) initaitive to build out REST
-                    API / JSON resources to enable other teams to integrate with
-                    our site. Examples: programmatically publish release notes,
-                    install procedures in the product UI, data dictionary terms
-                    fed to UI to display definitions to users in product UI,
-                    etc.
-                  </li>
-                  <li>
-                    Develop various React / Node based sites including
-                    docs.newrelic.com, developer.newrelic.com,
-                    opensource.newrelic.com, and our gatsby-newrelic-theme.
-                  </li>
-                  <li>
-                    Develop prototype of product UI component (called Nerdlet)
-                    in React.js to surface search results from disparate sites.
-                  </li>
-                  <li>Develop integration to translate site in Japanese</li>
-                </ul>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -280,6 +285,23 @@ ResumePage.propTypes = {
 
 export const pageQuery = graphql`
   query {
+    basics {
+      summary
+      image
+      profiles {
+        network
+        url
+        username
+      }
+    }
+    allSkills {
+      nodes {
+        name
+        level
+        rating
+        yearsOfExperience
+      }
+    }
     allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
       nodes {
         summary
