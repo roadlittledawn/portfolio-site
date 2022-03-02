@@ -25,7 +25,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{github.head_ref}}
+          fetch-depth: 0
+          ref: ${{ github.ref }}
 
       - name: Setup node.js
         uses: actions/setup-node@v1
@@ -78,7 +79,7 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.CLANG_TOKEN }}
-          branch: ${{ github.head_ref }}
+          branch: ${{ github.ref }}
 
       # - name: Re-enable branch protection
       #   id: enable-branch-protection
