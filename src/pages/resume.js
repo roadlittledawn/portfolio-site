@@ -131,7 +131,7 @@ const renderContent = (data) => {
               <div>
                 <h2>skills</h2>
 
-                <div>Front end</div>
+                <h4>Front-end</h4>
                 <ul className={styles.skillsList}>
                   {skills
                     .filter(
@@ -143,7 +143,7 @@ const renderContent = (data) => {
                     ))}
                 </ul>
 
-                <div>Back end</div>
+                <h4>Back-end</h4>
                 <ul className={styles.skillsList}>
                   {skills
                     .filter((skill) => SKILL_CATEGORY[skill.name] === "backend")
