@@ -44,26 +44,26 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
-      - name: Fetch career data
+      - name: Generate PDF
         run: yarn run pdf:resume
 
-      - name: Temporarily disable branch protection
-        id: disable-branch-protection
-        uses: actions/github-script@v1
-        with:
-          github-token: ${{ secrets.CLANG_TOKEN }}
-          previews: luke-cage-preview
-          script: |
-            const result = await github.repos.updateBranchProtection({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              branch: 'main',
-              required_status_checks: null,
-              restrictions: null,
-              enforce_admins: null,
-              required_pull_request_reviews: null
-            })
-            console.log("Result:", result)
+      # - name: Temporarily disable branch protection
+      #   id: disable-branch-protection
+      #   uses: actions/github-script@v1
+      #   with:
+      #     github-token: ${{ secrets.CLANG_TOKEN }}
+      #     previews: luke-cage-preview
+      #     script: |
+      #       const result = await github.repos.updateBranchProtection({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         branch: 'main',
+      #         required_status_checks: null,
+      #         restrictions: null,
+      #         enforce_admins: null,
+      #         required_pull_request_reviews: null
+      #       })
+      #       console.log("Result:", result)
 
       - name: Commit changes
         id: commit-changes
@@ -79,28 +79,28 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.CLANG_TOKEN }}
-          branch: main
+          branch: ${{ github.head_ref }}
 
-      - name: Re-enable branch protection
-        id: enable-branch-protection
-        if: always()
-        uses: actions/github-script@v1
-        with:
-          github-token: ${{ secrets.CLANG_TOKEN }}
-          previews: luke-cage-preview
-          script: |
-            const result = await github.repos.updateBranchProtection({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              branch: 'main',
-              required_status_checks: {
-                strict: false,
-                contexts: [
-                  'Build the site'
-                ]
-              },
-              restrictions: null,
-              enforce_admins: true,
-              required_pull_request_reviews: null
-            })
-            console.log("Result:", result)
+      # - name: Re-enable branch protection
+      #   id: enable-branch-protection
+      #   if: always()
+      #   uses: actions/github-script@v1
+      #   with:
+      #     github-token: ${{ secrets.CLANG_TOKEN }}
+      #     previews: luke-cage-preview
+      #     script: |
+      #       const result = await github.repos.updateBranchProtection({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         branch: 'main',
+      #         required_status_checks: {
+      #           strict: false,
+      #           contexts: [
+      #             'Build the site'
+      #           ]
+      #         },
+      #         restrictions: null,
+      #         enforce_admins: true,
+      #         required_pull_request_reviews: null
+      #       })
+      #       console.log("Result:", result)
