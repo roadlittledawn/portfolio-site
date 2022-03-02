@@ -1,7 +1,15 @@
-name: Sync Career Data
+name: Generate Resume PDF
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+    paths:
+      - "src/pages/resume.js"
+      - "src/data/careerData.json"
   # schedule:
   # - cron: "0 0 1 * *" # 00:00 1st of each month
 
@@ -10,13 +18,14 @@ env:
   BOT_EMAIL: clinton.langosch@gmail.com
 
 jobs:
-  fetch-career-data:
+  generate-and-commit-pdf:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: main
+          fetch-depth: 2
+      - run: git checkout HEAD^
 
       - name: Setup node.js
         uses: actions/setup-node@v1
@@ -35,9 +44,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Fetch career data
-        run: yarn run sync
-        env:
-          CAREER_DATA_API_URL: ${{ secrets.CAREER_DATA_API_URL }}
+        run: yarn run pdf:resume
 
       - name: Temporarily disable branch protection
         id: disable-branch-protection
@@ -62,8 +69,8 @@ jobs:
         run: |
           git config --local user.email "${{ env.BOT_EMAIL }}"
           git config --local user.name "${{ env.BOT_NAME }}"
-          git add ./src/data/careerData.json
-          git diff-index --quiet HEAD ./src/data/careerData.json || git commit -m 'chore(data): updated career data'
+          git add ./src/files/resume-eng.pdf
+          git diff-index --quiet HEAD ./src/files/resume-eng.pdf || git commit -m 'chore(resume): regenerate and commit resume PDF'
           echo "::set-output name=commit::true"
 
       - name: Push Commit
