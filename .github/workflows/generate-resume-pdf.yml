@@ -2,6 +2,14 @@ name: Generate Resume PDF
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+    paths:
+      - "src/pages/resume.js"
+      - "src/data/careerData.json"
   # schedule:
   # - cron: "0 0 1 * *" # 00:00 1st of each month
 
@@ -16,7 +24,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: main
+          fetch-depth: 2
+      - run: git checkout HEAD^
 
       - name: Setup node.js
         uses: actions/setup-node@v1
