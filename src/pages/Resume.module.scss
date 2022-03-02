@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300&family=Julius+Sans+One&display=swap");
 
-:root {
-}
+$mobile-breakpoint: 500px;
 
 .resumeBody {
   --color-teal-300: #70ccd3;
@@ -12,6 +11,7 @@
   --color-dark-700: #a5bbbd;
   --primary-background-color: var(--color-gray-700);
   --main-background-color: white;
+  --timeline-color: var(--color-gray-200);
 
   --font-family-base: sans-serif;
   --font-family-headings: "Josefin Sans", sans-serif;
@@ -22,14 +22,16 @@
 
   --img-size: 155px;
 
-  --timeline-color: var(--color-gray-200);
-
   margin: 0;
   font-family: var(--font-family-base);
   font-size: 12px;
   color: var(--color-gray-700);
   background-color: var(--primary-background-color);
   height: 100%;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    background-color: var(--main-background-color);
+  }
 
   h1,
   h2 {
@@ -62,6 +64,11 @@
     color: var(--color-teal-600);
   }
 
+  p {
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+  }
+
   .page {
     // height: 100vh;
   }
@@ -77,11 +84,22 @@
     display: grid;
     grid-template-columns: var(--sidebar-width) auto 0px;
     grid-template-rows: var(--header-height) 100px auto;
-
     grid-template-areas:
       "header-logo header-name header-name"
       ". main-summary main-summary"
       "sidebar main main";
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      grid-template-columns: 100%;
+      grid-template-rows: repeat(5, auto);
+      row-gap: 2em;
+      grid-template-areas:
+        "header-logo"
+        "header-name"
+        "main-summary"
+        "sidebar"
+        "main";
+    }
   }
 
   .header-logo {
@@ -136,6 +154,10 @@
     grid-area: sidebar;
     background-color: var(--color-gray-700);
     color: var(--color-dark-700);
+    @media screen and (max-width: $mobile-breakpoint) {
+      background-color: var(--main-background-color);
+      color: var(--color-gray-700);
+    }
   }
 
   .sidebar-wrapper {
@@ -144,6 +166,9 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    @media screen and (max-width: $mobile-breakpoint) {
+      margin: 0 0.5em;
+    }
   }
 
   .sidebar-wrapper > * {
@@ -153,6 +178,9 @@
 
   .sidebar h2 {
     color: var(--color-teal-300);
+    @media screen and (max-width: $mobile-breakpoint) {
+      color: var(--color-gray-700);
+    }
   }
 
   .sidebar a {
@@ -167,12 +195,18 @@
     border-bottom: solid 2px var(--color-teal-300);
     left: 0;
     margin: 0.5em 0;
+    @media screen and (max-width: $mobile-breakpoint) {
+      border-bottom: solid 2px var(--color-gray-700);
+    }
   }
 
   .sidebar-wrapper div:not(:first-of-type) h2 {
     margin: 1em 0 0.5em 0;
     padding-bottom: 0.5em;
     border-bottom: 2px solid var(--color-teal-300);
+    @media screen and (max-width: $mobile-breakpoint) {
+      border-bottom: solid 2px var(--color-gray-700);
+    }
   }
 
   .skills-list {

@@ -82,6 +82,9 @@ const ResumePage = ({ data, location }) => {
                   border: 1px solid var(--color-neutrals-400);
                   box-shadow: 0 5px 10px #70ccd370;
                 }
+                @media screen and (max-width: 600px) {
+                  height: auto;
+                }
               `}
             >
               {renderContent(data)}
@@ -259,6 +262,7 @@ const renderContent = (data) => {
                       ? "Present"
                       : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
                   </div>
+                  <p>{gig.summary}</p>
                   <div>
                     <ul>
                       {gig.highlights.map((highlight, index) => (
