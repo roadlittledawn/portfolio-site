@@ -13,6 +13,7 @@ const FeatherIcon = ({
   props,
   strokeColor,
   strokeWidth,
+  className,
 }) => {
   const featherSVG = featherIcons[name];
   const svgIcon = svgIcons[name];
@@ -21,6 +22,7 @@ const FeatherIcon = ({
     return (
       <svg
         {...props}
+        className={className}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         css={css`
