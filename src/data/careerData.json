@@ -125,10 +125,7 @@
       "website": "https://docs.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for for all things New Relic docs / help content",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
+      "languages": ["JavaScript", "Node.js"],
       "libraries": [
         "Docker",
         "React.js",
@@ -166,13 +163,8 @@
       "website": "https://developer.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for in-depth, developer-focused content for New Relic APIs, platform tools, developer advocacy, etc.",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "Node.js",
-        "JavaScript"
-      ],
-      "libraries": [
-        "React.js"
-      ],
+      "languages": ["Node.js", "JavaScript"],
+      "libraries": ["React.js"],
       "githubUrl": "https://github.com/newrelic/developer-website",
       "repositoryUrl": "https://github.com/newrelic/developer-website",
       "start": {
@@ -203,15 +195,8 @@
       "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
       "summary": "A demo site + NPM package that serves as a central component / utility library for all New Relic Gatsby sites",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "Gatsby",
-        "React.js",
-        "NPM"
-      ],
+      "languages": ["JavaScript", "Node.js"],
+      "libraries": ["Gatsby", "React.js", "NPM"],
       "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "start": {
@@ -242,13 +227,8 @@
       "website": "https://opensource.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for exploring New Relic's open source program and its projects.",
       "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "React.js"
-      ],
+      "languages": ["JavaScript", "Node.js"],
+      "libraries": ["React.js"],
       "githubUrl": "https://github.com/newrelic/opensource-website",
       "repositoryUrl": "https://github.com/newrelic/opensource-website",
       "start": {
@@ -268,19 +248,18 @@
   "work": [
     {
       "name": "New Relic",
-      "location": "",
+      "location": "Portland, OR",
       "description": "",
-      "position": "Software Engineer / Technical Product Mgr, Developer Enablement",
+      "position": "Software Engineer",
       "url": "",
       "startDate": "2020-08-01",
       "endDate": "",
-      "summary": "We develop and maintain sites and services around technical content, product documentation, and opensource projects to help developers get the most out of New Relic.",
+      "summary": "Develop sites and services around technical content, product documentation, and opensource projects to help customers get the most out of New Relic.",
       "highlights": [
-        "Migrate from Drupal to GitHub + React static site to be fully open sourced and part of JAM stack",
-        "Develop various React / Node based sites including docs.newrelic.com, developer.newrelic.com, opensource.newrelic.com, and our `gatsby-newrelic-theme`.",
-        "Develop and maintain services that connect help content to the product UI.",
-        "Develop and maintain translation workflows / tooling to localize content into many different languages",
-        "Serve as technical product mgr to help develop roadmap, prioritize backlog, scope and plan upcoming work, provide technical input in strategic decisions"
+        "Serve as technical product manager to help develop roadmap and provide technical input into strategic decisions, prioritize backlog, prototype, scope and plan upcoming work,",
+        "Develop services we call 'Docs as a Service' to empower authors to surface help content in our product UI.",
+        "Migrate from large Drupal site to open sourced GitHub + React (Gatsby) static site.",
+        "Develop and maintain automated translation workflows / tooling to localize content into many different languages."
       ],
       "isCurrentRole": true,
       "start": {
@@ -299,11 +278,11 @@
       "url": "",
       "startDate": "2017-10-01",
       "endDate": "2020-08-01",
-      "summary": "Develop Drupal-based content management system on front and back end for docs.newrelic.com and learn.newrelic.com.",
+      "summary": "Develop Drupal-based content management system on front and back end.",
       "highlights": [
-        "Lead Docs as a Service (DaaS) initaitive to build out REST API / JSON resources to enable other teams to integrate with our site. Examples: programmatically publish release notes, install procedures in the product UI, data dictionary terms fed to UI to display definitions to users in product UI, etc.",
-        "Develop prototype of product UI component (called Nerdlet) in React.js to surface search results from disparate sites.",
-        "Develop integration to translate site in Japanese"
+        "Lead 'Docs as a Service' initaitive to build out REST API / JSON resources to enable other teams to integrate with our site and our product UI.",
+        "Develop prototype of product UI component in React to surface search results from disparate sites.",
+        "Develop integration to translate site in Japanese."
       ],
       "isCurrentRole": false,
       "start": {
@@ -318,25 +297,25 @@
       "website": ""
     },
     {
-      "name": "New Relic",
-      "location": "Portland",
+      "name": "Freelance",
+      "location": "",
       "description": "",
-      "position": "Technical Writer",
+      "position": "Software Engineer",
       "url": "",
-      "startDate": "2014-08-01",
-      "endDate": "2017-10-01",
-      "summary": "Research and write technical documentation and tutorials for the company's performance monitoring software products. Help develop and manage Drupal CMS",
+      "startDate": "2020-08-01",
+      "endDate": "",
+      "summary": "Develop WordPress and custom PHP sites for various clients for marketing, portfolios, project management needs.",
       "highlights": [],
       "isCurrentRole": false,
       "start": {
-        "year": 2014,
-        "month": 8
+        "year": 2012,
+        "month": 1
       },
       "end": {
-        "year": 2017,
-        "month": 10
+        "year": 2016,
+        "month": 1
       },
-      "company": "New Relic",
+      "company": "Freelance",
       "website": ""
     }
   ],
@@ -347,11 +326,5 @@
   "languages": [],
   "interests": [],
   "references": [],
-  "certificates": [],
-  "meta": {
-    "note": "This is a combined version of the old and new JSON Resume API to provide maximum compatibility. You will notice duplicated values in different fields.",
-    "canonical": "https://raw.githubusercontent.com/jsonresume/resume-schema/master/resume.json",
-    "version": "v1.0.0",
-    "lastModified": "2020-12-29T15:53:00"
-  }
+  "certificates": []
 }
