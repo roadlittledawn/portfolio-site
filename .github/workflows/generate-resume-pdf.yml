@@ -10,6 +10,7 @@ on:
     paths:
       - "src/pages/resume.js"
       - "src/data/careerData.json"
+      - "src/pages/Resume.module.scss"
   # schedule:
   # - cron: "0 0 1 * *" # 00:00 1st of each month
 
