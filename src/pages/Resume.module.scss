@@ -5,13 +5,16 @@ $mobile-breakpoint: 500px;
 .resumeBody {
   --color-teal-300: #70ccd3;
   --color-teal-600: #006c75;
+  --color-gray-100: #c8c9ca;
   --color-gray-200: #919394;
   --color-gray-400: #656869;
   --color-gray-700: #232728;
   --color-dark-700: #a5bbbd;
+
   --primary-background-color: var(--color-gray-700);
   --main-background-color: white;
   --timeline-color: var(--color-gray-200);
+  --timeline-line-color: var(--color-gray-100);
 
   --font-family-base: sans-serif;
   --font-family-headings: "Josefin Sans", sans-serif;
@@ -71,10 +74,6 @@ $mobile-breakpoint: 500px;
   p {
     margin-bottom: 0.5em;
     line-height: 1.5;
-  }
-
-  .page {
-    // height: 100vh;
   }
 
   .center-vertical {
@@ -288,21 +287,23 @@ $mobile-breakpoint: 500px;
   .history-item:not(:last-child)::before {
     content: "";
     position: absolute;
-    transform: translate(1px, 15px);
+    transform: translate(0px, 16px);
     left: 0;
-    height: calc(100% - 12px);
+    height: calc(100% - 16px);
     width: 2px;
-    background-color: var(--timeline-color);
+    background-color: var(--timeline-line-color);
   }
 
   .history-item h3::before {
-    content: "⦿";
-    color: var(--timeline-color);
+    content: "";
     position: absolute;
+    height: 0.5em;
+    width: 0.5em;
     top: 0;
-    transform: translate(-5px, -5px);
     left: 0;
-    font-size: 18px;
+    transform: translate(-2px, 5px);
+    background-color: var(--timeline-color);
+    border-radius: 50%;
   }
 
   .history-item :first-child {
