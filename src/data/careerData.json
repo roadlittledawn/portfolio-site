@@ -250,23 +250,45 @@
       "name": "New Relic",
       "location": "Portland, OR",
       "description": "",
+      "position": "Manager, User Experience Engineering",
+      "url": "",
+      "startDate": "2022-04-01",
+      "endDate": "",
+      "summary": "Lead a team engineers that powers sites / services around technical content, product documentation, and opensource projects to help customers get the most out of New Relic.",
+      "highlights": [],
+      "isCurrentRole": true,
+      "start": {
+        "year": 2022,
+        "month": 4
+      },
+      "end": {},
+      "company": "New Relic",
+      "website": ""
+    },
+    {
+      "name": "New Relic",
+      "location": "Portland, OR",
+      "description": "",
       "position": "Software Engineer",
       "url": "",
       "startDate": "2020-08-01",
-      "endDate": "",
-      "summary": "Develop sites and services around technical content, product documentation, and opensource projects to help customers get the most out of New Relic.",
+      "endDate": "2022-03-31",
+      "summary": "Develop sites and services around technical content, product documentation, and opensource projects to enable developers to get the most out of our product.",
       "highlights": [
         "Serve as technical product manager to help develop roadmap and provide technical input into strategic decisions, prioritize backlog, prototype, scope and plan upcoming work,",
         "Develop services we call 'Docs as a Service' to empower authors to surface help content in our product UI.",
         "Migrate from large Drupal site to open sourced GitHub + React (Gatsby) static site.",
         "Develop and maintain automated translation workflows / tooling to localize content into many different languages."
       ],
-      "isCurrentRole": true,
+      "isCurrentRole": false,
       "start": {
         "year": 2020,
         "month": 8
       },
-      "end": {},
+      "end": {
+        "year": 2022,
+        "month": 3
+      },
       "company": "New Relic",
       "website": ""
     },
