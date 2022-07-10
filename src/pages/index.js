@@ -38,8 +38,8 @@ const HomePage = ({ data }) => {
             `}
           >
             <h1>
-              Hello there. My name is Clinton. I&apos;m a software engineering
-              manager.
+              Hello there. My name is Clinton. <br />
+              I&apos;m a software engineering manager.
             </h1>
             <p
               css={css`
