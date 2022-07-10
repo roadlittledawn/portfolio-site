@@ -6,7 +6,7 @@
     "email": "clinton.langosch@gmail.com",
     "phone": "",
     "url": "https://clintonlangosch.com",
-    "summary": "Software engineering leader with a full-stack background. Steeped in CMS development, in-product help, and services that connect them. I currently manage a small team of software engineers at New Relic.",
+    "summary": "Software engineering leader with a full-stack background who now ships a team instead of a product (and loves it).",
     "profiles": [
       {
         "network": "gitconnected",
@@ -255,7 +255,11 @@
       "startDate": "2022-04-01",
       "endDate": "",
       "summary": "Lead a team engineers that powers sites / services around technical content, product documentation, and opensource projects to help customers get the most out of New Relic.",
-      "highlights": [],
+      "highlights": [
+        "Work closely with product managers / key stakeholders to shape our quarterly roadmaps and manage & prioritize the backlog",
+        "Help plan and execute our work as a team",
+        "Help engineers grow their career"
+      ],
       "isCurrentRole": true,
       "start": {
         "year": 2022,
@@ -277,8 +281,7 @@
       "highlights": [
         "Serve as technical product manager to help develop roadmap and provide technical input into strategic decisions, prioritize backlog, prototype, scope and plan upcoming work,",
         "Develop services we call 'Docs as a Service' to empower authors to surface help content in our product UI.",
-        "Migrate from large Drupal site to open sourced GitHub + React (Gatsby) static site.",
-        "Develop and maintain automated translation workflows / tooling to localize content into many different languages."
+        "Migrate from large Drupal site to open sourced GitHub + React (Gatsby) static site."
       ],
       "isCurrentRole": false,
       "start": {
