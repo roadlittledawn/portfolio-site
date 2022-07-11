@@ -56,7 +56,7 @@ const HomePage = ({ data }) => {
             css={css`
               width: 40%;
               text-align: center;
-              @media screen and (max-width: ${siteOptions.mobileBreakpoint}) {
+              @media screen and (max-width: ${mobileBreakpoint}) {
                 width: 100%;
                 order: 1;
               }
@@ -69,6 +69,13 @@ const HomePage = ({ data }) => {
                 border-radius: 50%;
                 width: 100%;
                 max-width: 400px;
+                padding: 10px;
+                background: var(--color-teal-300);
+                background: radial-gradient(
+                  circle,
+                  var(--color-teal-300) 40%,
+                  var(--primary-background-color) 100%
+                );
               `}
             />
           </div>
