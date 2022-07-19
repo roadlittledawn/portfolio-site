@@ -18,26 +18,23 @@ const ProjectsPage = ({ data }) => {
       <SEO title="Projects" />
       <MainLayout>
         <PageTitle>Projects</PageTitle>
-        <ul
-          css={css`
-            list-style: none;
-            padding: 0px;
-            margin: 50px 0px 0px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            position: relative;
-          `}
-        >
-          {projects.map((project) => (
-            <ProjectTile
-              key={project.name}
-              name={project.name}
-              summary={project.summary}
-              languages={project.languages}
-            />
-          ))}
-        </ul>
+        <section>
+          <ul
+            css={css`
+              list-style: none;
+              padding: 0px;
+              margin: 50px 0px 0px;
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+              gap: 15px;
+              position: relative;
+            `}
+          >
+            {projects.map((project) => (
+              <ProjectTile project={project} key={project.name} />
+            ))}
+          </ul>
+        </section>
       </MainLayout>
     </>
   );

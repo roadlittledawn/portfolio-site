@@ -1,8 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { css } from "@emotion/react";
+import FeatherIcon from "../components/Icons";
 
-const ProjectTile = ({ as: Component, name, summary, languages }) => {
+const ProjectTile = ({
+  as: Component,
+  project: { name, summary, languages, repositoryUrl },
+}) => {
   return (
     <Component
       key={name}
@@ -16,9 +20,42 @@ const ProjectTile = ({ as: Component, name, summary, languages }) => {
         background-color: #2f3233;
         border-radius: 4px;
         box-shadow: 0 10px 30px -15px #131f23;
+        &:hover {
+          cursor: pointer;
+          h3 {
+            color: var(--color-teal-400);
+          }
+        }
       `}
     >
-      <h3>{name}</h3>
+      <div
+        css={css`
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        `}
+      >
+        <div>
+          <FeatherIcon
+            name="folder"
+            size="2.5em"
+            title="folder"
+            strokeColor={`var(--color-teal-400)`}
+            key={`folder-${name}`}
+          />
+        </div>
+      </div>
+      <h3>
+        <a
+          href={repositoryUrl}
+          css={css`
+            text-decoration: none;
+            color: inherit;
+          `}
+        >
+          {name}
+        </a>
+      </h3>
       <div>{summary}</div>
       {languages && (
         <ul
@@ -54,9 +91,7 @@ ProjectTile.defaultProps = {
 
 ProjectTile.propTypes = {
   as: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  summary: PropTypes.string.isRequired,
-  languages: PropTypes.array.isRequired,
+  project: PropTypes.object.isRequired,
 };
 
 export default ProjectTile;
