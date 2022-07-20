@@ -20,8 +20,12 @@ const ProjectTile = ({
         background-color: #2f3233;
         border-radius: 4px;
         box-shadow: 0 10px 30px -15px #131f23;
+        transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1) 0s,
+          opacity 0.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0s,
+          transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
         &:hover {
           cursor: pointer;
+          transform: translateY(-8px);
           h3 {
             color: var(--color-teal-400);
           }
@@ -51,6 +55,14 @@ const ProjectTile = ({
           css={css`
             text-decoration: none;
             color: inherit;
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 100%;
+              width: 100%;
+            }
           `}
         >
           {name}
