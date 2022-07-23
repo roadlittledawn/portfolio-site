@@ -9,7 +9,7 @@ const ProjectTile = ({
 }) => {
   const mainLink = repositoryUrl || website;
   const links = [{ repositoryUrl }, { website }];
-  console.log({ links });
+
   const LINK_ICONS = {
     repositoryUrl: "github",
     website: "window",
@@ -70,27 +70,32 @@ const ProjectTile = ({
             align-items: center;
           `}
         >
-          {links.map((link) => (
-            <a
-              key={`project-link-${Object.keys(link)[0]}`}
-              css={css`
-                position: relative;
-                z-index: 1;
-                padding: 5px 7px;
-                color: var(--tile-foreground-neutral);
-              `}
-              href={Object.values(link)[0]}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FeatherIcon
-                name={LINK_ICONS[Object.keys(link)[0]]}
-                size="1.5em"
-                title={`Go to ${Object.keys(link)[0]}`}
-                key={`${Object.keys(link)[0]}-logo`}
-              />
-            </a>
-          ))}
+          {links.map((link) => {
+            const hasValue = Object.values(link)[0];
+            if (hasValue) {
+              return (
+                <a
+                  key={`project-link-${Object.keys(link)[0]}`}
+                  css={css`
+                    position: relative;
+                    z-index: 1;
+                    padding: 5px 7px;
+                    color: var(--tile-foreground-neutral);
+                  `}
+                  href={Object.values(link)[0]}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FeatherIcon
+                    name={LINK_ICONS[Object.keys(link)[0]]}
+                    size="1.5em"
+                    title={`Go to ${Object.keys(link)[0]}`}
+                    key={`${Object.keys(link)[0]}-logo`}
+                  />
+                </a>
+              );
+            }
+          })}
         </div>
       </div>
       <h3>
