@@ -54,6 +54,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       languages: [String]
       githubUrl: String
       repositoryUrl: String
+      website: String
     }
     type Work implements Node {
       name: String!
@@ -132,6 +133,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
         languages,
         githubUrl,
         repositoryUrl,
+        website,
       },
       idx
     ) => {
@@ -145,6 +147,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
         languages,
         githubUrl,
         repositoryUrl,
+        website,
       };
       createNode({
         ...data,

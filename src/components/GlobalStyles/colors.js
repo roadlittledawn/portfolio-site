@@ -9,8 +9,10 @@ export default css`
   --color-neutrals-300: #e3e4e4;
   --color-neutrals-400: #d5d7d7;
   --color-neutrals-500: #b9bdbd;
+  --color-neutrals-550: #79878d;
   --color-neutrals-600: #8e9494;
   --color-neutrals-700: #464e4e;
+  --color-neutrals-750: #2f3233;
   --color-neutrals-800: #2a3434;
   --color-neutrals-900: #000d0d;
 
@@ -79,22 +81,4 @@ export default css`
   --color-teal-700: #00484e;
   --color-teal-800: #003539;
   --color-teal-900: #002123;
-
-  // https://www.nordtheme.com/docs/colors-and-palettes
-  --color-nord-0: #2e3440;
-  --color-nord-1: #3b4252;
-  --color-nord-2: #434c5e;
-  --color-nord-3: #4c566a;
-  --color-nord-4: #d8dee9;
-  --color-nord-5: #e5e9f0;
-  --color-nord-6: #eceff4;
-  --color-nord-7: #8fbcbb;
-  --color-nord-8: #88c0d0;
-  --color-nord-9: #81a1c1;
-  --color-nord-10: #5e81ac;
-  --color-nord-11: #bf616a;
-  --color-nord-12: #d08770;
-  --color-nord-13: #ebcb8b;
-  --color-nord-14: #a3be8c;
-  --color-nord-15: #b48ead;
 `;

@@ -5,8 +5,16 @@ import FeatherIcon from "../components/Icons";
 
 const ProjectTile = ({
   as: Component,
-  project: { name, summary, languages, repositoryUrl },
+  project: { name, summary, languages, repositoryUrl, website },
 }) => {
+  const mainLink = repositoryUrl || website;
+  const links = [{ repositoryUrl }, { website }];
+  console.log({ links });
+  const LINK_ICONS = {
+    repositoryUrl: "github",
+    website: "window",
+  };
+
   return (
     <Component
       key={name}
@@ -16,17 +24,24 @@ const ProjectTile = ({
         align-items: flex-start;
         position: relative;
         height: 100%;
-        padding: 2rem 1.75rem;
-        background-color: #2f3233;
+        padding: 1.25rem 1.75rem;
+        background-color: var(--tile-background-color);
+        border: var(--tile-border);
         border-radius: 4px;
-        box-shadow: 0 10px 30px -15px #131f23;
+        box-shadow: var(--tile-box-shadow);
         transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1) 0s,
           opacity 0.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0s,
           transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
         &:hover {
-          cursor: pointer;
+          cursor: ${mainLink ? "pointer" : "default"};
           transform: translateY(-8px);
-          h3 {
+          h3 a {
+            color: var(--color-teal-400);
+          }
+        }
+        a {
+          transition: all 0.25s ease-in;
+          &:hover {
             color: var(--color-teal-400);
           }
         }
@@ -36,6 +51,7 @@ const ProjectTile = ({
         css={css`
           display: flex;
           justify-content: space-between;
+          width: 100%;
           margin-bottom: 20px;
         `}
       >
@@ -48,31 +64,66 @@ const ProjectTile = ({
             key={`folder-${name}`}
           />
         </div>
-      </div>
-      <h3>
-        <a
-          href={repositoryUrl}
+        <div
           css={css`
-            text-decoration: none;
-            color: inherit;
-            &::before {
-              content: "";
-              position: absolute;
-              top: 0;
-              left: 0;
-              height: 100%;
-              width: 100%;
-            }
+            display: flex;
+            align-items: center;
           `}
         >
-          {name}
-        </a>
+          {links.map((link) => (
+            <a
+              key={`project-link-${Object.keys(link)[0]}`}
+              css={css`
+                position: relative;
+                z-index: 1;
+                padding: 5px 7px;
+                color: var(--tile-foreground-neutral);
+              `}
+              href={Object.values(link)[0]}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FeatherIcon
+                name={LINK_ICONS[Object.keys(link)[0]]}
+                size="1.5em"
+                title={`Go to ${Object.keys(link)[0]}`}
+                key={`${Object.keys(link)[0]}-logo`}
+              />
+            </a>
+          ))}
+        </div>
+      </div>
+      <h3>
+        {mainLink ? (
+          <a
+            href={mainLink}
+            title="Go to project repo"
+            css={css`
+              text-decoration: none;
+              color: inherit;
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+              }
+            `}
+          >
+            {name}
+          </a>
+        ) : (
+          name
+        )}
       </h3>
       <div>{summary}</div>
       {languages && (
         <ul
           css={css`
             list-style: none;
+            font-family: var(--code-font);
+            font-size: 0.75em;
             display: flex;
             flex-wrap: wrap;
             align-items: flex-end;
