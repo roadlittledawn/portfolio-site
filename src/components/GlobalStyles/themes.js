@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 
 export default css`
-  --tile-border-color: var(--color-neutrals-600);
   --border-color: var(--color-neutrals-400);
   .light-mode {
     --primary-background-color: var(--color-white);
@@ -25,6 +24,12 @@ export default css`
     --callout-caution-background-color: #fce9e935;
     --callout-important-background-color: #fff9cc30;
     --callout-tip-background-color: #d1f7d925;
+
+    --tile-background-color: var(--color-neutrals-050);
+    --tile-border: 1px solid var(--color-neutrals-300);
+    --tile-foreground-neutral: var(--color-neutrals-550);
+    --tile-foreground-contrast: var(--color-teal-400);
+    --tile-box-shadow: 0 10px 30px -15px var(--color-neutrals-600);
 
     input::placeholder {
       color: var(--color-neutrals-500);
@@ -58,6 +63,12 @@ export default css`
     --callout-caution-background-color: #1b000020;
     --callout-important-background-color: #14110020;
     --callout-tip-background-color: #02120020;
+
+    --tile-background-color: var(--color-neutrals-750);
+    --tile-border: 1px solid var(--color-neutrals-800);
+    --tile-foreground-neutral: var(--color-neutrals-550);
+    --tile-foreground-contrast: var(--color-teal-400);
+    --tile-box-shadow: 0 10px 30px -15px var(--color-neutrals-900);
 
     input::placeholder {
       color: var(--color-dark-500);

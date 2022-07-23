@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 import SEO from "../components/SEO";
 import MainLayout from "../layouts/MainLayout";
-import Tile from "../components/Tile";
+import ProjectTile from "../components/ProjectTile";
 
 import { siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
@@ -18,80 +18,23 @@ const ProjectsPage = ({ data }) => {
       <SEO title="Projects" />
       <MainLayout>
         <PageTitle>Projects</PageTitle>
-        <p>Lately, I&apos;ve been spending most my time on these projects:</p>
-        <div
-          css={css`
-            display: flex;
-            flex-wrap: wrap;
-            > * {
-              width: 25%;
-              min-width: 300px;
-            }
-            @media screen and (max-width: ${siteOptions.layout
-                .mobileBreakpoint}) {
-              flex-wrap: wrap;
-              > * {
-                width: 100%;
-              }
-            }
-          `}
-        >
-          {projects.map((project) => (
-            <>
-              <a
-                href={project.repositoryUrl}
-                css={css`
-                  text-decoration: none;
-                `}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Tile key={project.name}>
-                  <h2
-                    css={css`
-                      .dark-mode & {
-                        color: var(--color-neutrals-300);
-                      }
-                    `}
-                  >
-                    {project.name}
-                  </h2>
-                  <p
-                    css={css`
-                      color: var(--primary-text-color);
-                    `}
-                  >
-                    {project.summary}
-                  </p>
-                  <div
-                    css={css`
-                      display: flex;
-                      flex-wrap: wrap;
-                    `}
-                  >
-                    {project.languages.map((language) => (
-                      <span
-                        key={`${project.name}-${language}`}
-                        css={css`
-                          font-size: 0.75em;
-                          background-color: var(--color-neutrals-300);
-                          padding: 0.25em 0.75em;
-                          margin: 0.25em;
-
-                          .dark-mode & {
-                            background-color: var(--color-dark-300);
-                          }
-                        `}
-                      >
-                        {language}
-                      </span>
-                    ))}
-                  </div>
-                </Tile>
-              </a>
-            </>
-          ))}
-        </div>
+        <section>
+          <ul
+            css={css`
+              list-style: none;
+              padding: 0px;
+              margin: 50px 0px 0px;
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+              gap: 15px;
+              position: relative;
+            `}
+          >
+            {projects.map((project) => (
+              <ProjectTile project={project} key={project.name} />
+            ))}
+          </ul>
+        </section>
       </MainLayout>
     </>
   );
@@ -108,6 +51,7 @@ export const pageQuery = graphql`
         summary
         url
         repositoryUrl
+        website
         primaryLanguage
         languages
         name

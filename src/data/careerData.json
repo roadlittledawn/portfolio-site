@@ -243,6 +243,102 @@
       },
       "images": [],
       "videos": []
+    },
+    {
+      "name": "porfolio-site",
+      "description": "Gatsby site for all things me and software engineering.",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "portfolio-site",
+      "website": "https://clintonlangosch.com",
+      "summary": "Gatsby site for all things me and software engineering.",
+      "primaryLanguage": "JavaScript",
+      "languages": ["JavaScript", "HTML", "SCSS"],
+      "libraries": ["React.js"],
+      "githubUrl": "https://github.com/roadlittledawn/portfolio-site",
+      "repositoryUrl": "https://github.com/roadlittledawn/portfolio-site",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "wedding-website",
+      "description": "Gatsby frontend site wedding day info and to RSVP 🥂 🕺",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "wedding-website",
+      "website": "https://brie-clinton-wedding.com/",
+      "summary": "Gatsby frontend site wedding day info and to RSVP 🥂 🕺",
+      "primaryLanguage": "JavaScript",
+      "languages": ["JavaScript"],
+      "libraries": ["React.js"],
+      "githubUrl": "https://github.com/roadlittledawn/wedding-website",
+      "repositoryUrl": "https://github.com/roadlittledawn/wedding-website",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
+    },
+    {
+      "name": "wedding-website-rsvp-service",
+      "description": "Backend GraphQL API service to manage / store RSVP guest info in MongoDB.",
+      "url": "",
+      "highlights": [],
+      "keywords": [],
+      "roles": [],
+      "startDate": "",
+      "endDate": "",
+      "entity": "",
+      "type": "",
+      "displayName": "wedding-website-rsvp-service",
+      "website": "",
+      "summary": "Backend GraphQL API service to manage / store RSVP guest info in MongoDB.",
+      "primaryLanguage": "JavaScript",
+      "languages": ["JavaScript", "Node.js"],
+      "libraries": ["Apollo Server Express"],
+      "githubUrl": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
+      "repositoryUrl": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
+      "start": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "end": {
+        "year": null,
+        "month": null,
+        "day": null
+      },
+      "images": [],
+      "videos": []
     }
   ],
   "work": [
