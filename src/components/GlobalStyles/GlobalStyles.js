@@ -18,12 +18,11 @@ const GlobalStyles = ({ layout }) => (
         ${colors};
         ${typography};
         ${shadows};
+        ${themes}
 
         --site-max-width: ${layout.maxWidth};
         --site-content-padding: ${layout.contentPadding};
       }
-
-      ${themes}
 
       * {
         box-sizing: border-box;
