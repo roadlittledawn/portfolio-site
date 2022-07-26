@@ -74,7 +74,7 @@ const ResumePage = ({ data, location }) => {
             <div
               css={css`
                 max-width: 8.5in;
-                height: 11in;
+                height: 11.2in;
                 width: 100%;
                 padding: 0.1in;
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
