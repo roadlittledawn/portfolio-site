@@ -254,13 +254,8 @@ const renderContent = (data) => {
                   </h3>
                   <div className={styles.timeframe}>
                     {" "}
-                    {`${getNameOfMonth(gig.start.month)} ${
-                      gig.start.year
-                    }`}{" "}
-                    {`to`}{" "}
-                    {gig.isCurrentRole
-                      ? "Present"
-                      : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
+                    {gig.start.year} {`to`}{" "}
+                    {gig.isCurrentRole ? "Present" : gig.end.year}
                   </div>
                   <p>{gig.summary}</p>
                   <div>
