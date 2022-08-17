@@ -34,9 +34,6 @@ const calculateTimeBetweenDates = ({
 }) => {
   var a = moment(end);
   var b = moment(start);
-  // var b = moment([2020, 8, 1]);
-  // var a = moment([2022, 8, 1]);
-  console.log(a.diff(b, unit, returnFloat));
   return roundUp
     ? Math.ceil(a.diff(b, unit, returnFloat))
     : a.diff(b, unit, returnFloat);

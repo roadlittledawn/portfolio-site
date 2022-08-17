@@ -7,6 +7,18 @@ import PageTitle from "../components/PageTitle";
 import SEO from "../components/SEO";
 import { calculateTimeBetweenDates } from "../utils/time";
 import { pluralize } from "../utils/pluralize";
+import newRelicLogo from "../images/new-relic-logo.png";
+import Icon from "../components/Icons";
+
+const COMPANY_LOGOS = {
+  ["New Relic"]: {
+    src: newRelicLogo,
+  },
+  ["Freelance"]: {
+    src: null,
+    icon: <Icon name="briefcase" size="2em" strokeWidth={1} />,
+  },
+};
 
 const ExperiencePage = ({ data }) => {
   const {
@@ -35,6 +47,7 @@ const ExperiencePage = ({ data }) => {
                   : [new Date().getFullYear(), new Date().getMonth()],
                 returnFloat: true,
               });
+
               return (
                 <div
                   key={`gig-${index}`}
@@ -91,14 +104,60 @@ const ExperiencePage = ({ data }) => {
                   >
                     {pluralize(yearsOfService, "year")}
                   </div>
-                  <h2>{gig.position}</h2>
-                  <div>{gig.name}</div>
-                  <p>{gig.summary}</p>
-                  <ul>
-                    {gig.highlights.map((highlight, index) => (
-                      <li key={`highlight-${index}`}>{highlight}</li>
-                    ))}
-                  </ul>
+                  <div
+                    css={css`
+                      display: flex;
+                      flex-direction: row;
+                      flex-wrap: wrap;
+                      align-items: center;
+                      > * {
+                        margin: 0 0.25em;
+                      }
+                    `}
+                  >
+                    <div>
+                      {COMPANY_LOGOS[`${gig.name}`].src ? (
+                        <img
+                          src={COMPANY_LOGOS[`${gig.name}`].src}
+                          alt={`${gig.name} logo`}
+                          css={css`
+                            height: 2em;
+                          `}
+                        />
+                      ) : (
+                        <>{COMPANY_LOGOS[`${gig.name}`].icon}</>
+                      )}
+                    </div>
+                    <div
+                      css={css`
+                        font-size: 1em;
+                        font-weight: bold;
+                      `}
+                    >
+                      {gig.name}
+                    </div>
+                  </div>
+                  <h2
+                    css={css`
+                      font-size: 1em;
+                      font-weight: bold;
+                      margin: 0.5em 0 0.5em 0.5em;
+                    `}
+                  >
+                    {gig.position}
+                  </h2>
+                  <div
+                    css={css`
+                      margin: 0 0 0 0.5em;
+                    `}
+                  >
+                    <p>{gig.summary}</p>
+                    <ul>
+                      {gig.highlights.map((highlight, index) => (
+                        <li key={`highlight-${index}`}>{highlight}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               );
             })}
