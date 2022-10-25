@@ -81,7 +81,14 @@
       "yearsOfExperience": 10
     },
     {
-      "name": "CSS / SCSS",
+      "name": "CSS",
+      "level": "Advanced",
+      "keywords": [],
+      "rating": 4,
+      "yearsOfExperience": 10
+    },
+    {
+      "name": "Sass",
       "level": "Advanced",
       "keywords": [],
       "rating": 4,
@@ -103,6 +110,20 @@
     },
     {
       "name": "MongoDB",
+      "level": "Beginner",
+      "keywords": [],
+      "rating": 2,
+      "yearsOfExperience": 4
+    },
+    {
+      "name": "PostgreSQL",
+      "level": "Intermediate",
+      "keywords": [],
+      "rating": 2,
+      "yearsOfExperience": 3
+    },
+    {
+      "name": "Docker",
       "level": "Beginner",
       "keywords": [],
       "rating": 2,
@@ -350,9 +371,9 @@
       "url": "",
       "startDate": "2022-04-01",
       "endDate": "",
-      "summary": "Lead a team of engineers that powers sites / services around technical content, product documentation, and opensource projects to help customers onboard and get the most out of New Relic.",
+      "summary": "Lead a team of engineers develops the content tooling, sites, and services that power our open source docs / developer websites, as well as in-product help / onboarding content.",
       "highlights": [
-        "Work closely with product managers / key stakeholders to shape our roadmap, and manage / prioritize the backlog.",
+        "Work closely with product managers / key stakeholders to shape our roadmap, and manage / prioritize the team's work.",
         "Help plan and execute our work as a team to ship great experiences.",
         "Help engineers grow their career and do work they're proud of."
       ],

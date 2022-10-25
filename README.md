@@ -29,3 +29,7 @@ This portfolio site is built with Gatsby.js.
 
 - Dark mode: Add it for funsies
 - Update footer text
+
+# Icons
+
+Uses Feather icons and [devicons](https://devicon.dev/) for skills page.

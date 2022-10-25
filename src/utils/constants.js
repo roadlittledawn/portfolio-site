@@ -26,7 +26,7 @@ export const SKILL_RATINGS = {
 
 export const SKILL_CATEGORY = {
   HTML: "frontend",
-  "CSS / SCSS": "frontend",
+  CSS: "frontend",
   React: "frontend",
   Javascript: "frontend",
   GraphQL: "frontend",
@@ -35,4 +35,7 @@ export const SKILL_CATEGORY = {
   "Node.js": "backend",
   MongoDB: "backend",
   Apache: "backend",
+  PostgreSQL: "backend",
+  Docker: "backend",
+  Sass: "frontend",
 };
