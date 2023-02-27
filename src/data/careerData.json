@@ -170,6 +170,13 @@
       "rating": 4,
       "tags": ["frontend"],
       "yearsOfExperience": 4
+    },
+    {
+      "name": "Yarn",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools"],
+      "yearsOfExperience": 4
     }
   ],
   "projects": [
