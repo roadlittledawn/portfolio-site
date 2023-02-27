@@ -5,11 +5,10 @@ import SEO from "../components/SEO";
 import cx from "classnames";
 import { css } from "@emotion/react";
 import { SKILL_CATEGORY } from "../utils/constants";
-import { getNameOfMonth } from "../utils/time";
 import PageTitle from "../components/PageTitle";
 import MainLayout from "../layouts/MainLayout";
 import * as styles from "./Resume.module.scss";
-import resumePdfLink from "../files/resume-eng.pdf";
+import resumePdfLink from "../files/clinton-langosch-resume-eng.pdf";
 import FeatherIcon from "../components/Icons/FeatherIcon";
 
 const ResumePage = ({ data, location }) => {
