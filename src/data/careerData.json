@@ -41,93 +41,135 @@
     {
       "name": "React",
       "level": "Intermediate",
-      "keywords": [],
       "rating": 3,
+      "tags": ["frontend", "library"],
       "yearsOfExperience": 4
     },
     {
       "name": "Javascript",
       "level": "Advanced",
-      "keywords": [],
       "rating": 4,
+      "tags": ["frontend"],
       "yearsOfExperience": 4
     },
     {
       "name": "Apache",
       "level": "Beginner",
-      "keywords": [],
       "rating": 2,
+      "tags": ["backend"],
       "yearsOfExperience": 7
     },
     {
       "name": "GraphQL",
       "level": "Intermediate",
-      "keywords": [],
       "rating": 3,
+      "tags": ["frontend", "backend"],
       "yearsOfExperience": 3
     },
     {
       "name": "PHP",
       "level": "Intermediate",
-      "keywords": [],
       "rating": 3,
+      "tags": ["backend"],
       "yearsOfExperience": 10
     },
     {
       "name": "HTML",
       "level": "Expert",
-      "keywords": [],
       "rating": 5,
+      "tags": ["frontend", "markup"],
       "yearsOfExperience": 10
     },
     {
       "name": "CSS",
       "level": "Advanced",
-      "keywords": [],
       "rating": 4,
+      "tags": ["frontend"],
       "yearsOfExperience": 10
     },
     {
       "name": "Sass",
       "level": "Advanced",
-      "keywords": [],
       "rating": 4,
+      "tags": ["frontend"],
       "yearsOfExperience": 10
     },
     {
       "name": "Node.js",
       "level": "Advanced",
-      "keywords": [],
       "rating": 4,
+      "tags": ["backend"],
       "yearsOfExperience": 1
     },
     {
       "name": "MySQL",
       "level": "Intermediate",
-      "keywords": [],
       "rating": 3,
+      "tags": ["backend", "database"],
       "yearsOfExperience": 10
     },
     {
       "name": "MongoDB",
       "level": "Beginner",
-      "keywords": [],
       "rating": 2,
+      "tags": ["backend", "database"],
       "yearsOfExperience": 4
     },
     {
       "name": "PostgreSQL",
       "level": "Intermediate",
-      "keywords": [],
       "rating": 2,
+      "tags": ["backend", "database"],
       "yearsOfExperience": 3
     },
     {
       "name": "Docker",
       "level": "Beginner",
-      "keywords": [],
       "rating": 2,
+      "tags": ["backend", "tools"],
       "yearsOfExperience": 3
+    },
+    {
+      "name": "Gatsby",
+      "level": "Advanced",
+      "rating": 5,
+      "tags": ["frontend", "framework", "javascript", "react", "node"],
+      "yearsOfExperience": 4
+    },
+    {
+      "name": "Git",
+      "level": "Advanced",
+      "rating": 4,
+      "tags": ["backend", "tools"],
+      "yearsOfExperience": 7
+    },
+    {
+      "name": "Jest",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools", "testing"],
+      "yearsOfExperience": 3
+    },
+    {
+      "name": "Next.js",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["frontend", "framework", "javascript", "react", "node"],
+      "yearsOfExperience": 4
+    },
+    {
+      "name": "NPM",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["tools"],
+      "yearsOfExperience": 4
+    },
+    {
+      "name": "Typescript",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["frontend"],
+      "yearsOfExperience": 4
     }
   ],
   "projects": [
