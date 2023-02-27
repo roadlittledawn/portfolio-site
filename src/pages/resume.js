@@ -133,9 +133,7 @@ const renderContent = (data) => {
                 <h4>Front-end</h4>
                 <ul className={styles.skillsList}>
                   {skills
-                    .filter(
-                      (skill) => SKILL_CATEGORY[skill.name] === "frontend"
-                    )
+                    .filter((skill) => skill.tags.includes("frontend"))
                     .sort((a, b) => a.name > b.name)
                     .map((skill) => (
                       <li key={skill.name}>{skill.name}</li>
@@ -145,7 +143,17 @@ const renderContent = (data) => {
                 <h4>Back-end</h4>
                 <ul className={styles.skillsList}>
                   {skills
-                    .filter((skill) => SKILL_CATEGORY[skill.name] === "backend")
+                    .filter((skill) => skill.tags.includes("backend"))
+                    .sort((a, b) => a.name > b.name)
+                    .map((skill) => (
+                      <li key={skill.name}>{skill.name}</li>
+                    ))}
+                </ul>
+
+                <h4>Tools</h4>
+                <ul className={styles.skillsList}>
+                  {skills
+                    .filter((skill) => skill.tags.includes("tools"))
                     .sort((a, b) => a.name > b.name)
                     .map((skill) => (
                       <li key={skill.name}>{skill.name}</li>
@@ -298,6 +306,7 @@ export const pageQuery = graphql`
         level
         rating
         yearsOfExperience
+        tags
       }
     }
     allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
