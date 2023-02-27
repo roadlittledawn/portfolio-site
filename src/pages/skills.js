@@ -237,6 +237,7 @@ export const pageQuery = graphql`
         rating
         name
         level
+        tags
       }
     }
   }

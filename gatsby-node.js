@@ -44,6 +44,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       level: String
       rating: Int
       yearsOfExperience: Int
+      tags: [String]
     }
     type Projects implements Node {
       name: String!
@@ -103,13 +104,14 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
     },
   });
 
-  skills.map(({ name, level, rating, yearsOfExperience }, idx) => {
+  skills.map(({ name, level, rating, yearsOfExperience, tags }, idx) => {
     const id = createNodeId(`${idx}-${name}`);
     const data = {
       name,
       level,
       rating,
       yearsOfExperience,
+      tags,
     };
     createNode({
       ...data,
