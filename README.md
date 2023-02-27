@@ -2,9 +2,15 @@
 
 # Hi, I'm Clinton 👋
 
+# Site tech
+
 This is the repo for all professional things Clinton. My site is built with [Gatsby](https://www.gatsbyjs.com/) and deployed via [Netlify](https://www.netlify.com/).
 
 The design is my own, cobbled together from various patterns / designs in recent projects.
+
+I use [Feather](https://feathericons.com/) and [Devicon](https://devicon.dev/) for icons.
+
+Site logo was made my [Matt Morris-Cook](https://www.linkedin.com/in/mmc-resume/) (aka, MMC || Cookie).
 
 # Run locally
 
