@@ -23,19 +23,3 @@ export const SKILL_RATINGS = {
     },
   },
 };
-
-export const SKILL_CATEGORY = {
-  HTML: "frontend",
-  CSS: "frontend",
-  React: "frontend",
-  Javascript: "frontend",
-  GraphQL: "frontend",
-  PHP: "backend",
-  MySQL: "backend",
-  "Node.js": "backend",
-  MongoDB: "backend",
-  Apache: "backend",
-  PostgreSQL: "backend",
-  Docker: "backend",
-  Sass: "frontend",
-};
