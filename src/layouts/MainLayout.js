@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
-import { useMedia } from "react-use";
 import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
 
