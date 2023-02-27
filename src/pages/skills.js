@@ -6,7 +6,7 @@ import { css } from "@emotion/react";
 import MainLayout from "../layouts/MainLayout";
 import Tile from "../components/Tile";
 import Icon from "../components/Icons";
-import { SKILL_CATEGORY, SKILL_RATINGS, siteOptions } from "../utils/constants";
+import { SKILL_RATINGS, siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 import SEO from "../components/SEO";
 
@@ -26,7 +26,7 @@ const filterByCategory = (category) => (skill) => {
   if (!category || category === "all") {
     return true;
   }
-  return SKILL_CATEGORY[skill.name] === category;
+  return skill.tags.includes(category);
 };
 
 const SkillsPageFilterable = ({ data, location }) => {
@@ -160,6 +160,8 @@ const SkillsPageFilterable = ({ data, location }) => {
               <option value="all">All the things</option>
               <option value="frontend">Front end</option>
               <option value="backend">Back end</option>
+              <option value="database">Databases</option>
+              <option value="tools">Tools</option>
             </select>
           </div>
         </div>
