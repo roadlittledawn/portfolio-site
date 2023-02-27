@@ -168,7 +168,7 @@ const SkillsPageFilterable = ({ data, location }) => {
         <div
           css={css`
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             grid-gap: 1rem;
           `}
         >
@@ -217,7 +217,7 @@ const SkillsPageFilterable = ({ data, location }) => {
                       size="2.5em"
                     />
                   </div>
-                  <div>{skill.name}</div>
+                  <p>{skill.name}</p>
                 </Tile>
               ))}
         </div>

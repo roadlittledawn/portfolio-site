@@ -27,7 +27,7 @@ const Tile = ({ children, icon, className }) => {
         margin: 1em;
         color: currentColor;
         position: relative;
-        min-height: 100px;
+        min-height: 75px;
         border: 1px solid var(--color-neutrals-600);
         background: var(--primary-background-color);
         border-radius: 0.25rem;
