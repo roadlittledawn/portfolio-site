@@ -1,35 +1,28 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/784104a7-d750-4a1a-b38f-17308981182b/deploy-status)](https://app.netlify.com/sites/clintonlangosch/deploys)
 
-This portfolio site is built with Gatsby.js.
+# Hi, I'm Clinton 👋
 
-# TODO
+This is the repo for all professional things Clinton. My site is built with [Gatsby](https://www.gatsbyjs.com/) and deployed via [Netlify](https://www.netlify.com/).
 
-## Mobile Nav
+The design is my own, cobbled together from various patterns / designs in recent projects.
 
-- Improve open/close animation
+# Run locally
 
-## Home page
+Requirements to run locally:
 
-- Add more info
+- Node.js version 16 or higher
+- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
 
-## Projects page
+To run locally:
 
-- Add project cards
-- Get git data on projects with recent / most commits in given time frame?
+1. Clone the repo.
+2. Run `yarn`.
+3. Run local development server via `yarn start`.
 
-## Skills
+# Generate resume PDF
 
-- Add tools / processes data, then tile
+Repo contains a workflow that can automatically generate resume PDF. Currently only works by hitting production resume page.
 
-## Experience
+# Sync career data
 
-- set sort on jobs
-
-## Misc
-
-- Dark mode: Add it for funsies
-- Update footer text
-
-# Icons
-
-Uses Feather icons and [devicons](https://devicon.dev/) for skills page.
+Repo contains a script to sync career data. This is vestigal from when career data was housed in gitconnected. I kept it around because there's a chance I create my own API to serve it. Until then, data is kept in the repo.
