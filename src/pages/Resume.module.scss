@@ -224,10 +224,11 @@ $mobile-breakpoint: 500px;
   }
 
   .skills-list li {
-    padding: 0.5em;
+    padding: 0.35em 0.75em;
     border: solid 1px var(--color-teal-300);
     border-radius: 10px;
     margin: 0.25em;
+    height: 2.25em;
   }
 
   .social-container > *:not(h2) {

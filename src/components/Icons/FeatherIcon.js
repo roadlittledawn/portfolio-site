@@ -41,7 +41,6 @@ const FeatherIcon = ({
       </svg>
     );
   }
-
   if (svgIcon) {
     return (
       <svg
@@ -58,7 +57,30 @@ const FeatherIcon = ({
     );
   }
 
-  throw new Error(`Icon: ${name} did not match a known icon`);
+  // By default, if no known icon show generic code brackets
+  return (
+    <svg
+      {...props}
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      css={css`
+        width: ${size};
+        height: ${size};
+        fill: none;
+        stroke: ${strokeColor || "currentColor"};
+        stroke-width: ${strokeWidth || 2};
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      `}
+    >
+      {title && <title>{title}</title>}
+      {defs && <defs>{defs}</defs>}
+      {featherIcons["code"]}
+    </svg>
+  );
+
+  // throw new Error(`Icon: ${name} did not match a known icon`);
 };
 
 FeatherIcon.propTypes = {
