@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
-
+import Hamburger from "../components/Hamburger";
 import MobileNav from "../components/MobileNav";
 
 import { css } from "@emotion/react";
@@ -25,10 +25,6 @@ const MainLayout = ({ children }) => {
     }
   `);
 
-  // useEffect(() => {
-  //   setIsMobileNavOpen(false);
-  // }, [location.pathname]);
-
   return (
     <>
       <div
@@ -40,11 +36,14 @@ const MainLayout = ({ children }) => {
         `}
       >
         <Header profiles={profiles} />
-        <MobileNav profiles={profiles} />
+        <Hamburger
+          open={isMobileNavOpen}
+          onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
+        />
+        <MobileNav open={isMobileNavOpen} profiles={profiles} />
         <Layout>
           <Layout.Main
             css={css`
-              display: ${isMobileNavOpen ? "none" : "block"};
               > section {
                 @media screen and (max-width: 980px) {
                   flex-wrap: wrap;
