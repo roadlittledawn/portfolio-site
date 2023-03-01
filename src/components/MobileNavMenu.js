@@ -7,23 +7,17 @@ import FeatherIcon from "./Icons/FeatherIcon";
 import { SOCIAL_ICON_NAMES } from "../utils/constants";
 import DarkModeToggle from "./DarkModeToggle";
 
-const MobileNavMenu = ({ open, profiles }) => {
+const MobileNavMenu = ({ profiles }) => {
   return (
     <nav
       css={css`
-        z-index: 500;
-        display: ${open ? "flex" : "none"};
+        display: flex;
         flex-direction: column;
         justify-content: center;
         background-color: var(--color-teal-100);
-        /* transform: ${open ? "translateX(0)" : "translateX(100%)"}; */
         height: 100vh;
         text-align: left;
         padding: 2rem;
-        position: absolute;
-        top: 0;
-        right: 0;
-        /* transition: transformm 0.3s ease-in-out; */
 
         @media (max-width: 576px) {
           width: 100%;
@@ -100,7 +94,6 @@ const MobileNavMenu = ({ open, profiles }) => {
 };
 
 MobileNavMenu.propTypes = {
-  open: PropTypes.bool,
   profiles: PropTypes.arrayOf(PropTypes.object),
 };
 
