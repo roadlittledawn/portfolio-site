@@ -19,7 +19,7 @@ const Hamburger = ({ open, onClick }) => {
         border: none;
         cursor: pointer;
         padding: 0;
-        z-index: 550;
+        z-index: 999;
 
         &:focus {
           outline: none;

@@ -1,38 +1,26 @@
 import PropTypes from "prop-types";
-import React, { useState, useRef } from "react";
+import React from "react";
 import { css } from "@emotion/react";
-import Hamburger from "./Hamburger";
 import MobileNavMenu from "./MobileNavMenu";
-import DarkModeToggle from "./DarkModeToggle";
-import { siteOptions } from "../utils/constants";
 
-const MobileNav = ({ profiles }) => {
-  const [open, setOpen] = useState(false);
-  const mobileNavRef = useRef();
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     if (!ref.current || ref.current.contains(event.target)) {
-  //       return;
-  //     }
-  //     handler(event);
-  //   };
-  //   document.addEventListener("mousedown", listener);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", listener);
-  //   };
-  // });
+const MobileNav = ({ profiles, open }) => {
   return (
     <div
-      ref={mobileNavRef}
       css={css`
-        display: none;
-        @media screen and (max-width: ${siteOptions.layout.mobileBreakpoint}) {
-          display: block;
-        }
+        z-index: ${open ? 998 : 500};
+        opacity: ${open ? 1 : 0};
+        visibility: ${open ? "shown" : "hidden"};
+        transform: ${open ? "translateX(0)" : "translateX(100%)"};
+        transition: visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
+          opacity 0.3s ease-in-out;
+        height: 100vh;
+        position: fixed;
+        inset: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
       `}
     >
-      <Hamburger open={open} onClick={() => setOpen(!open)} />
       <MobileNavMenu open={open} profiles={profiles} />
     </div>
   );
@@ -40,6 +28,7 @@ const MobileNav = ({ profiles }) => {
 
 MobileNav.propTypes = {
   profiles: PropTypes.arrayOf(PropTypes.object),
+  open: PropTypes.bool,
 };
 
 export default MobileNav;
