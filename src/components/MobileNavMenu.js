@@ -26,6 +26,7 @@ const MobileNavMenu = ({ profiles }) => {
         a {
           font-size: 2rem;
           text-transform: uppercase;
+          text-align: center;
           padding: 2rem 0;
           font-weight: bold;
           letter-spacing: 0.5rem;

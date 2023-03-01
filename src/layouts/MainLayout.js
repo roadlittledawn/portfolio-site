@@ -5,11 +5,12 @@ import Layout from "../components/Layout/Layout";
 import Header from "../components/Header";
 import Hamburger from "../components/Hamburger";
 import MobileNav from "../components/MobileNav";
-
 import { css } from "@emotion/react";
+import { siteOptions } from "../utils/constants";
 
 const MainLayout = ({ children }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const { layout } = siteOptions;
 
   const {
     basics: { profiles },
@@ -37,6 +38,12 @@ const MainLayout = ({ children }) => {
       >
         <Header profiles={profiles} />
         <Hamburger
+          css={css`
+            display: none;
+            @media screen and (max-width: ${layout.mobileBreakpoint}) {
+              display: flex;
+            }
+          `}
           open={isMobileNavOpen}
           onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
         />
