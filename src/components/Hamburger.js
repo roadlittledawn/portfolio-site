@@ -2,15 +2,16 @@ import PropTypes from "prop-types";
 import React from "react";
 import { css } from "@emotion/react";
 
-const Hamburger = ({ open, onClick }) => {
+const Hamburger = ({ open, onClick, className }) => {
   return (
     <button
       onClick={onClick}
+      className={className}
       css={css`
         position: absolute;
         top: 30px;
         right: 2rem;
-        display: flex;
+        /* display: flex; */
         flex-direction: column;
         justify-content: space-around;
         width: 2rem;
@@ -65,6 +66,7 @@ const Hamburger = ({ open, onClick }) => {
 Hamburger.propTypes = {
   open: PropTypes.bool,
   onClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default Hamburger;
