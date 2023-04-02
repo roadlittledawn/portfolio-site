@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Clinton Langosch",
-    "label": "Software Engineer | @newrelic",
+    "label": "Software Engineering Manager | @newrelic",
     "image": "https://avatars3.githubusercontent.com/u/2952843?v=4",
     "email": "clinton.langosch@gmail.com",
     "phone": "",
     "url": "https://clintonlangosch.com",
-    "summary": "Software engineering leader with a full-stack background who ships a team these days instead of a product.",
+    "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
     "profiles": [
       {
         "network": "gitconnected",
@@ -418,13 +418,12 @@
       "description": "",
       "position": "Manager, Software Engineering",
       "url": "",
-      "startDate": "2022-04-01",
-      "endDate": "",
-      "summary": "Lead a team of engineers develops the content tooling, sites, and services that power our open source docs / developer websites, as well as in-product help / onboarding content.",
+      "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source docs / developer websites, as well as in-product help / onboarding content.",
       "highlights": [
-        "Work closely with product managers / key stakeholders to shape our roadmap, and manage / prioritize the team's work.",
-        "Help plan and execute our work as a team to ship great experiences.",
-        "Help engineers grow their career and do work they're proud of."
+        "Lead and participate in system design and architecture planning.",
+        "Establish and track team health, system health, and key business metrics to ensure team success.",
+        "Work closely with product managers / leadership / key stakeholders to shape our roadmap, and manage / prioritize the team's work.",
+        "Coach and support engineers to grow their career, take ownership of their work, and do work they're proud of."
       ],
       "isCurrentRole": true,
       "start": {
@@ -441,39 +440,13 @@
       "description": "",
       "position": "Software Engineer",
       "url": "",
-      "startDate": "2020-08-01",
-      "endDate": "2022-03-31",
-      "summary": "Develop sites and services around technical content, product documentation, and opensource projects to enable developers to get the most out of our product.",
+      "summary": "Develop and maintain sites, services, and content tooling to help New Relic's customers onboard and get the most out of the product. Served on and helped lead various teams such as Developer Experience, Developer Enablement, UX Product Language. Served in various orgs such as Growth - User Lifecycle, User Experience Platform, and Experience Design.",
       "highlights": [
-        "Serve as technical product manager to help develop roadmap and provide technical input into strategic decisions, prioritize backlog, prototype, scope and plan upcoming work,",
-        "Develop services we call 'Docs as a Service' to empower authors to surface help content in our product UI.",
-        "Migrate from large Drupal site to open sourced GitHub + React (Gatsby) static site."
-      ],
-      "isCurrentRole": false,
-      "start": {
-        "year": 2020,
-        "month": 8
-      },
-      "end": {
-        "year": 2022,
-        "month": 3
-      },
-      "company": "New Relic",
-      "website": ""
-    },
-    {
-      "name": "New Relic",
-      "location": "Portland, OR",
-      "description": "",
-      "position": "Software Engineer",
-      "url": "",
-      "startDate": "2017-10-01",
-      "endDate": "2020-08-01",
-      "summary": "Develop Drupal-based content management system on front and back end.",
-      "highlights": [
-        "Lead 'Docs as a Service' initaitive to build out REST API / JSON resources to enable other teams to integrate with our site and our product UI.",
-        "Develop prototype of product UI component in React to surface search results from disparate sites.",
-        "Develop integration to translate site in Japanese."
+        "Provide technical input into roadmap planning, prioritize backlog, prototype, scope and plan upcoming work.",
+        "Maintain and grow open source content contributor system from 400+ contributors.",
+        "Improve internationalization system to scale reliably and to support adding full coverage of an additional language in days with machine translation.",
+        "Develop new sites, product UI views, and system to support an program called Instant Observability (collection of quickstart bundles for users to start monitoring their software quickly).",
+        "Migrate Drupal site to Gatsby + Github based system with automation for internationalization, syncing content via various services to New Relic's product UI."
       ],
       "isCurrentRole": false,
       "start": {
@@ -481,8 +454,8 @@
         "month": 10
       },
       "end": {
-        "year": 2020,
-        "month": 8
+        "year": 2022,
+        "month": 3
       },
       "company": "New Relic",
       "website": ""
@@ -493,8 +466,6 @@
       "description": "",
       "position": "Software Engineer",
       "url": "",
-      "startDate": "2020-08-01",
-      "endDate": "",
       "summary": "Develop WordPress and custom PHP sites for various clients for marketing, portfolios, project management needs.",
       "highlights": [],
       "isCurrentRole": false,
