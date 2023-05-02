@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { css } from "@emotion/react";
 import MobileNavMenu from "./MobileNavMenu";
 
 const MobileNav = ({ profiles, open }) => {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [open]);
   return (
     <div
       css={css`
