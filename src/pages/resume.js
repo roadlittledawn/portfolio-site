@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import SEO from "../components/SEO";
 import cx from "classnames";
 import { css } from "@emotion/react";
-import { SKILL_CATEGORY } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 import MainLayout from "../layouts/MainLayout";
 import * as styles from "./Resume.module.scss";
@@ -238,8 +237,8 @@ const renderContent = (data) => {
                       />
                     </svg>
                   </span>
-                  <a href="mailto:clinton.langosch@gmail.com">
-                    clinton.langosch@gmail.com
+                  <a href="mailto:clinton.langosch.prof@gmail.com">
+                    clinton.langosch.prof@gmail.com
                   </a>
                 </div>
               </div>
