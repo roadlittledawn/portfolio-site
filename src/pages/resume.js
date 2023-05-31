@@ -262,8 +262,8 @@ const renderContent = (data) => {
                       />
                     </svg>
                   </span>
-                  <a href="mailto:clinton.langosch@gmail.com">
-                    clinton.langosch@gmail.com
+                  <a href="mailto:clinton.langosch.prof@gmail.com">
+                    clinton.langosch.prof@gmail.com
                   </a>
                 </div>
               </div>
