@@ -162,7 +162,7 @@ const renderContent = (data) => {
               </div>
 
               <div>
-                <h2>Education</h2>
+                <h2>education</h2>
                 {education.map((ed) => (
                   <>
                     <p>{ed.name}</p>
