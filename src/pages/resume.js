@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import SEO from "../components/SEO";
 import cx from "classnames";
 import { css } from "@emotion/react";
-import { SKILL_CATEGORY } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 import MainLayout from "../layouts/MainLayout";
 import * as styles from "./Resume.module.scss";
@@ -100,6 +99,7 @@ const renderContent = (data) => {
     basics,
     allSkills: { nodes: skills },
     allWork: { nodes: workHistory },
+    allEducation: { nodes: education },
   } = data;
   return (
     <>
@@ -161,8 +161,32 @@ const renderContent = (data) => {
                 </ul>
               </div>
 
+              <div>
+                <h2>Education</h2>
+                {education.map((ed) => (
+                  <>
+                    <p>{ed.name}</p>
+                    <p>Graduated: {ed.yearOfGraduation}</p>
+                    <p>Degree: {ed.degree}</p>
+                  </>
+                ))}
+              </div>
+
               <div className={styles.socialContainer}>
                 <h2>contact</h2>
+
+                <div>
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      className={styles.socialIcon}
+                    >
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </span>
+                  {basics.phone}
+                </div>
 
                 <div>
                   <span>
@@ -238,8 +262,8 @@ const renderContent = (data) => {
                       />
                     </svg>
                   </span>
-                  <a href="mailto:clinton.langosch@gmail.com">
-                    clinton.langosch@gmail.com
+                  <a href="mailto:clinton.langosch.prof@gmail.com">
+                    clinton.langosch.prof@gmail.com
                   </a>
                 </div>
               </div>
@@ -294,6 +318,7 @@ export const pageQuery = graphql`
     basics {
       summary
       image
+      phone
       profiles {
         network
         url
@@ -325,6 +350,13 @@ export const pageQuery = graphql`
         highlights
         name
         position
+      }
+    }
+    allEducation {
+      nodes {
+        name
+        degree
+        yearOfGraduation
       }
     }
   }
