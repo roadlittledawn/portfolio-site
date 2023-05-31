@@ -3,6 +3,7 @@ const {
   projects,
   basics,
   work,
+  education,
 } = require("./src/data/careerData.json");
 
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -26,6 +27,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       name: String!
       label: String
       email: String
+      phone: String
       summary: String
       profiles: [Profile]
       headline: String
@@ -69,6 +71,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       end: DateObject
       company: String
     }
+    type Education implements Node {
+      name: String!
+      degree: String
+      yearOfGraduation: Int
+    }
     type DateObject {
       year: Int
       month: Int
@@ -84,6 +91,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
     name,
     label,
     email,
+    phone,
     summary,
     profiles,
     headline,
@@ -204,4 +212,22 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
       });
     }
   );
+  education.map(({ name, degree, yearOfGraduation }, idx) => {
+    const id = createNodeId(`${idx}-${name}`);
+    const data = {
+      name,
+      degree,
+      yearOfGraduation,
+    };
+    createNode({
+      ...data,
+      id,
+      parent: null,
+      children: [],
+      internal: {
+        type: "Education",
+        contentDigest: createContentDigest(data),
+      },
+    });
+  });
 };
