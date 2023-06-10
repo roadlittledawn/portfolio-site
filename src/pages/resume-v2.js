@@ -1,0 +1,222 @@
+import PropTypes from "prop-types";
+import { graphql, Link } from "gatsby";
+import React, { useEffect, useState } from "react";
+import SEO from "../components/SEO";
+import cx from "classnames";
+import { css } from "@emotion/react";
+import PageTitle from "../components/PageTitle";
+import MainLayout from "../layouts/MainLayout";
+import * as styles from "./Resume2.module.scss";
+import resumePdfLink from "../files/clinton-langosch-resume-eng.pdf";
+import FeatherIcon from "../components/Icons/FeatherIcon";
+
+const ResumePage = ({ data, location }) => {
+  const [isEmbed, setIsEmbed] = useState(0);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    setIsEmbed(queryParams.get("embed") === "true");
+  }, [location.search]);
+
+  return (
+    <>
+      {isEmbed ? (
+        <div
+          css={css`
+            height: 100vh;
+          `}
+        >
+          {renderContent(data)}
+        </div>
+      ) : (
+        <>
+          <SEO title="Resume" />
+          <MainLayout>
+            <PageTitle>Resume</PageTitle>
+            <div
+              css={css`
+                margin: 0 auto;
+                max-width: 8.5in;
+                height: 11.2in;
+                width: 100%;
+              `}
+            >
+              <div
+                css={css`
+                  margin: 1em 0;
+                  display: flex;
+                  justify-content: flex-end;
+                `}
+              >
+                <Link
+                  to={resumePdfLink}
+                  css={css`
+                    border: 1px solid transparent;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    padding: 0.5em 1em;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    :hover {
+                      color: var(--color-teal-700);
+                      border: 1px solid var(--color-teal-300);
+                      background-color: var(--color-teal-300);
+                      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                        0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                        0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                    }
+                  `}
+                >
+                  <FeatherIcon
+                    name="save"
+                    size="1em"
+                    css={css`
+                      margin: 0 0.5em 4px 0;
+                    `}
+                  />{" "}
+                  Save as PDF or Print
+                </Link>
+              </div>
+              <div
+                css={css`
+                  padding: 0.1in;
+                  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                  .dark-mode & {
+                    border: 1px solid var(--color-neutrals-400);
+                    box-shadow: 0 5px 10px #70ccd370;
+                  }
+                  @media screen and (max-width: 600px) {
+                    height: auto;
+                  }
+                `}
+              >
+                {renderContent(data)}
+              </div>
+            </div>
+          </MainLayout>
+        </>
+      )}
+    </>
+  );
+};
+
+const renderContent = (data) => {
+  const {
+    basics,
+    allSkills: { nodes: skills },
+    allWork: { nodes: workHistory },
+    allEducation: { nodes: education },
+  } = data;
+  return (
+    <>
+      <div className={styles.resumeBody}>
+        <div className={styles.header}>
+          <h1>{basics.name}</h1>
+          <ul className={styles.listHorizontal}>
+            <li>{basics.email}</li>
+            <li>{basics.phone}</li>
+            <li>{basics.locationAsString}</li>
+          </ul>
+          <ul className={styles.listHorizontal}>
+            {basics.profiles.map((profile) => (
+              <li key={profile.network}>
+                <a href={profile.url}>{profile.network}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <h2>{basics.label}</h2>
+
+        <div
+          dangerouslySetInnerHTML={{ __html: basics.positioningStatement }}
+        ></div>
+
+        <h2>Experience</h2>
+        <ul>
+          {workHistory.map((gig, idx) => (
+            <li key={`gig-${idx}`}>
+              <div
+                css={css`
+                  display: flex;
+                `}
+              >
+                <div>
+                  {gig.name} - {gig.location}
+                </div>
+                <div>
+                  {gig.start.month} / {gig.start.year} -{" "}
+                  {gig.isCurrentRole
+                    ? "Present"
+                    : `${gig.end.month} / ${gig.end.year}`}
+                </div>
+              </div>
+              <div>{gig.position}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+};
+
+ResumePage.propTypes = {
+  data: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+};
+
+export const pageQuery = graphql`
+  query {
+    basics {
+      name
+      email
+      locationAsString
+      positioningStatement
+      label
+      image
+      phone
+      profiles {
+        network
+        url
+        username
+      }
+    }
+    allSkills {
+      nodes {
+        name
+        level
+        rating
+        yearsOfExperience
+        tags
+      }
+    }
+    allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
+      nodes {
+        summary
+        isCurrentRole
+        company
+        location
+        start {
+          month
+          year
+        }
+        end {
+          month
+          year
+        }
+        highlights
+        name
+        position
+      }
+    }
+    allEducation {
+      nodes {
+        name
+        degree
+        yearOfGraduation
+      }
+    }
+  }
+`;
+
+export default ResumePage;

@@ -1,18 +1,14 @@
 {
   "basics": {
     "name": "Clinton Langosch",
-    "label": "Software Engineering Manager | @newrelic",
+    "label": "Software Engineering Manager",
     "image": "https://avatars3.githubusercontent.com/u/2952843?v=4",
     "email": "clinton.langosch@gmail.com",
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
+    "positioningStatement": "<p>Statment para</p><p>Statement para2</p>",
     "profiles": [
-      {
-        "network": "gitconnected",
-        "username": "roadlittledawn",
-        "url": "https://gitconnected.com/roadlittledawn"
-      },
       {
         "network": "GitHub",
         "username": "roadlittledawn",
@@ -414,7 +410,7 @@
   "work": [
     {
       "name": "New Relic",
-      "location": "Portland, OR",
+      "location": "Remote (Portland, OR)",
       "description": "",
       "position": "Manager, Software Engineering",
       "url": "",

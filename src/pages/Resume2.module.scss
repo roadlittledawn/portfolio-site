@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300&family=Julius+Sans+One&display=swap");
+
+$mobile-breakpoint: 500px;
+
+.resumeBody {
+  --color-teal-600: #006c75;
+  --color-gray-100: #c8c9ca;
+  --color-gray-200: #919394;
+  --color-gray-400: #656869;
+  --color-gray-700: #232728;
+  --color-dark-700: #a5bbbd;
+
+  --font-family-base: sans-serif;
+  --font-family-headings: "Josefin Sans", sans-serif;
+
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: 12px;
+  color: var(--color-gray-700);
+  height: 100%;
+
+  h1,
+  h2 {
+    font-family: var(--font-family-headings);
+    color: var(--color-gray-700);
+  }
+
+  h1 {
+    font-size: 3.75em;
+  }
+
+  h1 span:first-of-type {
+    font-weight: lighter;
+  }
+
+  h2 {
+    font-size: 2em;
+    margin: 0 0 1em 0;
+  }
+
+  h3 {
+    font-size: 1.15em;
+    font-weight: lighter;
+    margin: 0.5em 0 0 0;
+    color: var(--color-gray-700);
+  }
+
+  h4 {
+    margin: 0.5em 0 0 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--color-teal-600);
+  }
+
+  p {
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+  }
+
+  .center-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .header {
+    margin: 2em 0;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+  }
+
+  .listHorizontal {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+
+    li {
+      margin: 0 1em;
+      &:after {
+        content: " | ";
+      }
+    }
+  }
+}

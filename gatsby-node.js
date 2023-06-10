@@ -62,6 +62,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Work implements Node {
       name: String!
       position: String
+      location: String
       startDate: String
       endDate: String
       summary: String
@@ -176,6 +177,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
       {
         name,
         position,
+        location,
         startDate,
         endDate,
         summary,
@@ -191,6 +193,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
       const data = {
         name,
         position,
+        location,
         startDate,
         endDate,
         summary,
