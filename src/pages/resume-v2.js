@@ -110,6 +110,8 @@ const renderContent = (data) => {
   return (
     <>
       <div className={styles.resumeBody}>
+        <hr className={styles.mediumThickness} />
+        <hr />
         <div className={styles.header}>
           <h1>{basics.name}</h1>
           <ul className={styles.listHorizontal}>
@@ -126,35 +128,95 @@ const renderContent = (data) => {
           </ul>
         </div>
 
+        <hr />
+        <hr className={styles.mediumThickness} />
+
         <h2>{basics.label}</h2>
+
+        <div className={cx(styles.flex, styles.justifySpaceBetween)}>
+          <h3>Front-end</h3>
+          <div>
+            <ul className={styles.skillsList}>
+              {skills
+                .filter((skill) => skill.tags.includes("frontend"))
+                .sort((a, b) => a.name > b.name)
+                .map((skill) => (
+                  <li key={skill.name}>{skill.name}</li>
+                ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className={cx(styles.flex, styles.justifySpaceBetween)}>
+          <h3>Back-end</h3>
+          <div>
+            <ul className={styles.skillsList}>
+              {skills
+                .filter((skill) => skill.tags.includes("backend"))
+                .sort((a, b) => a.name > b.name)
+                .map((skill) => (
+                  <li key={skill.name}>{skill.name}</li>
+                ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className={cx(styles.flex, styles.justifySpaceBetween)}>
+          <h3>Tools</h3>
+          <div>
+            <ul className={styles.skillsList}>
+              {skills
+                .filter((skill) => skill.tags.includes("tools"))
+                .sort((a, b) => a.name > b.name)
+                .map((skill) => (
+                  <li key={skill.name}>{skill.name}</li>
+                ))}
+            </ul>
+          </div>
+        </div>
 
         <div
           dangerouslySetInnerHTML={{ __html: basics.positioningStatement }}
         ></div>
 
         <h2>Experience</h2>
-        <ul>
+        <ul className={styles.noBullets}>
           {workHistory.map((gig, idx) => (
             <li key={`gig-${idx}`}>
               <div
                 css={css`
                   display: flex;
+                  justify-content: space-between;
                 `}
               >
                 <div>
                   {gig.name} - {gig.location}
                 </div>
                 <div>
-                  {gig.start.month} / {gig.start.year} -{" "}
+                  {gig.start.month} / {gig.start.year} to{" "}
                   {gig.isCurrentRole
                     ? "Present"
                     : `${gig.end.month} / ${gig.end.year}`}
                 </div>
               </div>
               <div>{gig.position}</div>
+              <p>{gig.summary}</p>
+              <ul>
+                {gig.highlights.map((highlight, idx2) => (
+                  <li key={`${idx}-highlight-${idx2}`}>{highlight}</li>
+                ))}
+              </ul>
             </li>
           ))}
         </ul>
+        <h2>Education</h2>
+        {education.map((ed) => (
+          <>
+            <p>
+              {ed.name}, {ed.yearOfGraduation}. {ed.degree}.
+            </p>
+          </>
+        ))}
       </div>
     </>
   );

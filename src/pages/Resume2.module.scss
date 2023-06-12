@@ -59,16 +59,35 @@ $mobile-breakpoint: 500px;
     line-height: 1.5;
   }
 
+  hr {
+    color: var(--color-gray-200);
+    &.mediumThickness {
+      border: 1px solid;
+    }
+  }
+
   .center-vertical {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
+  .no-bullets {
+    list-style-type: none;
+    padding-left: 0;
+    ul {
+      list-style-type: disc;
+    }
+  }
+
+  .flex {
+    display: flex;
+    &.justify-space-between {
+      justify-content: space-between;
+    }
+  }
+
   .header {
-    margin: 2em 0;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
     text-align: center;
   }
 
@@ -83,5 +102,20 @@ $mobile-breakpoint: 500px;
         content: " | ";
       }
     }
+  }
+  .skills-list {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.8em;
+    padding: 0;
+  }
+
+  .skills-list li {
+    padding: 0.35em 0.75em;
+    border: solid 1px var(--color-teal-300);
+    border-radius: 10px;
+    margin: 0.25em;
+    height: 2.25em;
   }
 }
