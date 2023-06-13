@@ -133,7 +133,7 @@ const renderContent = (data) => {
 
         <h2>{basics.label}</h2>
 
-        <div className={cx(styles.flex, styles.justifySpaceBetween)}>
+        <div className={styles.skillsGrid}>
           <h3>Front-end</h3>
           <div>
             <ul className={styles.skillsList}>
@@ -147,7 +147,7 @@ const renderContent = (data) => {
           </div>
         </div>
 
-        <div className={cx(styles.flex, styles.justifySpaceBetween)}>
+        <div className={styles.skillsGrid}>
           <h3>Back-end</h3>
           <div>
             <ul className={styles.skillsList}>
@@ -161,7 +161,7 @@ const renderContent = (data) => {
           </div>
         </div>
 
-        <div className={cx(styles.flex, styles.justifySpaceBetween)}>
+        <div className={styles.skillsGrid}>
           <h3>Tools</h3>
           <div>
             <ul className={styles.skillsList}>

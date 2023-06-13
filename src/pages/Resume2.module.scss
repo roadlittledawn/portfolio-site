@@ -103,6 +103,10 @@ $mobile-breakpoint: 500px;
       }
     }
   }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+  }
   .skills-list {
     list-style-type: none;
     display: flex;
