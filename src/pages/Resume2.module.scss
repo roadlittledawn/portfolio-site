@@ -35,7 +35,7 @@ $mobile-breakpoint: 500px;
 
   h2 {
     font-size: 2em;
-    margin: 0 0 1em 0;
+    margin: 0 0 0.15em 0;
   }
 
   h3 {
@@ -50,7 +50,6 @@ $mobile-breakpoint: 500px;
   }
 
   a {
-    text-decoration: none;
     color: var(--color-teal-600);
   }
 
@@ -66,10 +65,18 @@ $mobile-breakpoint: 500px;
     }
   }
 
+  section {
+    margin: 1em 0;
+  }
+
   .center-vertical {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .text-center {
+    text-align: center;
   }
 
   .no-bullets {
@@ -98,14 +105,16 @@ $mobile-breakpoint: 500px;
 
     li {
       margin: 0 1em;
-      &:after {
-        content: " | ";
-      }
     }
   }
   .skills-grid {
     display: grid;
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 110px 1fr;
+    // width: 85%;
+    // margin: 0 auto;
+    h3 {
+      margin: 0.25em 0 0 0;
+    }
   }
   .skills-list {
     list-style-type: none;

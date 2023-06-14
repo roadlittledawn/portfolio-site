@@ -7,7 +7,7 @@
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
-    "positioningStatement": "<p>Statment para</p><p>Statement para2</p>",
+    "positioningStatement": "<p>Software engineering leader with a full-stack background. I ship resilient, high-throughput teams. And code when I have the time :)</p><p>My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, talking architecture, and finding ways for the team to track and provide value. </p>",
     "profiles": [
       {
         "network": "GitHub",
@@ -173,6 +173,90 @@
       "rating": 3,
       "tags": ["tools"],
       "yearsOfExperience": 4
+    },
+    {
+      "name": "Coaching",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["concepts", "project management"]
+    },
+    {
+      "name": "Internationalization",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "Agile Scrum",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["concepts", "project management"]
+    },
+    {
+      "name": "Full Stack Development",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "Amazon Lambda",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "cloud-platform"]
+    },
+    {
+      "name": "Amazon S3",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "cloud-platform"]
+    },
+    {
+      "name": "Amazon DynamoDB",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "database", "cloud-platform"]
+    },
+    {
+      "name": "Amazon Relational Database Service",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "database", "cloud-platform"]
+    },
+    {
+      "name": "developer experience",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "microservice",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "Dev Ops",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "GitHub Actions",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["tools"]
+    },
+    {
+      "name": "New Relic",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["tools"]
+    },
+    {
+      "name": "Observability",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"]
     }
   ],
   "projects": [

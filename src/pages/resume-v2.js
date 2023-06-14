@@ -9,6 +9,7 @@ import MainLayout from "../layouts/MainLayout";
 import * as styles from "./Resume2.module.scss";
 import resumePdfLink from "../files/clinton-langosch-resume-eng.pdf";
 import FeatherIcon from "../components/Icons/FeatherIcon";
+import { getNameOfMonth } from "../utils/time";
 
 const ResumePage = ({ data, location }) => {
   const [isEmbed, setIsEmbed] = useState(0);
@@ -110,113 +111,156 @@ const renderContent = (data) => {
   return (
     <>
       <div className={styles.resumeBody}>
-        <hr className={styles.mediumThickness} />
-        <hr />
-        <div className={styles.header}>
-          <h1>{basics.name}</h1>
-          <ul className={styles.listHorizontal}>
-            <li>{basics.email}</li>
-            <li>{basics.phone}</li>
-            <li>{basics.locationAsString}</li>
-          </ul>
-          <ul className={styles.listHorizontal}>
-            {basics.profiles.map((profile) => (
-              <li key={profile.network}>
-                <a href={profile.url}>{profile.network}</a>
+        <section>
+          <hr className={styles.mediumThickness} />
+          <hr />
+          <div className={styles.header}>
+            <h1>{basics.name}</h1>
+            <ul className={styles.listHorizontal}>
+              <li>
+                <a href={`mailto:${basics.email}`}>{basics.email}</a>
+              </li>
+              <span>|</span>
+              <li>{basics.phone}</li>
+              <span>|</span>
+              <li>{basics.locationAsString}</li>
+            </ul>
+            <ul className={styles.listHorizontal}>
+              {basics.profiles.map((profile, idx) => (
+                <>
+                  <li key={profile.network}>
+                    <a href={profile.url}>{profile.network}</a>
+                  </li>
+                  {idx + 1 === basics.profiles.length ? "" : <span>|</span>}
+                </>
+              ))}
+            </ul>
+          </div>
+
+          <hr />
+          <hr className={styles.mediumThickness} />
+        </section>
+
+        <section>
+          <h2 className={styles.textCenter}>{basics.label}</h2>
+
+          <div>
+            <ul className={styles.skillsList}>
+              {skills
+                .filter((skill) => skill.tags.includes("concepts"))
+                .sort((a, b) => a.name > b.name)
+                .map((skill) => (
+                  <li key={skill.name}>{skill.name}</li>
+                ))}
+            </ul>
+          </div>
+
+          <div
+            dangerouslySetInnerHTML={{ __html: basics.positioningStatement }}
+          ></div>
+        </section>
+
+        <section>
+          <div className={styles.skillsGrid}>
+            <h3>Front-end</h3>
+            <div>
+              <ul className={styles.skillsList}>
+                {skills
+                  .filter((skill) => skill.tags.includes("frontend"))
+                  .sort((a, b) => a.name > b.name)
+                  .map((skill) => (
+                    <li key={skill.name}>{skill.name}</li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className={styles.skillsGrid}>
+            <h3>Back-end</h3>
+            <div>
+              <ul className={styles.skillsList}>
+                {skills
+                  .filter((skill) => skill.tags.includes("backend"))
+                  .sort((a, b) => a.name > b.name)
+                  .map((skill) => (
+                    <li key={skill.name}>{skill.name}</li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className={styles.skillsGrid}>
+            <h3>Tools</h3>
+            <div>
+              <ul className={styles.skillsList}>
+                {skills
+                  .filter((skill) => skill.tags.includes("tools"))
+                  .sort((a, b) => a.name > b.name)
+                  .map((skill) => (
+                    <li key={skill.name}>{skill.name}</li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className={styles.skillsGrid}>
+            <h3>Cloud Platforms</h3>
+            <div>
+              <ul className={styles.skillsList}>
+                {skills
+                  .filter((skill) => skill.tags.includes("cloud-platform"))
+                  .sort((a, b) => a.name > b.name)
+                  .map((skill) => (
+                    <li key={skill.name}>{skill.name}</li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Experience</h2>
+          <ul className={styles.noBullets}>
+            {workHistory.map((gig, idx) => (
+              <li key={`gig-${idx}`}>
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: space-between;
+                  `}
+                >
+                  <div>
+                    {gig.name} - {gig.location}
+                  </div>
+                  <div>
+                    {getNameOfMonth(gig.start.month)} {gig.start.year} to{" "}
+                    {gig.isCurrentRole
+                      ? "Present"
+                      : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
+                  </div>
+                </div>
+                <div>{gig.position}</div>
+                <p>{gig.summary}</p>
+                <ul>
+                  {gig.highlights.map((highlight, idx2) => (
+                    <li key={`${idx}-highlight-${idx2}`}>{highlight}</li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
-        </div>
+        </section>
 
-        <hr />
-        <hr className={styles.mediumThickness} />
-
-        <h2>{basics.label}</h2>
-
-        <div className={styles.skillsGrid}>
-          <h3>Front-end</h3>
-          <div>
-            <ul className={styles.skillsList}>
-              {skills
-                .filter((skill) => skill.tags.includes("frontend"))
-                .sort((a, b) => a.name > b.name)
-                .map((skill) => (
-                  <li key={skill.name}>{skill.name}</li>
-                ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className={styles.skillsGrid}>
-          <h3>Back-end</h3>
-          <div>
-            <ul className={styles.skillsList}>
-              {skills
-                .filter((skill) => skill.tags.includes("backend"))
-                .sort((a, b) => a.name > b.name)
-                .map((skill) => (
-                  <li key={skill.name}>{skill.name}</li>
-                ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className={styles.skillsGrid}>
-          <h3>Tools</h3>
-          <div>
-            <ul className={styles.skillsList}>
-              {skills
-                .filter((skill) => skill.tags.includes("tools"))
-                .sort((a, b) => a.name > b.name)
-                .map((skill) => (
-                  <li key={skill.name}>{skill.name}</li>
-                ))}
-            </ul>
-          </div>
-        </div>
-
-        <div
-          dangerouslySetInnerHTML={{ __html: basics.positioningStatement }}
-        ></div>
-
-        <h2>Experience</h2>
-        <ul className={styles.noBullets}>
-          {workHistory.map((gig, idx) => (
-            <li key={`gig-${idx}`}>
-              <div
-                css={css`
-                  display: flex;
-                  justify-content: space-between;
-                `}
-              >
-                <div>
-                  {gig.name} - {gig.location}
-                </div>
-                <div>
-                  {gig.start.month} / {gig.start.year} to{" "}
-                  {gig.isCurrentRole
-                    ? "Present"
-                    : `${gig.end.month} / ${gig.end.year}`}
-                </div>
-              </div>
-              <div>{gig.position}</div>
-              <p>{gig.summary}</p>
-              <ul>
-                {gig.highlights.map((highlight, idx2) => (
-                  <li key={`${idx}-highlight-${idx2}`}>{highlight}</li>
-                ))}
-              </ul>
-            </li>
+        <section>
+          <h2>Education</h2>
+          {education.map((ed) => (
+            <>
+              <p>
+                {ed.name}, {ed.yearOfGraduation}. {ed.degree}.
+              </p>
+            </>
           ))}
-        </ul>
-        <h2>Education</h2>
-        {education.map((ed) => (
-          <>
-            <p>
-              {ed.name}, {ed.yearOfGraduation}. {ed.degree}.
-            </p>
-          </>
-        ))}
+        </section>
       </div>
     </>
   );
