@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300&family=Julius+Sans+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
 
 $mobile-breakpoint: 500px;
 
@@ -10,8 +10,8 @@ $mobile-breakpoint: 500px;
   --color-gray-700: #232728;
   --color-dark-700: #a5bbbd;
 
-  --font-family-base: sans-serif;
-  --font-family-headings: "Josefin Sans", sans-serif;
+  --font-family-base: "Open Sans", sans-serif;
+  --font-family-headings: "Open Sans", sans-serif;
 
   margin: 0;
   font-family: var(--font-family-base);
@@ -27,6 +27,7 @@ $mobile-breakpoint: 500px;
 
   h1 {
     font-size: 3.75em;
+    font-weight: 300;
   }
 
   h1 span:first-of-type {
@@ -36,11 +37,12 @@ $mobile-breakpoint: 500px;
   h2 {
     font-size: 2em;
     margin: 0 0 0.15em 0;
+    font-weight: 300;
   }
 
   h3 {
     font-size: 1.15em;
-    font-weight: lighter;
+    font-weight: 300;
     margin: 0.5em 0 0 0;
     color: var(--color-gray-700);
   }
@@ -114,6 +116,7 @@ $mobile-breakpoint: 500px;
     // margin: 0 auto;
     h3 {
       margin: 0.25em 0 0 0;
+      text-transform: capitalize;
     }
   }
   .skills-list {
@@ -122,6 +125,9 @@ $mobile-breakpoint: 500px;
     flex-wrap: wrap;
     font-size: 0.8em;
     padding: 0;
+    &.justify-center {
+      justify-content: center;
+    }
   }
 
   .skills-list li {

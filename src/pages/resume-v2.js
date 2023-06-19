@@ -37,7 +37,7 @@ const ResumePage = ({ data, location }) => {
               css={css`
                 margin: 0 auto;
                 max-width: 8.5in;
-                height: 11.2in;
+                /* height: 11.2in; */
                 width: 100%;
               `}
             >
@@ -108,6 +108,23 @@ const renderContent = (data) => {
     allWork: { nodes: workHistory },
     allEducation: { nodes: education },
   } = data;
+
+  const renderSkillList = (tagName) => (
+    <div className={styles.skillsGrid}>
+      <h3>{tagName.replace("-", " ")}</h3>
+      <div>
+        <ul className={styles.skillsList}>
+          {skills
+            .filter((skill) => skill.tags.includes(tagName))
+            .sort((a, b) => a.name > b.name)
+            .map((skill) => (
+              <li key={skill.name}>{skill.name}</li>
+            ))}
+        </ul>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <div className={styles.resumeBody}>
@@ -145,13 +162,10 @@ const renderContent = (data) => {
           <h2 className={styles.textCenter}>{basics.label}</h2>
 
           <div>
-            <ul className={styles.skillsList}>
-              {skills
-                .filter((skill) => skill.tags.includes("concepts"))
-                .sort((a, b) => a.name > b.name)
-                .map((skill) => (
-                  <li key={skill.name}>{skill.name}</li>
-                ))}
+            <ul className={cx(styles.skillsList, styles.justifyCenter)}>
+              {basics.industrySubDomains.map((domain) => (
+                <li key={`domain-${domain}`}>{domain}</li>
+              ))}
             </ul>
           </div>
 
@@ -161,61 +175,18 @@ const renderContent = (data) => {
         </section>
 
         <section>
-          <div className={styles.skillsGrid}>
-            <h3>Front-end</h3>
-            <div>
-              <ul className={styles.skillsList}>
-                {skills
-                  .filter((skill) => skill.tags.includes("frontend"))
-                  .sort((a, b) => a.name > b.name)
-                  .map((skill) => (
-                    <li key={skill.name}>{skill.name}</li>
-                  ))}
-              </ul>
-            </div>
-          </div>
+          <ul className={cx(styles.skillsList, styles.justifyCenter)}>
+            {basics.techDomains.map((domain) => (
+              <li key={`techDomain-${domain}`}>{domain}</li>
+            ))}
+          </ul>
+        </section>
 
-          <div className={styles.skillsGrid}>
-            <h3>Back-end</h3>
-            <div>
-              <ul className={styles.skillsList}>
-                {skills
-                  .filter((skill) => skill.tags.includes("backend"))
-                  .sort((a, b) => a.name > b.name)
-                  .map((skill) => (
-                    <li key={skill.name}>{skill.name}</li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className={styles.skillsGrid}>
-            <h3>Tools</h3>
-            <div>
-              <ul className={styles.skillsList}>
-                {skills
-                  .filter((skill) => skill.tags.includes("tools"))
-                  .sort((a, b) => a.name > b.name)
-                  .map((skill) => (
-                    <li key={skill.name}>{skill.name}</li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className={styles.skillsGrid}>
-            <h3>Cloud Platforms</h3>
-            <div>
-              <ul className={styles.skillsList}>
-                {skills
-                  .filter((skill) => skill.tags.includes("cloud-platform"))
-                  .sort((a, b) => a.name > b.name)
-                  .map((skill) => (
-                    <li key={skill.name}>{skill.name}</li>
-                  ))}
-              </ul>
-            </div>
-          </div>
+        <section>
+          {renderSkillList("frontend")}
+          {renderSkillList("backend")}
+          {renderSkillList("tools")}
+          {renderSkillList("cloud-platform")}
         </section>
 
         <section>
@@ -278,6 +249,8 @@ export const pageQuery = graphql`
       email
       locationAsString
       positioningStatement
+      industrySubDomains
+      techDomains
       label
       image
       phone

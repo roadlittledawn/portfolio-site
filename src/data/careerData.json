@@ -8,6 +8,19 @@
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
     "positioningStatement": "<p>Software engineering leader with a full-stack background. I ship resilient, high-throughput teams. And code when I have the time :)</p><p>My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, talking architecture, and finding ways for the team to track and provide value. </p>",
+    "industrySubDomains": [
+      "product led growth",
+      "marketing",
+      "developer experience",
+      "experience design"
+    ],
+    "techDomains": [
+      "dev ops",
+      "internationalization",
+      "content management systems",
+      "observability",
+      "full stack development"
+    ],
     "profiles": [
       {
         "network": "GitHub",
@@ -229,7 +242,7 @@
       "tags": ["concepts"]
     },
     {
-      "name": "microservice",
+      "name": "microservices",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"]
@@ -256,6 +269,18 @@
       "name": "Observability",
       "level": "Expert",
       "rating": 4,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "team building & leadership",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "management"]
+    },
+    {
+      "name": "scalability",
+      "level": "Intermediate",
+      "rating": 3,
       "tags": ["concepts"]
     }
   ],
@@ -501,6 +526,8 @@
       "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source docs / developer websites, as well as in-product help / onboarding content.",
       "highlights": [
         "Lead and participate in system design and architecture planning.",
+        "Planned UI work to raise improve user experience on sites (SUPR-Q scores over 4).",
+        "Scale team from 3 to 5 engineers",
         "Establish and track team health, system health, and key business metrics to ensure team success.",
         "Work closely with product managers / leadership / key stakeholders to shape our roadmap, and manage / prioritize the team's work.",
         "Coach and support engineers to grow their career, take ownership of their work, and do work they're proud of."
