@@ -59,6 +59,7 @@ Connecting and communicating with technical and non-technical people.
 
 - Team liftoff and biannual operational review for team building
 - Maintain content system for 400+ contributors annually
+- Lead interviewing, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team.
 
 # What I've done: accomplishments
 

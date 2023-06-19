@@ -182,6 +182,20 @@
       "yearsOfExperience": 4
     },
     {
+      "name": "ESLint",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools"],
+      "yearsOfExperience": 4
+    },
+    {
+      "name": "Prettier",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools"],
+      "yearsOfExperience": 4
+    },
+    {
       "name": "coaching & mentoring",
       "level": "Beginner",
       "rating": 2,
@@ -300,6 +314,12 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["concepts"]
+    },
+    {
+      "name": "hiring & onboarding",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts", "management"]
     }
   ],
   "projects": [
