@@ -9,17 +9,11 @@
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
     "positioningStatement": "<p>Software engineering leader with a full-stack background. I ship resilient, high-throughput teams. And code when I have the time :)</p><p>My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, talking architecture, and finding ways for the team to track and provide value. </p>",
     "industrySubDomains": [
-      "product led growth",
-      "marketing",
-      "developer experience",
-      "experience design"
-    ],
-    "techDomains": [
-      "dev ops",
-      "internationalization",
       "content management systems",
-      "observability",
-      "full stack development"
+      "developer experience",
+      "product led growth",
+      "experience design",
+      "SEO"
     ],
     "profiles": [
       {
@@ -188,58 +182,52 @@
       "yearsOfExperience": 4
     },
     {
-      "name": "Coaching",
+      "name": "coaching & mentoring",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["concepts", "project management"]
+      "tags": ["concepts"]
     },
     {
-      "name": "Internationalization",
+      "name": "internationalization",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["concepts"]
     },
     {
-      "name": "Agile Scrum",
+      "name": "agile scrum",
       "level": "Expert",
       "rating": 5,
       "tags": ["concepts", "project management"]
     },
     {
-      "name": "Full Stack Development",
+      "name": "full stack development",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"]
     },
     {
-      "name": "Amazon Lambda",
+      "name": "AWS Lambda",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "cloud-platform"]
     },
     {
-      "name": "Amazon S3",
+      "name": "AWS S3",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "cloud-platform"]
     },
     {
-      "name": "Amazon DynamoDB",
+      "name": "AWS DynamoDB",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "database", "cloud-platform"]
     },
     {
-      "name": "Amazon Relational Database Service",
+      "name": "AWS Relational Database Service",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "database", "cloud-platform"]
-    },
-    {
-      "name": "developer experience",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["cloud-platform"]
     },
     {
       "name": "microservices",
@@ -248,7 +236,7 @@
       "tags": ["concepts"]
     },
     {
-      "name": "Dev Ops",
+      "name": "dev ops",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"]
@@ -266,7 +254,7 @@
       "tags": ["tools"]
     },
     {
-      "name": "Observability",
+      "name": "observability & performance",
       "level": "Expert",
       "rating": 4,
       "tags": ["concepts"]
@@ -281,6 +269,36 @@
       "name": "scalability",
       "level": "Intermediate",
       "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "KPIs",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "technical planning",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "goal setting",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "management"]
+    },
+    {
+      "name": "OKRs",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "management"]
+    },
+    {
+      "name": "content management systems",
+      "level": "Expert",
+      "rating": 4,
       "tags": ["concepts"]
     }
   ],
@@ -569,7 +587,7 @@
     },
     {
       "name": "Freelance",
-      "location": "",
+      "location": "Remote",
       "description": "",
       "position": "Software Engineer",
       "url": "",

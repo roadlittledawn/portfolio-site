@@ -94,6 +94,9 @@ $mobile-breakpoint: 500px;
     &.justify-space-between {
       justify-content: space-between;
     }
+    &.direction-column {
+      flex-direction: column;
+    }
   }
 
   .header {

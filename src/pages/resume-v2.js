@@ -176,9 +176,12 @@ const renderContent = (data) => {
 
         <section>
           <ul className={cx(styles.skillsList, styles.justifyCenter)}>
-            {basics.techDomains.map((domain) => (
-              <li key={`techDomain-${domain}`}>{domain}</li>
-            ))}
+            {skills
+              .filter((skill) => skill.tags.includes("concepts"))
+              .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase())
+              .map((skill) => (
+                <li key={skill.name}>{skill.name}</li>
+              ))}
           </ul>
         </section>
 
@@ -203,14 +206,20 @@ const renderContent = (data) => {
                   <div>
                     {gig.name} - {gig.location}
                   </div>
-                  <div>
+                  <div
+                    css={css`
+                      font-weight: bold;
+                    `}
+                  >
                     {getNameOfMonth(gig.start.month)} {gig.start.year} to{" "}
                     {gig.isCurrentRole
                       ? "Present"
                       : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
                   </div>
                 </div>
-                <div>{gig.position}</div>
+                <div>
+                  <b>{gig.position}</b>
+                </div>
                 <p>{gig.summary}</p>
                 <ul>
                   {gig.highlights.map((highlight, idx2) => (
@@ -250,7 +259,6 @@ export const pageQuery = graphql`
       locationAsString
       positioningStatement
       industrySubDomains
-      techDomains
       label
       image
       phone
