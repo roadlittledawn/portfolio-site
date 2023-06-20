@@ -6,17 +6,26 @@
 
 Not going to list hard skills for backend, frontend, tools.
 
+## industrySubDomains
+
+- content management systems
+- developer experience
+- product led growth
+- experience design
+- marketing (if i have to)
+
 ## Soft skills
 
 - problem solver
 - knowledge management
-- data & analytics
+- data analysis
 - adaptive
 - growth mindset
 
 ## Mgmt
 
 - team health
+- team building & leadership
 - customer value
 - KPIs
 - visionary
@@ -26,18 +35,31 @@ Not going to list hard skills for backend, frontend, tools.
 - remote-first culture
 - change management
 - project management
+- agile scrum
+- coaching & mentoring
+- key performance metrics (KPIs)
+- hiring & onboarding
+- OKRs
+- goal setting
 
 ## Technical concepts
 
 - scalability
 - innovation
-- Strategic thinking
+- strategic thinking
 - observability and performance
 - system health
 - microservices
 - CI / CD
 - open source
 - risk management
+- internationalization
+- full stack development
+- dev ops
+- observability & performance
+- technical planning
+- content management systems
+- search engine optimization (SEO)
 
 # Positioning statement
 
