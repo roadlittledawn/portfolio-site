@@ -81,7 +81,7 @@ const ResumePage = ({ data, location }) => {
               </div>
               <div
                 css={css`
-                  padding: 0.1in;
+                  padding: 0.25em;
                   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
                   .dark-mode & {
                     border: 1px solid var(--color-neutrals-400);

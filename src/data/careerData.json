@@ -297,12 +297,6 @@
       "tags": ["concepts"]
     },
     {
-      "name": "remote-first culture",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"]
-    },
-    {
       "name": "goal setting",
       "level": "Intermediate",
       "rating": 3,
@@ -319,6 +313,12 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["concepts", "management"]
+    },
+    {
+      "name": "risk management",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
     }
   ],
   "projects": [

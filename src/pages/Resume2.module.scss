@@ -13,15 +13,15 @@ $mobile-breakpoint: 500px;
   --font-family-base: "Open Sans", sans-serif;
   --font-family-headings: "Open Sans", sans-serif;
 
+  --main-background-color: white;
+
   margin: 0;
   font-family: var(--font-family-base);
   font-size: 12px;
   color: var(--color-gray-700);
+  background-color: var(--main-background-color);
   height: 100%;
-
-  .bold {
-    font-weight: bold;
-  }
+  padding: 0.25em;
 
   h1,
   h2 {
@@ -56,6 +56,7 @@ $mobile-breakpoint: 500px;
 
   h4 {
     margin: 0.25em 0 0 0;
+    color: var(--color-gray-700);
     &.bold {
       font-weight: bold;
     }
@@ -91,6 +92,10 @@ $mobile-breakpoint: 500px;
     text-align: center;
   }
 
+  .bold {
+    font-weight: bold;
+  }
+
   .no-bullets {
     list-style-type: none;
     padding-left: 0;
@@ -117,6 +122,7 @@ $mobile-breakpoint: 500px;
     list-style: none;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 
     li {
       margin: 0 1em;
@@ -125,8 +131,6 @@ $mobile-breakpoint: 500px;
   .skills-grid {
     display: grid;
     grid-template-columns: 110px 1fr;
-    // width: 85%;
-    // margin: 0 auto;
     h3 {
       margin: 0.25em 0 0 0;
       text-transform: capitalize;

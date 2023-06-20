@@ -16,7 +16,7 @@ Not going to list hard skills for backend, frontend, tools.
 
 ## Soft skills
 
-- problem solver
+- problem solving
 - knowledge management
 - data analysis
 - adaptive
@@ -35,7 +35,7 @@ Not going to list hard skills for backend, frontend, tools.
 - remote-first culture
 - change management
 - project management
-- agile scrum
+- agile methodologies
 - coaching & mentoring
 - key performance metrics (KPIs)
 - hiring & onboarding
@@ -60,10 +60,11 @@ Not going to list hard skills for backend, frontend, tools.
 - technical planning
 - content management systems
 - search engine optimization (SEO)
+- risk management
 
 # Positioning statement
 
-Empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship resilient, high-throughput teams. And code when I have the time :)
+Empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship resilient, outcome driven teams. And code when I have the time :)
 
 My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, planning systems (both technical and human), and helping my teams measure and achieve success, for themselves and the business.
 
@@ -72,6 +73,17 @@ My approach balances technical with the human. I love envisioniong what's possib
 Software engineering leader.
 
 Team / culture builder
+
+I build teams that are:
+
+- resilient (got each other's back, growth mindset, adaptable, navigate ambiguity, safely fail/learn/improve)
+- highly collaborative & communicative
+- outcome driven (not just output or results).
+- deliver quality on time
+- highly accountable
+- engaged
+- enabled to do their best work
+- efficient and adaptable
 
 I love building systems - both technical and team.
 
@@ -85,7 +97,11 @@ Democratic + Coaching + bit of Servant + bit of Visionary management
 
 Connecting and communicating with technical and non-technical people.
 
-Another thing to mention is 3 motivators: Autonomy, Mastery, Purpose
+Another thing to mention is 3 motivators:
+
+- Autonomy
+- Mastery
+- Purpose
 
 5 conditions that increase a team’s odds of success:
 
@@ -113,6 +129,13 @@ Another thing to mention is 3 motivators: Autonomy, Mastery, Purpose
 - Increased user experience on key site (measured by SUPR-Q score above 4)
 
 ## Projects
+
+### Manager
+
+- In app help
+- Rewrite service
+
+### Eng
 
 - Built system of 600+ quick starts, searchable catalog called Instant Observability
 - Increase account signups by 80% in one quarter
