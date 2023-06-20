@@ -3,17 +3,16 @@
     "name": "Clinton Langosch",
     "label": "Software Engineering Manager",
     "image": "https://avatars3.githubusercontent.com/u/2952843?v=4",
-    "email": "clinton.langosch@gmail.com",
+    "email": "clinton.langosch.prof@gmail.com",
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
-    "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
-    "positioningStatement": "<p>Software engineering leader with a full-stack background. I ship resilient, high-throughput teams. And code when I have the time :)</p><p>My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, talking architecture, and finding ways for the team to track and provide value. </p>",
+    "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams. A builder and life-long learner at heart.",
+    "positioningStatement": "<p>Empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship resilient, high-throughput teams. And code when I have the time :)</p><p>My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, planning systems (both technical and human), and finding ways for my teams to track and provide value.</p>",
     "industrySubDomains": [
       "content management systems",
       "developer experience",
       "product led growth",
-      "experience design",
-      "SEO"
+      "experience design"
     ],
     "profiles": [
       {
@@ -250,12 +249,6 @@
       "tags": ["concepts"]
     },
     {
-      "name": "dev ops",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"]
-    },
-    {
       "name": "GitHub Actions",
       "level": "Intermediate",
       "rating": 4,
@@ -266,6 +259,12 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["tools"]
+    },
+    {
+      "name": "SEO",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"]
     },
     {
       "name": "observability & performance",
@@ -286,13 +285,19 @@
       "tags": ["concepts"]
     },
     {
-      "name": "KPIs",
+      "name": "key performance metrics",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"]
     },
     {
       "name": "technical planning",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"]
+    },
+    {
+      "name": "remote-first culture",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"]
@@ -308,12 +313,6 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts", "management"]
-    },
-    {
-      "name": "content management systems",
-      "level": "Expert",
-      "rating": 4,
-      "tags": ["concepts"]
     },
     {
       "name": "hiring & onboarding",
