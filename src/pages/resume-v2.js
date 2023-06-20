@@ -24,6 +24,7 @@ const ResumePage = ({ data, location }) => {
         <div
           css={css`
             height: 100vh;
+            padding: 0.25em;
           `}
         >
           {renderContent(data)}
@@ -201,11 +202,12 @@ const renderContent = (data) => {
                   css={css`
                     display: flex;
                     justify-content: space-between;
+                    font-weight: bold;
                   `}
                 >
-                  <div>
+                  <h3 className={styles.bold}>
                     {gig.name} - {gig.location}
-                  </div>
+                  </h3>
                   <div
                     css={css`
                       font-weight: bold;
@@ -218,7 +220,7 @@ const renderContent = (data) => {
                   </div>
                 </div>
                 <div>
-                  <b>{gig.position}</b>
+                  <h4>{gig.position}</h4>
                 </div>
                 <p>{gig.summary}</p>
                 <ul>
