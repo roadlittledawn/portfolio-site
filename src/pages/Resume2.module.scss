@@ -180,8 +180,8 @@ $mobile-breakpoint: 500px;
   .skills-grid {
     display: grid;
     grid-template-columns: 110px 1fr;
+    align-items: center;
     h3 {
-      margin: 0.95em 0 0 0;
       text-transform: capitalize;
     }
   }
