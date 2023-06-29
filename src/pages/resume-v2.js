@@ -116,8 +116,10 @@ const renderContent = (data) => {
       <div>
         <ul className={styles.skillsList}>
           {skills
-            .filter((skill) => skill.tags.includes(tagName))
-            .sort((a, b) => a.name > b.name)
+            .filter(
+              (skill) => skill.tags.includes(tagName) && skill.useOnResume
+            )
+            .sort((a, b) => a.name.toUpperCase() > b.name.toUpperCase())
             .map((skill) => (
               <li key={skill.name}>{skill.name}</li>
             ))}
@@ -130,40 +132,44 @@ const renderContent = (data) => {
     <>
       <div className={styles.resumeBody}>
         <section>
-          <hr className={styles.mediumThickness} />
-          <hr />
           <div className={styles.header}>
-            <h1>{basics.name}</h1>
+            <div>
+              <h1>{basics.name}</h1>
+            </div>
+            <div>
+              <h2 className={styles.textCenter}>{basics.label}</h2>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className={styles.basicsInfo}>
             <ul className={styles.listHorizontal}>
               <li>
                 <a href={`mailto:${basics.email}`}>{basics.email}</a>
               </li>
-              <span>|</span>
+
               <li>{basics.phone}</li>
-              <span>|</span>
+
               <li>{basics.locationAsString}</li>
-            </ul>
-            <ul className={styles.listHorizontal}>
-              {basics.profiles.map((profile, idx) => (
+              {basics.profiles.map((profile) => (
                 <>
                   <li key={profile.network}>
                     <a href={profile.url}>{profile.network}</a>
                   </li>
-                  {idx + 1 === basics.profiles.length ? "" : <span>|</span>}
                 </>
               ))}
             </ul>
           </div>
-
-          <hr />
-          <hr className={styles.mediumThickness} />
         </section>
 
         <section>
-          <h2 className={styles.textCenter}>{basics.label}</h2>
-
-          <div>
-            <ul className={cx(styles.skillsList, styles.justifyCenter)}>
+          <div
+            css={css`
+              text-align: center;
+            `}
+          >
+            <ul className={cx(styles.listHorizontalBullets, styles.allCaps)}>
               {basics.industrySubDomains.map((domain) => (
                 <li key={`domain-${domain}`}>{domain}</li>
               ))}
@@ -176,17 +182,7 @@ const renderContent = (data) => {
         </section>
 
         <section>
-          <ul className={cx(styles.skillsList, styles.justifyCenter)}>
-            {skills
-              .filter((skill) => skill.tags.includes("concepts"))
-              .sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase())
-              .map((skill) => (
-                <li key={skill.name}>{skill.name}</li>
-              ))}
-          </ul>
-        </section>
-
-        <section>
+          {renderSkillList("concepts")}
           {renderSkillList("frontend")}
           {renderSkillList("backend")}
           {renderSkillList("tools")}
@@ -277,6 +273,7 @@ export const pageQuery = graphql`
         rating
         yearsOfExperience
         tags
+        useOnResume
       }
     }
     allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {

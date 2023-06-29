@@ -45,280 +45,323 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["frontend", "library"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "Javascript",
       "level": "Advanced",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "Apache",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend"],
-      "yearsOfExperience": 7
+      "yearsOfExperience": 7,
+      "useOnResume": true
     },
     {
       "name": "GraphQL",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["frontend", "backend"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "useOnResume": true
     },
     {
       "name": "PHP",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "useOnResume": true
     },
     {
       "name": "HTML",
       "level": "Expert",
       "rating": 5,
       "tags": ["frontend", "markup"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "useOnResume": true
     },
     {
       "name": "CSS",
       "level": "Advanced",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "useOnResume": true
     },
     {
       "name": "Sass",
       "level": "Advanced",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "useOnResume": true
     },
     {
       "name": "Node.js",
       "level": "Advanced",
       "rating": 4,
       "tags": ["backend"],
-      "yearsOfExperience": 1
+      "yearsOfExperience": 1,
+      "useOnResume": true
     },
     {
       "name": "MySQL",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "database"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "useOnResume": true
     },
     {
       "name": "MongoDB",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "database"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "PostgreSQL",
       "level": "Intermediate",
       "rating": 2,
       "tags": ["backend", "database"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "useOnResume": true
     },
     {
       "name": "Docker",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "tools"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "useOnResume": true
     },
     {
       "name": "Gatsby",
       "level": "Advanced",
       "rating": 5,
       "tags": ["frontend", "framework", "javascript", "react", "node"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "Git",
       "level": "Advanced",
       "rating": 4,
       "tags": ["tools"],
-      "yearsOfExperience": 7
+      "yearsOfExperience": 7,
+      "useOnResume": true
     },
     {
       "name": "Jest",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["tools", "testing"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "useOnResume": true
     },
     {
       "name": "Next.js",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["frontend", "framework", "javascript", "react", "node"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "NPM",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["tools"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "Typescript",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "Yarn",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["tools"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "ESLint",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["tools"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "Prettier",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["tools"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "useOnResume": true
     },
     {
       "name": "coaching & mentoring",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "internationalization",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "agile scrum",
       "level": "Expert",
       "rating": 5,
-      "tags": ["concepts", "project management"]
+      "tags": ["concepts", "project management"],
+      "useOnResume": true
     },
     {
       "name": "full stack development",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "AWS Lambda",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "cloud-platform"]
+      "tags": ["backend", "cloud-platform"],
+      "useOnResume": true
     },
     {
       "name": "AWS S3",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "cloud-platform"]
+      "tags": ["backend", "cloud-platform"],
+      "useOnResume": true
     },
     {
       "name": "AWS DynamoDB",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "database", "cloud-platform"]
+      "tags": ["backend", "database", "cloud-platform"],
+      "useOnResume": true
     },
     {
       "name": "AWS Relational Database Service",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["cloud-platform"]
+      "tags": ["cloud-platform"],
+      "useOnResume": true
     },
     {
       "name": "microservices",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": false
     },
     {
       "name": "GitHub Actions",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["tools"]
+      "tags": ["tools"],
+      "useOnResume": true
     },
     {
       "name": "New Relic",
       "level": "Expert",
       "rating": 4,
-      "tags": ["tools"]
+      "tags": ["tools"],
+      "useOnResume": true
     },
     {
       "name": "SEO",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "observability & performance",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "team building & leadership",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts", "management"]
+      "tags": ["concepts", "management"],
+      "useOnResume": true
     },
     {
       "name": "scalability",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "key performance metrics",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "technical planning",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     },
     {
       "name": "goal setting",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts", "management"]
+      "tags": ["concepts", "management"],
+      "useOnResume": false
     },
     {
       "name": "OKRs",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts", "management"]
+      "tags": ["concepts", "management"],
+      "useOnResume": false
     },
     {
       "name": "hiring & onboarding",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts", "management"]
+      "tags": ["concepts", "management"],
+      "useOnResume": true
     },
     {
       "name": "risk management",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"]
+      "tags": ["concepts"],
+      "useOnResume": true
     }
   ],
   "projects": [

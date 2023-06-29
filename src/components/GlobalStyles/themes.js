@@ -11,6 +11,8 @@ export default css`
     --secondary-text-color: var(--color-neutrals-600);
     --secondary-text-hover-color: var(--color-neutrals-700);
 
+    --text-color-on-teal-300: #112a46;
+
     --tertiary-background-color: var(--color-neutrals-200);
 
     --accent-text-color: var(--color-neutrals-500);

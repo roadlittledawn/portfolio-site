@@ -80,6 +80,16 @@ $mobile-breakpoint: 500px;
 
   section {
     margin: 1em 0;
+    &:first-of-type {
+      margin-bottom: 0;
+    }
+    &:nth-of-type(2) {
+      margin-top: 0;
+    }
+  }
+
+  .all-caps {
+    text-transform: uppercase;
   }
 
   .center-vertical {
@@ -115,7 +125,31 @@ $mobile-breakpoint: 500px;
   }
 
   .header {
-    text-align: center;
+    display: grid;
+    grid-template-columns: 55% 45%;
+    align-items: center;
+    padding: 1em;
+    background-color: var(--color-teal-300);
+    h1,
+    h2 {
+      color: var(--text-color-on-teal-300);
+      margin: 0;
+    }
+  }
+
+  .basicsInfo {
+    background-color: var(--color-teal-300);
+    padding: 0 1em 1em 1em;
+    ul {
+      justify-content: flex-start;
+      padding-left: 0;
+      li {
+        margin-left: 0;
+      }
+    }
+    a {
+      color: var(--text-color-on-teal-300);
+    }
   }
 
   .listHorizontal {
@@ -123,16 +157,31 @@ $mobile-breakpoint: 500px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-
     li {
       margin: 0 1em;
     }
   }
+
+  .listHorizontalBullets {
+    li {
+      display: inline-block;
+      &:before {
+        content: "\00a0\2022\00a0\00a0";
+        color: #999;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 12px;
+      }
+      &:first-child:before {
+        content: "";
+      }
+    }
+  }
+
   .skills-grid {
     display: grid;
     grid-template-columns: 110px 1fr;
     h3 {
-      margin: 0.25em 0 0 0;
+      margin: 0.95em 0 0 0;
       text-transform: capitalize;
     }
   }
