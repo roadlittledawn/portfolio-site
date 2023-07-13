@@ -599,17 +599,19 @@
   "work": [
     {
       "name": "New Relic",
-      "location": "Remote (Portland, OR)",
+      "location": "Remote",
       "description": "",
       "position": "Manager, Software Engineering",
       "url": "",
-      "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source docs / developer websites, as well as in-product help / onboarding content.",
+      "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source docs & developer websites, as well as in-product help / onboarding content.",
       "highlights": [
-        "Lead and participate in system design and architecture planning.",
-        "Planned UI work to raise improve user experience on sites (SUPR-Q scores over 4).",
-        "Scale team from 3 to 5 engineers",
-        "Establish and track team health, system health, and key business metrics to ensure team success.",
-        "Work closely with product managers / leadership / key stakeholders to shape our roadmap, and manage / prioritize the team's work.",
+        "Oversee content system for 500 unique contributors annually.",
+        "Led UI projects to improve user experience on sites (SUPR-Q scores over 4).",
+        "Establish new team and scaled it from 3 to 5 engineers.",
+        "Facilitate feature / system design and architecture planning, drive team technical roadmap.",
+        "Lead interviewing, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team",
+        "Establish and track team / system health, and key business metrics to define & ensure team success.",
+        "Work closely with product managers / leadership / stakeholders to shape our roadmap, and manage & prioritize the team's work.",
         "Coach and support engineers to grow their career, take ownership of their work, and do work they're proud of."
       ],
       "isCurrentRole": true,

@@ -81,7 +81,7 @@ const ResumePage = ({ data, location }) => {
               </div>
               <div
                 css={css`
-                  padding: 0.25em;
+                  padding: 0 0.25em;
                   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
                   .dark-mode & {
                     border: 1px solid var(--color-neutrals-400);
@@ -146,15 +146,49 @@ const renderContent = (data) => {
           <div className={styles.basicsInfo}>
             <ul className={styles.listHorizontal}>
               <li>
+                <FeatherIcon
+                  name="mail"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0;
+                  `}
+                />{" "}
                 <a href={`mailto:${basics.email}`}>{basics.email}</a>
               </li>
 
-              <li>{basics.phone}</li>
+              <li>
+                {" "}
+                <FeatherIcon
+                  name="phone"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0.25em;
+                  `}
+                />{" "}
+                {basics.phone}
+              </li>
 
-              <li>{basics.locationAsString}</li>
+              <li>
+                {" "}
+                <FeatherIcon
+                  name="map-pin"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0.25em;
+                  `}
+                />{" "}
+                {basics.locationAsString}
+              </li>
               {basics.profiles.map((profile) => (
                 <>
                   <li key={profile.network}>
+                    <FeatherIcon
+                      name={profile.network.toLowerCase()}
+                      size="1em"
+                      css={css`
+                        margin: 0 0.5em 0 0.25em;
+                      `}
+                    />{" "}
                     <a href={profile.url}>{profile.network}</a>
                   </li>
                 </>
@@ -182,11 +216,11 @@ const renderContent = (data) => {
         </section>
 
         <section>
-          {renderSkillList("concepts")}
           {renderSkillList("frontend")}
           {renderSkillList("backend")}
           {renderSkillList("tools")}
           {renderSkillList("cloud-platform")}
+          {renderSkillList("concepts")}
         </section>
 
         <section>
