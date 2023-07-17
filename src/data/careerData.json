@@ -7,7 +7,7 @@
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams. A builder and life-long learner at heart.",
-    "positioningStatement": "<p>Empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship resilient, high-throughput teams. And code when I have the time :)</p><p>My approach balances technical with the human. I love envisioniong what's possible and how to practically build toward it. I love prototyping, planning systems (both technical and human), and finding ways for my teams to track and provide value.</p>",
+    "positioningStatement": "<p>Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship resilient, high-throughput teams. And code when I have the time.</p><p>I have a blend of technical expertise and people-centric approach. A visionary leader, adept at iterative development and proficient in system planning. Passionate about prototyping, optimizing team processes, and empowering engineers to grow their careers and deliver outstanding work.</p>",
     "industrySubDomains": [
       "content management systems",
       "developer experience",
@@ -632,7 +632,6 @@
       "summary": "Develop and maintain sites, services, and content tooling to help New Relic's customers onboard and get the most out of the product. Served on and helped lead various teams such as Developer Experience, Developer Enablement, UX Product Language. Served in various orgs such as Growth - User Lifecycle, User Experience Platform, and Experience Design.",
       "highlights": [
         "Provide technical input into roadmap planning, prioritize backlog, prototype, scope and plan upcoming work.",
-        "Maintain and grow open source content contributor system from 400+ contributors.",
         "Improve internationalization system to scale reliably and to support adding full coverage of an additional language in days with machine translation.",
         "Develop new sites, product UI views, and system to support an program called Instant Observability (collection of quickstart bundles for users to start monitoring their software quickly).",
         "Migrate Drupal site to Gatsby + Github based system with automation for internationalization, syncing content via various services to New Relic's product UI."

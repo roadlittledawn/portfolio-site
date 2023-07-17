@@ -24,7 +24,6 @@ const ResumePage = ({ data, location }) => {
         <div
           css={css`
             height: 100vh;
-            padding: 0.25em;
           `}
         >
           {renderContent(data)}
@@ -81,11 +80,12 @@ const ResumePage = ({ data, location }) => {
               </div>
               <div
                 css={css`
-                  padding: 0 0.25em;
                   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                  padding: 0.25em;
                   .dark-mode & {
                     border: 1px solid var(--color-neutrals-400);
                     box-shadow: 0 5px 10px #70ccd370;
+                    padding: 0.25em 0.25em 0 0.25em;
                   }
                   @media screen and (max-width: 600px) {
                     height: auto;
@@ -131,7 +131,11 @@ const renderContent = (data) => {
   return (
     <>
       <div className={styles.resumeBody}>
-        <section>
+        <section
+          css={css`
+            background-color: #006c75;
+          `}
+        >
           <div className={styles.header}>
             <div>
               <h1>{basics.name}</h1>
@@ -227,7 +231,14 @@ const renderContent = (data) => {
           <h2>Experience</h2>
           <ul className={styles.noBullets}>
             {workHistory.map((gig, idx) => (
-              <li key={`gig-${idx}`}>
+              <li
+                key={`gig-${idx}`}
+                css={css`
+                  page-break-before: ${idx === workHistory.length - 1
+                    ? "always"
+                    : "auto"};
+                `}
+              >
                 <div
                   css={css`
                     display: flex;
