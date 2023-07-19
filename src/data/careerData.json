@@ -294,6 +294,13 @@
       "useOnResume": true
     },
     {
+      "name": "oAuth",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "technical"],
+      "useOnResume": true
+    },
+    {
       "name": "SEO",
       "level": "Expert",
       "rating": 4,
