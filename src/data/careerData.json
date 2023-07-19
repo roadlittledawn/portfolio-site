@@ -224,7 +224,7 @@
       "useOnResume": true
     },
     {
-      "name": "internationalization",
+      "name": "i18n",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["concepts"],
