@@ -6,7 +6,7 @@ import cx from "classnames";
 import { css } from "@emotion/react";
 import PageTitle from "../components/PageTitle";
 import MainLayout from "../layouts/MainLayout";
-import * as styles from "./Resume2.module.scss";
+import * as styles from "./Resume.module.scss";
 import resumePdfLink from "../files/clinton-langosch-resume-eng.pdf";
 import FeatherIcon from "../components/Icons/FeatherIcon";
 import { getNameOfMonth } from "../utils/time";
