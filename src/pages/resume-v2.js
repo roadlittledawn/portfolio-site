@@ -183,6 +183,17 @@ const renderContent = (data) => {
                 />{" "}
                 {basics.locationAsString}
               </li>
+              <li>
+                {" "}
+                <FeatherIcon
+                  name="window"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0.25em;
+                  `}
+                />{" "}
+                <a href={basics.url}>Portfolio</a>
+              </li>
               {basics.profiles.map((profile) => (
                 <>
                   <li key={profile.network}>
@@ -298,6 +309,7 @@ export const pageQuery = graphql`
   query {
     basics {
       name
+      url
       email
       locationAsString
       positioningStatement
