@@ -8,7 +8,7 @@ import moment from "moment";
  */
 const getNameOfMonth = (monthNumber) =>
   new Date(2021, monthNumber - 1, 10).toLocaleString("default", {
-    month: "long",
+    month: "short",
   });
 
 /**
