@@ -162,7 +162,7 @@ const GlobalStyles = ({ layout }) => (
 
       hr {
         border: none;
-        border-bottom: 1px solid var(--divider-color);
+        border-bottom: 1px solid var(--color-neutrals-400);
       }
 
       var,

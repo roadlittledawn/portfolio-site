@@ -47,6 +47,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       rating: Int
       yearsOfExperience: Int
       tags: [String]
+      iconName: String
+      useOnResume: Boolean!
     }
     type Projects implements Node {
       name: String!
@@ -62,6 +64,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Work implements Node {
       name: String!
       position: String
+      location: String
       startDate: String
       endDate: String
       summary: String
@@ -112,26 +115,33 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
     },
   });
 
-  skills.map(({ name, level, rating, yearsOfExperience, tags }, idx) => {
-    const id = createNodeId(`${idx}-${name}`);
-    const data = {
-      name,
-      level,
-      rating,
-      yearsOfExperience,
-      tags,
-    };
-    createNode({
-      ...data,
-      id,
-      parent: null,
-      children: [],
-      internal: {
-        type: "Skills",
-        contentDigest: createContentDigest(data),
-      },
-    });
-  });
+  skills.map(
+    (
+      { name, level, rating, yearsOfExperience, tags, iconName, useOnResume },
+      idx
+    ) => {
+      const id = createNodeId(`${idx}-${name}`);
+      const data = {
+        name,
+        level,
+        rating,
+        yearsOfExperience,
+        useOnResume,
+        iconName,
+        tags,
+      };
+      createNode({
+        ...data,
+        id,
+        parent: null,
+        children: [],
+        internal: {
+          type: "Skills",
+          contentDigest: createContentDigest(data),
+        },
+      });
+    }
+  );
   projects.map(
     (
       {
@@ -176,6 +186,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
       {
         name,
         position,
+        location,
         startDate,
         endDate,
         summary,
@@ -191,6 +202,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
       const data = {
         name,
         position,
+        location,
         startDate,
         endDate,
         summary,

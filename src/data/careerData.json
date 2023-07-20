@@ -1,18 +1,20 @@
 {
   "basics": {
     "name": "Clinton Langosch",
-    "label": "Software Engineering Manager | @newrelic",
+    "label": "Software Engineering Manager",
     "image": "https://avatars3.githubusercontent.com/u/2952843?v=4",
-    "email": "clinton.langosch@gmail.com",
+    "email": "clinton.langosch.prof@gmail.com",
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
-    "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams.",
+    "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams. A builder and life-long learner at heart.",
+    "positioningStatement": "<p>Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient, teams. And code when I have the time.</p><p>I have a blend of technical expertise and people-centric approach. A visionary leader, adept at iterative development and proficient in system planning. Passionate about prototyping, optimizing team processes, and empowering engineers to grow their careers and deliver outstanding work.</p>",
+    "industrySubDomains": [
+      "content management systems",
+      "developer experience",
+      "product led growth",
+      "experience design"
+    ],
     "profiles": [
-      {
-        "network": "gitconnected",
-        "username": "roadlittledawn",
-        "url": "https://gitconnected.com/roadlittledawn"
-      },
       {
         "network": "GitHub",
         "username": "roadlittledawn",
@@ -43,140 +45,374 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["frontend", "library"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Javascript",
       "level": "Advanced",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Apache",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend"],
-      "yearsOfExperience": 7
+      "yearsOfExperience": 7,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "GraphQL",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["frontend", "backend"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "PHP",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "HTML",
       "level": "Expert",
       "rating": 5,
       "tags": ["frontend", "markup"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "CSS",
       "level": "Advanced",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Sass",
       "level": "Advanced",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Node.js",
       "level": "Advanced",
       "rating": 4,
       "tags": ["backend"],
-      "yearsOfExperience": 1
+      "yearsOfExperience": 1,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "MySQL",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "database"],
-      "yearsOfExperience": 10
+      "yearsOfExperience": 10,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "MongoDB",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "database"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "PostgreSQL",
       "level": "Intermediate",
       "rating": 2,
       "tags": ["backend", "database"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Docker",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "tools"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Gatsby",
       "level": "Advanced",
       "rating": 5,
       "tags": ["frontend", "framework", "javascript", "react", "node"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Git",
       "level": "Advanced",
       "rating": 4,
       "tags": ["tools"],
-      "yearsOfExperience": 7
+      "yearsOfExperience": 7,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Jest",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["tools", "testing"],
-      "yearsOfExperience": 3
+      "yearsOfExperience": 3,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Next.js",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["frontend", "framework", "javascript", "react", "node"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "NPM",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["tools"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Typescript",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["frontend"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     },
     {
       "name": "Yarn",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["tools"],
-      "yearsOfExperience": 4
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "ESLint",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "Prettier",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "coaching & mentoring",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["concepts", "management"],
+      "iconName": "user",
+      "useOnResume": true
+    },
+    {
+      "name": "i18n",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["concepts"],
+      "iconName": "globe",
+      "useOnResume": true
+    },
+    {
+      "name": "agile scrum",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["concepts", "project management"],
+      "iconName": "briefcase",
+      "useOnResume": true
+    },
+    {
+      "name": "full stack development",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "AWS Lambda",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "cloud-platform"],
+      "iconName": "aws",
+      "useOnResume": true
+    },
+    {
+      "name": "AWS S3",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "cloud-platform"],
+      "iconName": "aws",
+      "useOnResume": true
+    },
+    {
+      "name": "AWS DynamoDB",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["backend", "database", "cloud-platform"],
+      "iconName": "aws",
+      "useOnResume": true
+    },
+    {
+      "name": "AWS Relational Database Service",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["cloud-platform"],
+      "iconName": "aws",
+      "useOnResume": true
+    },
+    {
+      "name": "microservices",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": false
+    },
+    {
+      "name": "GitHub Actions",
+      "level": "Intermediate",
+      "rating": 4,
+      "tags": ["tools"],
+      "iconName": "github",
+      "useOnResume": true
+    },
+    {
+      "name": "New Relic",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["tools"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "oAuth",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "technical"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "SEO",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"],
+      "iconName": "search",
+      "useOnResume": true
+    },
+    {
+      "name": "observability & performance",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"],
+      "iconName": "bar-chart",
+      "useOnResume": true
+    },
+    {
+      "name": "team building & leadership",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "management"],
+      "iconName": "user",
+      "useOnResume": true
+    },
+    {
+      "name": "scalability",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "key performance metrics",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "technical planning",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": "gear",
+      "useOnResume": true
+    },
+    {
+      "name": "goal setting",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "management"],
+      "iconName": "user",
+      "useOnResume": false
+    },
+    {
+      "name": "OKRs",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts", "management"],
+      "iconName": "user",
+      "useOnResume": false
+    },
+    {
+      "name": "hiring & onboarding",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts", "management"],
+      "iconName": "user",
+      "useOnResume": true
+    },
+    {
+      "name": "risk management",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": "alert-circle",
+      "useOnResume": true
     }
   ],
   "projects": [
@@ -414,15 +650,19 @@
   "work": [
     {
       "name": "New Relic",
-      "location": "Portland, OR",
+      "location": "Remote",
       "description": "",
       "position": "Manager, Software Engineering",
       "url": "",
-      "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source docs / developer websites, as well as in-product help / onboarding content.",
+      "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source docs & developer websites, as well as in-product help / onboarding content.",
       "highlights": [
-        "Lead and participate in system design and architecture planning.",
-        "Establish and track team health, system health, and key business metrics to ensure team success.",
-        "Work closely with product managers / leadership / key stakeholders to shape our roadmap, and manage / prioritize the team's work.",
+        "Oversee content system for 500 unique contributors annually.",
+        "Led UI projects to improve user experience on sites (SUPR-Q scores over 4).",
+        "Establish new team and scaled it from 3 to 5 engineers.",
+        "Facilitate feature / system design and architecture planning, drive team technical roadmap.",
+        "Lead interviewing, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team",
+        "Establish and track team / system health, and key business metrics to define & ensure team success.",
+        "Work closely with product managers / leadership / stakeholders to shape our roadmap, and manage & prioritize the team's work.",
         "Coach and support engineers to grow their career, take ownership of their work, and do work they're proud of."
       ],
       "isCurrentRole": true,
@@ -443,7 +683,6 @@
       "summary": "Develop and maintain sites, services, and content tooling to help New Relic's customers onboard and get the most out of the product. Served on and helped lead various teams such as Developer Experience, Developer Enablement, UX Product Language. Served in various orgs such as Growth - User Lifecycle, User Experience Platform, and Experience Design.",
       "highlights": [
         "Provide technical input into roadmap planning, prioritize backlog, prototype, scope and plan upcoming work.",
-        "Maintain and grow open source content contributor system from 400+ contributors.",
         "Improve internationalization system to scale reliably and to support adding full coverage of an additional language in days with machine translation.",
         "Develop new sites, product UI views, and system to support an program called Instant Observability (collection of quickstart bundles for users to start monitoring their software quickly).",
         "Migrate Drupal site to Gatsby + Github based system with automation for internationalization, syncing content via various services to New Relic's product UI."
@@ -462,7 +701,7 @@
     },
     {
       "name": "Freelance",
-      "location": "",
+      "location": "Remote",
       "description": "",
       "position": "Software Engineer",
       "url": "",

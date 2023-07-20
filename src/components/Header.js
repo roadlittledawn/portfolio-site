@@ -66,7 +66,7 @@ const Header = ({ profiles, className }) => {
                     background-color: #fddf99;
                     border-radius: 50%;
                     left: 0;
-                    top: 0;
+                    top: 4px;
                     transform: translate(389%, -1087%);
                     z-index: 100;
                     box-shadow: 0 0 30px 15px #fddf99;
