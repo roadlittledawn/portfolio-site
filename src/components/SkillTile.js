@@ -19,9 +19,10 @@ const SkillTile = ({ name, rating, iconName }) => {
         position: relative;
         display: flex;
         align-items: center;
+        /* justify-content: center; */
         border: 1px solid var(--color-neutrals-600);
         border-radius: 0.25rem;
-        max-height: 125px;
+        /* min-height: 92px; */
         padding: 0.25em;
         &:after {
           content: "";
@@ -45,16 +46,13 @@ const SkillTile = ({ name, rating, iconName }) => {
         }
       `}
     >
-      <div
-        css={css`
-          margin: 0 1em 0 0;
-        `}
-      >
+      <div>
         <Icon name={iconName} viewbox="0 0 128 128" size="2.5em" />
       </div>
       <div
         css={css`
           font-size: 0.85em;
+          width: 100%;
           text-align: center;
         `}
       >
