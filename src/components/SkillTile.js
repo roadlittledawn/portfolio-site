@@ -22,7 +22,7 @@ const SkillTile = ({ name, rating, iconName }) => {
         /* justify-content: center; */
         border: 1px solid var(--color-neutrals-600);
         border-radius: 0.25rem;
-        /* min-height: 92px; */
+        min-height: 66px;
         padding: 0.25em;
         &:after {
           content: "";
@@ -46,7 +46,11 @@ const SkillTile = ({ name, rating, iconName }) => {
         }
       `}
     >
-      <div>
+      <div
+        css={css`
+          margin-right: 0.25em;
+        `}
+      >
         <Icon name={iconName} viewbox="0 0 128 128" size="2.5em" />
       </div>
       <div
