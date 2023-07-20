@@ -46,6 +46,7 @@
       "rating": 3,
       "tags": ["frontend", "library"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -54,6 +55,7 @@
       "rating": 4,
       "tags": ["frontend"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -62,6 +64,7 @@
       "rating": 2,
       "tags": ["backend"],
       "yearsOfExperience": 7,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -70,6 +73,7 @@
       "rating": 3,
       "tags": ["frontend", "backend"],
       "yearsOfExperience": 3,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -78,6 +82,7 @@
       "rating": 3,
       "tags": ["backend"],
       "yearsOfExperience": 10,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -86,6 +91,7 @@
       "rating": 5,
       "tags": ["frontend", "markup"],
       "yearsOfExperience": 10,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -94,6 +100,7 @@
       "rating": 4,
       "tags": ["frontend"],
       "yearsOfExperience": 10,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -102,6 +109,7 @@
       "rating": 4,
       "tags": ["frontend"],
       "yearsOfExperience": 10,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -110,6 +118,7 @@
       "rating": 4,
       "tags": ["backend"],
       "yearsOfExperience": 1,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -118,6 +127,7 @@
       "rating": 3,
       "tags": ["backend", "database"],
       "yearsOfExperience": 10,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -126,6 +136,7 @@
       "rating": 2,
       "tags": ["backend", "database"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -134,6 +145,7 @@
       "rating": 2,
       "tags": ["backend", "database"],
       "yearsOfExperience": 3,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -142,6 +154,7 @@
       "rating": 2,
       "tags": ["backend", "tools"],
       "yearsOfExperience": 3,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -150,6 +163,7 @@
       "rating": 5,
       "tags": ["frontend", "framework", "javascript", "react", "node"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -158,6 +172,7 @@
       "rating": 4,
       "tags": ["tools"],
       "yearsOfExperience": 7,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -166,6 +181,7 @@
       "rating": 3,
       "tags": ["tools", "testing"],
       "yearsOfExperience": 3,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -174,6 +190,7 @@
       "rating": 4,
       "tags": ["frontend", "framework", "javascript", "react", "node"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -182,6 +199,7 @@
       "rating": 4,
       "tags": ["tools"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -190,6 +208,7 @@
       "rating": 4,
       "tags": ["frontend"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -198,6 +217,7 @@
       "rating": 3,
       "tags": ["tools"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -206,6 +226,7 @@
       "rating": 3,
       "tags": ["tools"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -214,13 +235,15 @@
       "rating": 3,
       "tags": ["tools"],
       "yearsOfExperience": 4,
+      "iconName": null,
       "useOnResume": true
     },
     {
       "name": "coaching & mentoring",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["concepts"],
+      "tags": ["concepts", "management"],
+      "iconName": "user",
       "useOnResume": true
     },
     {
@@ -228,6 +251,7 @@
       "level": "Intermediate",
       "rating": 4,
       "tags": ["concepts"],
+      "iconName": "globe",
       "useOnResume": true
     },
     {
@@ -235,6 +259,7 @@
       "level": "Expert",
       "rating": 5,
       "tags": ["concepts", "project management"],
+      "iconName": "briefcase",
       "useOnResume": true
     },
     {
@@ -242,6 +267,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -249,6 +275,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "cloud-platform"],
+      "iconName": "aws",
       "useOnResume": true
     },
     {
@@ -256,6 +283,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "cloud-platform"],
+      "iconName": "aws",
       "useOnResume": true
     },
     {
@@ -263,6 +291,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["backend", "database", "cloud-platform"],
+      "iconName": "aws",
       "useOnResume": true
     },
     {
@@ -270,6 +299,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["cloud-platform"],
+      "iconName": "aws",
       "useOnResume": true
     },
     {
@@ -277,6 +307,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
+      "iconName": null,
       "useOnResume": false
     },
     {
@@ -284,6 +315,7 @@
       "level": "Intermediate",
       "rating": 4,
       "tags": ["tools"],
+      "iconName": "github",
       "useOnResume": true
     },
     {
@@ -291,6 +323,7 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["tools"],
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -298,6 +331,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts", "technical"],
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -305,6 +339,7 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["concepts"],
+      "iconName": "search",
       "useOnResume": true
     },
     {
@@ -312,6 +347,7 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["concepts"],
+      "iconName": "bar-chart",
       "useOnResume": true
     },
     {
@@ -319,6 +355,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts", "management"],
+      "iconName": "user",
       "useOnResume": true
     },
     {
@@ -326,6 +363,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -333,6 +371,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
+      "iconName": null,
       "useOnResume": true
     },
     {
@@ -340,6 +379,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
+      "iconName": "gear",
       "useOnResume": true
     },
     {
@@ -347,6 +387,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts", "management"],
+      "iconName": "user",
       "useOnResume": false
     },
     {
@@ -354,6 +395,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts", "management"],
+      "iconName": "user",
       "useOnResume": false
     },
     {
@@ -361,6 +403,7 @@
       "level": "Expert",
       "rating": 4,
       "tags": ["concepts", "management"],
+      "iconName": "user",
       "useOnResume": true
     },
     {
@@ -368,6 +411,7 @@
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
+      "iconName": "alert-circle",
       "useOnResume": true
     }
   ],

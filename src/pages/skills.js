@@ -171,8 +171,9 @@ const SkillsPageFilterable = ({ data, location }) => {
                 <SkillTile
                   key={skill.name}
                   name={skill.name}
+                  iconName={skill.iconName || skill.name}
                   rating={skill.rating}
-                  progressBarWidth={(skill.rating / SKILL_RATINGS.MAX) * 100}
+                  tags={skill.tags}
                 />
               ))}
         </div>
@@ -195,6 +196,7 @@ export const pageQuery = graphql`
         name
         level
         tags
+        iconName
       }
     }
   }

@@ -47,6 +47,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       rating: Int
       yearsOfExperience: Int
       tags: [String]
+      iconName: String
       useOnResume: Boolean!
     }
     type Projects implements Node {
@@ -115,7 +116,10 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
   });
 
   skills.map(
-    ({ name, level, rating, yearsOfExperience, tags, useOnResume }, idx) => {
+    (
+      { name, level, rating, yearsOfExperience, tags, iconName, useOnResume },
+      idx
+    ) => {
       const id = createNodeId(`${idx}-${name}`);
       const data = {
         name,
@@ -123,6 +127,7 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
         rating,
         yearsOfExperience,
         useOnResume,
+        iconName,
         tags,
       };
       createNode({

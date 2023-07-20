@@ -12,7 +12,7 @@ const SKILL_RATINGS_BAR_COLOR = {
   5: { light: `var(--color-green-200)`, dark: `var(--color-green-600)` },
 };
 
-const SkillTile = ({ name, rating, progressBarWidth }) => {
+const SkillTile = ({ name, rating, iconName }) => {
   return (
     <div
       css={css`
@@ -50,7 +50,7 @@ const SkillTile = ({ name, rating, progressBarWidth }) => {
           margin: 0 1em 0 0;
         `}
       >
-        <Icon name={name} viewbox="0 0 128 128" size="2.5em" />
+        <Icon name={iconName} viewbox="0 0 128 128" size="2.5em" />
       </div>
       <div
         css={css`
