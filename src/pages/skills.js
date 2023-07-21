@@ -5,8 +5,7 @@ import { navigate } from "@reach/router";
 import { css } from "@emotion/react";
 import MainLayout from "../layouts/MainLayout";
 import SkillTile from "../components/SkillTile";
-import Icon from "../components/Icons";
-import { SKILL_RATINGS, siteOptions } from "../utils/constants";
+import { siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 import SEO from "../components/SEO";
 
@@ -28,6 +27,7 @@ const SkillsPageFilterable = ({ data, location }) => {
     minSkillLevel: 1,
     maxSkillLevel: 5,
     category: "all",
+    sortBy: "rating",
   });
 
   useEffect(() => {
@@ -35,10 +35,12 @@ const SkillsPageFilterable = ({ data, location }) => {
     const minSkillLevel = queryParams.get("minSkillLevel");
     const maxSkillLevel = queryParams.get("maxSkillLevel");
     const category = queryParams.get("category");
+    const sortBy = queryParams.get("sortBy");
     setFormState(() => ({
       minSkillLevel: minSkillLevel || 1,
       maxSkillLevel: maxSkillLevel || 5,
       category: category || "all",
+      sortBy: sortBy || "rating",
     }));
   }, [location.search]);
 
@@ -51,12 +53,25 @@ const SkillsPageFilterable = ({ data, location }) => {
     if (valueType === "category") {
       params.set("category", e.target.value);
     }
+    if (valueType === "sortBy") {
+      params.set("sortBy", e.target.value);
+    }
     navigate(`?${params.toString()}`);
   };
 
   const filteredSkills = allSkills
     .filter(filterByRating(formState.minSkillLevel, formState.maxSkillLevel))
-    .filter(filterByCategory(formState.category));
+    .filter(filterByCategory(formState.category))
+    .sort((a, b) => {
+      if (typeof a[formState.sortBy] === "string") {
+        return (
+          b[formState.sortBy].toLowerCase() < a[formState.sortBy].toLowerCase()
+        );
+      }
+      if (typeof a[formState.sortBy] === "number") {
+        return b[formState.sortBy] - a[formState.sortBy];
+      }
+    });
 
   return (
     <>
@@ -154,6 +169,41 @@ const SkillsPageFilterable = ({ data, location }) => {
               <option value="backend">Back end</option>
               <option value="database">Databases</option>
               <option value="tools">Tools</option>
+              <option value="concepts">Tools</option>
+              <option value="management">Management</option>
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="sortBy-input"
+              css={css`
+                font-weight: bold;
+              `}
+            >
+              Sort By
+            </label>
+            <select
+              id="sortBy-input"
+              css={css`
+                background-color: transparent;
+                margin: 0.25em 0;
+                width: 100%;
+                cursor: pointer;
+                border-radius: 0.25rem;
+                border: 1px solid var(--color-neutrals-500);
+                padding: 0.5em;
+
+                .dark-mode & {
+                  color: var(--color-dark-700);
+                  background-color: var(--color-dark-300);
+                  border: var(--color-dark-300);
+                }
+              `}
+              value={formState.sortBy || "rating"}
+              onChange={(e) => handleFilterChange(e, "sortBy")}
+            >
+              <option value="rating">Rating</option>
+              <option value="name">Skill Name</option>
             </select>
           </div>
         </div>
@@ -165,17 +215,15 @@ const SkillsPageFilterable = ({ data, location }) => {
           `}
         >
           {filteredSkills &&
-            filteredSkills
-              .sort((a, b) => b.rating - a.rating)
-              .map((skill) => (
-                <SkillTile
-                  key={skill.name}
-                  name={skill.name}
-                  iconName={skill.iconName || skill.name}
-                  rating={skill.rating}
-                  tags={skill.tags}
-                />
-              ))}
+            filteredSkills.map((skill) => (
+              <SkillTile
+                key={skill.name}
+                name={skill.name}
+                iconName={skill.iconName || skill.name}
+                rating={skill.rating}
+                tags={skill.tags}
+              />
+            ))}
         </div>
       </MainLayout>
     </>
