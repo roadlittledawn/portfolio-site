@@ -169,7 +169,7 @@ const SkillsPageFilterable = ({ data, location }) => {
               <option value="backend">Back end</option>
               <option value="database">Databases</option>
               <option value="tools">Tools</option>
-              <option value="concepts">Tools</option>
+              <option value="concepts">Concepts</option>
               <option value="management">Management</option>
             </select>
           </div>
