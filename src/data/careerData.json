@@ -7,7 +7,7 @@
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams. A builder and life-long learner at heart.",
-    "positioningStatement": "<p>Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient, teams. And code when I have the time.</p><p>I have a blend of technical expertise and people-centric approach. A visionary leader, adept at iterative development and proficient in system planning. Passionate about prototyping, optimizing team processes, and empowering engineers to grow their careers and deliver outstanding work.</p>",
+    "positioningStatement": "<p>Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient, teams. And code when I have the time.</p><p>I have a blend of technical expertise and people-centric approach. A analytical and innovative leader, adept at iterative development and proficient in system planning. Passionate about prototyping, optimizing team processes, and empowering engineers to grow their careers and deliver outstanding work.</p>",
     "industrySubDomains": [
       "content management systems",
       "developer experience",
@@ -459,13 +459,114 @@
       "useOnResume": true
     },
     {
-      "name": "Heroku",
-      "level": "Beginner",
-      "rating": 2,
-      "tags": ["backend", "cloud-platform"],
-      "yearsOfExperience": 3,
-      "iconName": "heroku",
-      "useOnResume": false
+      "name": "VMware",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["tools"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "debugging",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "SaaS",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "unit testing",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "analytics",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "innovative",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "continuous improvement",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "elasticsearch",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "performance tuning",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "data visualization",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "collaborative",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "data pipeline",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "automated workflow",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     }
   ],
   "projects": [
@@ -713,10 +814,10 @@
         "Led UI projects to improve user experience on sites (SUPR-Q scores over 4).",
         "Establish new team and scaled it from 3 to 5 engineers.",
         "Facilitate feature / system design and architecture planning, drive team technical roadmap.",
-        "Lead interviewing, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team",
+        "Lead interviewing, coding exercises, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team",
         "Establish and track team / system health, and key business metrics to define & ensure team success.",
-        "Work closely with product managers / leadership / stakeholders to shape our roadmap, and manage & prioritize the team's work.",
-        "Coach and support engineers to grow their career, take ownership of their work, and do work they're proud of."
+        "Work closely with product management / leadership / stakeholders to shape our roadmap, and manage & prioritize the team's work.",
+        "Coach and support engineers to grow their career, take ownership of their work, continuously improve, and do work they're proud of."
       ],
       "isCurrentRole": true,
       "start": {
@@ -736,6 +837,7 @@
       "summary": "Develop and maintain sites, services, and content tooling to help New Relic's customers onboard and get the most out of the product. Served on and helped lead various teams such as Developer Experience, Developer Enablement, UX Product Language. Served in various orgs such as Growth - User Lifecycle, User Experience Platform, and Experience Design.",
       "highlights": [
         "Provide technical input into roadmap planning, prioritize backlog, prototype, scope and plan upcoming work.",
+        "Develop coding standards and excellence in team code reviews",
         "Improve internationalization system to scale reliably and to support adding full coverage of an additional language in days with machine translation.",
         "Develop new sites, product UI views, and system to support an program called Instant Observability (collection of quickstart bundles for users to start monitoring their software quickly).",
         "Migrate Drupal site to Gatsby + Github based system with automation for internationalization, syncing content via various services to New Relic's product UI."

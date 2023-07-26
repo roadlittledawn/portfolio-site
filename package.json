@@ -17,7 +17,8 @@
     "lint": "eslint src/",
     "lint:fix": "yarn lint --fix",
     "sync": "node ./scripts/fetchCareerData",
-    "pdf:resume": "node ./scripts/generateResumePdf.js"
+    "pdf:resume": "node ./scripts/generateResumePdf.js",
+    "add:skills": "node scripts/bulk-add-skills.js"
   },
   "dependencies": {
     "@emotion/core": "^11.0.0",
@@ -55,6 +56,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "html-pdf-node": "^1.0.8"
+    "html-pdf-node": "^1.0.8",
+    "yargs": "^17.7.2"
   }
 }
