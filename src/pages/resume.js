@@ -245,9 +245,7 @@ const renderContent = (data) => {
               <li
                 key={`gig-${idx}`}
                 css={css`
-                  page-break-before: ${idx === workHistory.length - 1
-                    ? "always"
-                    : "auto"};
+                  page-break-before: ${idx === 1 ? "always" : "auto"};
                 `}
               >
                 <div
