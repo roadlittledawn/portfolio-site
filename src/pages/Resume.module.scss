@@ -15,6 +15,10 @@ $mobile-breakpoint: 500px;
 
   --main-background-color: white;
 
+  @media print {
+    background-color: white;
+  }
+
   margin: 0;
   padding: 0;
   font-family: var(--font-family-base);
