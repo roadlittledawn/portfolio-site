@@ -149,12 +149,30 @@
       "useOnResume": true
     },
     {
+      "name": "Sequalize",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["backend", "database"],
+      "yearsOfExperience": 3,
+      "iconName": "sequalize",
+      "useOnResume": true
+    },
+    {
       "name": "Docker",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "tools"],
       "yearsOfExperience": 3,
       "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "Bash",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["backend"],
+      "yearsOfExperience": 3,
+      "iconName": "bash",
       "useOnResume": true
     },
     {
@@ -167,12 +185,30 @@
       "useOnResume": true
     },
     {
+      "name": "Bootstrap",
+      "level": "Advanced",
+      "rating": 5,
+      "tags": ["frontend", "framework", "javascript", "react", "node"],
+      "yearsOfExperience": 4,
+      "iconName": "bootstrap",
+      "useOnResume": true
+    },
+    {
       "name": "Git",
       "level": "Advanced",
       "rating": 4,
       "tags": ["tools"],
       "yearsOfExperience": 7,
       "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "D3.js",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["frontend", "library"],
+      "yearsOfExperience": 7,
+      "iconName": "d3",
       "useOnResume": true
     },
     {
@@ -351,6 +387,14 @@
       "useOnResume": true
     },
     {
+      "name": "API development",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"],
+      "iconName": "bar-chart",
+      "useOnResume": false
+    },
+    {
       "name": "team building & leadership",
       "level": "Intermediate",
       "rating": 3,
@@ -413,6 +457,15 @@
       "tags": ["concepts"],
       "iconName": "alert-circle",
       "useOnResume": true
+    },
+    {
+      "name": "Heroku",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["backend", "cloud-platform"],
+      "yearsOfExperience": 3,
+      "iconName": "heroku",
+      "useOnResume": false
     }
   ],
   "projects": [
