@@ -188,7 +188,7 @@
       "name": "Bootstrap",
       "level": "Advanced",
       "rating": 5,
-      "tags": ["frontend", "framework", "javascript", "react", "node"],
+      "tags": ["frontend", "framework"],
       "yearsOfExperience": 4,
       "iconName": "bootstrap",
       "useOnResume": true
