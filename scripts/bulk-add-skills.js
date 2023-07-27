@@ -50,7 +50,8 @@ const updateCareerData = (dataArray) => {
 yargs
   .command({
     command: "$0 <skills>",
-    describe: "Update careerData.json with new skills",
+    describe:
+      "Update careerData.json with new skills. <skills> is a string with multiple values delimited by commas.",
     handler: (argv) => {
       const skillsArray = argv.skills.split(",");
       updateCareerData(skillsArray);
