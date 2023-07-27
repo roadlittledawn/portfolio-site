@@ -37,7 +37,6 @@ const ResumePage = ({ data, location }) => {
               css={css`
                 margin: 0 auto;
                 max-width: 8.5in;
-                /* height: 11.2in; */
                 width: 100%;
               `}
             >
