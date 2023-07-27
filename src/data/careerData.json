@@ -149,12 +149,30 @@
       "useOnResume": true
     },
     {
+      "name": "Sequalize",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["backend", "database"],
+      "yearsOfExperience": 3,
+      "iconName": "sequalize",
+      "useOnResume": true
+    },
+    {
       "name": "Docker",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "tools"],
       "yearsOfExperience": 3,
       "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "Bash",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["backend"],
+      "yearsOfExperience": 3,
+      "iconName": "bash",
       "useOnResume": true
     },
     {
@@ -167,12 +185,30 @@
       "useOnResume": true
     },
     {
+      "name": "Bootstrap",
+      "level": "Advanced",
+      "rating": 5,
+      "tags": ["frontend", "framework"],
+      "yearsOfExperience": 4,
+      "iconName": "bootstrap",
+      "useOnResume": true
+    },
+    {
       "name": "Git",
       "level": "Advanced",
       "rating": 4,
       "tags": ["tools"],
       "yearsOfExperience": 7,
       "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "D3.js",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["frontend", "library"],
+      "yearsOfExperience": 7,
+      "iconName": "d3",
       "useOnResume": true
     },
     {
@@ -351,6 +387,14 @@
       "useOnResume": true
     },
     {
+      "name": "API development",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"],
+      "iconName": "bar-chart",
+      "useOnResume": false
+    },
+    {
       "name": "team building & leadership",
       "level": "Intermediate",
       "rating": 3,
@@ -415,28 +459,12 @@
       "useOnResume": true
     },
     {
-      "name": "VMware",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["tools"],
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
-      "name": "debugging",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
       "name": "SaaS",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
       "iconName": null,
-      "useOnResume": true
+      "useOnResume": false
     },
     {
       "name": "unit testing",
@@ -447,76 +475,33 @@
       "useOnResume": true
     },
     {
-      "name": "analytics",
+      "name": "analytics & data analysis",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
       "iconName": null,
-      "useOnResume": true
+      "useOnResume": false
     },
     {
-      "name": "innovative",
+      "name": "Elasticsearch",
       "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
-      "name": "continuous improvement",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
-      "name": "elasticsearch",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
+      "rating": 2,
+      "tags": ["backend"],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
     },
     {
-      "name": "performance tuning",
+      "name": "core web vitals",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": ["frontend", "concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
     },
     {
       "name": "data visualization",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
-      "yearsOfExperience": 4,
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
-      "name": "collaborative",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
-      "yearsOfExperience": 4,
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
-      "name": "data pipeline",
-      "level": "Intermediate",
-      "rating": 3,
-      "tags": ["concepts"],
-      "yearsOfExperience": 4,
-      "iconName": null,
-      "useOnResume": true
-    },
-    {
-      "name": "automated workflow",
       "level": "Intermediate",
       "rating": 3,
       "tags": ["concepts"],
