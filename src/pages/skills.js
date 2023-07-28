@@ -131,8 +131,9 @@ const SkillsPageFilterable = ({ data, location }) => {
               onChange={(e) => handleFilterChange(e, "range")}
             >
               <option value="1,5">All the things</option>
-              <option value="4,5">Stuff I&apos;m pretty good at</option>
-              <option value="1,2">Stuff I&apos;m still learning</option>
+              <option value="4,5">Fluent</option>
+              <option value="3,3">Intermediate</option>
+              <option value="1,2">Beginner</option>
             </select>
           </div>
           <div css={css``}>

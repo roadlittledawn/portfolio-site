@@ -413,7 +413,7 @@
     {
       "name": "key performance metrics",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts"],
       "iconName": null,
       "useOnResume": true
@@ -421,7 +421,7 @@
     {
       "name": "technical planning",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts"],
       "iconName": "gear",
       "useOnResume": true
@@ -429,7 +429,7 @@
     {
       "name": "goal setting",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts", "management"],
       "iconName": "user",
       "useOnResume": false
@@ -437,7 +437,7 @@
     {
       "name": "OKRs",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts", "management"],
       "iconName": "user",
       "useOnResume": false
@@ -453,7 +453,7 @@
     {
       "name": "risk management",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts"],
       "iconName": "alert-circle",
       "useOnResume": true
@@ -461,7 +461,7 @@
     {
       "name": "SaaS",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts"],
       "iconName": null,
       "useOnResume": false
@@ -477,7 +477,7 @@
     {
       "name": "analytics & data analysis",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["concepts"],
       "iconName": null,
       "useOnResume": false
@@ -494,7 +494,7 @@
     {
       "name": "core web vitals",
       "level": "Intermediate",
-      "rating": 3,
+      "rating": 4,
       "tags": ["frontend", "concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
