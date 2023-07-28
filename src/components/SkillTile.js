@@ -8,7 +8,7 @@ const SKILL_RATINGS_BAR_COLOR = {
   1: { light: `var(--color-red-200)`, dark: `var(--color-red-600)` },
   2: { light: `var(--color-red-200)`, dark: `var(--color-red-600)` },
   3: { light: `var(--color-yellow-200)`, dark: `var(--color-yellow-600)` },
-  4: { light: `var(--color-yellow-200)`, dark: `var(--color-yellow-600)` },
+  4: { light: `var(--color-green-200)`, dark: `var(--color-green-600)` },
   5: { light: `var(--color-green-200)`, dark: `var(--color-green-600)` },
 };
 
@@ -51,11 +51,11 @@ const SkillTile = ({ name, rating, iconName }) => {
           margin-right: 0.25em;
         `}
       >
-        <Icon name={iconName} viewbox="0 0 128 128" size="2.5em" />
+        <Icon name={iconName} viewbox="0 0 128 128" size="2em" />
       </div>
       <div
         css={css`
-          font-size: 0.85em;
+          font-size: 0.75em;
           width: 100%;
           text-align: center;
         `}
@@ -71,8 +71,9 @@ SkillTile.defaultProps = {
 };
 
 SkillTile.propTypes = {
-  icon: PropTypes.string,
-  title: PropTypes.string,
+  name: PropTypes.string,
+  rating: PropTypes.number,
+  iconName: PropTypes.string,
 };
 
 export default SkillTile;
