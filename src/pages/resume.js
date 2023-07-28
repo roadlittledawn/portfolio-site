@@ -37,7 +37,6 @@ const ResumePage = ({ data, location }) => {
               css={css`
                 margin: 0 auto;
                 max-width: 8.5in;
-                /* height: 11.2in; */
                 width: 100%;
               `}
             >
@@ -82,8 +81,9 @@ const ResumePage = ({ data, location }) => {
                 css={css`
                   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
                   padding: 0.25em;
+                  border: 1px solid var(--color-neutrals-400);
                   .dark-mode & {
-                    border: 1px solid var(--color-neutrals-400);
+                    /* border: 1px solid var(--color-neutrals-400); */
                     box-shadow: 0 5px 10px #70ccd370;
                     padding: 0.25em 0.25em 0 0.25em;
                   }
@@ -245,9 +245,7 @@ const renderContent = (data) => {
               <li
                 key={`gig-${idx}`}
                 css={css`
-                  page-break-before: ${idx === workHistory.length - 1
-                    ? "always"
-                    : "auto"};
+                  page-break-before: ${idx === 1 ? "always" : "auto"};
                 `}
               >
                 <div

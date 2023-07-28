@@ -17,7 +17,9 @@
     "lint": "eslint src/",
     "lint:fix": "yarn lint --fix",
     "sync": "node ./scripts/fetchCareerData",
-    "pdf:resume": "node ./scripts/generateResumePdf.js"
+    "pdf:resume": "node ./scripts/generateResumePdf.js",
+    "skills:add": "node scripts/bulk-add-skills.js",
+    "skills:list": "node scripts/list-skills.js"
   },
   "dependencies": {
     "@emotion/core": "^11.0.0",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@newrelic/eslint-plugin-newrelic": "^0.3.1",
+    "commander": "^11.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.31.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
