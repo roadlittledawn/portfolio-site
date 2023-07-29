@@ -7,7 +7,7 @@
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams. A builder and life-long learner at heart.",
-    "positioningStatement": "<p>Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient, teams. And code when I have the time.</p><p>I have a blend of technical expertise and people-centric approach. A analytical and innovative leader, adept at iterative development and proficient in system planning. Passionate about prototyping, optimizing team processes, and empowering engineers to grow their careers and deliver outstanding work.</p>",
+    "positioningStatement": "<p>Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient teams. And code when I have the time.</p><p>Strategic thinker, envisioner of the possible, project manager & planner, optimizer of team processes, puzzle lover, empowerer of engineers to do great work and grow their careers.</p>",
     "industrySubDomains": [
       "content management systems",
       "developer experience",
@@ -508,6 +508,15 @@
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
+    },
+    {
+      "name": "problem solving",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
     }
   ],
   "projects": [
@@ -754,11 +763,11 @@
         "Oversee content system for 500 unique contributors annually.",
         "Led UI projects to improve user experience on sites (SUPR-Q scores over 4).",
         "Establish new team and scaled it from 3 to 5 engineers.",
-        "Facilitate feature / system design and architecture planning, drive team technical roadmap.",
+        "Facilitate feature / system design and architecture planning, drive team technical roadmap",
         "Lead interviewing, coding exercises, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team",
         "Establish and track team / system health, and key business metrics to define & ensure team success.",
-        "Work closely with product management / leadership / stakeholders to shape our roadmap, and manage & prioritize the team's work.",
-        "Coach and support engineers to grow their career, take ownership of their work, continuously improve, and do work they're proud of."
+        "Work closely with product management / leadership / design / other stakeholders to shape our roadmap, and manage & prioritize the team's work.",
+        "Coach and support engineers to grow their career, take ownership of team systems / technologies / processes, solve problems, continuously improve, and do work they're proud of."
       ],
       "isCurrentRole": true,
       "start": {
