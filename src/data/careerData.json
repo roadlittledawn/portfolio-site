@@ -44,7 +44,10 @@
       "name": "React",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["frontend", "library"],
+      "tags": [
+        "frontend",
+        "library"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -53,7 +56,9 @@
       "name": "Javascript",
       "level": "Advanced",
       "rating": 4,
-      "tags": ["frontend"],
+      "tags": [
+        "frontend"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -62,7 +67,9 @@
       "name": "Apache",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["backend"],
+      "tags": [
+        "backend"
+      ],
       "yearsOfExperience": 7,
       "iconName": null,
       "useOnResume": true
@@ -71,7 +78,10 @@
       "name": "GraphQL",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["frontend", "backend"],
+      "tags": [
+        "frontend",
+        "backend"
+      ],
       "yearsOfExperience": 3,
       "iconName": null,
       "useOnResume": true
@@ -80,7 +90,9 @@
       "name": "PHP",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend"],
+      "tags": [
+        "backend"
+      ],
       "yearsOfExperience": 10,
       "iconName": null,
       "useOnResume": true
@@ -89,7 +101,10 @@
       "name": "HTML",
       "level": "Expert",
       "rating": 5,
-      "tags": ["frontend", "markup"],
+      "tags": [
+        "frontend",
+        "markup"
+      ],
       "yearsOfExperience": 10,
       "iconName": null,
       "useOnResume": true
@@ -98,7 +113,9 @@
       "name": "CSS",
       "level": "Advanced",
       "rating": 4,
-      "tags": ["frontend"],
+      "tags": [
+        "frontend"
+      ],
       "yearsOfExperience": 10,
       "iconName": null,
       "useOnResume": true
@@ -107,7 +124,9 @@
       "name": "Sass",
       "level": "Advanced",
       "rating": 4,
-      "tags": ["frontend"],
+      "tags": [
+        "frontend"
+      ],
       "yearsOfExperience": 10,
       "iconName": null,
       "useOnResume": true
@@ -116,7 +135,9 @@
       "name": "Node.js",
       "level": "Advanced",
       "rating": 4,
-      "tags": ["backend"],
+      "tags": [
+        "backend"
+      ],
       "yearsOfExperience": 1,
       "iconName": null,
       "useOnResume": true
@@ -125,7 +146,10 @@
       "name": "MySQL",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "database"],
+      "tags": [
+        "backend",
+        "database"
+      ],
       "yearsOfExperience": 10,
       "iconName": null,
       "useOnResume": true
@@ -134,7 +158,10 @@
       "name": "MongoDB",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["backend", "database"],
+      "tags": [
+        "backend",
+        "database"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -143,7 +170,10 @@
       "name": "PostgreSQL",
       "level": "Intermediate",
       "rating": 2,
-      "tags": ["backend", "database"],
+      "tags": [
+        "backend",
+        "database"
+      ],
       "yearsOfExperience": 3,
       "iconName": null,
       "useOnResume": true
@@ -152,7 +182,10 @@
       "name": "Sequalize",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["backend", "database"],
+      "tags": [
+        "backend",
+        "database"
+      ],
       "yearsOfExperience": 3,
       "iconName": "sequalize",
       "useOnResume": true
@@ -161,7 +194,10 @@
       "name": "Docker",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["backend", "tools"],
+      "tags": [
+        "backend",
+        "tools"
+      ],
       "yearsOfExperience": 3,
       "iconName": null,
       "useOnResume": true
@@ -170,7 +206,9 @@
       "name": "Bash",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["backend"],
+      "tags": [
+        "backend"
+      ],
       "yearsOfExperience": 3,
       "iconName": "bash",
       "useOnResume": true
@@ -179,7 +217,13 @@
       "name": "Gatsby",
       "level": "Advanced",
       "rating": 5,
-      "tags": ["frontend", "framework", "javascript", "react", "node"],
+      "tags": [
+        "frontend",
+        "framework",
+        "javascript",
+        "react",
+        "node"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -188,7 +232,10 @@
       "name": "Bootstrap",
       "level": "Advanced",
       "rating": 5,
-      "tags": ["frontend", "framework"],
+      "tags": [
+        "frontend",
+        "framework"
+      ],
       "yearsOfExperience": 4,
       "iconName": "bootstrap",
       "useOnResume": true
@@ -197,7 +244,9 @@
       "name": "Git",
       "level": "Advanced",
       "rating": 4,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "yearsOfExperience": 7,
       "iconName": null,
       "useOnResume": true
@@ -206,7 +255,10 @@
       "name": "D3.js",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["frontend", "library"],
+      "tags": [
+        "frontend",
+        "library"
+      ],
       "yearsOfExperience": 7,
       "iconName": "d3",
       "useOnResume": true
@@ -215,7 +267,10 @@
       "name": "Jest",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["tools", "testing"],
+      "tags": [
+        "tools",
+        "testing"
+      ],
       "yearsOfExperience": 3,
       "iconName": null,
       "useOnResume": true
@@ -224,7 +279,13 @@
       "name": "Next.js",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["frontend", "framework", "javascript", "react", "node"],
+      "tags": [
+        "frontend",
+        "framework",
+        "javascript",
+        "react",
+        "node"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -233,7 +294,9 @@
       "name": "NPM",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -242,7 +305,9 @@
       "name": "Typescript",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["frontend"],
+      "tags": [
+        "frontend"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -251,7 +316,9 @@
       "name": "Yarn",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -260,7 +327,9 @@
       "name": "ESLint",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -269,7 +338,9 @@
       "name": "Prettier",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -278,7 +349,10 @@
       "name": "coaching & mentoring",
       "level": "Beginner",
       "rating": 2,
-      "tags": ["concepts", "management"],
+      "tags": [
+        "concepts",
+        "management"
+      ],
       "iconName": "user",
       "useOnResume": true
     },
@@ -286,7 +360,9 @@
       "name": "i18n",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": "globe",
       "useOnResume": true
     },
@@ -294,7 +370,10 @@
       "name": "agile scrum",
       "level": "Expert",
       "rating": 5,
-      "tags": ["concepts", "project management"],
+      "tags": [
+        "concepts",
+        "project management"
+      ],
       "iconName": "briefcase",
       "useOnResume": true
     },
@@ -302,7 +381,9 @@
       "name": "full stack development",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": true
     },
@@ -310,7 +391,10 @@
       "name": "AWS Lambda",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "cloud-platform"],
+      "tags": [
+        "backend",
+        "cloud-platform"
+      ],
       "iconName": "aws",
       "useOnResume": true
     },
@@ -318,7 +402,10 @@
       "name": "AWS S3",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "cloud-platform"],
+      "tags": [
+        "backend",
+        "cloud-platform"
+      ],
       "iconName": "aws",
       "useOnResume": true
     },
@@ -326,7 +413,11 @@
       "name": "AWS DynamoDB",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["backend", "database", "cloud-platform"],
+      "tags": [
+        "backend",
+        "database",
+        "cloud-platform"
+      ],
       "iconName": "aws",
       "useOnResume": true
     },
@@ -334,7 +425,9 @@
       "name": "AWS Relational Database Service",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["cloud-platform"],
+      "tags": [
+        "cloud-platform"
+      ],
       "iconName": "aws",
       "useOnResume": true
     },
@@ -342,7 +435,9 @@
       "name": "microservices",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": false
     },
@@ -350,7 +445,9 @@
       "name": "GitHub Actions",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "iconName": "github",
       "useOnResume": true
     },
@@ -358,7 +455,9 @@
       "name": "New Relic",
       "level": "Expert",
       "rating": 4,
-      "tags": ["tools"],
+      "tags": [
+        "tools"
+      ],
       "iconName": null,
       "useOnResume": true
     },
@@ -366,7 +465,10 @@
       "name": "oAuth",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts", "technical"],
+      "tags": [
+        "concepts",
+        "technical"
+      ],
       "iconName": null,
       "useOnResume": true
     },
@@ -374,7 +476,9 @@
       "name": "SEO",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": "search",
       "useOnResume": true
     },
@@ -382,7 +486,9 @@
       "name": "observability & performance",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": "bar-chart",
       "useOnResume": true
     },
@@ -390,7 +496,9 @@
       "name": "API development",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": "bar-chart",
       "useOnResume": false
     },
@@ -398,7 +506,10 @@
       "name": "team building & leadership",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts", "management"],
+      "tags": [
+        "concepts",
+        "management"
+      ],
       "iconName": "user",
       "useOnResume": true
     },
@@ -406,7 +517,9 @@
       "name": "scalability",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": true
     },
@@ -414,7 +527,9 @@
       "name": "key performance metrics",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": true
     },
@@ -422,7 +537,9 @@
       "name": "technical planning",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": "gear",
       "useOnResume": true
     },
@@ -430,7 +547,10 @@
       "name": "goal setting",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts", "management"],
+      "tags": [
+        "concepts",
+        "management"
+      ],
       "iconName": "user",
       "useOnResume": false
     },
@@ -438,7 +558,10 @@
       "name": "OKRs",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts", "management"],
+      "tags": [
+        "concepts",
+        "management"
+      ],
       "iconName": "user",
       "useOnResume": false
     },
@@ -446,7 +569,10 @@
       "name": "hiring & onboarding",
       "level": "Expert",
       "rating": 4,
-      "tags": ["concepts", "management"],
+      "tags": [
+        "concepts",
+        "management"
+      ],
       "iconName": "user",
       "useOnResume": true
     },
@@ -454,7 +580,9 @@
       "name": "risk management",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": "alert-circle",
       "useOnResume": true
     },
@@ -462,7 +590,9 @@
       "name": "SaaS",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": false
     },
@@ -470,7 +600,9 @@
       "name": "unit testing",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": true
     },
@@ -478,7 +610,9 @@
       "name": "analytics & data analysis",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "iconName": null,
       "useOnResume": false
     },
@@ -486,7 +620,9 @@
       "name": "Elasticsearch",
       "level": "Intermediate",
       "rating": 2,
-      "tags": ["backend"],
+      "tags": [
+        "backend"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -495,7 +631,10 @@
       "name": "core web vitals",
       "level": "Intermediate",
       "rating": 4,
-      "tags": ["frontend", "concepts"],
+      "tags": [
+        "frontend",
+        "concepts"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -504,7 +643,9 @@
       "name": "data visualization",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -513,7 +654,20 @@
       "name": "problem solving",
       "level": "Intermediate",
       "rating": 3,
-      "tags": ["concepts"],
+      "tags": [
+        "concepts"
+      ],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "incident management",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": [
+        "concepts"
+      ],
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
@@ -535,7 +689,10 @@
       "website": "https://docs.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for for all things New Relic docs / help content",
       "primaryLanguage": "JavaScript",
-      "languages": ["JavaScript", "Node.js"],
+      "languages": [
+        "JavaScript",
+        "Node.js"
+      ],
       "libraries": [
         "Docker",
         "React.js",
@@ -573,8 +730,13 @@
       "website": "https://developer.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for in-depth, developer-focused content for New Relic APIs, platform tools, developer advocacy, etc.",
       "primaryLanguage": "JavaScript",
-      "languages": ["Node.js", "JavaScript"],
-      "libraries": ["React.js"],
+      "languages": [
+        "Node.js",
+        "JavaScript"
+      ],
+      "libraries": [
+        "React.js"
+      ],
       "githubUrl": "https://github.com/newrelic/developer-website",
       "repositoryUrl": "https://github.com/newrelic/developer-website",
       "start": {
@@ -605,8 +767,15 @@
       "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
       "summary": "A demo site + NPM package that serves as a central component / utility library for all New Relic Gatsby sites",
       "primaryLanguage": "JavaScript",
-      "languages": ["JavaScript", "Node.js"],
-      "libraries": ["Gatsby", "React.js", "NPM"],
+      "languages": [
+        "JavaScript",
+        "Node.js"
+      ],
+      "libraries": [
+        "Gatsby",
+        "React.js",
+        "NPM"
+      ],
       "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
       "start": {
@@ -637,8 +806,13 @@
       "website": "https://opensource.newrelic.com",
       "summary": "React.js / Node.js based, open source static site for exploring New Relic's open source program and its projects.",
       "primaryLanguage": "JavaScript",
-      "languages": ["JavaScript", "Node.js"],
-      "libraries": ["React.js"],
+      "languages": [
+        "JavaScript",
+        "Node.js"
+      ],
+      "libraries": [
+        "React.js"
+      ],
       "githubUrl": "https://github.com/newrelic/opensource-website",
       "repositoryUrl": "https://github.com/newrelic/opensource-website",
       "start": {
@@ -669,8 +843,14 @@
       "website": "https://clintonlangosch.com",
       "summary": "Gatsby site for all things me and software engineering.",
       "primaryLanguage": "JavaScript",
-      "languages": ["JavaScript", "HTML", "SCSS"],
-      "libraries": ["React.js"],
+      "languages": [
+        "JavaScript",
+        "HTML",
+        "SCSS"
+      ],
+      "libraries": [
+        "React.js"
+      ],
       "githubUrl": "https://github.com/roadlittledawn/portfolio-site",
       "repositoryUrl": "https://github.com/roadlittledawn/portfolio-site",
       "start": {
@@ -701,8 +881,12 @@
       "website": "https://brie-clinton-wedding.com/",
       "summary": "Gatsby frontend site wedding day info and to RSVP 🥂 🕺",
       "primaryLanguage": "JavaScript",
-      "languages": ["JavaScript"],
-      "libraries": ["React.js"],
+      "languages": [
+        "JavaScript"
+      ],
+      "libraries": [
+        "React.js"
+      ],
       "githubUrl": "https://github.com/roadlittledawn/wedding-website",
       "repositoryUrl": "https://github.com/roadlittledawn/wedding-website",
       "start": {
@@ -733,8 +917,13 @@
       "website": "",
       "summary": "Backend GraphQL API service to manage / store RSVP guest info in MongoDB.",
       "primaryLanguage": "JavaScript",
-      "languages": ["JavaScript", "Node.js"],
-      "libraries": ["Apollo Server Express"],
+      "languages": [
+        "JavaScript",
+        "Node.js"
+      ],
+      "libraries": [
+        "Apollo Server Express"
+      ],
       "githubUrl": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
       "repositoryUrl": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
       "start": {
