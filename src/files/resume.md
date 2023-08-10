@@ -37,7 +37,7 @@ I have a blend of technical expertise and people-centric approach. A analytical 
 - Sass
 - Typescript
 
-### backend
+### Backend
 
 - Apache
 - AWS DynamoDB
@@ -51,7 +51,7 @@ I have a blend of technical expertise and people-centric approach. A analytical 
 - MySQL
 - Node.js
 - PHP
-- PostgreSQL
+- postgres
 - Sequalize
 
 ### tools
@@ -68,6 +68,7 @@ I have a blend of technical expertise and people-centric approach. A analytical 
 
 ### cloud platform
 
+- AWS
 - AWS DynamoDB
 - AWS Lambda
 - AWS Relational Database Service
@@ -76,6 +77,7 @@ I have a blend of technical expertise and people-centric approach. A analytical 
 ### concepts
 
 - agile scrum
+- CI / CD
 - coaching & mentoring
 - core web vitals
 - data visualization
@@ -91,6 +93,7 @@ I have a blend of technical expertise and people-centric approach. A analytical 
 - team building & leadership
 - technical planning
 - unit testing
+- collaboration
 
 ## Experience
 
