@@ -4,6 +4,11 @@ const yargs = require("yargs");
 
 const dataFilePath = path.join(process.cwd(), "src/data/careerData.json");
 
+/**
+ * @description Takes array of names forwarded from CLI args and adds them to `skills`. Rest of skill data is hard coded for now. Ran via `yarn skills:add`.
+ * @param {string[]} dataArray - Array of skill names
+ */
+
 const updateCareerData = (dataArray) => {
   fs.readFile(dataFilePath, "utf8", (err, data) => {
     if (err) {
