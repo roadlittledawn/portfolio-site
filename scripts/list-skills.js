@@ -7,7 +7,7 @@ const dataFilePath = path.join(process.cwd(), "src/data/careerData.json");
 /**
  * @description Reads careerData.json file and logs list of skills to console by specified format.
  * @param {String} tag Specify tag to look for in each skill.
- * @param {(name|skillObject)} format Specify format of list. `name` = name only. `skillObject` is whole object as stored in careerData.json
+ * @param {('name'|'skillObject')} format Specify format of list. `name` = name only. `skillObject` is whole object as stored in careerData.json
  * @returns `null`. Logs results to console.
  */
 
