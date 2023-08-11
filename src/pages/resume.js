@@ -130,7 +130,7 @@ const renderContent = (data) => {
 
   return (
     <>
-      <div className={styles.resumeBody}>
+      <div data-target-id="resume-page" className={styles.resumeBody}>
         <section
           css={css`
             background-color: #006c75;
