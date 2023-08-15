@@ -8,6 +8,7 @@ import SkillTile from "../components/SkillTile";
 import { siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 import SEO from "../components/SEO";
+import Battery from "../components/BatteryTile";
 
 const filterByRating = (minSkillLevel, maxSkillLevel) => (skill) => {
   return minSkillLevel <= skill.rating && maxSkillLevel >= skill.rating;
@@ -212,17 +213,16 @@ const SkillsPageFilterable = ({ data, location }) => {
           css={css`
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
-            grid-gap: 1rem;
+            grid-gap: 2.5rem;
           `}
         >
           {filteredSkills &&
             filteredSkills.map((skill) => (
-              <SkillTile
+              <Battery
                 key={skill.name}
                 name={skill.name}
                 iconName={skill.iconName || skill.name}
                 rating={skill.rating}
-                tags={skill.tags}
               />
             ))}
         </div>
