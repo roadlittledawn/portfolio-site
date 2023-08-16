@@ -48,7 +48,7 @@ const SkillTile = ({ name, rating, iconName }) => {
     >
       <div
         css={css`
-          margin-right: 0.25em;
+          margin: 0 0.25em 0 1em;
         `}
       >
         <Icon name={iconName} viewbox="0 0 128 128" size="2em" />
