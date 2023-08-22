@@ -57,6 +57,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       summary: String
       primaryLanguage: String
       languages: [String]
+      libraries: [String]
+      tags: [String]
       githubUrl: String
       repositoryUrl: String
       website: String
@@ -151,6 +153,8 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
         summary,
         primaryLanguage,
         languages,
+        libraries,
+        tags,
         githubUrl,
         repositoryUrl,
         website,
@@ -165,6 +169,8 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest }) => {
         summary,
         primaryLanguage,
         languages,
+        libraries,
+        tags: tags || [],
         githubUrl,
         repositoryUrl,
         website,

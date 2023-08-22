@@ -5,10 +5,21 @@ import FeatherIcon from "../components/Icons";
 
 const ProjectTile = ({
   as: Component,
-  project: { name, summary, languages, repositoryUrl, website },
+  project: {
+    name,
+    summary,
+    languages,
+    libraries,
+    tags,
+    repositoryUrl,
+    website,
+  },
 }) => {
   const mainLink = repositoryUrl || website;
   const links = [{ repositoryUrl }, { website }];
+  const projectMetaDataTags = [...languages, ...libraries, ...tags].filter(
+    Boolean
+  );
 
   const LINK_ICONS = {
     repositoryUrl: "github",
@@ -123,7 +134,7 @@ const ProjectTile = ({
         )}
       </h3>
       <div>{summary}</div>
-      {languages && (
+      {projectMetaDataTags && (
         <ul
           css={css`
             list-style: none;
@@ -137,14 +148,14 @@ const ProjectTile = ({
             padding: 0;
           `}
         >
-          {languages.map((language) => (
+          {projectMetaDataTags.map((tag) => (
             <li
               css={css`
-                margin-right: 15px;
+                margin: 0.25em 0.5em;
               `}
-              key={`lang-${language}`}
+              key={`tag-${tag}`}
             >
-              {language}
+              {tag}
             </li>
           ))}
         </ul>
