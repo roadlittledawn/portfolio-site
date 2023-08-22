@@ -5,8 +5,6 @@ import { graphql } from "gatsby";
 import SEO from "../components/SEO";
 import MainLayout from "../layouts/MainLayout";
 import ProjectTile from "../components/ProjectTile";
-
-import { siteOptions } from "../utils/constants";
 import PageTitle from "../components/PageTitle";
 
 const ProjectsPage = ({ data }) => {
@@ -54,6 +52,8 @@ export const pageQuery = graphql`
         website
         primaryLanguage
         languages
+        libraries
+        tags
         name
       }
     }
