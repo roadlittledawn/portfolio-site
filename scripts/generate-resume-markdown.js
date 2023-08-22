@@ -9,6 +9,7 @@ const writeFileAsync = promisify(fs.writeFile);
 
 async function fetchHTMLAndConvertToMarkdown() {
   try {
+    // Must run `yarn build && yarn serve` first
     const response = await fetch("http://localhost:9000/resume?embed=true");
     const html = await response.text();
 
