@@ -173,7 +173,7 @@ ExperiencePage.propTypes = {
 
 export const pageQuery = graphql`
   query {
-    allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
+    allWork(sort: [{ end: { year: DESC } }, { end: { month: DESC } }]) {
       nodes {
         summary
         isCurrentRole

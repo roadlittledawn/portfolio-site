@@ -313,53 +313,53 @@ ResumePage.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export const pageQuery = graphql`
-  query {
-    basics {
-      summary
-      image
-      phone
-      profiles {
-        network
-        url
-        username
-      }
-    }
-    allSkills {
-      nodes {
-        name
-        level
-        rating
-        yearsOfExperience
-        tags
-      }
-    }
-    allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
-      nodes {
-        summary
-        isCurrentRole
-        company
-        start {
-          month
-          year
-        }
-        end {
-          month
-          year
-        }
-        highlights
-        name
-        position
-      }
-    }
-    allEducation {
-      nodes {
-        name
-        degree
-        yearOfGraduation
-      }
-    }
-  }
-`;
+// export const pageQuery = graphql`
+//   query {
+//     basics {
+//       summary
+//       image
+//       phone
+//       profiles {
+//         network
+//         url
+//         username
+//       }
+//     }
+//     allSkills {
+//       nodes {
+//         name
+//         level
+//         rating
+//         yearsOfExperience
+//         tags
+//       }
+//     }
+//     allWork(sort: [{ end: { year: DESC } }, { end: { month: DESC } }]) {
+//       nodes {
+//         summary
+//         isCurrentRole
+//         company
+//         start {
+//           month
+//           year
+//         }
+//         end {
+//           month
+//           year
+//         }
+//         highlights
+//         name
+//         position
+//       }
+//     }
+//     allEducation {
+//       nodes {
+//         name
+//         degree
+//         yearOfGraduation
+//       }
+//     }
+//   }
+// `;
 
 export default ResumePage;
