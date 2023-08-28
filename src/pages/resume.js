@@ -331,7 +331,7 @@ export const pageQuery = graphql`
         useOnResume
       }
     }
-    allWork(sort: { fields: [end___year, end___month], order: [DESC, DESC] }) {
+    allWork(sort: [{ end: { year: DESC } }, { end: { month: DESC } }]) {
       nodes {
         summary
         isCurrentRole
