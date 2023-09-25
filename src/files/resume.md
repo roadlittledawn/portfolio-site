@@ -13,7 +13,7 @@ Software Engineering Manager
 
 *   Content Management Systems
 *   Developer Experience
-*   Product Led Growth
+*   Full Stack Development
 *   Experience Design
 
 Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient teams. And code when I have the time.
@@ -74,7 +74,7 @@ Strategic thinker, envisioner of the possible, project manager & planner, optimi
 ### concepts
 
 *   coaching & mentoring
-*   i18n
+*   internationalization
 *   agile scrum
 *   full stack development
 *   oAuth
