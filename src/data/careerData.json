@@ -11,7 +11,7 @@
     "industrySubDomains": [
       "Content Management Systems",
       "Developer Experience",
-      "Product Led Growth",
+      "Full Stack Development",
       "Experience Design"
     ],
     "profiles": [
@@ -283,7 +283,7 @@
       "useOnResume": true
     },
     {
-      "name": "i18n",
+      "name": "internationalization",
       "level": "Intermediate",
       "rating": 4,
       "tags": ["concepts"],
