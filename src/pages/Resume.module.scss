@@ -188,6 +188,9 @@ $mobile-breakpoint: 500px;
   }
 
   .skills-grid {
+    &:not(:first-child) {
+      border-top: 1px dashed var(--color-gray-200);
+    }
     display: grid;
     grid-template-columns: 110px 1fr;
     align-items: center;
