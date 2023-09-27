@@ -4,17 +4,17 @@ Clinton Langosch
 Software Engineering Manager
 ----------------------------
 
-*   [clinton.langosch.prof@gmail.com](mailto:clinton.langosch.prof@gmail.com)
+*   [clinton.langosch@gmail.com](mailto:clinton.langosch@gmail.com)
 *   414.520.8365
 *   Portland, OR
 *   [Portfolio](https://clintonlangosch.com)
 *   [GitHub](https://github.com/roadlittledawn)
 *   [LinkedIn](https://www.linkedin.com/in/clinton-langosch)
 
-*   content management systems
-*   developer experience
-*   product led growth
-*   experience design
+*   Content Management Systems
+*   Developer Experience
+*   Full Stack Development
+*   Experience Design
 
 Results-driven, empathetic software engineering leader with a full-stack background. Builder and life-long learner. I ship highly effective, empowered, resilient teams. And code when I have the time.
 
@@ -22,7 +22,7 @@ Strategic thinker, envisioner of the possible, project manager & planner, optimi
 
 ### frontend
 
-*   React
+*   React.js
 *   Javascript
 *   GraphQL
 *   HTML
@@ -74,7 +74,7 @@ Strategic thinker, envisioner of the possible, project manager & planner, optimi
 ### concepts
 
 *   coaching & mentoring
-*   i18n
+*   internationalization
 *   agile scrum
 *   full stack development
 *   oAuth
