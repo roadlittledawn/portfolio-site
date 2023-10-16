@@ -860,6 +860,91 @@
       },
       "company": "Freelance",
       "website": ""
+    },
+    {
+      "name": "New Relic",
+      "location": "Portland, OR",
+      "description": "",
+      "position": "Technical Writer",
+      "summary": "",
+      "highlights": [
+        "Write product documentation and manage Drupal CMS for docs and training sites.",
+        "Develop and manage Drupal CMS for docs and training sites."
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2014,
+        "month": 8
+      },
+      "end": {
+        "year": 2017,
+        "month": 10
+      },
+      "company": "New Relic"
+    },
+    {
+      "name": "JetBlue Airways",
+      "location": "New York, NY",
+      "description": "",
+      "position": "Senior Technical Writer",
+      "summary": "",
+      "highlights": [
+        "Write company documentation for operations manuals, training guides, software/equipment guides, internal procedure and standards guides.",
+        "Develop custom project management site in PHP + MySQL database, and other content tooling."
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2013,
+        "month": 3
+      },
+      "end": {
+        "year": 2014,
+        "month": 8
+      },
+      "company": "JetBlue Airways"
+    },
+    {
+      "name": "JetBlue Airways",
+      "location": "New York, NY",
+      "description": "",
+      "position": "Technical Writer",
+      "summary": "",
+      "highlights": [
+        "Write company documentation for operations manuals, training guides, software/equipment guides, internal procedure and standards guides.",
+        "Develop custom project management site in PHP + MySQL database, and other content tooling."
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2007,
+        "month": 8
+      },
+      "end": {
+        "year": 2013,
+        "month": 3
+      },
+      "company": "JetBlue Airways"
+    },
+    {
+      "name": "Midwest Airlines",
+      "location": "Milwaukee, WI",
+      "description": "",
+      "position": "Technical Documentation Manager",
+      "summary": "",
+      "highlights": [
+        "Manage small technical publications department.",
+        "Write company documentation for operations manuals, training guides, software/equipment guides, internal procedure and standards guides.",
+        "Prepare monthly reports to leadership."
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2006,
+        "month": 4
+      },
+      "end": {
+        "year": 2007,
+        "month": 4
+      },
+      "company": "Midwest Airlines"
     }
   ],
   "publications": [],
