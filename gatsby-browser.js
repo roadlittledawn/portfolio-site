@@ -9,4 +9,5 @@ export const wrapRootElement = ({ element }) => {
   );
 };
 
+export { default as onClientEntry } from './gatsby/on-client-entry';
 export { default as wrapPageElement } from "./gatsby/wrap-page-element";
