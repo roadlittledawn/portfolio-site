@@ -9,9 +9,9 @@
   ],
   "license": "MIT",
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
+    "develop": "gatsby clean && gatsby develop",
+    "start": "gatsby clean && gatsby develop",
+    "build": "gatsby clean && gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "eslint src/",

@@ -114,7 +114,7 @@ const renderContent = (data) => {
     <div className={styles.skillsGrid}>
       <h3>{tagName.replace("-", " ")}</h3>
       <div>
-        <ul className={styles.skillsList}>
+        <ul data-sort-alpha="true" className={styles.skillsList}>
           {skills
             .filter(
               (skill) => skill.tags.includes(tagName) && skill.useOnResume
