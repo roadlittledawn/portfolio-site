@@ -1,17 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { css } from "@emotion/react";
-import useDarkMode from "use-dark-mode";
+import useDarkMode from '../hooks/useDarkMode';
 import Icon from "./Icons";
 import isLocalStorageAvailable from "../utils/isLocalStorageAvailable";
 
 const DarkModeToggle = ({ className, size, onClick }) => {
+
   const isDarkDefault = false;
 
   // If localStorage is not available, tell useDarkMode to just use an in-memory store
   const darkModeOptions = isLocalStorageAvailable()
     ? {}
     : { storageProvider: false };
+
   const darkMode = useDarkMode(isDarkDefault, darkModeOptions);
 
   return (
