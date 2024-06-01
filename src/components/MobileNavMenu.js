@@ -56,7 +56,6 @@ const MobileNavMenu = ({ profiles }) => {
       <Link to="/experience">Experience</Link>
       <Link to="/projects">Projects</Link>
       <Link to="/skills">Skills</Link>
-      <Link href="/resume">Resume</Link>
 
       <div>
         <ul
