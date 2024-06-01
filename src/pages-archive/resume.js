@@ -9,6 +9,7 @@ import MainLayout from "../layouts/MainLayout";
 import * as styles from "./Resume.module.scss";
 import resumePdfLink from "../files/clinton-langosch-resume-eng.pdf";
 import FeatherIcon from "../components/Icons/FeatherIcon";
+import { getNameOfMonth } from "../utils/time";
 
 const ResumePage = ({ data, location }) => {
   const [isEmbed, setIsEmbed] = useState(0);
@@ -34,58 +35,65 @@ const ResumePage = ({ data, location }) => {
             <PageTitle>Resume</PageTitle>
             <div
               css={css`
-                margin: 1em 0;
-                display: flex;
-                justify-content: flex-end;
+                margin: 0 auto;
+                max-width: 8.5in;
+                width: 100%;
               `}
             >
-              <Link
-                to={resumePdfLink}
+              <div
                 css={css`
-                  border: 1px solid transparent;
-                  border-radius: 10px;
-                  text-decoration: none;
-                  padding: 0.5em 1em;
+                  margin: 1em 0;
                   display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  :hover {
-                    color: var(--color-teal-700);
-                    border: 1px solid var(--color-teal-300);
-                    background-color: var(--color-teal-300);
-                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-                      0 1px 5px 0 rgba(0, 0, 0, 0.12),
-                      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                  justify-content: flex-end;
+                `}
+              >
+                <Link
+                  to={resumePdfLink}
+                  css={css`
+                    border: 1px solid transparent;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    padding: 0.5em 1em;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    :hover {
+                      color: var(--color-teal-700);
+                      border: 1px solid var(--color-teal-300);
+                      background-color: var(--color-teal-300);
+                      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                        0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                        0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                    }
+                  `}
+                >
+                  <FeatherIcon
+                    name="save"
+                    size="1em"
+                    css={css`
+                      margin: 0 0.5em 4px 0;
+                    `}
+                  />{" "}
+                  Save as PDF or Print
+                </Link>
+              </div>
+              <div
+                css={css`
+                  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                  padding: 0.25em;
+                  border: 1px solid var(--color-neutrals-400);
+                  .dark-mode & {
+                    /* border: 1px solid var(--color-neutrals-400); */
+                    box-shadow: 0 5px 10px #70ccd370;
+                    padding: 0.25em 0.25em 0 0.25em;
+                  }
+                  @media screen and (max-width: 600px) {
+                    height: auto;
                   }
                 `}
               >
-                <FeatherIcon
-                  name="save"
-                  size="1em"
-                  css={css`
-                    margin: 0 0.5em 4px 0;
-                  `}
-                />{" "}
-                Save as PDF or Print
-              </Link>
-            </div>
-            <div
-              css={css`
-                max-width: 8.5in;
-                height: 11.2in;
-                width: 100%;
-                padding: 0.1in;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-                .dark-mode & {
-                  border: 1px solid var(--color-neutrals-400);
-                  box-shadow: 0 5px 10px #70ccd370;
-                }
-                @media screen and (max-width: 600px) {
-                  height: auto;
-                }
-              `}
-            >
-              {renderContent(data)}
+                {renderContent(data)}
+              </div>
             </div>
           </MainLayout>
         </>
@@ -101,208 +109,190 @@ const renderContent = (data) => {
     allWork: { nodes: workHistory },
     allEducation: { nodes: education },
   } = data;
+
+  const renderSkillList = (tagName) => (
+    <div className={styles.skillsGrid}>
+      <h3>{tagName.replace("-", " ")}</h3>
+      <div>
+        <ul data-sort-alpha="true" className={styles.skillsList}>
+          {skills
+            .filter(
+              (skill) => skill.tags.includes(tagName) && skill.useOnResume
+            )
+            .sort((a, b) => a.name.toUpperCase() > b.name.toUpperCase())
+            .map((skill) => (
+              <li key={skill.name}>{skill.name}</li>
+            ))}
+        </ul>
+      </div>
+    </div>
+  );
+
   return (
     <>
-      <div className={styles.resumeBody}>
-        <div className={cx(styles.gridContainer, styles.page)}>
-          <div className={styles.headerLogo}>
-            <div className={styles.headerImg}>
-              <img
-                src={basics.image}
-                alt="Headshot of Clinton"
-                className={styles.headshot}
-              />
-            </div>
-          </div>
-
-          <div className={cx(styles.headerName, styles.centerVertical)}>
-            <h1>
-              <span>Clinton</span> Langosch
-            </h1>
-          </div>
-
-          <div className={styles.mainSummary}>
-            <p>{basics.summary}</p>
-          </div>
-
-          <div className={styles.sidebar}>
-            <div className={styles.sidebarWrapper}>
-              <div>
-                <h2>skills</h2>
-
-                <h4>Front-end</h4>
-                <ul className={styles.skillsList}>
-                  {skills
-                    .filter((skill) => skill.tags.includes("frontend"))
-                    .sort((a, b) => a.name > b.name)
-                    .map((skill) => (
-                      <li key={skill.name}>{skill.name}</li>
-                    ))}
-                </ul>
-
-                <h4>Back-end</h4>
-                <ul className={styles.skillsList}>
-                  {skills
-                    .filter((skill) => skill.tags.includes("backend"))
-                    .sort((a, b) => a.name > b.name)
-                    .map((skill) => (
-                      <li key={skill.name}>{skill.name}</li>
-                    ))}
-                </ul>
-
-                <h4>Tools</h4>
-                <ul className={styles.skillsList}>
-                  {skills
-                    .filter((skill) => skill.tags.includes("tools"))
-                    .sort((a, b) => a.name > b.name)
-                    .map((skill) => (
-                      <li key={skill.name}>{skill.name}</li>
-                    ))}
-                </ul>
-              </div>
-
-              <div>
-                <h2>education</h2>
-                {education.map((ed) => (
-                  <>
-                    <p>{ed.name}</p>
-                    <p>Graduated: {ed.yearOfGraduation}</p>
-                    <p>Degree: {ed.degree}</p>
-                  </>
-                ))}
-              </div>
-
-              <div className={styles.socialContainer}>
-                <h2>contact</h2>
-
-                <div>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className={styles.socialIcon}
-                    >
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                    </svg>
-                  </span>
-                  {basics.phone}
-                </div>
-
-                <div>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className={styles.socialIcon}
-                    >
-                      <title>Portfolio site</title>
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                      <line x1="3" y1="9" x2="21" y2="9" />
-                      <line x1="9" y1="21" x2="9" y2="9" />
-                    </svg>
-                  </span>
-                  <a href="https://clintonlangosch.com">clintonlangosch.com</a>
-                </div>
-                <div>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className={styles.socialIcon}
-                    >
-                      <title>GitHub</title>
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                  </span>
-                  <a href="https://github.com/roadlittledawn">roadlittledawn</a>
-                </div>
-                <div>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className={styles.socialIcon}
-                    >
-                      <title>LinkedIn</title>
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect
-                        xmlns="http://www.w3.org/2000/svg"
-                        x="2"
-                        y="9"
-                        width="4"
-                        height="12"
-                      ></rect>
-                      <circle
-                        xmlns="http://www.w3.org/2000/svg"
-                        cx="4"
-                        cy="4"
-                        r="2"
-                      ></circle>
-                    </svg>
-                  </span>
-                  <a href="https://www.linkedin.com/in/clinton-langosch">
-                    clinton-langosch
-                  </a>
-                </div>
-                <div>
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className={styles.socialIcon}
-                    >
-                      <title>Email address</title>
-                      <path
-                        xmlns="http://www.w3.org/2000/svg"
-                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                      />
-                      <polyline
-                        xmlns="http://www.w3.org/2000/svg"
-                        points="22,6 12,13 2,6"
-                      />
-                    </svg>
-                  </span>
-                  <a href="mailto:clinton.langosch.prof@gmail.com">
-                    clinton.langosch.prof@gmail.com
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.main}>
+      <div data-target-id="resume-page" className={styles.resumeBody}>
+        <section
+          css={css`
+            background-color: #006c75;
+          `}
+        >
+          <div className={styles.header}>
             <div>
-              <h2>experience</h2>
-
-              {workHistory.map((gig, index) => (
-                <div
-                  className={styles.historyItem}
-                  key={`${gig.company}${index}`}
-                >
-                  <h3>
-                    <span>{gig.company}</span> <span>|</span>{" "}
-                    <span>{gig.position}</span>
-                  </h3>
-                  <div className={styles.timeframe}>
-                    {" "}
-                    {gig.start.year} {`to`}{" "}
-                    {gig.isCurrentRole ? "Present" : gig.end.year}
-                  </div>
-                  <p>{gig.summary}</p>
-                  <div>
-                    <ul>
-                      {gig.highlights.map((highlight, index) => (
-                        <li key={`${gig.company}-highlight-${index}`}>
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
+              <h1>{basics.name}</h1>
+            </div>
+            <div>
+              <h2 className={styles.textCenter}>{basics.label}</h2>
             </div>
           </div>
-        </div>
+        </section>
+
+        <section>
+          <div className={styles.basicsInfo}>
+            <ul className={styles.listHorizontal}>
+              <li>
+                <FeatherIcon
+                  name="mail"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0;
+                  `}
+                />{" "}
+                <a href={`mailto:${basics.email}`}>{basics.email}</a>
+              </li>
+
+              <li>
+                {" "}
+                <FeatherIcon
+                  name="phone"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0.25em;
+                  `}
+                />{" "}
+                {basics.phone}
+              </li>
+
+              <li>
+                {" "}
+                <FeatherIcon
+                  name="map-pin"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0.25em;
+                  `}
+                />{" "}
+                {basics.locationAsString}
+              </li>
+              <li>
+                {" "}
+                <FeatherIcon
+                  name="window"
+                  size="1em"
+                  css={css`
+                    margin: 0 0.5em 0 0.25em;
+                  `}
+                />{" "}
+                <a href={basics.url}>Portfolio</a>
+              </li>
+              {basics.profiles.map((profile) => (
+                <>
+                  <li key={profile.network}>
+                    <FeatherIcon
+                      name={profile.network.toLowerCase()}
+                      size="1em"
+                      css={css`
+                        margin: 0 0.5em 0 0.25em;
+                      `}
+                    />{" "}
+                    <a href={profile.url}>{profile.network}</a>
+                  </li>
+                </>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <div
+            css={css`
+              text-align: center;
+            `}
+          >
+            <ul className={cx(styles.listHorizontalBullets, styles.allCaps)}>
+              {basics.industrySubDomains.map((domain) => (
+                <li key={`domain-${domain}`}>{domain}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div
+            dangerouslySetInnerHTML={{ __html: basics.positioningStatement }}
+          ></div>
+        </section>
+
+        <section>
+          {renderSkillList("frontend")}
+          {renderSkillList("backend")}
+          {renderSkillList("tools")}
+          {renderSkillList("cloud-platform")}
+          {renderSkillList("concepts")}
+        </section>
+
+        <section>
+          <h2>Experience</h2>
+          <ul className={styles.noBullets}>
+            {workHistory.map((gig, idx) => (
+              <li
+                key={`gig-${idx}`}
+                css={css`
+                  page-break-before: ${idx === 1 ? "always" : "auto"};
+                `}
+              >
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: space-between;
+                    font-weight: bold;
+                  `}
+                >
+                  <h3 className={styles.bold}>
+                    {gig.name} - {gig.location}
+                  </h3>
+                  <div
+                    css={css`
+                      font-weight: bold;
+                    `}
+                  >
+                    {getNameOfMonth(gig.start.month)} {gig.start.year} to{" "}
+                    {gig.isCurrentRole
+                      ? "Present"
+                      : `${getNameOfMonth(gig.end.month)} ${gig.end.year}`}
+                  </div>
+                </div>
+                <div>
+                  <h4>{gig.position}</h4>
+                </div>
+                <p>{gig.summary}</p>
+                <ul>
+                  {gig.highlights.map((highlight, idx2) => (
+                    <li key={`${idx}-highlight-${idx2}`}>{highlight}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2>Education</h2>
+          {education.map((ed) => (
+            <>
+              <p>
+                {ed.name}, {ed.yearOfGraduation}. {ed.degree}.
+              </p>
+            </>
+          ))}
+        </section>
       </div>
     </>
   );
@@ -313,53 +303,61 @@ ResumePage.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-// export const pageQuery = graphql`
-//   query {
-//     basics {
-//       summary
-//       image
-//       phone
-//       profiles {
-//         network
-//         url
-//         username
-//       }
-//     }
-//     allSkills {
-//       nodes {
-//         name
-//         level
-//         rating
-//         yearsOfExperience
-//         tags
-//       }
-//     }
-//     allWork(sort: [{ end: { year: DESC } }, { end: { month: DESC } }]) {
-//       nodes {
-//         summary
-//         isCurrentRole
-//         company
-//         start {
-//           month
-//           year
-//         }
-//         end {
-//           month
-//           year
-//         }
-//         highlights
-//         name
-//         position
-//       }
-//     }
-//     allEducation {
-//       nodes {
-//         name
-//         degree
-//         yearOfGraduation
-//       }
-//     }
-//   }
-// `;
+export const pageQuery = graphql`
+  query {
+    basics {
+      name
+      url
+      email
+      locationAsString
+      positioningStatement
+      industrySubDomains
+      label
+      image
+      phone
+      profiles {
+        network
+        url
+        username
+      }
+    }
+    allSkills {
+      nodes {
+        name
+        level
+        rating
+        yearsOfExperience
+        tags
+        useOnResume
+      }
+    }
+    allWork(sort: [{ end: { year: DESC } }, { end: { month: DESC } }]) {
+      nodes {
+        summary
+        isCurrentRole
+        company
+        location
+        start {
+          month
+          year
+        }
+        end {
+          month
+          year
+        }
+        highlights
+        name
+        position
+      }
+    }
+    allEducation {
+      nodes {
+        name
+        degree
+        yearOfGraduation
+      }
+    }
+  }
+`;
 
 export default ResumePage;
