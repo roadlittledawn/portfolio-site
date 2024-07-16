@@ -36,6 +36,29 @@ const ExperiencePage = ({ data }) => {
             max-width: 800px;
           `}
         >
+          <div
+            css={css`
+              margin: 3em 0;
+            `}
+          >
+            <p>
+              Software Engineering Leader with{" "}
+              {calculateTimeBetweenDates({
+                unit: "years",
+                start: [2012, 1],
+                end: [new Date().getFullYear(), new Date().getMonth()],
+              })}{" "}
+              years of experience in full stack development and 11 years in
+              technical communication. I have successfully established, led, and
+              scaled teams to support a variety of programs and organizations,
+              ranging from growth engineering, developer experience/enablement,
+              and experience design. I’ve learned from and contributed to the
+              evolution of product management and engineering operations through
+              all phases of the company lifecycle, from rapidly developing
+              startup, to going public (IPO), to enterprise & market leader, and
+              back to private.
+            </p>
+          </div>
           {gigs
             .sort((a) => (a.isCurrentRole ? -1 : 0))
             .map((gig, index) => {
@@ -152,11 +175,6 @@ const ExperiencePage = ({ data }) => {
                     `}
                   >
                     <p>{gig.summary}</p>
-                    <ul>
-                      {gig.highlights.map((highlight, index) => (
-                        <li key={`highlight-${index}`}>{highlight}</li>
-                      ))}
-                    </ul>
                   </div>
                 </div>
               );
