@@ -38,8 +38,11 @@ const HomePage = ({ data }) => {
             `}
           >
             <h1>
-              Hello there. My name is Clinton. <br />
-              I&apos;m a software engineering manager.
+              My name is Clinton
+              <br />
+              Writer, Builder, Leader at the forefront of knowledge management,
+              onboarding, and customer support.
+              {/* Engineer at Heart, Writer by Trade, Leader by Choice. */}
             </h1>
             <p
               css={css`
@@ -48,7 +51,22 @@ const HomePage = ({ data }) => {
                 line-height: 1.8;
               `}
             >
-              {summary}
+              <p>
+                Experienced technical communicator and leader with 11 years in
+                technical writing and 10 years in full-stack development.
+                I&apos;ve written a wide variety of content, and developed many
+                technical content sites, features, & systems.
+              </p>
+
+              <p>
+                Writer at heart, engineer by trade, leader by choice – I pride
+                myself on putting the <i>technical</i> in technical writer. My
+                passion for technical communication has been a constant
+                throughout my career, thriving at the intersection of technology
+                and content. With a hands-on approach and a deep understanding
+                of software engineering audiences, I apply my technical
+                expertise to create clear, effective content.
+              </p>
             </p>
           </div>
 
