@@ -7,7 +7,7 @@
     "phone": "414.520.8365",
     "url": "https://clintonlangosch.com",
     "summary": "Software engineering leader with a full-stack background who ships resilient, high-throughput teams. A builder and life-long learner at heart.",
-    "positioningStatement": "<p>I bring over a decade of expertise in both technical communication and full stack engineering, with a strong focus on developer experience and enablement. My background includes leading engineering teams through significant organizational changes while maintaining high performance, resilience, and adaptability.</p>Throughout my career, I've successfully managed site & data migrations, open-sourced several projects, and developed cost-effective content management systems. I've supported the launch of new programs, improved onboarding and in-app help, and created developer-focused learning platforms, resulting in notable achievements like a 20% increase in one-week retention and the highest SUPR-Q scores, and reducing costs by as much as 80%. My experience spans the entire lifecycle from startups to IPOs and large-scale enterprises, driving engineering evolution and performance culture.</p>",
+    "positioningStatement": "<p>Experienced technical communicator and leader with 11 years in technical writing and 10 years in full-stack development. I&apos;ve written a wide variety of content, and developed many technical content sites, features, & systems.</p><p>Writer at heart, engineer by trade, leader by choice – I pride myself on putting the <i>technical</i> in technical writer. My passion for technical communication has been a constant throughout my career, thriving at the intersection of technology and content. With a hands-on approach and a deep understanding of software engineering audiences, I apply my technical expertise to create clear, effective content.</p>",
     "industrySubDomains": [
       "Full Stack Development",
       "Developer Experience",
@@ -527,6 +527,87 @@
       "yearsOfExperience": 4,
       "iconName": null,
       "useOnResume": true
+    },
+    {
+      "name": "docs as code",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "content reuse",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["concepts"],
+      "yearsOfExperience": 6,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "style guide",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["concepts"],
+      "yearsOfExperience": 10,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "culture of documentation",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["concepts"],
+      "yearsOfExperience": 4,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "DITA",
+      "level": "Intermediate",
+      "rating": 3,
+      "tags": ["concepts"],
+      "yearsOfExperience": 5,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "Adobe Framemaker",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["tools"],
+      "yearsOfExperience": 9,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "personalization",
+      "level": "Expert",
+      "rating": 4,
+      "tags": ["concepts"],
+      "yearsOfExperience": 9,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "generative AI for docs",
+      "level": "Beginner",
+      "rating": 2,
+      "tags": ["concepts"],
+      "yearsOfExperience": 1,
+      "iconName": null,
+      "useOnResume": true
+    },
+    {
+      "name": "markdown",
+      "level": "Expert",
+      "rating": 5,
+      "tags": ["frontend"],
+      "yearsOfExperience": 5,
+      "iconName": null,
+      "useOnResume": true
     }
   ],
   "projects": [
@@ -841,6 +922,78 @@
         "month": 3
       },
       "company": "New Relic",
+      "website": ""
+    },
+    {
+      "name": "New Relic",
+      "location": "Portland, OR",
+      "description": "",
+      "position": "Technical Writer",
+      "url": "",
+      "summary": "Developed and maintained high-quality technical documentation and Drupal-based CMS, collaborating closely with cross-functional teams to improve product installation and customer experience for New Relic products.",
+      "highlights": [
+        "Write consistent, high quality technical documentation that included API reference, tutorials, and how to install and use all New Relic products & capabilities.",
+        "Partner closely with Support, engineering teams, and product management to test installation, new features, and ascertain where customers frequently encounter problems.",
+        "Develop Drupal based CMS for docs and learning sites"
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2014,
+        "month": 8
+      },
+      "end": {
+        "year": 2017,
+        "month": 10
+      },
+      "company": "New Relic",
+      "website": ""
+    },
+    {
+      "name": "JetBlue Airways",
+      "location": "New York, NY",
+      "description": "",
+      "position": "Senior Technical Writer",
+      "url": "",
+      "summary": "Led the modernization of company documentation systems, transitioning from paper to digital formats, while developing custom project management tools and managing high-quality technical documentation across various operational guides.",
+      "highlights": [
+        "Write and manage high quality and consistent documentation for operations manuals, training guides, software/equipment guides, internal procedure and standards guides.",
+        "Develop custom project management site in PHP and MySQL database, and other content tooling.",
+        "Helped lead overhaul of company documentation system to modernize and move from paper to iPads, one of the first in the indsutry."
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2007,
+        "month": 8
+      },
+      "end": {
+        "year": 2014,
+        "month": 8
+      },
+      "company": "JetBlue Airways",
+      "website": ""
+    },
+    {
+      "name": "Midwest Airlines",
+      "location": "Milwaukee, WI",
+      "description": "",
+      "position": "Manager Technical Documentation",
+      "url": "",
+      "summary": "Managed a technical documentation team and system, authored flight systems manuals, and prepared compliance audits and reports for executive leadership.",
+      "highlights": [
+        "Manage a technical documentation team and documentation system.",
+        "Write technical documentation for flight systems and operational manuals.",
+        "Prepare annual / monthly reports and compliance audits to executive leadership"
+      ],
+      "isCurrentRole": false,
+      "start": {
+        "year": 2006,
+        "month": 3
+      },
+      "end": {
+        "year": 2007,
+        "month": 7
+      },
+      "company": "Midwest Airlines",
       "website": ""
     },
     {

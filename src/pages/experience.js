@@ -8,6 +8,7 @@ import SEO from "../components/SEO";
 import { calculateTimeBetweenDates } from "../utils/time";
 import { pluralize } from "../utils/pluralize";
 import newRelicLogo from "../images/new-relic-logo.png";
+import midwestLogo from "../images/midwest-airlines-logo.jpeg";
 import Icon from "../components/Icons";
 
 const COMPANY_LOGOS = {
@@ -18,6 +19,39 @@ const COMPANY_LOGOS = {
     src: null,
     icon: <Icon name="briefcase" size="2em" strokeWidth={1} />,
   },
+  ["JetBlue Airways"]: {
+    src: null,
+    icon: (
+      <Icon
+        name="JetBlue Airways"
+        fill="currentColor"
+        strokeColor="none"
+        size="3em"
+        strokeWidth={1}
+      />
+    ),
+  },
+  ["Midwest Airlines"]: {
+    src: midwestLogo,
+  },
+};
+
+const renderCompanyIcon = (gigName) => {
+  if (gigName !== undefined && COMPANY_LOGOS[`${gigName}`].src) {
+    return (
+      <img
+        src={COMPANY_LOGOS[`${gigName}`].src}
+        alt={`${gigName} logo`}
+        css={css`
+          height: 2em;
+        `}
+      />
+    );
+  }
+  if (gigName && COMPANY_LOGOS[`${gigName}`].icon) {
+    return <>{COMPANY_LOGOS[`${gigName}`].icon}</>;
+  }
+  return <Icon name="briefcase" size="2em" strokeWidth={1} />;
 };
 
 const ExperiencePage = ({ data }) => {
@@ -36,29 +70,6 @@ const ExperiencePage = ({ data }) => {
             max-width: 800px;
           `}
         >
-          <div
-            css={css`
-              margin: 3em 0;
-            `}
-          >
-            <p>
-              Software Engineering Leader with{" "}
-              {calculateTimeBetweenDates({
-                unit: "years",
-                start: [2012, 1],
-                end: [new Date().getFullYear(), new Date().getMonth()],
-              })}{" "}
-              years of experience in full stack development and 11 years in
-              technical communication. I have successfully established, led, and
-              scaled teams to support a variety of programs and organizations,
-              ranging from growth engineering, developer experience/enablement,
-              and experience design. I’ve learned from and contributed to the
-              evolution of product management and engineering operations through
-              all phases of the company lifecycle, from rapidly developing
-              startup, to going public (IPO), to enterprise & market leader, and
-              back to private.
-            </p>
-          </div>
           {gigs
             .sort((a) => (a.isCurrentRole ? -1 : 0))
             .map((gig, index) => {
@@ -138,19 +149,7 @@ const ExperiencePage = ({ data }) => {
                       }
                     `}
                   >
-                    <div>
-                      {COMPANY_LOGOS[`${gig.name}`].src ? (
-                        <img
-                          src={COMPANY_LOGOS[`${gig.name}`].src}
-                          alt={`${gig.name} logo`}
-                          css={css`
-                            height: 2em;
-                          `}
-                        />
-                      ) : (
-                        <>{COMPANY_LOGOS[`${gig.name}`].icon}</>
-                      )}
-                    </div>
+                    <div>{renderCompanyIcon(gig.name)}</div>
                     <div
                       css={css`
                         font-size: 1em;

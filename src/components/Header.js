@@ -127,9 +127,6 @@ const Header = ({ profiles, className }) => {
                 <NavLink to={"/experience"}>Experience</NavLink>
               </li>
               <li>
-                <NavLink to={"/projects"}>Projects</NavLink>
-              </li>
-              <li>
                 <NavLink to={"/skills"}>Skills</NavLink>
               </li>
               {profiles

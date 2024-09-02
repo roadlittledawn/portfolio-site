@@ -12,6 +12,7 @@ const FeatherIcon = ({
   defs,
   props,
   strokeColor,
+  fill,
   strokeWidth,
   className,
 }) => {
@@ -50,6 +51,8 @@ const FeatherIcon = ({
         css={css`
           width: ${size};
           height: ${size};
+          stroke: ${strokeColor || "currentColor"};
+          fill: ${fill || "none"};
         `}
       >
         {svgIcon}

@@ -6,9 +6,55 @@ import SEO from "../components/SEO";
 import MainLayout from "../layouts/MainLayout";
 import { siteOptions } from "../utils/constants";
 
+// Helper function to adjust the brightness of a hex color
+const adjustBrightness = (hex, amount) => {
+  let color = hex.slice(1); // Remove the '#' symbol
+  let num = parseInt(color, 16);
+
+  let r = (num >> 16) + amount;
+  let g = ((num >> 8) & 0x00ff) + amount;
+  let b = (num & 0x0000ff) + amount;
+
+  r = Math.max(Math.min(255, r), 0);
+  g = Math.max(Math.min(255, g), 0);
+  b = Math.max(Math.min(255, b), 0);
+
+  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
+};
+// Function to generate a random color and return a darker and lighter pair
+const getRandomColorPair = () => {
+  // Generate a random base color
+  const baseColor = `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, "0")}`;
+
+  // Adjust brightness to get darker and lighter shades
+  const darkerColor = adjustBrightness(baseColor, -80); // Adjust by -80 for a darker shade
+  const lighterColor = adjustBrightness(baseColor, 80); // Adjust by 80 for a lighter shade
+
+  return [darkerColor, lighterColor];
+};
+
+let colorGradiantValues = [];
+
+for (let i = 1; i <= 3; i++) {
+  const [color1, color2] = getRandomColorPair();
+  colorGradiantValues.push([color1, color2]);
+}
+
+const underlineMarkerStyles = css`
+  background-repeat: no-repeat;
+  background-size: 100% 0.2em;
+  background-position: 0 88%;
+  transition: background-size 0.25s ease-in;
+  &:hover {
+    background-size: 100% 88%;
+  }
+`;
+
 const HomePage = ({ data }) => {
   const {
-    basics: { summary, image },
+    basics: { image },
   } = data;
   const {
     layout: { mobileBreakpoint },
@@ -38,11 +84,34 @@ const HomePage = ({ data }) => {
             `}
           >
             <h1>
-              My name is Clinton
-              <br />
-              Writer, Builder, Leader at the forefront of knowledge management,
-              onboarding, and customer support.
-              {/* Engineer at Heart, Writer by Trade, Leader by Choice. */}
+              <span
+                style={{
+                  backgroundImage: `linear-gradient(120deg,${colorGradiantValues[0][0]} 0%, ${colorGradiantValues[0][1]} 100%)`,
+                }}
+                css={underlineMarkerStyles}
+              >
+                Writer
+              </span>
+              ,{" "}
+              <span
+                style={{
+                  backgroundImage: `linear-gradient(120deg,${colorGradiantValues[1][0]} 0%, ${colorGradiantValues[1][1]} 100%)`,
+                }}
+                css={underlineMarkerStyles}
+              >
+                Builder
+              </span>{" "}
+              ,{" "}
+              <span
+                style={{
+                  backgroundImage: `linear-gradient(120deg,${colorGradiantValues[2][0]} 0%, ${colorGradiantValues[2][1]} 100%)`,
+                }}
+                css={underlineMarkerStyles}
+              >
+                Leader
+              </span>{" "}
+              at the forefront of knowledge management, onboarding, & customer
+              support.
             </h1>
             <p
               css={css`
