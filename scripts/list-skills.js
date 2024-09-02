@@ -22,14 +22,31 @@ const listSkills = (tag, format = "name") => {
     if (tag) {
       const selectedSkills = careerData.skills
         .filter((skill) => skill.tags.includes(tag))
-        .map((skill) => (format === "name" ? skill.name : skill));
+        .map((skill) => (format === "name" ? skill.name : skill))
+        .sort((a, b) => {
+          if (format === "name") {
+            return a.localeCompare(b);
+          }
+          if (format === "skillObject") {
+            return a.name.localeCompare(b.name);
+          }
+          return 1;
+        });
       console.log(selectedSkills);
       return null;
     } else {
       console.log(
-        careerData.skills.map((skill) =>
-          format === "name" ? skill.name : skill
-        )
+        careerData.skills
+          .map((skill) => (format === "name" ? skill.name : skill))
+          .sort((a, b) => {
+            if (format === "name") {
+              return a.localeCompare(b);
+            }
+            if (format === "skillObject") {
+              return a.name.localeCompare(b.name);
+            }
+            return 1;
+          })
       );
       return null;
     }
