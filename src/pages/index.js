@@ -98,8 +98,8 @@ const HomePage = ({ data }) => {
                   ,{" "}
                 </>
               ))}
-              at the forefront of knowledge management, onboarding, & customer
-              support.
+              at the intersection of technology & knowledge management /
+              customer support
             </h1>
             <p
               css={css`
@@ -116,13 +116,12 @@ const HomePage = ({ data }) => {
               </p>
 
               <p>
-                Writer at heart, engineer by trade, leader by choice – I pride
-                myself on putting the <i>technical</i> in technical writer. My
-                passion for technical communication has been a constant
-                throughout my career, thriving at the intersection of technology
-                and content. With a hands-on approach and a deep understanding
-                of software engineering audiences, I apply my technical
-                expertise to create clear, effective content.
+                I&apos;m a writer who loves technology, an engineer who loves to
+                communicate, and a leader who&apos;s passionate about making
+                things better for both users and developers. Throughout my
+                career, I’ve thrived at the intersection of technology and
+                content, using a hands-on approach and technical expertise to
+                create clear, effective communication for audiences like myself.
               </p>
             </p>
           </div>
