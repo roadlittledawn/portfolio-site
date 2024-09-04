@@ -84,32 +84,20 @@ const HomePage = ({ data }) => {
             `}
           >
             <h1>
-              <span
-                style={{
-                  backgroundImage: `linear-gradient(120deg,${colorGradiantValues[0][0]} 0%, ${colorGradiantValues[0][1]} 100%)`,
-                }}
-                css={underlineMarkerStyles}
-              >
-                Writer
-              </span>
-              ,{" "}
-              <span
-                style={{
-                  backgroundImage: `linear-gradient(120deg,${colorGradiantValues[1][0]} 0%, ${colorGradiantValues[1][1]} 100%)`,
-                }}
-                css={underlineMarkerStyles}
-              >
-                Builder
-              </span>{" "}
-              ,{" "}
-              <span
-                style={{
-                  backgroundImage: `linear-gradient(120deg,${colorGradiantValues[2][0]} 0%, ${colorGradiantValues[2][1]} 100%)`,
-                }}
-                css={underlineMarkerStyles}
-              >
-                Leader
-              </span>{" "}
+              {["Writer", "Builder", "Leader"].map((item, index) => (
+                <>
+                  <span
+                    key={`headingSpan-${index}`}
+                    style={{
+                      backgroundImage: `linear-gradient(120deg,${colorGradiantValues[index][0]} 0%, ${colorGradiantValues[index][1]} 100%)`,
+                    }}
+                    css={underlineMarkerStyles}
+                  >
+                    {item}
+                  </span>
+                  ,{" "}
+                </>
+              ))}
               at the forefront of knowledge management, onboarding, & customer
               support.
             </h1>
