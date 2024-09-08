@@ -98,7 +98,7 @@ const HomePage = ({ data }) => {
                   ,{" "}
                 </>
               ))}
-              at the intersection of technology & knowledge management /
+              at the intersection of technology, technical communication, &
               customer support
             </h1>
             <p
