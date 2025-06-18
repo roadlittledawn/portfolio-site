@@ -872,6 +872,28 @@
   ],
   "work": [
     {
+      "name": "Amazon Web Services",
+      "location": "Seattle, WA",
+      "description": "",
+      "position": "Documentation Manager",
+      "url": "",
+      "summary": "Manage team of programmer writers to help software engineers at Amazon be more effective. We are also doing innovative work using AI to write, review, and provide answers to engineers while they're building.",
+      "highlights": [
+        "People management and team leadership",
+        "Drive strategy and planning initiatives",
+        "Manage stakeholder relationships",
+        "Manage work in and out of team"
+      ],
+      "isCurrentRole": true,
+      "start": {
+        "year": 2025,
+        "month": 1
+      },
+      "end": {},
+      "company": "Amazon Web Services",
+      "website": "https://aws.amazon.com"
+    },
+    {
       "name": "New Relic",
       "location": "Remote",
       "description": "",
@@ -889,12 +911,15 @@
         "Lead interviewing, coding exercises, hiring, onboarding, and mentoring of engineers with the goal of quickly making them productive and engaged members of the team",
         "Coach and support engineers to grow their career, take ownership of team's technology, and do work they're proud of."
       ],
-      "isCurrentRole": true,
+      "isCurrentRole": false,
       "start": {
         "year": 2022,
         "month": 4
       },
-      "end": {},
+      "end": {
+        "year": 2024,
+        "month": 12
+      },
       "company": "New Relic",
       "website": ""
     },

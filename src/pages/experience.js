@@ -12,6 +12,10 @@ import midwestLogo from "../images/midwest-airlines-logo.jpeg";
 import Icon from "../components/Icons";
 
 const COMPANY_LOGOS = {
+  ["Amazon Web Services"]: {
+    src: null,
+    icon: <Icon name="aws" viewbox="0 0 120 120" size="2em" strokeWidth={1} />,
+  },
   ["New Relic"]: {
     src: newRelicLogo,
   },
