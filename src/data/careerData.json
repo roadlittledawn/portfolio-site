@@ -877,12 +877,16 @@
       "description": "",
       "position": "Documentation Manager",
       "url": "",
-      "summary": "Manage team of programmer writers to help software engineers at Amazon be more effective. We are also doing innovative work using AI to write, review, and provide answers to engineers while they're building.",
+      "summary": "Lead a team of six programmer writers building AI-driven, content-as-code documentation system that supports 84,000+ Amazon developers, scaling content quality and contributor experience through automated generation, review tooling, and workflow optimization.",
       "highlights": [
-        "People management and team leadership",
-        "Drive strategy and planning initiatives",
-        "Manage stakeholder relationships",
-        "Manage work in and out of team"
+        "Built AI-driven documentation platform with automated content generation, review tooling, and quality analytics for proactive content health monitoring",
+        "Increased documentation feedback helpfulness from 54% to 75% while growing traffic from 2K to 50K unique users in Q2",
+        "Streamlined documentation processes, reducing content creation and review time by 33% to keep pace with rapid product development",
+        "Developed 3-year strategic roadmap for builder experience documentation, focusing on AI-driven contributor optimization and workflow-based content",
+        "Scale team of 6 diverse programmer writers (former developers, support engineers, technical writers) to support 54 developer tools",
+        "Established documentation standards for AI-assisted development, partnering with product management to provide practical guidance",
+        "Manage content-as-code system with open contribution model serving 84K+ developers, data scientists, and engineering leaders",
+        "Lead cross-functional stakeholder relationships with product management, training, marketing, engineering, and UX research teams"
       ],
       "isCurrentRole": true,
       "start": {
