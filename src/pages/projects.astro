@@ -1,0 +1,394 @@
+---
+// Projects page with filtering
+import BaseLayout from '../layouts/BaseLayout.astro';
+import careerData from '../data/careerData.json';
+
+const title = "Projects - Clinton Langosch";
+const description = "Software engineering and technical writing projects spanning documentation platforms, web applications, and content systems.";
+
+// Get all projects
+const allProjects = careerData.projects;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="projects-page">
+    <!-- Header -->
+    <section class="page-header">
+      <h1>Projects & Work</h1>
+      <p class="page-description">
+        A collection of software engineering and technical writing projects that showcase 
+        expertise in web development, documentation systems, and content strategy.
+      </p>
+    </section>
+
+    <!-- Filter Navigation -->
+    <section class="filter-nav">
+      <div class="filter-controls">
+        <button class="filter-btn active" data-focus="all">
+          🌟 All Projects <span class="count">({allProjects.length})</span>
+        </button>
+        <button class="filter-btn" data-focus="engineering">
+          💻 Engineering <span class="count engineering-count"></span>
+        </button>
+        <button class="filter-btn" data-focus="writing">
+          📝 Writing <span class="count writing-count"></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="projects-grid">
+      {allProjects.map(project => (
+        <article class="project-card" 
+                 data-focus={project.focus?.join(' ')} 
+                 data-type={project.type}>
+          
+          <div class="project-header">
+            <h3 class="project-title">
+              {project.url || project.website ? (
+                <a href={project.url || project.website} target="_blank" rel="noopener">
+                  {project.displayName || project.name}
+                </a>
+              ) : (
+                project.displayName || project.name
+              )}
+            </h3>
+            
+            <div class="project-meta">
+              <span class="project-type" data-type={project.type}>
+                {project.type === 'documentation' ? '📚 Documentation' : '🌐 Web App'}
+              </span>
+              {project.featured && (
+                <span class="featured-badge">⭐ Featured</span>
+              )}
+            </div>
+          </div>
+
+          <p class="project-summary">{project.summary}</p>
+          
+          {project.description && (
+            <div class="project-description">
+              {project.description.split('\n').map(line => (
+                line.trim() ? <p>{line.replace(/^-\s*/, '')}</p> : null
+              ))}
+            </div>
+          )}
+
+          <div class="project-tech">
+            {project.languages && project.languages.length > 0 && (
+              <div class="tech-section">
+                <span class="tech-label">Languages:</span>
+                <div class="tech-tags">
+                  {project.languages.map(lang => (
+                    <span class="tech-tag">{lang}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {project.libraries && project.libraries.length > 0 && (
+              <div class="tech-section">
+                <span class="tech-label">Technologies:</span>
+                <div class="tech-tags">
+                  {project.libraries.map(lib => (
+                    <span class="tech-tag">{lib}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div class="project-links">
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" rel="noopener" class="project-link github">
+                <span>📦</span> GitHub
+              </a>
+            )}
+            {(project.url || project.website) && (
+              <a href={project.url || project.website} target="_blank" rel="noopener" class="project-link demo">
+                <span>🌐</span> Live Site
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </section>
+  </div>
+
+  <!-- Filtering JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialFocus = urlParams.get('focus') || 'all';
+      
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const projectCards = document.querySelectorAll('.project-card');
+      
+      updateCounts();
+      
+      if (initialFocus !== 'all') {
+        setActiveFilter(initialFocus);
+        filterProjects(initialFocus);
+      }
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const focus = this.dataset.focus;
+          setActiveFilter(focus);
+          filterProjects(focus);
+          updateURL(focus);
+        });
+      });
+      
+      function setActiveFilter(focus) {
+        filterBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.focus === focus);
+        });
+      }
+      
+      function filterProjects(focus) {
+        projectCards.forEach(card => {
+          const cardFocus = card.dataset.focus || '';
+          const shouldShow = focus === 'all' || 
+            cardFocus.includes(focus) || 
+            cardFocus.includes('both');
+          
+          card.style.display = shouldShow ? 'block' : 'none';
+        });
+      }
+      
+      function updateURL(focus) {
+        const url = new URL(window.location);
+        if (focus === 'all') {
+          url.searchParams.delete('focus');
+        } else {
+          url.searchParams.set('focus', focus);
+        }
+        window.history.pushState({}, '', url);
+      }
+      
+      function updateCounts() {
+        const engineeringCount = document.querySelectorAll('[data-focus*="engineering"]').length;
+        const writingCount = document.querySelectorAll('[data-focus*="writing"]').length;
+        
+        document.querySelector('.engineering-count').textContent = `(${engineeringCount})`;
+        document.querySelector('.writing-count').textContent = `(${writingCount})`;
+      }
+    });
+  </script>
+
+  <style>
+    .projects-page {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .page-header {
+      text-align: center;
+      padding: 2rem 0 3rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+    
+    .page-description {
+      font-size: 1.1rem;
+      color: #5a6c7d;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .filter-nav {
+      padding: 2rem 0;
+    }
+    
+    .filter-controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: #5a6c7d;
+      transition: all 0.3s;
+    }
+    
+    .filter-btn:hover {
+      border-color: #3498db;
+      color: #3498db;
+    }
+    
+    .filter-btn.active {
+      background: #3498db;
+      border-color: #3498db;
+      color: white;
+    }
+    
+    .count {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+    
+    .project-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    
+    .project-card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .project-header {
+      margin-bottom: 1rem;
+    }
+    
+    .project-title {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.3rem;
+    }
+    
+    .project-title a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+    
+    .project-title a:hover {
+      color: #3498db;
+    }
+    
+    .project-meta {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .project-type {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      background: #ecf0f1;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+    
+    .featured-badge {
+      font-size: 0.8rem;
+      background: #fff3cd;
+      color: #856404;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+    
+    .project-summary {
+      color: #5a6c7d;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    
+    .project-description {
+      margin-bottom: 1.5rem;
+    }
+    
+    .project-description p {
+      color: #5a6c7d;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+      line-height: 1.5;
+    }
+    
+    .project-tech {
+      margin-bottom: 1.5rem;
+    }
+    
+    .tech-section {
+      margin-bottom: 0.75rem;
+    }
+    
+    .tech-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    
+    .tech-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .tech-tag {
+      font-size: 0.8rem;
+      background: #e8f4fd;
+      color: #3498db;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+    
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border: 1px solid #3498db;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    
+    .project-link:hover {
+      background: #3498db;
+      color: white;
+    }
+    
+    .project-link span {
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      
+      .filter-controls {
+        justify-content: center;
+      }
+    }
+  </style>
+</BaseLayout>

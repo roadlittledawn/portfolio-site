@@ -1,0 +1,173 @@
+---
+// Homepage - Unified landing page
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Clinton Langosch - Technical Writer & Software Engineer";
+const description = "Experienced technical writer and full-stack engineer specializing in developer experience and technical communication.";
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Clinton Langosch</h1>
+      <p class="subtitle">Technical Writer & Software Engineer</p>
+      <p class="description">
+        Experienced technical communicator and leader with 11 years in technical writing 
+        and 10 years in full-stack development. Writer at heart, engineer by trade, 
+        leader by choice.
+      </p>
+      
+      <div class="focus-areas">
+        <a href="/technical-writing" class="focus-link">
+          <div class="focus-content">
+            <h3>📝 Technical Writing</h3>
+            <p>Documentation, content strategy, developer experience</p>
+          </div>
+        </a>
+        
+        <a href="/software-engineering" class="focus-link">
+          <div class="focus-content">
+            <h3>💻 Software Engineering</h3>
+            <p>Full-stack development, team leadership, architecture</p>
+          </div>
+        </a>
+      </div>
+      
+      <div class="quick-nav">
+        <a href="/skills" class="nav-button">Skills</a>
+        <a href="/projects" class="nav-button">Projects</a>
+        <a href="/experience" class="nav-button">Experience</a>
+        <a href="/about" class="nav-button">About</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hero {
+      text-align: center;
+      padding: 4rem 0;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .hero-content {
+      padding: 0 2rem;
+    }
+    
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      font-size: 1.5rem;
+      color: #34495e;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .description {
+      font-size: 1.2rem;
+      max-width: 650px;
+      margin: 0 auto 3rem;
+      color: #5a6c7d;
+      line-height: 1.6;
+    }
+    
+    .focus-areas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .focus-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .focus-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .focus-content {
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    
+    .focus-content h3 {
+      margin: 0 0 1rem 0;
+      color: #2c3e50;
+      font-size: 1.4rem;
+    }
+    
+    .focus-content p {
+      margin: 0;
+      color: #5a6c7d;
+      line-height: 1.5;
+    }
+    
+    .quick-nav {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    
+    .nav-button {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #3498db;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    
+    .nav-button:hover {
+      background-color: #3498db;
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .description {
+        font-size: 1.1rem;
+      }
+      
+      .focus-areas {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .quick-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      
+      .nav-button {
+        width: 200px;
+      }
+    }
+  </style>
+</BaseLayout>

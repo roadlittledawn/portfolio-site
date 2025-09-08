@@ -1,64 +1,24 @@
 {
-  "name": "clinton-langosch-portfolio-site",
-  "version": "1.0.0",
-  "private": false,
-  "description": "Clinton Langosch Portfolio Site",
-  "author": "Clinton",
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
+  "name": "clinton-portfolio",
+  "type": "module",
+  "version": "2.0.0",
   "scripts": {
-    "develop": "gatsby clean && gatsby develop",
-    "start": "gatsby clean && gatsby develop",
-    "build": "gatsby clean && gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "lint": "eslint src/",
-    "lint:fix": "yarn lint --fix",
-    "sync": "node ./scripts/fetchCareerData",
-    "resume:pdf": "node ./scripts/generateResumePdf.js",
-    "resume:md": "node ./scripts/generate-resume-markdown.js",
-    "skills:add": "node scripts/bulk-add-skills.js",
-    "skills:list": "node scripts/list-skills.js",
-    "upgrade:gatsby": "scripts/upgrade_gatsby.sh"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "@emotion/react": "^11.4.0",
-    "@emotion/styled": "^11.3.0",
-    "@reach/router": "^1.3.4",
-    "classnames": "^2.3.1",
-    "gatsby": "^5.12.3",
-    "gatsby-plugin-emotion": "^8.12.0",
-    "gatsby-plugin-manifest": "^5.12.0",
-    "gatsby-plugin-react-helmet": "^6.12.0",
-    "gatsby-plugin-sass": "^6.12.0",
-    "gatsby-plugin-sharp": "^5.12.0",
-    "gatsby-plugin-sitemap": "^6.12.0",
-    "gatsby-plugin-use-dark-mode": "^2.0.1",
-    "gatsby-source-filesystem": "^5.12.0",
-    "gatsby-transformer-sharp": "^5.12.0",
-    "moment": "^2.29.4",
-    "path-browserify": "^1.0.1",
-    "polished": "^4.1.3",
-    "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
-    "react-use": "^17.4.0",
-    "sass": "^1.49.8",
-    "use-media": "^1.4.0"
+    "astro": "^4.0.0"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.12",
-    "commander": "^11.0.0",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.31.0",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "html-pdf-node": "^1.0.8",
-    "node-fetch": "^2",
-    "turndown": "^7.1.2"
-  }
+    "@astrojs/check": "^0.3.0",
+    "@astrojs/tailwind": "^5.0.0",
+    "tailwindcss": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "description": "Clinton Langosch unified portfolio site - technical writing and software engineering",
+  "author": "Clinton Langosch",
+  "license": "MIT"
 }
