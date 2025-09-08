@@ -35,12 +35,16 @@ src/components/
 │   └── FocusCard.astro       - Homepage focus area cards
 ├── UI Components
 │   ├── Button.astro          - Multi-variant button system
+│   ├── Icon.astro            - Unified icon system with fallback chain
 │   ├── LevelBadge.astro      - Skill level indicators
 │   ├── RatingStars.astro     - Star rating display
 │   ├── StatCard.astro        - Statistics display
 │   ├── Tag.astro             - Technology/skill tags
 │   └── CategorySection.astro - Grouped content sections
 └── Utilities
+    ├── icons/                - Icon system with dual source support
+    │   ├── featherIcons.ts   - General web app icons from Feather Icons
+    │   └── customIcons.ts    - Technology/brand logos from DevIcon
     └── styles.ts             - Shared styling utilities and helpers
 ```
 
@@ -146,10 +150,31 @@ colors: {
 }
 ```
 
+### Icon System
+The site uses a dual-source icon system for comprehensive coverage:
+
+**Sources:**
+- **Feather Icons** ([feathericons.com](https://feathericons.com)): General web app icons (UI elements, navigation, actions)
+- **DevIcon** ([devicon.dev](https://devicon.dev)): Technology/brand/language-specific logos and symbols
+
+**Architecture:**
+```typescript
+// Icon component fallback chain:
+1. Check featherIcons for UI icons (github, linkedin, code, etc.)
+2. Check customIcons for technology logos (JavaScript, React, Node.js, etc.)  
+3. Fall back to "code" icon (angle brackets) if no match found
+```
+
+**Usage:**
+- **Skill Cards**: Use `iconName` field in data to map to specific icons
+- **Social Links**: Feather icons for GitHub/LinkedIn in header
+- **UI Elements**: Feather icons for navigation and interface elements
+
 ### Component Variants
 Most components support multiple variants for flexibility:
 - **Buttons**: primary, secondary, ghost, link
 - **Cards**: grid, list, featured
+- **Icons**: Dual-source with intelligent fallback
 - **Sizes**: xs, sm, md, lg, xl
 - **States**: active, hover, disabled
 
