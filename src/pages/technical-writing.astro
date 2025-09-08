@@ -1,6 +1,12 @@
 ---
-// Technical Writing Landing Page
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import GridContainer from '../components/GridContainer.astro';
+import StrengthCard from '../components/StrengthCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SkillCard from '../components/SkillCard.astro';
+import ExperienceCard from '../components/ExperienceCard.astro';
+import Button from '../components/Button.astro';
 import careerData from '../data/careerData.json';
 
 const title = "Technical Writing - Clinton Langosch";
@@ -11,424 +17,122 @@ const writingSkills = careerData.skills
   .filter(skill => skill.focus?.includes('writing') || skill.focus?.includes('both'))
   .filter(skill => skill.useOnResume)
   .sort((a, b) => b.rating - a.rating)
-  .slice(0, 12); // Top 12 skills
+  .slice(0, 12);
 
 const writingProjects = careerData.projects
   .filter(project => project.focus?.includes('writing') || project.focus?.includes('both'))
   .filter(project => project.featured);
 
-// Get relevant work experience (writing roles)
 const writingRoles = careerData.work
   .filter(role => 
     role.position.toLowerCase().includes('technical writer') ||
     role.position.toLowerCase().includes('documentation') ||
-    role.position.toLowerCase().includes('manager') // Management roles often involve writing/content strategy
+    role.position.toLowerCase().includes('manager')
   );
+
+const strengths = [
+  {
+    title: "Documentation Systems",
+    description: "Docs-as-code, content reuse, style guides, and culture of documentation"
+  },
+  {
+    title: "Developer Experience",
+    description: "API documentation, technical tutorials, and developer-focused content strategy"
+  },
+  {
+    title: "Content Leadership", 
+    description: "Team management, content strategy, and scaling documentation processes"
+  },
+  {
+    title: "Technical Tools",
+    description: "Modern publishing workflows, internationalization, and content tooling"
+  }
+];
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="writing-landing">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Technical Writing & Content Strategy</h1>
-        <p class="subtitle">
-          11 years of experience creating clear, effective technical documentation 
-          and building content systems that scale.
-        </p>
-        <p class="description">
-          Writer at heart, engineer by trade – I pride myself on putting the <em>technical</em> 
-          in technical writer. My passion for technical communication thrives at the 
-          intersection of technology and content.
-        </p>
-      </div>
-    </section>
+  <HeroSection
+    title="Technical Writing & Content Strategy"
+    subtitle="11 years of experience creating clear, effective technical documentation and building content systems that scale."
+    description="Writer at heart, engineer by trade – I pride myself on putting the <em>technical</em> in technical writer. My passion for technical communication thrives at the intersection of technology and content."
+  />
 
-    <!-- Key Strengths -->
-    <section class="strengths">
-      <h2>Core Expertise</h2>
-      <div class="strengths-grid">
-        <div class="strength-item">
-          <h3>Documentation Systems</h3>
-          <p>Docs-as-code, content reuse, style guides, and culture of documentation</p>
-        </div>
-        <div class="strength-item">
-          <h3>Developer Experience</h3>
-          <p>API documentation, technical tutorials, and developer-focused content strategy</p>
-        </div>
-        <div class="strength-item">
-          <h3>Content Leadership</h3>
-          <p>Team management, content strategy, and scaling documentation processes</p>
-        </div>
-        <div class="strength-item">
-          <h3>Technical Tools</h3>
-          <p>Modern publishing workflows, internationalization, and content tooling</p>
-        </div>
-      </div>
-    </section>
+  <!-- Core Expertise -->
+  <section class="py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Core Expertise</h2>
+    </div>
+    
+    <GridContainer columns={{ default: 1, md: 2, lg: 4 }} gap="lg">
+      {strengths.map(strength => (
+        <StrengthCard 
+          title={strength.title}
+          description={strength.description}
+        />
+      ))}
+    </GridContainer>
+  </section>
 
-    <!-- Featured Projects -->
-    <section class="projects">
-      <h2>Writing-Focused Projects</h2>
-      <div class="projects-grid">
+  <!-- Featured Projects -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Writing-Focused Projects</h2>
+      </div>
+      
+      <GridContainer columns={{ default: 1, lg: 2 }} gap="lg">
         {writingProjects.map(project => (
-          <div class="project-card">
-            <h3>
-              <a href={project.url || project.website} target="_blank" rel="noopener">
-                {project.displayName || project.name}
-              </a>
-            </h3>
-            <p class="project-type">{project.type === 'documentation' ? '📚 Documentation' : '🌐 Website'}</p>
-            <p>{project.summary}</p>
-            <div class="project-tags">
-              {project.languages?.map(lang => (
-                <span class="tag">{lang}</span>
-              ))}
-            </div>
-          </div>
+          <ProjectCard project={project} />
         ))}
+      </GridContainer>
+      
+      <div class="text-center mt-8">
+        <Button href="/projects?focus=writing" variant="secondary">
+          View All Writing Projects →
+        </Button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Skills -->
-    <section class="skills">
-      <h2>Writing & Communication Skills</h2>
-      <div class="skills-grid">
+  <!-- Writing & Communication Skills -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Writing & Communication Skills</h2>
+      </div>
+      
+      <GridContainer columns={{ default: 1, md: 2, lg: 3, xl: 4 }} gap="md">
         {writingSkills.map(skill => (
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">{skill.name}</span>
-              <span class="skill-level">{skill.level}</span>
-            </div>
-            <div class="skill-rating">
-              {Array.from({ length: 5 }, (_, i) => (
-                <span class={`star ${i < skill.rating ? 'filled' : ''}`}>★</span>
-              ))}
-            </div>
-          </div>
+          <SkillCard skill={skill} variant="grid" />
+        ))}
+      </GridContainer>
+      
+      <div class="text-center mt-8">
+        <Button href="/skills?focus=writing" variant="secondary">
+          View All Writing Skills →
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Highlights -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Writing & Content Leadership Experience</h2>
+      </div>
+      
+      <div class="space-y-6">
+        {writingRoles.slice(0, 3).map((role: any) => (
+          <ExperienceCard role={role} showHighlights={3} />
         ))}
       </div>
-      <div class="view-all">
-        <a href="/skills?focus=writing" class="cta-link">View All Writing Skills →</a>
-      </div>
-    </section>
-
-    <!-- Experience Highlights -->
-    <section class="experience">
-      <h2>Writing & Content Leadership Experience</h2>
-      <div class="experience-list">
-        {writingRoles.slice(0, 3).map(role => (
-          <div class="experience-item">
-            <div class="role-header">
-              <h3>{role.position}</h3>
-              <span class="company">{role.company}</span>
-              <span class="dates">
-                {role.start?.year} - {role.isCurrentRole ? 'Present' : role.end?.year}
-              </span>
-            </div>
-            <p class="role-summary">{role.summary}</p>
-          </div>
-        ))}
-      </div>
-      <div class="view-all">
-        <a href="/experience" class="cta-link">View Full Experience →</a>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-      <div class="cta-content">
-        <h2>Ready to discuss technical writing projects?</h2>
-        <p>Let's talk about documentation strategy, content systems, or team leadership.</p>
-        <div class="cta-buttons">
-          <a href="/projects?focus=writing" class="btn btn-primary">View Writing Projects</a>
-          <a href="mailto:clinton.langosch@gmail.com" class="btn btn-secondary">Get in Touch</a>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <style>
-    .writing-landing {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .hero {
-      text-align: center;
-      padding: 3rem 0 4rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #2c3e50;
-    }
-    
-    .subtitle {
-      font-size: 1.3rem;
-      color: #34495e;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-    
-    .description {
-      font-size: 1.1rem;
-      color: #5a6c7d;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-    
-    section {
-      padding: 3rem 0;
-    }
-    
-    h2 {
-      font-size: 2.2rem;
-      margin-bottom: 2rem;
-      color: #2c3e50;
-      text-align: center;
-    }
-    
-    .strengths-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .strength-item {
-      text-align: center;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-    
-    .strength-item h3 {
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-    
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .project-card {
-      border: 1px solid #e0e0e0;
-      padding: 2rem;
-      border-radius: 8px;
-      background: white;
-    }
-    
-    .project-card h3 a {
-      color: #2c3e50;
-      text-decoration: none;
-    }
-    
-    .project-card h3 a:hover {
-      color: #3498db;
-    }
-    
-    .project-type {
-      color: #7f8c8d;
-      font-size: 0.9rem;
-      margin: 0.5rem 0;
-    }
-    
-    .project-tags {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-    
-    .tag {
-      background: #ecf0f1;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      color: #5a6c7d;
-    }
-    
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    
-    .skill-item {
-      padding: 1rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      background: white;
-    }
-    
-    .skill-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    
-    .skill-name {
-      font-weight: 500;
-      color: #2c3e50;
-    }
-    
-    .skill-level {
-      font-size: 0.8rem;
-      color: #7f8c8d;
-      background: #ecf0f1;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
-    
-    .skill-rating {
-      color: #f39c12;
-    }
-    
-    .star.filled {
-      color: #f39c12;
-    }
-    
-    .star:not(.filled) {
-      color: #ddd;
-    }
-    
-    .experience-list {
-      space-y: 2rem;
-    }
-    
-    .experience-item {
-      padding: 2rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      background: white;
-      margin-bottom: 1.5rem;
-    }
-    
-    .role-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    
-    .role-header h3 {
-      margin: 0;
-      color: #2c3e50;
-    }
-    
-    .company {
-      font-weight: 500;
-      color: #3498db;
-    }
-    
-    .dates {
-      color: #7f8c8d;
-      font-size: 0.9rem;
-    }
-    
-    .role-summary {
-      color: #5a6c7d;
-      line-height: 1.6;
-    }
-    
-    .view-all {
-      text-align: center;
-      margin-top: 2rem;
-    }
-    
-    .cta-link {
-      color: #3498db;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    .cta-link:hover {
-      text-decoration: underline;
-    }
-    
-    .cta {
-      background: #f8f9fa;
-      text-align: center;
-      padding: 3rem 2rem;
-      border-radius: 12px;
-    }
-    
-    .cta h2 {
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-    
-    .cta p {
-      font-size: 1.1rem;
-      color: #5a6c7d;
-      margin-bottom: 2rem;
-    }
-    
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      padding: 0.75rem 2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s;
-    }
-    
-    .btn-primary {
-      background: #3498db;
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: #2980b9;
-    }
-    
-    .btn-secondary {
-      background: white;
-      color: #3498db;
-      border: 2px solid #3498db;
-    }
-    
-    .btn-secondary:hover {
-      background: #3498db;
-      color: white;
-    }
-    
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
       
-      .role-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .btn {
-        width: 100%;
-        max-width: 300px;
-      }
-    }
-  </style>
+      <div class="text-center mt-8">
+        <Button href="/experience" variant="secondary">
+          View Full Experience →
+        </Button>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

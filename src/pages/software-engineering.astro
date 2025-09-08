@@ -1,6 +1,12 @@
 ---
-// Software Engineering Landing Page
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import GridContainer from '../components/GridContainer.astro';
+import StrengthCard from '../components/StrengthCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SkillCard from '../components/SkillCard.astro';
+import ExperienceCard from '../components/ExperienceCard.astro';
+import Button from '../components/Button.astro';
 import careerData from '../data/careerData.json';
 
 const title = "Software Engineering - Clinton Langosch";
@@ -11,508 +17,122 @@ const engineeringSkills = careerData.skills
   .filter(skill => skill.focus?.includes('engineering') || skill.focus?.includes('both'))
   .filter(skill => skill.useOnResume)
   .sort((a, b) => b.rating - a.rating)
-  .slice(0, 12); // Top 12 skills
+  .slice(0, 12);
 
 const engineeringProjects = careerData.projects
-  .filter(project => project.focus?.includes('engineering') || project.focus?.includes('both'));
+  .filter(project => project.focus?.includes('engineering') || project.focus?.includes('both'))
+  .filter(project => project.featured);
 
-// Get relevant work experience (engineering roles)
 const engineeringRoles = careerData.work
   .filter(role => 
     role.position.toLowerCase().includes('engineer') ||
     role.position.toLowerCase().includes('software') ||
-    role.position.toLowerCase().includes('manager') // Include management roles
+    role.position.toLowerCase().includes('manager')
   );
+
+const strengths = [
+  {
+    title: "Full-Stack Development",
+    description: "React, Node.js, GraphQL, and modern web application architecture"
+  },
+  {
+    title: "Engineering Leadership", 
+    description: "Team building, hiring, mentoring, and scaling engineering organizations"
+  },
+  {
+    title: "Developer Experience",
+    description: "Content tooling, CI/CD, performance optimization, and developer productivity"
+  },
+  {
+    title: "System Architecture",
+    description: "Scalable systems, observability, microservices, and cloud platforms (AWS)"
+  }
+];
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="engineering-landing">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Software Engineering & Technical Leadership</h1>
-        <p class="subtitle">
-          10 years of full-stack development experience building scalable web applications 
-          and leading high-performing engineering teams.
-        </p>
-        <p class="description">
-          Builder and life-long learner at heart – I ship resilient, high-throughput teams 
-          and systems. My engineering background spans frontend to backend, with deep 
-          expertise in web technologies and team leadership.
-        </p>
-      </div>
-    </section>
+  <HeroSection
+    title="Software Engineering & Technical Leadership"
+    subtitle="10 years of full-stack development experience building scalable web applications and leading high-performing engineering teams."
+    description="Builder and life-long learner at heart – I ship resilient, high-throughput teams and systems. My engineering background spans frontend to backend, with deep expertise in web technologies and team leadership."
+  />
 
-    <!-- Key Strengths -->
-    <section class="strengths">
-      <h2>Core Expertise</h2>
-      <div class="strengths-grid">
-        <div class="strength-item">
-          <h3>Full-Stack Development</h3>
-          <p>React, Node.js, GraphQL, and modern web application architecture</p>
-        </div>
-        <div class="strength-item">
-          <h3>Engineering Leadership</h3>
-          <p>Team building, hiring, mentoring, and scaling engineering organizations</p>
-        </div>
-        <div class="strength-item">
-          <h3>Developer Experience</h3>
-          <p>Content tooling, CI/CD, performance optimization, and developer productivity</p>
-        </div>
-        <div class="strength-item">
-          <h3>System Architecture</h3>
-          <p>Scalable systems, observability, microservices, and cloud platforms (AWS)</p>
-        </div>
-      </div>
-    </section>
+  <!-- Core Expertise -->
+  <section class="py-16">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Core Expertise</h2>
+    </div>
+    
+    <GridContainer columns={{ default: 1, md: 2, lg: 4 }} gap="lg">
+      {strengths.map(strength => (
+        <StrengthCard 
+          title={strength.title}
+          description={strength.description}
+        />
+      ))}
+    </GridContainer>
+  </section>
 
-    <!-- Featured Projects -->
-    <section class="projects">
-      <h2>Engineering Projects</h2>
-      <div class="projects-grid">
-        {engineeringProjects.filter(p => p.featured).map(project => (
-          <div class="project-card">
-            <h3>
-              <a href={project.url || project.website} target="_blank" rel="noopener">
-                {project.displayName || project.name}
-              </a>
-            </h3>
-            <p class="project-type">
-              {project.type === 'documentation' ? '📚 Documentation Platform' : '🚀 Web Application'}
-            </p>
-            <p>{project.summary}</p>
-            <div class="project-tech">
-              <div class="tech-section">
-                <strong>Languages:</strong> {project.languages?.join(', ')}
-              </div>
-              <div class="tech-section">
-                <strong>Technologies:</strong> {project.libraries?.join(', ')}
-              </div>
-            </div>
-            <div class="project-links">
-              {project.githubUrl && (
-                <a href={project.githubUrl} target="_blank" rel="noopener" class="github-link">
-                  📦 GitHub
-                </a>
-              )}
-              {project.url && (
-                <a href={project.url} target="_blank" rel="noopener" class="demo-link">
-                  🌐 Live Site
-                </a>
-              )}
-            </div>
-          </div>
+  <!-- Featured Projects -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Engineering Projects</h2>
+      </div>
+      
+      <GridContainer columns={{ default: 1, lg: 2 }} gap="lg">
+        {engineeringProjects.map(project => (
+          <ProjectCard project={project} />
         ))}
+      </GridContainer>
+      
+      <div class="text-center mt-8">
+        <Button href="/projects?focus=engineering" variant="secondary">
+          View All Engineering Projects →
+        </Button>
       </div>
-      <div class="view-all">
-        <a href="/projects?focus=engineering" class="cta-link">View All Engineering Projects →</a>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Skills -->
-    <section class="skills">
-      <h2>Technical Skills</h2>
-      <div class="skills-grid">
+  <!-- Technical Skills -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Technical Skills</h2>
+      </div>
+      
+      <GridContainer columns={{ default: 1, md: 2, lg: 3, xl: 4 }} gap="md">
         {engineeringSkills.map(skill => (
-          <div class="skill-item">
-            <div class="skill-header">
-              <span class="skill-name">{skill.name}</span>
-              <span class="skill-level">{skill.level}</span>
-            </div>
-            <div class="skill-meta">
-              <div class="skill-rating">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <span class={`star ${i < skill.rating ? 'filled' : ''}`}>★</span>
-                ))}
-              </div>
-              {skill.yearsOfExperience && (
-                <span class="years">{skill.yearsOfExperience}yr{skill.yearsOfExperience !== 1 ? 's' : ''}</span>
-              )}
-            </div>
-          </div>
+          <SkillCard skill={skill} variant="grid" />
+        ))}
+      </GridContainer>
+      
+      <div class="text-center mt-8">
+        <Button href="/skills?focus=engineering" variant="secondary">
+          View All Technical Skills →
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Highlights -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Engineering Leadership Experience</h2>
+      </div>
+      
+      <div class="space-y-6">
+        {engineeringRoles.slice(0, 3).map((role: any) => (
+          <ExperienceCard role={role} showHighlights={3} />
         ))}
       </div>
-      <div class="view-all">
-        <a href="/skills?focus=engineering" class="cta-link">View All Technical Skills →</a>
+      
+      <div class="text-center mt-8">
+        <Button href="/experience" variant="secondary">
+          View Full Experience →
+        </Button>
       </div>
-    </section>
-
-    <!-- Experience Highlights -->
-    <section class="experience">
-      <h2>Engineering Leadership Experience</h2>
-      <div class="experience-list">
-        {engineeringRoles.slice(0, 3).map(role => (
-          <div class="experience-item">
-            <div class="role-header">
-              <div class="role-title">
-                <h3>{role.position}</h3>
-                <span class="company">{role.company}</span>
-              </div>
-              <span class="dates">
-                {role.start?.year} - {role.isCurrentRole ? 'Present' : role.end?.year}
-              </span>
-            </div>
-            <p class="role-summary">{role.summary}</p>
-            {role.highlights && role.highlights.length > 0 && (
-              <ul class="role-highlights">
-                {role.highlights.slice(0, 3).map(highlight => (
-                  <li>{highlight}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-      </div>
-      <div class="view-all">
-        <a href="/experience" class="cta-link">View Full Experience →</a>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-      <div class="cta-content">
-        <h2>Ready to discuss engineering projects?</h2>
-        <p>Let's talk about full-stack development, team leadership, or system architecture.</p>
-        <div class="cta-buttons">
-          <a href="/projects?focus=engineering" class="btn btn-primary">View Engineering Projects</a>
-          <a href="mailto:clinton.langosch@gmail.com" class="btn btn-secondary">Get in Touch</a>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <style>
-    .engineering-landing {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .hero {
-      text-align: center;
-      padding: 3rem 0 4rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #2c3e50;
-    }
-    
-    .subtitle {
-      font-size: 1.3rem;
-      color: #34495e;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-    
-    .description {
-      font-size: 1.1rem;
-      color: #5a6c7d;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-    
-    section {
-      padding: 3rem 0;
-    }
-    
-    h2 {
-      font-size: 2.2rem;
-      margin-bottom: 2rem;
-      color: #2c3e50;
-      text-align: center;
-    }
-    
-    .strengths-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .strength-item {
-      text-align: center;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
-    
-    .strength-item h3 {
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-    
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .project-card {
-      border: 1px solid #e0e0e0;
-      padding: 2rem;
-      border-radius: 8px;
-      background: white;
-    }
-    
-    .project-card h3 {
-      margin-bottom: 0.5rem;
-    }
-    
-    .project-card h3 a {
-      color: #2c3e50;
-      text-decoration: none;
-    }
-    
-    .project-card h3 a:hover {
-      color: #3498db;
-    }
-    
-    .project-type {
-      color: #7f8c8d;
-      font-size: 0.9rem;
-      margin: 0.5rem 0;
-    }
-    
-    .project-tech {
-      margin: 1rem 0;
-      font-size: 0.9rem;
-    }
-    
-    .tech-section {
-      margin-bottom: 0.5rem;
-      color: #5a6c7d;
-    }
-    
-    .project-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    
-    .project-links a {
-      color: #3498db;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    
-    .project-links a:hover {
-      text-decoration: underline;
-    }
-    
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    
-    .skill-item {
-      padding: 1rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      background: white;
-    }
-    
-    .skill-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    
-    .skill-name {
-      font-weight: 500;
-      color: #2c3e50;
-    }
-    
-    .skill-level {
-      font-size: 0.8rem;
-      color: #7f8c8d;
-      background: #ecf0f1;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-    }
-    
-    .skill-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .skill-rating {
-      color: #f39c12;
-    }
-    
-    .star.filled {
-      color: #f39c12;
-    }
-    
-    .star:not(.filled) {
-      color: #ddd;
-    }
-    
-    .years {
-      font-size: 0.8rem;
-      color: #7f8c8d;
-      background: #ecf0f1;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-    }
-    
-    .experience-list {
-      space-y: 2rem;
-    }
-    
-    .experience-item {
-      padding: 2rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      background: white;
-      margin-bottom: 1.5rem;
-    }
-    
-    .role-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    
-    .role-title h3 {
-      margin: 0 0 0.25rem 0;
-      color: #2c3e50;
-    }
-    
-    .company {
-      font-weight: 500;
-      color: #3498db;
-    }
-    
-    .dates {
-      color: #7f8c8d;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
-    
-    .role-summary {
-      color: #5a6c7d;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-    
-    .role-highlights {
-      margin: 0;
-      padding-left: 1.5rem;
-    }
-    
-    .role-highlights li {
-      color: #5a6c7d;
-      margin-bottom: 0.5rem;
-      line-height: 1.5;
-    }
-    
-    .view-all {
-      text-align: center;
-      margin-top: 2rem;
-    }
-    
-    .cta-link {
-      color: #3498db;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    .cta-link:hover {
-      text-decoration: underline;
-    }
-    
-    .cta {
-      background: #f8f9fa;
-      text-align: center;
-      padding: 3rem 2rem;
-      border-radius: 12px;
-    }
-    
-    .cta h2 {
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-    
-    .cta p {
-      font-size: 1.1rem;
-      color: #5a6c7d;
-      margin-bottom: 2rem;
-    }
-    
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      padding: 0.75rem 2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s;
-    }
-    
-    .btn-primary {
-      background: #3498db;
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background: #2980b9;
-    }
-    
-    .btn-secondary {
-      background: white;
-      color: #3498db;
-      border: 2px solid #3498db;
-    }
-    
-    .btn-secondary:hover {
-      background: #3498db;
-      color: white;
-    }
-    
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-      
-      .projects-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .role-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-      
-      .dates {
-        white-space: normal;
-      }
-      
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .btn {
-        width: 100%;
-        max-width: 300px;
-      }
-    }
-  </style>
+    </div>
+  </section>
 </BaseLayout>
