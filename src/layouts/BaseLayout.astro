@@ -16,75 +16,43 @@ const { title, description = "Clinton Langosch - Technical Writer & Software Eng
     <meta name="description" content={description} />
     <title>{title}</title>
   </head>
-  <body>
-    <header>
-      <nav class="main-nav">
-        <a href="/" class="logo">Clinton Langosch</a>
-        <div class="nav-links">
-          <a href="/skills">Skills</a>
-          <a href="/projects">Projects</a>
-          <a href="/experience">Experience</a>
-          <a href="/about">About</a>
+  <body class="font-sans text-gray-800 bg-white">
+    <header class="sticky top-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="/" class="text-xl font-bold text-primary-dark hover:text-primary transition-colors">
+            Clinton Langosch
+          </a>
+          <div class="flex items-center gap-1 sm:gap-2">
+            <a href="/skills" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-all">
+              Skills
+            </a>
+            <a href="/projects" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-all">
+              Projects
+            </a>
+            <a href="/experience" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-all">
+              Experience
+            </a>
+            <a href="/about" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-all">
+              About
+            </a>
+          </div>
         </div>
       </nav>
     </header>
 
-    <main>
-      <!-- This is where child content gets inserted -->
-      <slot />
+    <main class="min-h-screen">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <slot />
+      </div>
     </main>
 
-    <style is:global>
-      /* Global styles that apply to all pages */
-      * {
-        box-sizing: border-box;
-      }
-      
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        line-height: 1.6;
-        margin: 0;
-        color: #333;
-      }
-      
-      .main-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 2rem;
-        border-bottom: 1px solid #e0e0e0;
-      }
-      
-      .logo {
-        font-weight: bold;
-        font-size: 1.2rem;
-        text-decoration: none;
-        color: #333;
-      }
-      
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-      }
-      
-      .nav-links a {
-        color: #007acc;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-      }
-      
-      .nav-links a:hover {
-        background-color: #f0f8ff;
-      }
-      
-      main {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-    </style>
+    <footer class="mt-auto border-t border-gray-200 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center text-gray-600">
+          <p>&copy; {new Date().getFullYear()} Clinton Langosch. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
