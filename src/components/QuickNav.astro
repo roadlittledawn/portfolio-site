@@ -1,0 +1,29 @@
+---
+/**
+ * QuickNav Component
+ * Navigation buttons grid for homepage
+ */
+import Button from './Button.astro';
+
+export interface Props {
+  links: Array<{
+    href: string;
+    label: string;
+  }>;
+  className?: string;
+}
+
+const { links, className = '' } = Astro.props;
+---
+
+<div class={`flex flex-wrap justify-center gap-4 ${className}`}>
+  {links.map(link => (
+    <Button 
+      href={link.href} 
+      variant="secondary"
+      className="min-w-[140px]"
+    >
+      {link.label}
+    </Button>
+  ))}
+</div>

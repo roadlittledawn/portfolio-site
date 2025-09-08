@@ -1,0 +1,24 @@
+---
+/**
+ * StatCard Component
+ * Displays a statistic with value and label
+ */
+export interface Props {
+  value: number | string;
+  label: string;
+  id?: string;
+  className?: string;
+}
+
+const { value, label, id, className = '' } = Astro.props;
+---
+
+<div class={`bg-gray-50 rounded-lg p-4 text-center ${className}`}>
+  <span 
+    class="stat-value block text-3xl font-bold text-primary"
+    id={id}
+  >
+    {value}
+  </span>
+  <span class="text-sm text-gray-600 font-medium">{label}</span>
+</div>

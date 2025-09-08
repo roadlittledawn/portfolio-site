@@ -1,0 +1,189 @@
+---
+/**
+ * FilterNav Component
+ * Handles filtering navigation for skills/projects pages
+ */
+import { getButtonStyles } from '../utils/styles';
+
+export interface Props {
+  filters: Array<{
+    value: string;
+    label: string;
+    icon?: string;
+    count?: number;
+  }>;
+  views?: Array<{
+    value: string;
+    label: string;
+  }>;
+  defaultFilter?: string;
+  defaultView?: string;
+  className?: string;
+}
+
+const { 
+  filters, 
+  views,
+  defaultFilter = 'all',
+  defaultView = 'grid',
+  className = '' 
+} = Astro.props;
+---
+
+<div class={`flex flex-wrap justify-between items-center py-6 gap-4 ${className}`}>
+  <!-- Filter Buttons -->
+  <div class="flex flex-wrap gap-2">
+    {filters.map(filter => (
+      <button 
+        data-focus={filter.value}
+        class={`filter-btn ${getButtonStyles('secondary', filter.value === defaultFilter)}`}
+      >
+        {filter.icon && <span>{filter.icon}</span>}
+        {filter.label}
+        {filter.count !== undefined && (
+          <span class={`filter-count-${filter.value} opacity-80 text-sm`}>
+            ({filter.count})
+          </span>
+        )}
+      </button>
+    ))}
+  </div>
+  
+  <!-- View Toggle (optional) -->
+  {views && views.length > 0 && (
+    <div class="flex rounded-lg border border-gray-300 overflow-hidden">
+      {views.map((view, index) => (
+        <button 
+          data-view={view.value}
+          class={`view-btn px-4 py-2 font-medium transition-colors
+            ${view.value === defaultView ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}
+            ${index > 0 ? 'border-l border-gray-300' : ''}
+          `}
+        >
+          {view.label}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  // This script handles the filtering logic
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const viewBtns = document.querySelectorAll('.view-btn');
+    
+    // Get initial state from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialFocus = urlParams.get('focus') || 'all';
+    
+    // Set initial active state
+    if (initialFocus !== 'all') {
+      updateFilterButtons(initialFocus);
+    }
+    
+    // Filter button click handler
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const focus = this.dataset.focus;
+        updateFilterButtons(focus);
+        filterElements(focus);
+        updateURL(focus);
+      });
+    });
+    
+    // View toggle handler
+    viewBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const view = this.dataset.view;
+        updateViewButtons(view);
+        toggleView(view);
+      });
+    });
+    
+    function updateFilterButtons(activeFocus) {
+      filterBtns.forEach(btn => {
+        const isActive = btn.dataset.focus === activeFocus;
+        
+        // Update button styles
+        if (isActive) {
+          btn.classList.add('bg-primary', 'text-white', 'border-primary');
+          btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300', 'hover:border-primary', 'hover:text-primary');
+        } else {
+          btn.classList.remove('bg-primary', 'text-white', 'border-primary');
+          btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300', 'hover:border-primary', 'hover:text-primary');
+        }
+      });
+    }
+    
+    function updateViewButtons(activeView) {
+      viewBtns.forEach(btn => {
+        const isActive = btn.dataset.view === activeView;
+        
+        if (isActive) {
+          btn.classList.add('bg-primary', 'text-white');
+          btn.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+        } else {
+          btn.classList.remove('bg-primary', 'text-white');
+          btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+        }
+      });
+    }
+    
+    function filterElements(focus) {
+      // Filter skill/project cards
+      const cards = document.querySelectorAll('.skill-card, .project-card');
+      cards.forEach(card => {
+        const cardFocus = card.dataset.focus || '';
+        const shouldShow = focus === 'all' || 
+          cardFocus.includes(focus) || 
+          cardFocus.includes('both');
+        
+        card.style.display = shouldShow ? '' : 'none';
+      });
+      
+      // Handle category sections if they exist
+      const categorySections = document.querySelectorAll('.category-section');
+      categorySections.forEach(section => {
+        const visibleItems = section.querySelectorAll('.skill-card:not([style*="display: none"])');
+        section.style.display = visibleItems.length > 0 ? '' : 'none';
+      });
+      
+      // Trigger custom event for other components to listen to
+      window.dispatchEvent(new CustomEvent('filterChanged', { detail: { focus } }));
+    }
+    
+    function toggleView(view) {
+      const gridView = document.querySelector('.skills-grid-view, .projects-grid-view');
+      const categoryView = document.querySelector('.skills-category-view, .projects-list-view');
+      
+      if (gridView && categoryView) {
+        if (view === 'grid') {
+          gridView.classList.remove('hidden');
+          categoryView.classList.add('hidden');
+        } else {
+          gridView.classList.add('hidden');
+          categoryView.classList.remove('hidden');
+        }
+      }
+      
+      // Trigger custom event
+      window.dispatchEvent(new CustomEvent('viewChanged', { detail: { view } }));
+    }
+    
+    function updateURL(focus) {
+      const url = new URL(window.location);
+      if (focus === 'all') {
+        url.searchParams.delete('focus');
+      } else {
+        url.searchParams.set('focus', focus);
+      }
+      window.history.pushState({}, '', url);
+    }
+    
+    // Initialize filtering if URL has focus param
+    if (initialFocus !== 'all') {
+      filterElements(initialFocus);
+    }
+  });
+</script>

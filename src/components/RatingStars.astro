@@ -1,0 +1,33 @@
+---
+/**
+ * RatingStars Component
+ * Displays a star rating
+ */
+export interface Props {
+  rating: number;
+  maxRating?: number;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+const { 
+  rating, 
+  maxRating = 5, 
+  size = 'md',
+  className = '' 
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'text-sm',
+  md: 'text-base',
+  lg: 'text-lg'
+};
+---
+
+<div class={`flex gap-0.5 ${className}`}>
+  {Array.from({ length: maxRating }, (_, i) => (
+    <span class={`${sizeClasses[size]} ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>
+      ★
+    </span>
+  ))}
+</div>

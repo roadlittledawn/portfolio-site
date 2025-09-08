@@ -1,0 +1,38 @@
+---
+/**
+ * PageHeader Component
+ * Reusable page header with title and description
+ */
+export interface Props {
+  title: string;
+  description?: string;
+  className?: string;
+  align?: 'left' | 'center' | 'right';
+}
+
+const { 
+  title, 
+  description, 
+  className = '',
+  align = 'center' 
+} = Astro.props;
+
+const alignClasses = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right'
+};
+---
+
+<div class={`pb-8 border-b border-gray-200 ${alignClasses[align]} ${className}`}>
+  <h1 class="text-4xl font-bold text-primary-dark mb-4">
+    {title}
+  </h1>
+  {description && (
+    <p class="text-lg text-secondary max-w-3xl mx-auto leading-relaxed">
+      {description}
+    </p>
+  )}
+  <!-- Slot for additional content like subtitle or actions -->
+  <slot />
+</div>

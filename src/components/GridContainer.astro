@@ -1,0 +1,47 @@
+---
+/**
+ * GridContainer Component
+ * Responsive grid layout for cards
+ */
+export interface Props {
+  columns?: {
+    default?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+  };
+  gap?: 'sm' | 'md' | 'lg';
+  className?: string;
+  id?: string;
+}
+
+const { 
+  columns = { default: 1, md: 2, lg: 3, xl: 4 },
+  gap = 'md',
+  className = '',
+  id
+} = Astro.props;
+
+// Build responsive grid classes
+const gridCols = [
+  columns.default && `grid-cols-${columns.default}`,
+  columns.sm && `sm:grid-cols-${columns.sm}`,
+  columns.md && `md:grid-cols-${columns.md}`,
+  columns.lg && `lg:grid-cols-${columns.lg}`,
+  columns.xl && `xl:grid-cols-${columns.xl}`
+].filter(Boolean).join(' ');
+
+const gapSizes = {
+  sm: 'gap-2',
+  md: 'gap-4',
+  lg: 'gap-6'
+};
+---
+
+<div 
+  class={`grid ${gridCols} ${gapSizes[gap]} ${className}`}
+  id={id}
+>
+  <slot />
+</div>
