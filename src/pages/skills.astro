@@ -1,28 +1,33 @@
 ---
-// Skills page with filtering
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import FilterNav from '../components/FilterNav.astro';
+import GridContainer from '../components/GridContainer.astro';
+import CategorySection from '../components/CategorySection.astro';
+import SkillCard from '../components/SkillCard.astro';
+import StatCard from '../components/StatCard.astro';
 import careerData from '../data/careerData.json';
 
 const title = "Skills - Clinton Langosch";
 const description = "Technical and professional skills spanning software engineering, technical writing, and leadership.";
 
-// Get all skills for display - filtering will be handled client-side
+// Get and process skills data
 const allSkills = careerData.skills
   .filter(skill => skill.useOnResume)
   .sort((a, b) => b.rating - a.rating);
 
-// Organize skills by category for better display
-const skillsByCategory = allSkills.reduce((acc, skill) => {
-  skill.tags?.forEach(tag => {
+// Organize skills by category
+const skillsByCategory: Record<string, typeof allSkills> = allSkills.reduce((acc, skill) => {
+  skill.tags?.forEach((tag: string) => {
     if (!acc[tag]) acc[tag] = [];
-    if (!acc[tag].some(s => s.name === skill.name)) {
+    if (!acc[tag].some((s: any) => s.name === skill.name)) {
       acc[tag].push(skill);
     }
   });
   return acc;
-}, {});
+}, {} as Record<string, typeof allSkills>);
 
-// Define category display order and names
+// Category definitions
 const categoryOrder = [
   { key: 'frontend', name: 'Frontend Development', icon: '🎨' },
   { key: 'backend', name: 'Backend Development', icon: '⚙️' },
@@ -33,606 +38,123 @@ const categoryOrder = [
   { key: 'management', name: 'Leadership & Management', icon: '👥' },
   { key: 'testing', name: 'Testing', icon: '🧪' }
 ];
+
+// Count skills by focus
+const engineeringCount = allSkills.filter(s => s.focus?.includes('engineering')).length;
+const writingCount = allSkills.filter(s => s.focus?.includes('writing')).length;
+
+// Prepare filter and view options
+const filterOptions = [
+  { value: 'all', label: 'All Skills', icon: '🌟', count: allSkills.length },
+  { value: 'engineering', label: 'Engineering', icon: '💻', count: engineeringCount },
+  { value: 'writing', label: 'Writing', icon: '📝', count: writingCount }
+];
+
+const viewOptions = [
+  { value: 'grid', label: 'Grid View' },
+  { value: 'category', label: 'By Category' }
+];
+
+// Count skills by level for initial stats
+const expertCount = allSkills.filter(s => s.level?.toLowerCase() === 'expert').length;
+const advancedCount = allSkills.filter(s => s.level?.toLowerCase() === 'advanced').length;
+const intermediateCount = allSkills.filter(s => s.level?.toLowerCase() === 'intermediate').length;
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="skills-page">
-    <!-- Header -->
-    <section class="page-header">
-      <h1>Skills & Expertise</h1>
-      <p class="page-description">
-        Technical and professional skills developed over 10+ years in software engineering 
-        and technical writing, with deep expertise in web technologies and content systems.
-      </p>
-    </section>
+  <PageHeader 
+    title="Skills & Expertise"
+    description="Technical and professional skills developed over 10+ years in software engineering and technical writing, with deep expertise in web technologies and content systems."
+  />
 
-    <!-- Filter Navigation -->
-    <section class="filter-nav">
-      <div class="filter-controls">
-        <button class="filter-btn active" data-focus="all">
-          🌟 All Skills <span class="count">({allSkills.length})</span>
-        </button>
-        <button class="filter-btn" data-focus="engineering">
-          💻 Engineering <span class="count engineering-count"></span>
-        </button>
-        <button class="filter-btn" data-focus="writing">
-          📝 Writing <span class="count writing-count"></span>
-        </button>
-      </div>
-      
-      <!-- View Toggle -->
-      <div class="view-controls">
-        <button class="view-btn active" data-view="grid">
-          <span>Grid View</span>
-        </button>
-        <button class="view-btn" data-view="category">
-          <span>By Category</span>
-        </button>
-      </div>
-    </section>
+  <FilterNav 
+    filters={filterOptions}
+    views={viewOptions}
+    defaultFilter="all"
+    defaultView="grid"
+  />
 
-    <!-- Skills Grid View -->
-    <section class="skills-grid-view">
-      <div class="skills-grid">
-        {allSkills.map(skill => (
-          <div class="skill-card" 
-               data-focus={skill.focus?.join(' ')} 
-               data-categories={skill.tags?.join(' ')}>
-            <div class="skill-header">
-              <h3 class="skill-name">{skill.name}</h3>
-              <span class="skill-level" data-level={skill.level.toLowerCase()}>
-                {skill.level}
-              </span>
-            </div>
-            
-            <div class="skill-rating">
-              {Array.from({ length: 5 }, (_, i) => (
-                <span class={`star ${i < skill.rating ? 'filled' : ''}`}>★</span>
-              ))}
-            </div>
-            
-            <div class="skill-meta">
-              {skill.yearsOfExperience && (
-                <span class="experience">
-                  {skill.yearsOfExperience} year{skill.yearsOfExperience !== 1 ? 's' : ''}
-                </span>
-              )}
-              
-              {skill.tags && skill.tags.length > 0 && (
-                <div class="skill-tags">
-                  {skill.tags.slice(0, 2).map(tag => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Skills Category View -->
-    <section class="skills-category-view" style="display: none;">
-      {categoryOrder.map(category => {
-        const categorySkills = skillsByCategory[category.key] || [];
-        if (categorySkills.length === 0) return null;
-        
-        return (
-          <div class="category-section" data-category={category.key}>
-            <h2 class="category-title">
-              <span class="category-icon">{category.icon}</span>
-              {category.name}
-              <span class="category-count">({categorySkills.length})</span>
-            </h2>
-            
-            <div class="category-skills">
-              {categorySkills.map(skill => (
-                <div class="skill-item" 
-                     data-focus={skill.focus?.join(' ')} 
-                     data-categories={skill.tags?.join(' ')}>
-                  <div class="skill-info">
-                    <span class="skill-name">{skill.name}</span>
-                    <span class="skill-level" data-level={skill.level.toLowerCase()}>
-                      {skill.level}
-                    </span>
-                  </div>
-                  
-                  <div class="skill-details">
-                    <div class="skill-rating">
-                      {Array.from({ length: 5 }, (_, i) => (
-                        <span class={`star ${i < skill.rating ? 'filled' : ''}`}>★</span>
-                      ))}
-                    </div>
-                    
-                    {skill.yearsOfExperience && (
-                      <span class="experience">
-                        {skill.yearsOfExperience}yr{skill.yearsOfExperience !== 1 ? 's' : ''}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </section>
-
-    <!-- Summary Stats -->
-    <section class="skills-summary">
-      <div class="summary-stats">
-        <div class="stat-item">
-          <span class="stat-number" id="total-skills">{allSkills.length}</span>
-          <span class="stat-label">Total Skills</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number expert-skills"></span>
-          <span class="stat-label">Expert Level</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number advanced-skills"></span>
-          <span class="stat-label">Advanced</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number intermediate-skills"></span>
-          <span class="stat-label">Intermediate</span>
-        </div>
-      </div>
-    </section>
+  <!-- Grid View -->
+  <div class="skills-grid-view">
+    <GridContainer>
+      {allSkills.map(skill => (
+        <SkillCard skill={skill} variant="grid" />
+      ))}
+    </GridContainer>
   </div>
 
-  <!-- Filtering and View Toggle JavaScript -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Get URL parameters
-      const urlParams = new URLSearchParams(window.location.search);
-      const initialFocus = urlParams.get('focus') || 'all';
+  <!-- Category View -->
+  <div class="skills-category-view hidden">
+    {categoryOrder.map(category => {
+      const categorySkills = skillsByCategory[category.key] || [];
+      if (categorySkills.length === 0) return null;
       
-      // Elements
-      const filterBtns = document.querySelectorAll('.filter-btn');
-      const viewBtns = document.querySelectorAll('.view-btn');
-      const gridView = document.querySelector('.skills-grid-view');
-      const categoryView = document.querySelector('.skills-category-view');
-      const skillCards = document.querySelectorAll('.skill-card, .skill-item');
-      const categorySection = document.querySelectorAll('.category-section');
-      
-      // Initialize counts
-      updateCounts();
-      updateStats();
-      
-      // Set initial filter
-      if (initialFocus !== 'all') {
-        setActiveFilter(initialFocus);
-        filterSkills(initialFocus);
-      }
-      
-      // Filter button handlers
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const focus = this.dataset.focus;
-          setActiveFilter(focus);
-          filterSkills(focus);
-          updateURL(focus);
-        });
-      });
-      
-      // View toggle handlers
-      viewBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const view = this.dataset.view;
-          setActiveView(view);
-        });
-      });
-      
-      function setActiveFilter(focus) {
-        filterBtns.forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.focus === focus);
-        });
-      }
-      
-      function setActiveView(view) {
-        viewBtns.forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.view === view);
-        });
-        
-        if (view === 'grid') {
-          gridView.style.display = 'block';
-          categoryView.style.display = 'none';
-        } else {
-          gridView.style.display = 'none';
-          categoryView.style.display = 'block';
-        }
-      }
-      
-      function filterSkills(focus) {
-        skillCards.forEach(card => {
-          const cardFocus = card.dataset.focus || '';
-          const shouldShow = focus === 'all' || 
-            cardFocus.includes(focus) || 
-            cardFocus.includes('both');
-          
-          card.style.display = shouldShow ? 'block' : 'none';
-        });
-        
-        // Handle category sections
-        categorySection.forEach(section => {
-          const visibleSkills = section.querySelectorAll('.skill-item:not([style*="display: none"])');
-          section.style.display = visibleSkills.length > 0 ? 'block' : 'none';
-        });
-        
-        updateStats();
-      }
-      
-      function updateURL(focus) {
-        const url = new URL(window.location);
-        if (focus === 'all') {
-          url.searchParams.delete('focus');
-        } else {
-          url.searchParams.set('focus', focus);
-        }
-        window.history.pushState({}, '', url);
-      }
-      
-      function updateCounts() {
-        const engineeringCount = document.querySelectorAll('[data-focus*="engineering"]').length;
-        const writingCount = document.querySelectorAll('[data-focus*="writing"]').length;
-        
-        document.querySelector('.engineering-count').textContent = `(${engineeringCount})`;
-        document.querySelector('.writing-count').textContent = `(${writingCount})`;
-      }
-      
-      function updateStats() {
-        const visibleCards = document.querySelectorAll('.skill-card:not([style*="display: none"])');
-        const levels = {
-          expert: 0,
-          advanced: 0,
-          intermediate: 0
-        };
-        
-        visibleCards.forEach(card => {
-          const level = card.querySelector('.skill-level').dataset.level;
-          if (levels.hasOwnProperty(level)) {
-            levels[level]++;
-          }
-        });
-        
-        document.querySelector('.expert-skills').textContent = levels.expert;
-        document.querySelector('.advanced-skills').textContent = levels.advanced;
-        document.querySelector('.intermediate-skills').textContent = levels.intermediate;
-        document.querySelector('#total-skills').textContent = visibleCards.length;
-      }
-    });
-  </script>
+      return (
+        <CategorySection
+          title={category.name}
+          icon={category.icon}
+          count={categorySkills.length}
+          categoryKey={category.key}
+        >
+          {categorySkills.map((skill: any) => (
+            <SkillCard skill={skill} variant="list" />
+          ))}
+        </CategorySection>
+      );
+    })}
+  </div>
 
-  <style>
-    .skills-page {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+  <!-- Summary Stats -->
+  <div class="mt-12 pt-8 border-t border-gray-200">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <StatCard 
+        value={allSkills.length} 
+        label="Total Skills" 
+        id="total-skills" 
+      />
+      <StatCard 
+        value={expertCount} 
+        label="Expert Level" 
+        className="expert-skills" 
+      />
+      <StatCard 
+        value={advancedCount} 
+        label="Advanced" 
+        className="advanced-skills" 
+      />
+      <StatCard 
+        value={intermediateCount} 
+        label="Intermediate" 
+        className="intermediate-skills" 
+      />
+    </div>
+  </div>
+
+  <script>
+    // Listen for filter changes to update stats
+    window.addEventListener('filterChanged', updateStats);
     
-    .page-header {
-      text-align: center;
-      padding: 2rem 0 3rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .page-header h1 {
-      font-size: 2.5rem;
-      color: #2c3e50;
-      margin-bottom: 1rem;
-    }
-    
-    .page-description {
-      font-size: 1.1rem;
-      color: #5a6c7d;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-    
-    .filter-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem 0;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    
-    .filter-controls {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    
-    .filter-btn {
-      background: #f8f9fa;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 0.75rem 1.25rem;
-      cursor: pointer;
-      font-weight: 500;
-      color: #5a6c7d;
-      transition: all 0.3s;
-    }
-    
-    .filter-btn:hover {
-      border-color: #3498db;
-      color: #3498db;
-    }
-    
-    .filter-btn.active {
-      background: #3498db;
-      border-color: #3498db;
-      color: white;
-    }
-    
-    .count {
-      opacity: 0.8;
-      font-size: 0.9rem;
-    }
-    
-    .view-controls {
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-    .view-btn {
-      background: #f8f9fa;
-      border: 1px solid #e0e0e0;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      color: #5a6c7d;
-      transition: all 0.3s;
-    }
-    
-    .view-btn:first-child {
-      border-radius: 6px 0 0 6px;
-    }
-    
-    .view-btn:last-child {
-      border-radius: 0 6px 6px 0;
-    }
-    
-    .view-btn.active {
-      background: #3498db;
-      color: white;
-      border-color: #3498db;
-    }
-    
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1rem 0;
-    }
-    
-    .skill-card {
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 1.5rem;
-      transition: all 0.3s;
-    }
-    
-    .skill-card:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
-    }
-    
-    .skill-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-      gap: 1rem;
-    }
-    
-    .skill-name {
-      font-size: 1.1rem;
-      color: #2c3e50;
-      margin: 0;
-      font-weight: 600;
-    }
-    
-    .skill-level {
-      font-size: 0.8rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    
-    .skill-level[data-level="expert"] {
-      background: #d4edda;
-      color: #155724;
-    }
-    
-    .skill-level[data-level="advanced"] {
-      background: #d1ecf1;
-      color: #0c5460;
-    }
-    
-    .skill-level[data-level="intermediate"] {
-      background: #fff3cd;
-      color: #856404;
-    }
-    
-    .skill-level[data-level="beginner"] {
-      background: #f8d7da;
-      color: #721c24;
-    }
-    
-    .skill-rating {
-      color: #f39c12;
-      margin-bottom: 1rem;
-    }
-    
-    .star.filled {
-      color: #f39c12;
-    }
-    
-    .star:not(.filled) {
-      color: #ddd;
-    }
-    
-    .skill-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    
-    .experience {
-      font-size: 0.8rem;
-      color: #7f8c8d;
-      background: #ecf0f1;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-    }
-    
-    .skill-tags {
-      display: flex;
-      gap: 0.25rem;
-      flex-wrap: wrap;
-    }
-    
-    .tag {
-      font-size: 0.7rem;
-      background: #e8f4fd;
-      color: #3498db;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-    }
-    
-    /* Category View Styles */
-    .category-section {
-      margin-bottom: 3rem;
-    }
-    
-    .category-title {
-      font-size: 1.5rem;
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .category-icon {
-      font-size: 1.2rem;
-    }
-    
-    .category-count {
-      font-size: 1rem;
-      color: #7f8c8d;
-      font-weight: normal;
-    }
-    
-    .category-skills {
-      display: grid;
-      gap: 1rem;
-    }
-    
-    .skill-item {
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.3s;
-    }
-    
-    .skill-item:hover {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .skill-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .skill-details {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    /* Summary Stats */
-    .skills-summary {
-      margin-top: 3rem;
-      padding: 2rem 0;
-      border-top: 1px solid #e0e0e0;
-    }
-    
-    .summary-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 2rem;
-      text-align: center;
-    }
-    
-    .stat-item {
-      background: #f8f9fa;
-      padding: 1.5rem;
-      border-radius: 8px;
-    }
-    
-    .stat-number {
-      display: block;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #3498db;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-label {
-      color: #5a6c7d;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    
-    @media (max-width: 768px) {
-      .page-header h1 {
-        font-size: 2rem;
-      }
+    function updateStats() {
+      const visibleCards = document.querySelectorAll('.skill-card:not([style*="display: none"])');
+      const levels = { expert: 0, advanced: 0, intermediate: 0 };
       
-      .filter-nav {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      visibleCards.forEach(card => {
+        const levelText = card.querySelector('[class*="bg-"]')?.textContent?.toLowerCase();
+        if (levelText?.includes('expert')) levels.expert++;
+        else if (levelText?.includes('advanced')) levels.advanced++;
+        else if (levelText?.includes('intermediate')) levels.intermediate++;
+      });
       
-      .filter-controls {
-        justify-content: center;
-      }
+      // Update stat cards
+      const expertCard = document.querySelector('.expert-skills .stat-value');
+      const advancedCard = document.querySelector('.advanced-skills .stat-value');
+      const intermediateCard = document.querySelector('.intermediate-skills .stat-value');
+      const totalCard = document.querySelector('#total-skills');
       
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .skill-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-      }
-      
-      .skill-item {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-      }
-      
-      .skill-info, .skill-details {
-        justify-content: space-between;
-      }
-      
-      .summary-stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      if (expertCard) expertCard.textContent = levels.expert.toString();
+      if (advancedCard) advancedCard.textContent = levels.advanced.toString();
+      if (intermediateCard) intermediateCard.textContent = levels.intermediate.toString();
+      if (totalCard) totalCard.textContent = visibleCards.length.toString();
     }
-  </style>
+  </script>
 </BaseLayout>
