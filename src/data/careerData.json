@@ -161,12 +161,12 @@
       "focus": ["engineering"]
     },
     {
-      "name": "Sequalize",
+      "name": "Sequelize",
       "level": "Beginner",
       "rating": 2,
       "tags": ["backend", "database"],
       "yearsOfExperience": 3,
-      "iconName": "sequelize",
+      "iconName": null,
       "useOnResume": true,
       "focus": ["engineering"]
     },
