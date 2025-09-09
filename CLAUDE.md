@@ -16,7 +16,7 @@ This portfolio site represents a complete architectural transformation from a le
 - **Development**: Modern toolchain with hot reload
 
 ### Component-Driven Design
-The site is built on a foundation of 14 reusable components that enforce design consistency and enable rapid development:
+The site is built on a foundation of 15 reusable components that enforce design consistency and enable rapid development:
 
 ```
 src/components/
@@ -32,7 +32,8 @@ src/components/
 │   ├── ProjectCard.astro     - Project showcase with metadata
 │   ├── ExperienceCard.astro  - Work experience with highlights
 │   ├── StrengthCard.astro    - Core expertise cards
-│   └── FocusCard.astro       - Homepage focus area cards
+│   ├── FocusCard.astro       - Homepage focus area cards
+│   └── ScrabbleName.astro    - Animated Scrabble tiles displaying name
 ├── UI Components
 │   ├── Button.astro          - Multi-variant button system
 │   ├── Icon.astro            - Unified icon system with fallback chain
@@ -76,6 +77,13 @@ src/components/
 - **URL State Management**: Shareable filtered views with browser history support
 - **Real-time Updates**: Client-side filtering with smooth animations
 - **Focus-Based Navigation**: Easy switching between writing, engineering, and combined views
+
+### Creative Branding Elements
+- **ScrabbleName Component**: Animated Scrabble tiles displaying "Clinton Langosch" with authentic styling
+  - 3D tile effects with birch wood texture background
+  - Natural placement with random rotation (±8°) and translation (±3px/±2px)
+  - Drop-in animation with staggered timing and accessibility support
+  - Preserves randomization through animation keyframes
 
 ### Professional Portfolio Features
 - **Skills Showcase**: Interactive skill cards with ratings, experience levels, and categorization
