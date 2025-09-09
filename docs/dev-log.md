@@ -1,5 +1,47 @@
 # Development Journal
 
+## 2025-01-09: Enhanced Interactivity & Mobile Experience
+
+### Features Implemented
+
+#### Skills Page Enhancements
+- **Skill Level Filtering**: Added dropdown to filter by Expert/Intermediate/Beginner
+- **Sorting Options**: Sort by rating (high/low) or alphabetically (A-Z/Z-A)
+- **URL State Management**: All filters/sorts reflected in URL for shareable views
+- **Bug Fix**: Fixed sorting in category view (was using wrong selector)
+- **Tailwind Safelist**: Added dynamic grid classes to prevent CSS purging issues
+
+#### Mobile Navigation
+- **Responsive Header**: Desktop nav hidden on mobile (<768px)
+- **Hamburger Menu**: Animated three-line icon that transforms to X
+- **Slide-in Menu**: Full viewport height menu sliding from right
+- **Touch-Friendly**: Large touch targets (44px+) for mobile users
+- **Accessibility**: ARIA states, keyboard support (Escape key), focus management
+- **Body Scroll Lock**: Prevents background scrolling when menu open
+
+### Technical Challenges Solved
+1. **Dynamic Tailwind Classes**: Resolved CSS purging issue with safelist
+2. **Mobile Menu Height**: Fixed constraint issue with explicit `100vh`/`100dvh`
+3. **Z-Index Layering**: Ensured menu appears above all content with `z-[9999]`
+4. **Content Shifting**: Calculated scrollbar width to prevent layout shift
+
+### Project Status
+- **Component Count**: 15+ reusable components
+- **Code Reduction**: ~74% less code through componentization
+- **Responsive**: Fully mobile-friendly with dedicated navigation
+- **Performance**: Fast static generation with minimal JavaScript
+
+### Next Up
+1. **Header Componentization**: Extract header into dedicated component for logo support
+2. **Content Updates**: Add more projects to careerData
+3. **Branding Element**: Create crossword/Scrabble-themed name component for homepage
+4. **Logo Design**: Prepare for actual site logo integration
+
+### Notes
+- Mobile navigation required multiple iterations to get height/visibility right
+- Vanilla JavaScript approach working well for interactivity
+- Component architecture proving very maintainable
+
 ## 2025-01-08: Project Kickoff & Planning
 
 ### Decisions Made
