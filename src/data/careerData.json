@@ -936,7 +936,8 @@
       },
       "end": {},
       "company": "Amazon Web Services",
-      "website": "https://aws.amazon.com"
+      "website": "https://aws.amazon.com",
+      "focus": ["both"]
     },
     {
       "name": "New Relic",
@@ -966,7 +967,8 @@
         "month": 12
       },
       "company": "New Relic",
-      "website": ""
+      "website": "",
+      "focus": ["engineering"]
     },
     {
       "name": "New Relic",
@@ -992,7 +994,8 @@
         "month": 3
       },
       "company": "New Relic",
-      "website": ""
+      "website": "",
+      "focus": ["engineering"]
     },
     {
       "name": "New Relic",
@@ -1016,7 +1019,8 @@
         "month": 10
       },
       "company": "New Relic",
-      "website": ""
+      "website": "",
+      "focus": ["writing"]
     },
     {
       "name": "JetBlue Airways",
@@ -1040,7 +1044,8 @@
         "month": 8
       },
       "company": "JetBlue Airways",
-      "website": ""
+      "website": "",
+      "focus": ["writing"]
     },
     {
       "name": "Midwest Airlines",
@@ -1064,7 +1069,8 @@
         "month": 7
       },
       "company": "Midwest Airlines",
-      "website": ""
+      "website": "",
+      "focus": ["writing"]
     },
     {
       "name": "Freelance",
@@ -1084,7 +1090,8 @@
         "month": 1
       },
       "company": "Freelance",
-      "website": ""
+      "website": "",
+      "focus": ["engineering"]
     }
   ],
   "publications": [],
