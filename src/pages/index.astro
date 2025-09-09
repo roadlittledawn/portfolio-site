@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GridContainer from '../components/GridContainer.astro';
 import FocusCard from '../components/FocusCard.astro';
 import QuickNav from '../components/QuickNav.astro';
+import ScrabbleName from '../components/ScrabbleName.astro';
 
 const title = "Clinton Langosch - Technical Writer & Software Engineer";
 const description = "Experienced technical writer and full-stack engineer specializing in developer experience and technical communication.";
@@ -31,12 +32,17 @@ const quickNavLinks = [
   <!-- Hero Section -->
   <section class="text-center py-16 md:py-20 lg:py-24">
     <div class="max-w-4xl mx-auto px-4">
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-dark mb-6">
-        Clinton Langosch
-      </h1>
+      <!-- Scrabble Name Display -->
+      <div class="mb-8">
+        <ScrabbleName />
+      </div>
       
       <p class="text-2xl md:text-3xl text-gray-600 font-medium mb-8">
         Technical Writer & Software Engineer
+      </p>
+      
+      <p class="text-base text-gray-500 italic mb-8">
+        "Playing with words and code since the beginning"
       </p>
       
       <p class="text-xl md:text-2xl text-secondary max-w-3xl mx-auto leading-relaxed mb-12">
