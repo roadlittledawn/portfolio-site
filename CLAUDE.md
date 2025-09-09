@@ -18,7 +18,7 @@ This portfolio site represents a complete architectural transformation from a le
 
 ### Component-Driven Design
 
-The site is built on a foundation of 15 reusable components that enforce design consistency and enable rapid development:
+The site is built on a foundation of 16 reusable components that enforce design consistency and enable rapid development:
 
 ```
 src/components/
@@ -35,7 +35,8 @@ src/components/
 │   ├── ExperienceCard.astro  - Work experience with highlights
 │   ├── StrengthCard.astro    - Core expertise cards
 │   ├── FocusCard.astro       - Homepage focus area cards
-│   └── ScrabbleName.astro    - Animated Scrabble tiles displaying name
+│   ├── ScrabbleName.astro    - Animated Scrabble tiles displaying full name
+│   └── ScrabbleLogo.astro    - Compact Scrabble tile logo for header
 ├── UI Components
 │   ├── Button.astro          - Multi-variant button system
 │   ├── Icon.astro            - Unified icon system with fallback chain
@@ -50,25 +51,6 @@ src/components/
     │   └── customIcons.ts    - Technology/brand logos from DevIcon
     └── styles.ts             - Shared styling utilities and helpers
 ```
-
-## 📊 Performance Achievements
-
-### Code Reduction
-
-| Page | Original | Component-Based | Reduction |
-| --- | --- | --- | --- |
-| skills.astro | 638 lines | 160 lines | 75% |
-| projects.astro | 394 lines | 64 lines | 84% |
-| software-engineering.astro | 509 lines | 137 lines | 73% |
-| technical-writing.astro | 423 lines | 137 lines | 68% |
-| index.astro | 173 lines | 65 lines | 62% |
-| **Total** | **2,137 lines** | **563 lines** | **74% reduction** |
-
-### CSS Elimination
-
-- **Before**: 800+ lines of custom CSS across pages
-- **After**: 0 lines of custom CSS (100% Tailwind utilities)
-- **Result**: Consistent design system, better performance, easier maintenance
 
 ## 🎯 Key Features
 
@@ -91,6 +73,14 @@ src/components/
   - Natural placement with random rotation (±8°) and translation (±3px/±2px)
   - Drop-in animation with staggered timing and accessibility support
   - Preserves randomization through animation keyframes
+
+- **ScrabbleLogo Component**: Compact animated logo displaying "CLINTON" for header navigation
+  - Same authentic Scrabble tile styling as ScrabbleName
+  - Natural randomization with rotation (±5°) and translation (±1.5px/±1px)
+  - Drop-in animation with 100ms staggered delays
+  - Hover wiggle effects on individual tiles
+  - Size variants (sm, md, lg) for flexible usage
+  - Integrated in site header replacing text-based logo
 
 ### Professional Portfolio Features
 
