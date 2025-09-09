@@ -2,6 +2,7 @@
 // Base layout component - wraps all pages with common HTML structure
 import Icon from '../components/Icon.astro';
 import MobileNav from '../components/MobileNav.astro';
+import ScrabbleLogo from '../components/ScrabbleLogo.astro';
 
 export interface Props {
   title: string;
@@ -24,8 +25,8 @@ const currentPath = Astro.url.pathname;
     <header class="sticky top-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <a href="/" class="text-xl font-bold text-primary-dark hover:text-primary transition-colors">
-            Clinton Langosch
+          <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+            <ScrabbleLogo size="sm" />
           </a>
           <!-- Desktop Navigation (hidden on mobile) -->
           <div class="hidden md:flex items-center gap-1 sm:gap-2">
