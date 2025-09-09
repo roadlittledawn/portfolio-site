@@ -16,23 +16,37 @@ export interface Props {
     value: string;
     label: string;
   }>;
+  levelOptions?: Array<{
+    value: string;
+    label: string;
+  }>;
+  sortOptions?: Array<{
+    value: string;
+    label: string;
+  }>;
   defaultFilter?: string;
   defaultView?: string;
+  defaultLevel?: string;
+  defaultSort?: string;
   className?: string;
 }
 
 const { 
   filters, 
   views,
+  levelOptions,
+  sortOptions,
   defaultFilter = 'all',
   defaultView = 'grid',
+  defaultLevel = 'all',
+  defaultSort = 'rating-desc',
   className = '' 
 } = Astro.props;
 ---
 
 <div class={`flex flex-wrap justify-between items-center py-6 gap-4 ${className}`}>
-  <!-- Filter Buttons -->
-  <div class="flex flex-wrap gap-2">
+  <!-- Left side: Filter Buttons and Dropdowns -->
+  <div class="flex flex-wrap items-center gap-2">
     {filters.map(filter => (
       <button 
         data-focus={filter.value}
@@ -47,6 +61,59 @@ const {
         )}
       </button>
     ))}
+    
+    {/* Separator if we have dropdowns */}
+    {(levelOptions || sortOptions) && (
+      <div class="hidden sm:block w-px h-8 bg-gray-300 mx-2"></div>
+    )}
+    
+    {/* Skill Level Dropdown */}
+    {levelOptions && levelOptions.length > 0 && (
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-gray-600 font-medium hidden md:inline">Level:</span>
+        <div class="relative inline-block">
+          <select 
+            id="level-filter"
+            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:text-primary focus:outline-none focus:border-primary focus:text-primary appearance-none cursor-pointer"
+          >
+            {levelOptions.map(option => (
+              <option value={option.value} selected={option.value === defaultLevel}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    )}
+    
+    {/* Sort Dropdown */}
+    {sortOptions && sortOptions.length > 0 && (
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-gray-600 font-medium hidden md:inline">Sort:</span>
+        <div class="relative inline-block">
+          <select 
+            id="sort-filter"
+            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:text-primary focus:outline-none focus:border-primary focus:text-primary appearance-none cursor-pointer"
+          >
+            {sortOptions.map(option => (
+              <option value={option.value} selected={option.value === defaultSort}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    )}
   </div>
   
   <!-- View Toggle (optional) -->
@@ -72,14 +139,24 @@ const {
   document.addEventListener('DOMContentLoaded', function() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const viewBtns = document.querySelectorAll('.view-btn');
+    const levelFilter = document.getElementById('level-filter');
+    const sortFilter = document.getElementById('sort-filter');
     
     // Get initial state from URL
     const urlParams = new URLSearchParams(window.location.search);
     const initialFocus = urlParams.get('focus') || 'all';
+    const initialLevel = urlParams.get('level') || 'all';
+    const initialSort = urlParams.get('sort') || 'rating-desc';
     
     // Set initial active state
     if (initialFocus !== 'all') {
       updateFilterButtons(initialFocus);
+    }
+    if (levelFilter && initialLevel !== 'all') {
+      levelFilter.value = initialLevel;
+    }
+    if (sortFilter && initialSort !== 'rating-desc') {
+      sortFilter.value = initialSort;
     }
     
     // Filter button click handler
@@ -87,10 +164,26 @@ const {
       btn.addEventListener('click', function() {
         const focus = this.dataset.focus;
         updateFilterButtons(focus);
-        filterElements(focus);
-        updateURL(focus);
+        applyFiltersAndSort();
+        updateURL();
       });
     });
+    
+    // Level filter change handler
+    if (levelFilter) {
+      levelFilter.addEventListener('change', function() {
+        applyFiltersAndSort();
+        updateURL();
+      });
+    }
+    
+    // Sort filter change handler
+    if (sortFilter) {
+      sortFilter.addEventListener('change', function() {
+        applyFiltersAndSort();
+        updateURL();
+      });
+    }
     
     // View toggle handler
     viewBtns.forEach(btn => {
@@ -130,17 +223,28 @@ const {
       });
     }
     
-    function filterElements(focus) {
-      // Filter skill/project cards
-      const cards = document.querySelectorAll('.skill-card, .project-card');
+    function applyFiltersAndSort() {
+      // Get current filter values
+      const focus = document.querySelector('.filter-btn.bg-primary')?.dataset.focus || 'all';
+      const level = levelFilter?.value || 'all';
+      const sortBy = sortFilter?.value || 'rating-desc';
+      
+      // Get all cards
+      const cards = Array.from(document.querySelectorAll('.skill-card, .project-card'));
+      
+      // Filter cards
       cards.forEach(card => {
         const cardFocus = card.dataset.focus || '';
-        const shouldShow = focus === 'all' || 
-          cardFocus.includes(focus) || 
-          cardFocus.includes('both');
+        const cardLevel = card.dataset.level || '';
         
-        card.style.display = shouldShow ? '' : 'none';
+        const focusMatch = focus === 'all' || cardFocus.includes(focus) || cardFocus.includes('both');
+        const levelMatch = level === 'all' || cardLevel.toLowerCase() === level.toLowerCase();
+        
+        card.style.display = (focusMatch && levelMatch) ? '' : 'none';
       });
+      
+      // Sort cards
+      sortElements(sortBy);
       
       // Handle category sections if they exist
       const categorySections = document.querySelectorAll('.category-section');
@@ -149,8 +253,72 @@ const {
         section.style.display = visibleItems.length > 0 ? '' : 'none';
       });
       
-      // Trigger custom event for other components to listen to
-      window.dispatchEvent(new CustomEvent('filterChanged', { detail: { focus } }));
+      // Trigger custom event
+      window.dispatchEvent(new CustomEvent('filterChanged', { 
+        detail: { focus, level, sortBy } 
+      }));
+    }
+    
+    function sortElements(sortBy) {
+      const gridView = document.querySelector('.skills-grid-view');
+      const categoryView = document.querySelector('.skills-category-view');
+      
+      if (gridView && !gridView.classList.contains('hidden')) {
+        // Sort grid view
+        const container = gridView.querySelector('.grid');
+        if (container) {
+          const cards = Array.from(container.querySelectorAll('.skill-card'));
+          const sortedCards = sortCards(cards, sortBy);
+          
+          // Re-append in sorted order
+          sortedCards.forEach(card => container.appendChild(card));
+        }
+      }
+      
+      if (categoryView && !categoryView.classList.contains('hidden')) {
+        // Sort within each category
+        const categories = categoryView.querySelectorAll('.category-section');
+        categories.forEach(section => {
+          // In category view, the container is .space-y-2, not .grid
+          const container = section.querySelector('.space-y-2');
+          if (container) {
+            const cards = Array.from(container.querySelectorAll('.skill-card'));
+            const sortedCards = sortCards(cards, sortBy);
+            
+            // Re-append in sorted order
+            sortedCards.forEach(card => container.appendChild(card));
+          }
+        });
+      }
+    }
+    
+    function sortCards(cards, sortBy) {
+      return cards.sort((a, b) => {
+        switch(sortBy) {
+          case 'rating-desc':
+            const ratingA = parseInt(a.dataset.rating || '0');
+            const ratingB = parseInt(b.dataset.rating || '0');
+            return ratingB - ratingA;
+          
+          case 'rating-asc':
+            const ratingA2 = parseInt(a.dataset.rating || '0');
+            const ratingB2 = parseInt(b.dataset.rating || '0');
+            return ratingA2 - ratingB2;
+          
+          case 'name-asc':
+            const nameA = a.dataset.name || '';
+            const nameB = b.dataset.name || '';
+            return nameA.localeCompare(nameB);
+          
+          case 'name-desc':
+            const nameA2 = a.dataset.name || '';
+            const nameB2 = b.dataset.name || '';
+            return nameB2.localeCompare(nameA2);
+          
+          default:
+            return 0;
+        }
+      });
     }
     
     function toggleView(view) {
@@ -171,19 +339,39 @@ const {
       window.dispatchEvent(new CustomEvent('viewChanged', { detail: { view } }));
     }
     
-    function updateURL(focus) {
+    function updateURL() {
       const url = new URL(window.location);
+      
+      // Get current values
+      const focus = document.querySelector('.filter-btn.bg-primary')?.dataset.focus || 'all';
+      const level = levelFilter?.value || 'all';
+      const sortBy = sortFilter?.value || 'rating-desc';
+      
+      // Update URL params
       if (focus === 'all') {
         url.searchParams.delete('focus');
       } else {
         url.searchParams.set('focus', focus);
       }
+      
+      if (level === 'all') {
+        url.searchParams.delete('level');
+      } else {
+        url.searchParams.set('level', level);
+      }
+      
+      if (sortBy === 'rating-desc') {
+        url.searchParams.delete('sort');
+      } else {
+        url.searchParams.set('sort', sortBy);
+      }
+      
       window.history.pushState({}, '', url);
     }
     
-    // Initialize filtering if URL has focus param
-    if (initialFocus !== 'all') {
-      filterElements(initialFocus);
+    // Initialize filtering and sorting based on URL params
+    if (initialFocus !== 'all' || initialLevel !== 'all' || initialSort !== 'rating-desc') {
+      applyFiltersAndSort();
     }
   });
 </script>

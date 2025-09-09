@@ -44,6 +44,9 @@ const layoutClasses = variant === 'list'
   class={`skill-card ${baseClasses} ${layoutClasses} ${className}`}
   data-focus={skill.focus?.join(' ')} 
   data-categories={skill.tags?.join(' ')}
+  data-level={skill.level}
+  data-rating={skill.rating}
+  data-name={skill.name}
 >
   {variant === 'grid' ? (
     <>

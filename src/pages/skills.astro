@@ -55,6 +55,20 @@ const viewOptions = [
   { value: 'category', label: 'By Category' }
 ];
 
+const levelOptions = [
+  { value: 'all', label: 'All Levels' },
+  { value: 'expert', label: 'Expert Only' },
+  { value: 'intermediate', label: 'Intermediate Only' },
+  { value: 'beginner', label: 'Beginner Only' }
+];
+
+const sortOptions = [
+  { value: 'rating-desc', label: 'Highest Rated First' },
+  { value: 'rating-asc', label: 'Lowest Rated First' },
+  { value: 'name-asc', label: 'Alphabetical (A-Z)' },
+  { value: 'name-desc', label: 'Alphabetical (Z-A)' }
+];
+
 // Count skills by level for initial stats
 const expertCount = allSkills.filter(s => s.level?.toLowerCase() === 'expert').length;
 const advancedCount = allSkills.filter(s => s.level?.toLowerCase() === 'advanced').length;
@@ -70,13 +84,17 @@ const intermediateCount = allSkills.filter(s => s.level?.toLowerCase() === 'inte
   <FilterNav 
     filters={filterOptions}
     views={viewOptions}
+    levelOptions={levelOptions}
+    sortOptions={sortOptions}
     defaultFilter="all"
     defaultView="grid"
+    defaultLevel="all"
+    defaultSort="rating-desc"
   />
 
   <!-- Grid View -->
   <div class="skills-grid-view">
-    <GridContainer>
+    <GridContainer columns={{default: 1, md: 2, lg: 3}} gap="md">
       {allSkills.map(skill => (
         <SkillCard skill={skill} variant="grid" />
       ))}
