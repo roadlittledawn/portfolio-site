@@ -44,882 +44,591 @@
       "name": "React.js",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "frontend",
-        "library"
-      ],
+      "tags": ["frontend", "library"],
       "yearsOfExperience": 4,
       "iconName": "React",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Javascript",
       "level": "Advanced",
       "rating": 4,
-      "tags": [
-        "frontend"
-      ],
+      "tags": ["frontend"],
       "yearsOfExperience": 4,
       "iconName": "JavaScript",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Apache",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "backend"
-      ],
+      "tags": ["backend"],
       "yearsOfExperience": 7,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "GraphQL",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "frontend",
-        "backend"
-      ],
+      "tags": ["frontend", "backend"],
       "yearsOfExperience": 3,
       "iconName": "GraphQL",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "PHP",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "backend"
-      ],
+      "tags": ["backend"],
       "yearsOfExperience": 10,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "HTML",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "frontend",
-        "markup"
-      ],
+      "tags": ["frontend", "markup"],
       "yearsOfExperience": 10,
       "iconName": "HTML5",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "CSS",
       "level": "Advanced",
       "rating": 4,
-      "tags": [
-        "frontend"
-      ],
+      "tags": ["frontend"],
       "yearsOfExperience": 10,
       "iconName": "CSS3",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Sass",
       "level": "Advanced",
       "rating": 4,
-      "tags": [
-        "frontend"
-      ],
+      "tags": ["frontend"],
       "yearsOfExperience": 10,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Node.js",
       "level": "Advanced",
       "rating": 4,
-      "tags": [
-        "backend"
-      ],
+      "tags": ["backend"],
       "yearsOfExperience": 1,
       "iconName": "Node.js",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "MySQL",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "backend",
-        "database"
-      ],
+      "tags": ["backend", "database"],
       "yearsOfExperience": 10,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "MongoDB",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "backend",
-        "database"
-      ],
+      "tags": ["backend", "database"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "PostgreSQL",
       "level": "Intermediate",
       "rating": 2,
-      "tags": [
-        "backend",
-        "database"
-      ],
+      "tags": ["backend", "database"],
       "yearsOfExperience": 3,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Sequelize",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "backend",
-        "database"
-      ],
+      "tags": ["backend", "database"],
       "yearsOfExperience": 3,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Docker",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "backend",
-        "tools"
-      ],
+      "tags": ["backend", "tools"],
       "yearsOfExperience": 3,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Bash",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "backend"
-      ],
+      "tags": ["backend"],
       "yearsOfExperience": 3,
       "iconName": "bash",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Gatsby",
       "level": "Advanced",
       "rating": 5,
-      "tags": [
-        "frontend",
-        "framework",
-        "javascript",
-        "react",
-        "node"
-      ],
+      "tags": ["frontend", "framework", "javascript", "react", "node"],
       "yearsOfExperience": 4,
       "iconName": "Gatsby",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Bootstrap",
       "level": "Advanced",
       "rating": 5,
-      "tags": [
-        "frontend",
-        "framework"
-      ],
+      "tags": ["frontend", "framework"],
       "yearsOfExperience": 4,
       "iconName": "bootstrap",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Git",
       "level": "Advanced",
       "rating": 4,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 7,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "D3.js",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "frontend",
-        "library"
-      ],
+      "tags": ["frontend", "library"],
       "yearsOfExperience": 7,
       "iconName": "d3",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Jest",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "tools",
-        "testing"
-      ],
+      "tags": ["tools", "testing"],
       "yearsOfExperience": 3,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Next.js",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "frontend",
-        "framework",
-        "javascript",
-        "react",
-        "node"
-      ],
+      "tags": ["frontend", "framework", "javascript", "react", "node"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "NPM",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Typescript",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "frontend"
-      ],
+      "tags": ["frontend"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Yarn",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "ESLint",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Prettier",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "coaching & mentoring",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "concepts",
-        "management"
-      ],
+      "tags": ["concepts", "management"],
       "iconName": "user",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "internationalization",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": "globe",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "agile scrum",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "concepts",
-        "project management"
-      ],
+      "tags": ["concepts", "project management"],
       "iconName": "briefcase",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "AWS Lambda",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "backend",
-        "cloud-platform"
-      ],
+      "tags": ["backend", "cloud-platform"],
       "iconName": "aws",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "AWS S3",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "backend",
-        "cloud-platform"
-      ],
+      "tags": ["backend", "cloud-platform"],
       "iconName": "aws",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "AWS DynamoDB",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "backend",
-        "database",
-        "cloud-platform"
-      ],
+      "tags": ["backend", "database", "cloud-platform"],
       "iconName": "aws",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "AWS Relational Database Service",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "cloud-platform"
-      ],
+      "tags": ["cloud-platform"],
       "iconName": "aws",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "microservices",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "GitHub Actions",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "iconName": "github",
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "New Relic",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "oAuth",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts",
-        "technical"
-      ],
+      "tags": ["concepts", "technical"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "SEO",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": "search",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "observability & performance",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": "bar-chart",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "API development",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": "bar-chart",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "team building & leadership",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts",
-        "management"
-      ],
+      "tags": ["concepts", "management"],
       "iconName": "user",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "scalability",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "key performance metrics",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "technical planning",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": "gear",
-      "focus": [
-        "both"
-      ]
+      "focus": ["both"]
     },
     {
       "name": "goal setting",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts",
-        "management"
-      ],
+      "tags": ["concepts", "management"],
       "iconName": "user",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "OKRs",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts",
-        "management"
-      ],
+      "tags": ["concepts", "management"],
       "iconName": "user",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "hiring & onboarding",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "concepts",
-        "management"
-      ],
+      "tags": ["concepts", "management"],
       "iconName": "user",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "risk management",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": "alert-circle",
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "SaaS",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "unit testing",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "analytics & data analysis",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "Elasticsearch",
       "level": "Intermediate",
       "rating": 2,
-      "tags": [
-        "backend"
-      ],
+      "tags": ["backend"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "core web vitals",
       "level": "Intermediate",
       "rating": 4,
-      "tags": [
-        "frontend",
-        "concepts"
-      ],
+      "tags": ["frontend", "concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "writing",
-        "engineering"
-      ]
+      "focus": ["writing", "engineering"]
     },
     {
       "name": "problem solving",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "incident management",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "Tailwind",
       "level": "Beginner",
       "rating": 1,
-      "tags": [
-        "frontend"
-      ],
+      "tags": ["frontend"],
       "yearsOfExperience": 2,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "Datadog",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "engineering"
-      ]
+      "focus": ["engineering"]
     },
     {
       "name": "docs as code",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "content reuse",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 6,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "style guide",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 10,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "culture of documentation",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 4,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "DITA",
       "level": "Intermediate",
       "rating": 3,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 5,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "Adobe Framemaker",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "tools"
-      ],
+      "tags": ["tools"],
       "yearsOfExperience": 9,
       "iconName": null,
-      "focus": [
-        "writing",
-        "engineering"
-      ]
+      "focus": ["writing", "engineering"]
     },
     {
       "name": "personalization",
       "level": "Expert",
       "rating": 4,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 9,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "generative AI for docs",
       "level": "Beginner",
       "rating": 2,
-      "tags": [
-        "concepts"
-      ],
+      "tags": ["concepts"],
       "yearsOfExperience": 1,
       "iconName": null,
-      "focus": [
-        "writing"
-      ]
+      "focus": ["writing"]
     },
     {
       "name": "markdown",
       "level": "Expert",
       "rating": 5,
-      "tags": [
-        "frontend"
-      ],
+      "tags": ["frontend"],
       "yearsOfExperience": 5,
       "iconName": null,
-      "focus": [
-        "writing",
-        "engineering"
-      ]
+      "focus": ["writing", "engineering"]
     }
   ],
   "projects": [
     {
       "name": "docs-website",
-      "displayName": "newrelic/docs-website",
+      "displayName": "New Relic Docs Website Migration & Platform",
       "type": "engineering",
-      "category": "Documentation Platform",
-      "summary": "React.js / Node.js based, open source static site for New Relic docs / help content",
-      "description": "React.js based static site generated (SSG) with Gatsby. CI/CD workflows and deployment. Includes migration tooling from Drupal to markdown/MDX based content. Human/machine translation tooling/workflows. Central repo for Docs as a Service (DaaS) data/endpoints.",
+      "category": "Web App Migration",
+      "summary": "Migrated documentation CMS from Drupal to open source, content-as-code platform with $43k annual cost savings",
+      "description": "Led complete migration from Drupal CMS to open source, developer-friendly documentation platform. Converted HTML content to React-based MDX components while maintaining SEO and routing. Rebuilt internationalization system with complex translation vendor API integration. Preserved critical data endpoints for downstream services.",
       "role": "Lead engineer and architect",
-      "challenge": "Built scalable documentation platform supporting internationalization and content migration from legacy Drupal system",
-      "technologies": ["JavaScript", "React.js", "Node.js", "Gatsby", "PostgreSQL"],
-      "tools": ["Docker", "GitHub Actions"],
+      "challenge": "Had to migrate and convert content in HTML to React based MDX components and maintain SEO and routing. Completely rebuild internationalization and integrate complex translation vendor API and workflows. Ensure several data endpoints were preserved for downstream services that relied on docs data.",
+      "technologies": [
+        "Gatsby",
+        "Node.js",
+        "React.js",
+        "MDX",
+        "Markdown",
+        "JavaScript"
+      ],
+      "tools": ["GitHub", "GitHub Actions", "Docker"],
       "date": "2020-2022",
       "links": {
         "website": "https://docs.newrelic.com",
@@ -927,9 +636,17 @@
         "demo": null,
         "article": null
       },
-      "focus": ["writing", "engineering"],
+      "focus": ["engineering"],
       "featured": true,
-      "tags": ["documentation", "react", "gatsby", "internationalization"]
+      "tags": [
+        "migration",
+        "documentation",
+        "cms",
+        "gatsby",
+        "react",
+        "mdx",
+        "cost-savings"
+      ]
     },
     {
       "name": "developer-website",
@@ -952,6 +669,35 @@
       "focus": ["engineering"],
       "featured": true,
       "tags": ["documentation", "react", "gatsby", "developer-experience"]
+    },
+    {
+      "name": "new-relic-help-center-prototype",
+      "displayName": "New Relic Help Center Prototype",
+      "type": "engineering",
+      "category": "Product Feature",
+      "summary": "React application integrated into New Relic product UI providing in-context help and documentation",
+      "description": "Developed a Help Center prototype as a React application integrated into the product UI to address disparate customer training content after New Relic unified its products into a singular UI.",
+      "role": "Full-stack developer and prototype creator",
+      "challenge": "Needed to significantly improve nascent React.js skills (pre-hooks, class component era) and learn internal developer platform tools for application configuration, CI/CD tooling for deployments, and custom feature flag system.",
+      "technologies": ["React.js", "PHP", "JavaScript"],
+      "tools": ["Jenkins", "Swiftype API", "Drupal API"],
+      "date": "2018-2019",
+      "links": {
+        "website": null,
+        "github": null,
+        "demo": null,
+        "article": null
+      },
+      "focus": ["engineering"],
+      "featured": true,
+      "tags": [
+        "react",
+        "prototype",
+        "in-product",
+        "search",
+        "api-integration",
+        "ceo-attention"
+      ]
     },
     {
       "name": "gatsby-theme-newrelic",
@@ -1106,6 +852,62 @@
       "focus": ["writing"],
       "featured": true,
       "tags": ["documentation", "installation", "technical-writing", "php"]
+    },
+    {
+      "name": "new-relic-infrastructure-guide",
+      "displayName": "New Relic Infrastructure Installation Guide",
+      "type": "writing",
+      "category": "User Guide",
+      "summary": "Comprehensive documentation for foundational New Relic Infrastructure product launch",
+      "description": "Adapted subset of web pages from docs.newrelic.com that supported the initial launch of New Relic Infrastructure. Covers complex install & configure processes and how to analyze data in the UI.",
+      "role": "Lead writer & maintainer as primary Infrastructure expert on team",
+      "challenge": "This product replaced an older, more basic product called New Relic Servers. Install and configuration was complex, as it included not only monitoring the operating system, but also included 'on-host integrations' to extend monitoring to other software running on the host (databases, logging, etc).",
+      "technologies": ["Linux", "MySQL", "Apache", "Infrastructure Monitoring"],
+      "tools": ["Drupal", "HTML", "CSS", "JavaScript"],
+      "date": "2016",
+      "links": {
+        "demo": "https://docs.google.com/document/d/14Rr7TPiqpJEak2RWTCx6lhgt-35_TagX0_EibChSWtI/edit?tab=t.0",
+        "github": null,
+        "website": null,
+        "article": null
+      },
+      "focus": ["writing"],
+      "featured": true,
+      "tags": [
+        "documentation",
+        "installation",
+        "technical-writing",
+        "infrastructure",
+        "monitoring"
+      ]
+    },
+    {
+      "name": "new-relic-search-management",
+      "displayName": "How to manage New Relic public site search",
+      "type": "writing",
+      "category": "User Guide",
+      "summary": "Internal documentation for content and engineering teams to manage search results across New Relic properties",
+      "description": "Internal doc for content and engineering teams to manage search results, which was part of all public New Relic site searches as well as a product UI feature called NR1 Help Center.",
+      "role": "Creator and maintainer of this doc. Built out the site search and coordinated effort around updating the index across teams",
+      "challenge": "Search was a critical component across many different important experiences, from technical support's site (ticket deflection), to our main marketing site, to docs, to an in-product feature called NR1 Help Center. This cut across many teams who needed information on how to keep the index up to date and optimize it for their experience so customers get high value results.",
+      "technologies": ["Search", "Elasticsearch", "SEO"],
+      "tools": ["Confluence"],
+      "date": "2019",
+      "links": {
+        "demo": "https://docs.google.com/document/d/1epM9a5RwjaGSTQPg_KwXdH2k-TTKSP5o4ZNnvFkG5hU/edit?tab=t.0",
+        "github": null,
+        "website": null,
+        "article": null
+      },
+      "focus": ["writing"],
+      "featured": true,
+      "tags": [
+        "documentation",
+        "search",
+        "internal-docs",
+        "cross-functional",
+        "seo"
+      ]
     }
   ],
   "work": [
