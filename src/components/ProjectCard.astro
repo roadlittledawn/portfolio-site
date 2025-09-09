@@ -6,36 +6,42 @@
 export interface Props {
   project: {
     name: string;
-    displayName?: string;
-    summary?: string;
-    description?: string;
-    type?: string;
-    url?: string;
-    website?: string;
-    githubUrl?: string;
-    languages?: string[];
-    libraries?: string[];
-    focus?: string[];
-    featured?: boolean;
+    displayName: string;
+    type: string;
+    category: string;
+    summary: string;
+    description: string;
+    role: string;
+    challenge: string;
+    technologies: string[];
+    tools: string[];
+    date: string;
+    links: {
+      website?: string | null;
+      github?: string | null;
+      demo?: string | null;
+      article?: string | null;
+    };
+    focus: string[];
+    featured: boolean;
+    tags: string[];
   };
   className?: string;
 }
 
 const { project, className = '' } = Astro.props;
 
-const projectUrl = project.url || project.website;
-const projectTitle = project.displayName || project.name;
+// Primary project URL (prefer website, then demo, then github)
+const primaryUrl = project.links.website || project.links.demo || project.links.github;
 
 // Get project type icon and label
-const getProjectType = (type?: string) => {
+const getProjectType = (type: string) => {
   const types = {
-    documentation: { icon: '📚', label: 'Documentation' },
-    website: { icon: '🌐', label: 'Web App' },
-    'writing-sample': { icon: '📝', label: 'Writing Sample' },
-    tool: { icon: '🔧', label: 'Tool' },
-    library: { icon: '📦', label: 'Library' }
+    engineering: { icon: '💻', label: 'Engineering' },
+    writing: { icon: '📝', label: 'Writing' },
+    leadership: { icon: '👥', label: 'Leadership' }
   };
-  return types[type || 'website'] || types.website;
+  return types[type] || types.engineering;
 };
 
 const typeInfo = getProjectType(project.type);
@@ -49,24 +55,27 @@ const typeInfo = getProjectType(project.type);
   <!-- Header -->
   <div class="mb-4">
     <h3 class="text-xl font-semibold text-primary-dark mb-2">
-      {projectUrl ? (
+      {primaryUrl ? (
         <a 
-          href={projectUrl} 
+          href={primaryUrl} 
           target="_blank" 
           rel="noopener"
           class="hover:text-primary transition-colors"
         >
-          {projectTitle}
+          {project.displayName}
         </a>
       ) : (
-        projectTitle
+        project.displayName
       )}
     </h3>
     
-    <div class="flex flex-wrap items-center gap-2">
+    <div class="flex flex-wrap items-center gap-2 mb-2">
       <span class="text-sm bg-gray-100 text-gray-700 px-2 py-1 rounded-md flex items-center gap-1">
         <span>{typeInfo.icon}</span>
         {typeInfo.label}
+      </span>
+      <span class="text-sm bg-blue-50 text-blue-700 px-2 py-1 rounded-md">
+        {project.category}
       </span>
       {project.featured && (
         <span class="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md font-medium">
@@ -74,47 +83,44 @@ const typeInfo = getProjectType(project.type);
         </span>
       )}
     </div>
+    
+    <div class="text-sm text-gray-500 mb-2">
+      <span class="font-medium">{project.role}</span> • <span>{project.date}</span>
+    </div>
   </div>
 
-  <!-- Summary/Description -->
-  {project.summary && (
-    <p class="text-gray-600 mb-4 leading-relaxed">
-      {project.summary}
-    </p>
-  )}
+  <!-- Summary -->
+  <p class="text-gray-600 mb-3 leading-relaxed">
+    {project.summary}
+  </p>
   
-  {project.description && (
-    <div class="text-sm text-gray-500 mb-4 space-y-1">
-      {project.description.split('\n').map(line => 
-        line.trim() && (
-          <p>{line.replace(/^-\s*/, '')}</p>
-        )
-      )}
-    </div>
-  )}
+  <!-- Challenge/Description -->
+  <div class="text-sm text-gray-500 mb-4">
+    <p class="italic">{project.challenge}</p>
+  </div>
 
-  <!-- Technologies -->
+  <!-- Technologies & Tools -->
   <div class="mb-4 space-y-2">
-    {project.languages && project.languages.length > 0 && (
+    {project.technologies.length > 0 && (
       <div>
-        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Languages</span>
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Technologies</span>
         <div class="flex flex-wrap gap-1 mt-1">
-          {project.languages.map(lang => (
+          {project.technologies.map(tech => (
             <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded">
-              {lang}
+              {tech}
             </span>
           ))}
         </div>
       </div>
     )}
     
-    {project.libraries && project.libraries.length > 0 && (
+    {project.tools.length > 0 && (
       <div>
-        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Technologies</span>
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Tools</span>
         <div class="flex flex-wrap gap-1 mt-1">
-          {project.libraries.map(lib => (
+          {project.tools.map(tool => (
             <span class="text-xs bg-green-50 text-green-700 px-2 py-1 rounded">
-              {lib}
+              {tool}
             </span>
           ))}
         </div>
@@ -124,9 +130,9 @@ const typeInfo = getProjectType(project.type);
 
   <!-- Links -->
   <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
-    {project.githubUrl && (
+    {project.links.github && (
       <a 
-        href={project.githubUrl} 
+        href={project.links.github} 
         target="_blank" 
         rel="noopener"
         class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-primary px-3 py-1.5 border border-gray-300 rounded-md hover:border-primary transition-all"
@@ -137,9 +143,9 @@ const typeInfo = getProjectType(project.type);
         GitHub
       </a>
     )}
-    {projectUrl && (
+    {project.links.website && (
       <a 
-        href={projectUrl} 
+        href={project.links.website} 
         target="_blank" 
         rel="noopener"
         class="inline-flex items-center gap-1.5 text-sm font-medium text-white bg-primary hover:bg-blue-600 px-3 py-1.5 rounded-md transition-colors"
@@ -147,7 +153,34 @@ const typeInfo = getProjectType(project.type);
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
-        View Live
+        View Website
+      </a>
+    )}
+    {project.links.demo && (
+      <a 
+        href={project.links.demo} 
+        target="_blank" 
+        rel="noopener"
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 px-3 py-1.5 rounded-md transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        View Demo
+      </a>
+    )}
+    {project.links.article && (
+      <a 
+        href={project.links.article} 
+        target="_blank" 
+        rel="noopener"
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-primary px-3 py-1.5 border border-gray-300 rounded-md hover:border-primary transition-all"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Read Article
       </a>
     )}
   </div>
