@@ -1,0 +1,18 @@
+---
+/**
+ * SiteLogo Component
+ * Site logo/brand that links to homepage
+ */
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+---
+
+<a 
+  href="/" 
+  class={`text-xl font-bold text-primary-dark hover:text-primary transition-colors ${className}`}
+>
+  Clinton Langosch
+</a>

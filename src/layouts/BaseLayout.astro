@@ -51,6 +51,16 @@ const currentPath = Astro.url.pathname;
               Projects
             </a>
             <a 
+              href="/experience" 
+              class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                currentPath === '/experience' 
+                  ? 'bg-primary bg-opacity-10 text-primary' 
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+              }`}
+            >
+              Experience
+            </a>
+            <a 
               href="/technical-writing" 
               class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 currentPath === '/technical-writing' 
