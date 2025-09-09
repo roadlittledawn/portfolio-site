@@ -23,11 +23,8 @@ const engineeringProjects = careerData.projects
   .filter(project => project.featured);
 
 const engineeringRoles = careerData.work
-  .filter(role => 
-    role.position.toLowerCase().includes('engineer') ||
-    role.position.toLowerCase().includes('software') ||
-    role.position.toLowerCase().includes('manager')
-  );
+  .filter(role => role.focus?.includes('engineering') || role.focus?.includes('both'))
+  .sort((a, b) => (b.start?.year || 0) - (a.start?.year || 0));
 
 const strengths = [
   {
