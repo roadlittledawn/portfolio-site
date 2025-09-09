@@ -13,7 +13,6 @@ const description = "Technical and professional skills spanning software enginee
 
 // Get and process skills data
 const allSkills = careerData.skills
-  .filter(skill => skill.useOnResume)
   .sort((a, b) => b.rating - a.rating);
 
 // Organize skills by category

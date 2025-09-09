@@ -15,7 +15,6 @@ const description = "Full-stack software engineer and engineering manager with 1
 // Filter for engineering-focused content
 const engineeringSkills = careerData.skills
   .filter(skill => skill.focus?.includes('engineering') || skill.focus?.includes('both'))
-  .filter(skill => skill.useOnResume)
   .sort((a, b) => b.rating - a.rating)
   .slice(0, 12);
 

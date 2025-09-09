@@ -15,7 +15,6 @@ const description = "Technical writer and content strategist with 11 years of ex
 // Filter for writing-focused content
 const writingSkills = careerData.skills
   .filter(skill => skill.focus?.includes('writing') || skill.focus?.includes('both'))
-  .filter(skill => skill.useOnResume)
   .sort((a, b) => b.rating - a.rating)
   .slice(0, 12);
 
