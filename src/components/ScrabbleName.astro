@@ -79,33 +79,103 @@ const lastName = 'LANGOSCH';
   }
 
   .tile-inner {
-    @apply relative bg-amber-50 border-2 border-amber-200 rounded-lg shadow-md;
-    @apply w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center;
-    @apply transform transition-all duration-200 hover:scale-105 hover:shadow-lg;
-    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    @apply relative flex items-center justify-center;
+    @apply w-12 h-12 sm:w-16 sm:h-16;
+    @apply transition-all duration-200;
+    
+    /* Authentic Scrabble tile styling with wood texture */
+    background-color: #f5cf90;
+    background-image: url('/src/images/veneer-birch-texture-fs8.png');
+    
+    /* Responsive sizing with proper proportions */
+    width: 48px;
+    height: 48px;
+    
+    /* 3D Scrabble tile borders matching reference */
+    border-style: solid;
+    border-top-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 3px;
+    
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-left-color: rgba(255, 255, 255, 0.25);
+    border-right-color: rgba(0, 0, 0, 0.15);
+    border-bottom-color: rgba(0, 0, 0, 0.30);
+    
+    border-radius: 2px;
+    
+    /* Enhanced 3D shadow effect */
+    box-shadow: 
+      0 3px 2px -1px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  @media (min-width: 640px) {
+    .tile-inner {
+      width: 64px;
+      height: 64px;
+      border-top-width: 3px;
+      border-bottom-width: 4px;
+      border-radius: 3px;
+      box-shadow: 
+        0 4px 3px -1px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
   }
 
   .letter {
-    @apply text-lg sm:text-2xl font-bold text-amber-900;
-    font-family: 'Georgia', serif;
+    font-family: 'Oswald', 'Arial Black', sans-serif;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    
+    /* Size responsive to tile size */
+    font-size: 28px;
+    
+    /* Enhanced letter styling with depth matching reference */
+    text-shadow: 
+      4px 4px 6px #f5cf90,
+      0 0 0 rgba(0, 0, 0, 0.7),
+      1px 2px 1px rgba(255, 255, 255, 0.5);
+  }
+
+  @media (min-width: 640px) {
+    .letter {
+      font-size: 36px;
+    }
   }
 
   .points {
-    @apply text-xs font-semibold text-amber-700 absolute bottom-0.5 right-1;
+    color: rgba(0, 0, 0, 0.7);
+    font-family: sans-serif;
+    font-weight: 600;
+    position: absolute;
+    right: 12.5%;
+    bottom: 12.5%;
+    transform: translate(50%, 50%);
+    
+    /* Responsive sizing */
+    font-size: 10px;
   }
 
-  /* Animation keyframes */
+  @media (min-width: 640px) {
+    .points {
+      font-size: 12px;
+    }
+  }
+
+  /* Animation keyframes - now preserves rotation and translation */
   @keyframes dropIn {
     0% {
-      transform: translateY(-30px) scale(0.8);
+      transform: translate(var(--tile-translate-x, 0px), calc(var(--tile-translate-y, 0px) - 30px)) scale(0.8) rotate(var(--tile-rotation, 0deg));
       opacity: 0;
     }
     60% {
-      transform: translateY(5px) scale(1.05);
+      transform: translate(var(--tile-translate-x, 0px), calc(var(--tile-translate-y, 0px) + 5px)) scale(1.05) rotate(var(--tile-rotation, 0deg));
       opacity: 1;
     }
     100% {
-      transform: translateY(0) scale(1);
+      transform: translate(var(--tile-translate-x, 0px), var(--tile-translate-y, 0px)) scale(1) rotate(var(--tile-rotation, 0deg));
       opacity: 1;
     }
   }
@@ -139,6 +209,38 @@ const lastName = 'LANGOSCH';
 
     console.log('ScrabbleName found, initializing animation');
 
+    // Add natural randomization to tiles for authentic placement
+    const tiles = scrabbleName.querySelectorAll('.scrabble-tile');
+    tiles.forEach(tile => {
+      // Random rotation between -8 and 8 degrees for more natural look
+      const rotation = (Math.random() * 16) - 8;
+      
+      // Random translation for natural scatter (smaller range to keep readable)
+      const translateX = (Math.random() * 6) - 3; // ±3px horizontal
+      const translateY = (Math.random() * 4) - 2; // ±2px vertical
+      
+      // Store values for animation
+      tile.dataset.rotation = rotation;
+      tile.dataset.translateX = translateX;
+      tile.dataset.translateY = translateY;
+      
+      // Set CSS custom properties
+      tile.style.setProperty('--tile-rotation', `${rotation}deg`);
+      tile.style.setProperty('--tile-translate-x', `${translateX}px`);
+      tile.style.setProperty('--tile-translate-y', `${translateY}px`);
+      
+      // Apply initial transform
+      tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+      
+      // Randomize wood grain background position for variety
+      const tileInner = tile.querySelector('.tile-inner');
+      if (tileInner) {
+        const bgX = Math.random() * 600;
+        const bgY = Math.random() * 600;
+        tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+      }
+    });
+
     // Respect user's motion preferences
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
@@ -163,6 +265,12 @@ const lastName = 'LANGOSCH';
         setTimeout(() => {
           tile.classList.remove('opacity-0');
           tile.classList.add('tile-animate');
+          
+          // Maintain transform during and after animation
+          const rotation = tile.dataset.rotation || 0;
+          const translateX = tile.dataset.translateX || 0;
+          const translateY = tile.dataset.translateY || 0;
+          tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
         }, delay);
       });
     }
