@@ -34,9 +34,11 @@ const formatDateRange = (start: any, end: any, isCurrent: boolean) => {
   return `${startYear} - ${endYear}`;
 };
 
-const displayHighlights = showHighlights === 0 
-  ? role.highlights 
-  : role.highlights?.slice(0, showHighlights);
+const displayHighlights = showHighlights === -1 
+  ? [] 
+  : showHighlights === 0 
+    ? role.highlights 
+    : role.highlights?.slice(0, showHighlights);
 ---
 
 <article class={`bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow ${className}`}>
