@@ -911,344 +911,201 @@
   "projects": [
     {
       "name": "docs-website",
-      "description": "- React.js based static site generated (SSG) with Gatsby\n- CI / CD workflows and deployment\n- Includes migration tooling from Drupal to markdown/MDX based content \n- Human / machine translation tooling / workflows\n- Central repo for Docs as a Service (DaaS) data / endpoints",
-      "url": "https://docs.newrelic.com",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "documentation",
       "displayName": "newrelic/docs-website",
-      "website": "https://docs.newrelic.com",
-      "summary": "React.js / Node.js based, open source static site for for all things New Relic docs / help content",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "Docker",
-        "React.js",
-        "PostgreSQL"
-      ],
-      "tags": [
-        "internationalization"
-      ],
-      "githubUrl": "https://github.com/newrelic/docs-website",
-      "repositoryUrl": "https://github.com/newrelic/docs-website",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Documentation Platform",
+      "summary": "React.js / Node.js based, open source static site for New Relic docs / help content",
+      "description": "React.js based static site generated (SSG) with Gatsby. CI/CD workflows and deployment. Includes migration tooling from Drupal to markdown/MDX based content. Human/machine translation tooling/workflows. Central repo for Docs as a Service (DaaS) data/endpoints.",
+      "role": "Lead engineer and architect",
+      "challenge": "Built scalable documentation platform supporting internationalization and content migration from legacy Drupal system",
+      "technologies": ["JavaScript", "React.js", "Node.js", "Gatsby", "PostgreSQL"],
+      "tools": ["Docker", "GitHub Actions"],
+      "date": "2020-2022",
+      "links": {
+        "website": "https://docs.newrelic.com",
+        "github": "https://github.com/newrelic/docs-website",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "writing",
-        "engineering"
-      ],
-      "featured": true
+      "focus": ["writing", "engineering"],
+      "featured": true,
+      "tags": ["documentation", "react", "gatsby", "internationalization"]
     },
     {
       "name": "developer-website",
-      "description": "- React.js based static site generated (SSG) with Gatsby\n- CI / CD workflows and deployment\n- Interactive docs for New Relic UI platform SDK\n- Includes embeddable pages for reusing guides in other New Relic sites",
-      "url": "https://developer.newrelic.com",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
       "displayName": "newrelic/developer-website",
-      "website": "https://developer.newrelic.com",
-      "summary": "React.js / Node.js based, open source static site for in-depth, developer-focused content for New Relic APIs, platform tools, developer advocacy, etc.",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "Node.js",
-        "JavaScript"
-      ],
-      "libraries": [
-        "React.js"
-      ],
-      "githubUrl": "https://github.com/newrelic/developer-website",
-      "repositoryUrl": "https://github.com/newrelic/developer-website",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Developer Portal",
+      "summary": "React.js / Node.js based, open source static site for in-depth, developer-focused content",
+      "description": "React.js based static site generated (SSG) with Gatsby. CI/CD workflows and deployment. Interactive docs for New Relic UI platform SDK. Includes embeddable pages for reusing guides in other New Relic sites.",
+      "role": "Full-stack developer",
+      "challenge": "Created comprehensive developer portal with interactive documentation and embeddable content system",
+      "technologies": ["JavaScript", "React.js", "Node.js", "Gatsby"],
+      "tools": ["GitHub Actions"],
+      "date": "2019-2021",
+      "links": {
+        "website": "https://developer.newrelic.com",
+        "github": "https://github.com/newrelic/developer-website",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": true
+      "focus": ["engineering"],
+      "featured": true,
+      "tags": ["documentation", "react", "gatsby", "developer-experience"]
     },
     {
       "name": "gatsby-theme-newrelic",
-      "description": "- Serves as a utility / component library for all New Relic Gatsby sites to unify look and feel and functionality\n- CI / CD workflows and deployment to NPM\n- Includes a global header and federated search UI across all New Relic websites\n- Includes internationalization utilities / components",
-      "url": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
       "displayName": "newrelic/gatsby-theme-newrelic",
-      "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
-      "summary": "A demo site + NPM package that serves as a central component / utility library for all New Relic Gatsby sites",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "Gatsby",
-        "React.js",
-        "NPM"
-      ],
-      "githubUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
-      "repositoryUrl": "https://github.com/newrelic/gatsby-theme-newrelic",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Component Library",
+      "summary": "NPM package that serves as a central component/utility library for all New Relic Gatsby sites",
+      "description": "Serves as a utility/component library for all New Relic Gatsby sites to unify look and feel and functionality. CI/CD workflows and deployment to NPM. Includes a global header and federated search UI across all New Relic websites. Includes internationalization utilities/components.",
+      "role": "Lead developer and maintainer",
+      "challenge": "Created unified design system and component library to standardize UI/UX across multiple Gatsby sites",
+      "technologies": ["JavaScript", "React.js", "Node.js", "Gatsby"],
+      "tools": ["NPM", "GitHub Actions"],
+      "date": "2020-2022",
+      "links": {
+        "website": "https://opensource.newrelic.com/projects/newrelic/gatsby-theme-newrelic",
+        "github": "https://github.com/newrelic/gatsby-theme-newrelic",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": true
+      "focus": ["engineering"],
+      "featured": true,
+      "tags": ["component-library", "gatsby", "react", "npm"]
     },
     {
       "name": "opensource-website",
-      "description": "- React.js based static site generated (SSG) with Gatsby\n- CI / CD workflows and deployment\n- Includes sourcing lots of github data for hundreds of New Relic's open source projects",
-      "url": "https://opensource.newrelic.com",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
       "displayName": "newrelic/opensource-website",
-      "website": "https://opensource.newrelic.com",
-      "summary": "React.js / Node.js based, open source static site for exploring New Relic's open source program and its projects.",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "React.js"
-      ],
-      "githubUrl": "https://github.com/newrelic/opensource-website",
-      "repositoryUrl": "https://github.com/newrelic/opensource-website",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Marketing Site",
+      "summary": "React.js / Node.js based, open source static site for exploring New Relic's open source program",
+      "description": "React.js based static site generated (SSG) with Gatsby. CI/CD workflows and deployment. Includes sourcing lots of GitHub data for hundreds of New Relic's open source projects.",
+      "role": "Contributing developer",
+      "challenge": "Built dynamic site showcasing hundreds of open source projects with automated GitHub data integration",
+      "technologies": ["JavaScript", "React.js", "Node.js", "Gatsby"],
+      "tools": ["GitHub API", "GitHub Actions"],
+      "date": "2020-2021",
+      "links": {
+        "website": "https://opensource.newrelic.com",
+        "github": "https://github.com/newrelic/opensource-website",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": false
+      "focus": ["engineering"],
+      "featured": false,
+      "tags": ["open-source", "gatsby", "github-api"]
     },
     {
-      "name": "porfolio-site",
-      "description": "Gatsby site for all things me and software engineering.",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
+      "name": "portfolio-site",
       "displayName": "portfolio-site",
-      "website": "https://clintonlangosch.com",
-      "summary": "Gatsby site for all things me and software engineering.",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "HTML",
-        "SCSS"
-      ],
-      "libraries": [
-        "React.js"
-      ],
-      "githubUrl": "https://github.com/roadlittledawn/portfolio-site",
-      "repositoryUrl": "https://github.com/roadlittledawn/portfolio-site",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Personal Website",
+      "summary": "Modern Astro-based portfolio site showcasing dual expertise in technical writing and software engineering",
+      "description": "Complete rewrite from Gatsby to Astro with component-driven architecture. Features responsive design, interactive filtering, animated Scrabble name component, and comprehensive content management system.",
+      "role": "Solo developer and designer",
+      "challenge": "Transformed complex dual-branch Gatsby site into maintainable component-based architecture with 74% code reduction",
+      "technologies": ["TypeScript", "Astro", "Tailwind CSS", "HTML", "CSS"],
+      "tools": ["GitHub Actions", "Netlify"],
+      "date": "2024-2025",
+      "links": {
+        "website": "https://clintonlangosch.com",
+        "github": "https://github.com/roadlittledawn/portfolio-site",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": false
+      "focus": ["engineering"],
+      "featured": true,
+      "tags": ["astro", "portfolio", "responsive", "component-architecture"]
     },
     {
       "name": "wedding-website",
-      "description": "Gatsby frontend site wedding day info and to RSVP 🥂 🕺",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
       "displayName": "wedding-website",
-      "website": "https://brie-clinton-wedding.com/",
-      "summary": "Gatsby frontend site wedding day info and to RSVP 🥂 🕺",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript"
-      ],
-      "libraries": [
-        "React.js"
-      ],
-      "githubUrl": "https://github.com/roadlittledawn/wedding-website",
-      "repositoryUrl": "https://github.com/roadlittledawn/wedding-website",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Event Website",
+      "summary": "Gatsby frontend site for wedding day info and RSVP management",
+      "description": "Gatsby frontend site for wedding day info and to RSVP. Integrated with GraphQL API service for guest management.",
+      "role": "Full-stack developer",
+      "challenge": "Built complete wedding management system with RSVP functionality and guest data management",
+      "technologies": ["JavaScript", "React.js", "Gatsby"],
+      "tools": ["GraphQL"],
+      "date": "2021",
+      "links": {
+        "website": "https://brie-clinton-wedding.com/",
+        "github": "https://github.com/roadlittledawn/wedding-website",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": false
+      "focus": ["engineering"],
+      "featured": false,
+      "tags": ["gatsby", "react", "graphql"]
     },
     {
       "name": "wedding-website-rsvp-service",
-      "description": "Backend GraphQL API service to manage / store RSVP guest info in MongoDB.",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
       "displayName": "wedding-website-rsvp-service",
-      "website": "",
-      "summary": "Backend GraphQL API service to manage / store RSVP guest info in MongoDB.",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js"
-      ],
-      "libraries": [
-        "Apollo Server Express"
-      ],
-      "githubUrl": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
-      "repositoryUrl": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "type": "engineering",
+      "category": "Backend API",
+      "summary": "Backend GraphQL API service to manage/store RSVP guest info in MongoDB",
+      "description": "Backend GraphQL API service to manage and store RSVP guest info in MongoDB. Supports the wedding website frontend with complete guest management functionality.",
+      "role": "Backend developer",
+      "challenge": "Built robust API service for managing wedding guest data with GraphQL interface",
+      "technologies": ["JavaScript", "Node.js", "GraphQL", "MongoDB"],
+      "tools": ["Apollo Server Express"],
+      "date": "2021",
+      "links": {
+        "website": null,
+        "github": "https://github.com/roadlittledawn/wedding-website-rsvp-service",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
-      },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": false
+      "focus": ["engineering"],
+      "featured": false,
+      "tags": ["graphql", "mongodb", "nodejs", "api"]
     },
     {
       "name": "workout-tracker",
-      "description": "UI to track goal progress for workouts tracked in Strava",
-      "url": "",
-      "highlights": [],
-      "keywords": [],
-      "roles": [],
-      "startDate": "",
-      "endDate": "",
-      "entity": "",
-      "type": "website",
       "displayName": "Workout Goal Tracker UI",
-      "website": "https://clang-workout-tracker.herokuapp.com/",
+      "type": "engineering",
+      "category": "Personal Project",
       "summary": "UI to track goal progress for workouts tracked in Strava",
-      "primaryLanguage": "JavaScript",
-      "languages": [
-        "JavaScript",
-        "Node.js",
-        "React.js"
-      ],
-      "libraries": [
-        "Next.js",
-        "Express.js"
-      ],
-      "tags": [
-        "oAuth"
-      ],
-      "githubUrl": "https://github.com/roadlittledawn/workout-tracker",
-      "repositoryUrl": "https://github.com/roadlittledawn/workout-tracker",
-      "start": {
-        "year": null,
-        "month": null,
-        "day": null
+      "description": "Next.js application to track workout goal progress for activities tracked in Strava. Integrates with Strava API using OAuth authentication.",
+      "role": "Full-stack developer",
+      "challenge": "Built comprehensive workout tracking application with OAuth integration and goal management",
+      "technologies": ["JavaScript", "React.js", "Node.js", "Next.js"],
+      "tools": ["Express.js", "Strava API"],
+      "date": "2020",
+      "links": {
+        "website": "https://clang-workout-tracker.herokuapp.com/",
+        "github": "https://github.com/roadlittledawn/workout-tracker",
+        "demo": null,
+        "article": null
       },
-      "end": {
-        "year": null,
-        "month": null,
-        "day": null
+      "focus": ["engineering"],
+      "featured": false,
+      "tags": ["nextjs", "oauth", "strava", "fitness"]
+    },
+    {
+      "name": "new-relic-php-guide",
+      "displayName": "New Relic for PHP Installation Guide",
+      "type": "writing",
+      "category": "User Guide",
+      "summary": "Comprehensive installation and configuration guide for New Relic PHP agent",
+      "description": "Adapted subset of web pages from docs.newrelic.com covering PHP agent installation and configuration. Rewrote complex installation docs through collaboration with technical support and PHP agent engineers.",
+      "role": "Sole author & maintainer as primary PHP expert on team",
+      "challenge": "PHP was the most widely utilized but complex to install. Through discussions with technical support personnel, PHP agent engineers, and hands-on experience, I identified areas for improvement and rewrote the docs.",
+      "technologies": ["PHP", "Apache", "Linux", "AWS", "Azure"],
+      "tools": ["Drupal", "HTML", "CSS", "JavaScript"],
+      "date": "2015",
+      "links": {
+        "demo": "https://docs.google.com/document/d/1WBGtARYG9-ftvdzJSpwBXRkvwJQGvEIMoaHQBJVxXuc/edit?tab=t.0",
+        "github": null,
+        "website": null,
+        "article": null
       },
-      "images": [],
-      "videos": [],
-      "focus": [
-        "engineering"
-      ],
-      "featured": false
+      "focus": ["writing"],
+      "featured": true,
+      "tags": ["documentation", "installation", "technical-writing", "php"]
     }
   ],
   "work": [
