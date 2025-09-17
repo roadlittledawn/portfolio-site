@@ -1,0 +1,107 @@
+---
+/**
+ * ExperienceCard Component
+ * Card for displaying work experience/roles
+ */
+export interface Props {
+  role: {
+    position: string;
+    company: string;
+    start?: { year: number; month?: number };
+    end?: { year: number; month?: number };
+    isCurrentRole?: boolean;
+    summary?: string;
+    highlights?: string[];
+    location?: string;
+    skills?: string[];
+  };
+  showHighlights?: number; // How many highlights to show, 0 for all
+  className?: string;
+}
+
+const { 
+  role,
+  showHighlights = 3,
+  className = '' 
+} = Astro.props;
+
+// Format date range
+const formatDateRange = (start: any, end: any, isCurrent: boolean) => {
+  const startYear = start?.year;
+  const endYear = isCurrent ? 'Present' : end?.year;
+  
+  if (!startYear) return '';
+  return `${startYear} - ${endYear}`;
+};
+
+const displayHighlights = showHighlights === -1 
+  ? [] 
+  : showHighlights === 0 
+    ? role.highlights 
+    : role.highlights?.slice(0, showHighlights);
+---
+
+<article class={`bg-dark-card border border-dark-border rounded-lg p-6 hover:shadow-md hover:bg-dark-hover transition-all ${className}`}>
+  <!-- Role Header -->
+  <header class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-4">
+    <div class="flex-1">
+      <h3 class="text-xl font-semibold text-text-primary mb-1">
+        {role.position}
+      </h3>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+        <span class="font-medium text-accent-blue">
+          {role.company}
+        </span>
+        {role.location && (
+          <span class="text-sm text-text-muted">
+            {role.location}
+          </span>
+        )}
+      </div>
+    </div>
+    
+    <div class="text-sm text-text-muted whitespace-nowrap">
+      {formatDateRange(role.start, role.end, role.isCurrentRole)}
+    </div>
+  </header>
+
+  <!-- Summary -->
+  {role.summary && (
+    <p class="text-text-secondary leading-relaxed mb-4">
+      {role.summary}
+    </p>
+  )}
+
+  <!-- Highlights -->
+  {displayHighlights && displayHighlights.length > 0 && (
+    <div class="mb-4">
+      <ul class="space-y-2">
+        {displayHighlights.map((highlight: string) => (
+          <li class="text-text-secondary text-sm leading-relaxed flex items-start">
+            <span class="text-accent-blue mr-2 mt-0.5 flex-shrink-0">•</span>
+            <span>{highlight}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <!-- Skills -->
+  {role.skills && role.skills.length > 0 && (
+    <div class="flex flex-wrap gap-1">
+      {role.skills.slice(0, 6).map((skill: string) => (
+        <span class="text-xs bg-accent-blue/20 text-accent-blue px-2 py-1 rounded">
+          {skill}
+        </span>
+      ))}
+      {role.skills.length > 6 && (
+        <span class="text-xs text-text-muted px-2 py-1">
+          +{role.skills.length - 6} more
+        </span>
+      )}
+    </div>
+  )}
+
+  <!-- Slot for additional content -->
+  <slot />
+</article>

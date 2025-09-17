@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import FilterNav from '../components/FilterNav.astro';
+import GridContainer from '../components/GridContainer.astro';
+import CategorySection from '../components/CategorySection.astro';
+import SkillCard from '../components/SkillCard.astro';
+import StatCard from '../components/StatCard.astro';
+import careerData from '../data/careerData.json';
+
+const title = "Skills - Clinton Langosch";
+const description = "Technical and professional skills spanning software engineering, technical writing, and leadership.";
+
+// Get and process skills data
+const allSkills = careerData.skills
+  .sort((a, b) => b.rating - a.rating);
+
+// Organize skills by category
+const skillsByCategory: Record<string, typeof allSkills> = allSkills.reduce((acc, skill) => {
+  skill.tags?.forEach((tag: string) => {
+    if (!acc[tag]) acc[tag] = [];
+    if (!acc[tag].some((s: any) => s.name === skill.name)) {
+      acc[tag].push(skill);
+    }
+  });
+  return acc;
+}, {} as Record<string, typeof allSkills>);
+
+// Category definitions
+const categoryOrder = [
+  { key: 'frontend', name: 'Frontend Development', icon: '🎨' },
+  { key: 'backend', name: 'Backend Development', icon: '⚙️' },
+  { key: 'database', name: 'Databases', icon: '🗄️' },
+  { key: 'tools', name: 'Development Tools', icon: '🔧' },
+  { key: 'cloud-platform', name: 'Cloud Platforms', icon: '☁️' },
+  { key: 'concepts', name: 'Concepts & Practices', icon: '💡' },
+  { key: 'management', name: 'Leadership & Management', icon: '👥' },
+  { key: 'testing', name: 'Testing', icon: '🧪' }
+];
+
+// Count skills by focus
+const engineeringCount = allSkills.filter(s => s.focus?.includes('engineering')).length;
+const writingCount = allSkills.filter(s => s.focus?.includes('writing')).length;
+
+// Prepare filter and view options
+const filterOptions = [
+  { value: 'all', label: 'All Skills', icon: '🌟', count: allSkills.length },
+  { value: 'engineering', label: 'Engineering', icon: '💻', count: engineeringCount },
+  { value: 'writing', label: 'Writing', icon: '📝', count: writingCount }
+];
+
+const viewOptions = [
+  { value: 'grid', label: 'Grid View' },
+  { value: 'category', label: 'By Category' }
+];
+
+const levelOptions = [
+  { value: 'all', label: 'All Levels' },
+  { value: 'expert', label: 'Expert Only' },
+  { value: 'intermediate', label: 'Intermediate Only' },
+  { value: 'beginner', label: 'Beginner Only' }
+];
+
+const sortOptions = [
+  { value: 'rating-desc', label: 'Highest Rated First' },
+  { value: 'rating-asc', label: 'Lowest Rated First' },
+  { value: 'name-asc', label: 'Alphabetical (A-Z)' },
+  { value: 'name-desc', label: 'Alphabetical (Z-A)' }
+];
+
+// Count skills by level for initial stats
+const expertCount = allSkills.filter(s => s.level?.toLowerCase() === 'expert').length;
+const advancedCount = allSkills.filter(s => s.level?.toLowerCase() === 'advanced').length;
+const intermediateCount = allSkills.filter(s => s.level?.toLowerCase() === 'intermediate').length;
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader 
+    title="Skills & Expertise"
+    description="Technical and professional skills developed over 10+ years in software engineering and technical writing, with deep expertise in web technologies and content systems."
+  />
+
+  <FilterNav 
+    filters={filterOptions}
+    views={viewOptions}
+    levelOptions={levelOptions}
+    sortOptions={sortOptions}
+    defaultFilter="all"
+    defaultView="grid"
+    defaultLevel="all"
+    defaultSort="rating-desc"
+  />
+
+  <!-- Grid View -->
+  <div class="skills-grid-view">
+    <GridContainer columns={{default: 1, md: 2, lg: 3}} gap="md">
+      {allSkills.map(skill => (
+        <SkillCard skill={skill} variant="grid" />
+      ))}
+    </GridContainer>
+  </div>
+
+  <!-- Category View -->
+  <div class="skills-category-view hidden">
+    {categoryOrder.map(category => {
+      const categorySkills = skillsByCategory[category.key] || [];
+      if (categorySkills.length === 0) return null;
+      
+      return (
+        <CategorySection
+          title={category.name}
+          icon={category.icon}
+          count={categorySkills.length}
+          categoryKey={category.key}
+        >
+          {categorySkills.map((skill: any) => (
+            <SkillCard skill={skill} variant="list" />
+          ))}
+        </CategorySection>
+      );
+    })}
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="mt-12 pt-8 border-t border-dark-border">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <StatCard 
+        value={allSkills.length} 
+        label="Total Skills" 
+        id="total-skills" 
+      />
+      <StatCard 
+        value={expertCount} 
+        label="Expert Level" 
+        className="expert-skills" 
+      />
+      <StatCard 
+        value={advancedCount} 
+        label="Advanced" 
+        className="advanced-skills" 
+      />
+      <StatCard 
+        value={intermediateCount} 
+        label="Intermediate" 
+        className="intermediate-skills" 
+      />
+    </div>
+  </div>
+
+  <script>
+    // Listen for filter changes to update stats
+    window.addEventListener('filterChanged', updateStats);
+    
+    function updateStats() {
+      const visibleCards = document.querySelectorAll('.skill-card:not([style*="display: none"])');
+      const levels = { expert: 0, advanced: 0, intermediate: 0 };
+      
+      visibleCards.forEach(card => {
+        const levelText = card.querySelector('[class*="bg-"]')?.textContent?.toLowerCase();
+        if (levelText?.includes('expert')) levels.expert++;
+        else if (levelText?.includes('advanced')) levels.advanced++;
+        else if (levelText?.includes('intermediate')) levels.intermediate++;
+      });
+      
+      // Update stat cards
+      const expertCard = document.querySelector('.expert-skills .stat-value');
+      const advancedCard = document.querySelector('.advanced-skills .stat-value');
+      const intermediateCard = document.querySelector('.intermediate-skills .stat-value');
+      const totalCard = document.querySelector('#total-skills');
+      
+      if (expertCard) expertCard.textContent = levels.expert.toString();
+      if (advancedCard) advancedCard.textContent = levels.advanced.toString();
+      if (intermediateCard) intermediateCard.textContent = levels.intermediate.toString();
+      if (totalCard) totalCard.textContent = visibleCards.length.toString();
+    }
+  </script>
+</BaseLayout>

@@ -25,6 +25,14 @@ To run locally:
 2. Run `yarn`.
 3. Run local development server via `yarn start`.
 
+# Deploy to Netlify
+
+PRs to `main-tw` branch will automatically deploy to Netlify.
+
+# Site domain
+
+Site is live at https://tw.clintonlangosch.com/.
+
 # Generate resume PDF
 
 Repo contains a workflow that can automatically generate resume PDF. Currently only works by hitting production resume page.

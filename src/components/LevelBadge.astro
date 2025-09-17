@@ -1,0 +1,27 @@
+---
+/**
+ * LevelBadge Component
+ * Displays skill level with appropriate styling
+ */
+import { getLevelStyles } from '../utils/styles';
+
+export interface Props {
+  level: string;
+  size?: 'xs' | 'sm' | 'md';
+  className?: string;
+}
+
+const { level, size = 'xs', className = '' } = Astro.props;
+
+const sizeClasses = {
+  xs: 'text-xs px-2 py-1',
+  sm: 'text-sm px-2.5 py-1',
+  md: 'text-base px-3 py-1.5'
+};
+
+const levelStyles = getLevelStyles(level);
+---
+
+<span class={`${sizeClasses[size]} rounded font-medium ${levelStyles} ${className}`}>
+  {level}
+</span>

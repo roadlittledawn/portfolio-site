@@ -1,0 +1,227 @@
+---
+/**
+ * ScrabbleLogo Component
+ * Displays "CLINTON" as Scrabble tiles for use as site logo
+ * Features drop-in animation and hover wiggle effects
+ */
+
+export interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  animateOnLoad?: boolean;
+  className?: string;
+}
+
+const { 
+  size = 'md',
+  animateOnLoad = true, 
+  className = '' 
+} = Astro.props;
+
+// Scrabble letter values
+const letterValues: Record<string, number> = {
+  'C': 3, 'L': 1, 'I': 1, 'N': 1, 'T': 1, 'O': 1
+};
+
+// Logo name
+const logoName = 'CLINTON';
+
+// Size variants
+const sizeClasses = {
+  sm: 'w-6 h-6 text-sm',
+  md: 'w-8 h-8 text-base',
+  lg: 'w-12 h-12 text-xl'
+};
+---
+
+<div class={`scrabble-logo flex gap-1 ${className}`}>
+  {logoName.split('').map((letter, index) => (
+    <div 
+      class={`scrabble-tile opacity-0 ${sizeClasses[size]}`}
+      data-letter={letter}
+      data-delay={index * 100}
+    >
+      <div class="tile-inner">
+        <span class="letter">{letter}</span>
+        <span class="points">{letterValues[letter]}</span>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .scrabble-logo .scrabble-tile {
+    @apply relative;
+    animation-fill-mode: both;
+    transition: transform 0.2s ease;
+  }
+
+  .scrabble-logo .tile-inner {
+    @apply relative flex items-center justify-center w-full h-full;
+    
+    /* Authentic Scrabble tile styling with wood texture */
+    background-color: #f5cf90;
+    background-image: url('/src/images/veneer-birch-texture-fs8.png');
+    
+    /* 3D Scrabble tile borders */
+    border-style: solid;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 2px;
+    
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-left-color: rgba(255, 255, 255, 0.25);
+    border-right-color: rgba(0, 0, 0, 0.15);
+    border-bottom-color: rgba(0, 0, 0, 0.30);
+    
+    border-radius: 2px;
+    
+    /* Enhanced 3D shadow effect for dark theme */
+    box-shadow: 
+      0 2px 1px -1px rgba(0, 0, 0, 0.6),
+      0 4px 6px -1px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .scrabble-logo .letter {
+    font-family: 'Oswald', 'Arial Black', sans-serif;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1;
+    
+    /* Enhanced letter styling with depth */
+    text-shadow: 
+      2px 2px 3px #f5cf90,
+      0 0 0 rgba(0, 0, 0, 0.7),
+      1px 1px 1px rgba(255, 255, 255, 0.5);
+  }
+
+  .scrabble-logo .points {
+    color: rgba(0, 0, 0, 0.7);
+    font-family: sans-serif;
+    font-weight: 600;
+    position: absolute;
+    right: 12.5%;
+    bottom: 12.5%;
+    transform: translate(50%, 50%);
+    font-size: 0.6em;
+    line-height: 1;
+  }
+
+  /* Hover wiggle effect */
+  .scrabble-logo .scrabble-tile:hover {
+    animation: wiggle 0.5s ease-in-out;
+  }
+
+  /* Drop-in animation keyframes */
+  @keyframes dropIn {
+    0% {
+      transform: translateY(-20px) scale(0.8) rotate(var(--tile-rotation, 0deg));
+      opacity: 0;
+    }
+    60% {
+      transform: translateY(3px) scale(1.05) rotate(var(--tile-rotation, 0deg));
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0) scale(1) rotate(var(--tile-rotation, 0deg));
+      opacity: 1;
+    }
+  }
+
+  /* Wiggle animation keyframes */
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(var(--tile-rotation, 0deg)); }
+    25% { transform: rotate(calc(var(--tile-rotation, 0deg) + 3deg)); }
+    75% { transform: rotate(calc(var(--tile-rotation, 0deg) - 3deg)); }
+  }
+
+  .tile-animate {
+    animation: dropIn 0.4s ease-out both;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .scrabble-logo .scrabble-tile {
+      animation: none !important;
+      opacity: 1 !important;
+      transition: none !important;
+    }
+    
+    .scrabble-logo .scrabble-tile:hover {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initScrabbleLogo() {
+    const scrabbleLogos = document.querySelectorAll('.scrabble-logo');
+    
+    scrabbleLogos.forEach(logo => {
+      // Add natural randomization to tiles for authentic placement (same as ScrabbleName)
+      const tiles = logo.querySelectorAll('.scrabble-tile');
+      tiles.forEach(tile => {
+        // Random rotation between -5 and 5 degrees (matching ScrabbleName)
+        const rotation = (Math.random() * 10) - 5;
+        
+        // Random translation for natural scatter (smaller range for logo)
+        const translateX = (Math.random() * 3) - 1.5; // ±1.5px horizontal
+        const translateY = (Math.random() * 2) - 1; // ±1px vertical
+        
+        // Store values for animation
+        tile.dataset.rotation = rotation;
+        tile.dataset.translateX = translateX;
+        tile.dataset.translateY = translateY;
+        
+        // Set CSS custom properties
+        tile.style.setProperty('--tile-rotation', `${rotation}deg`);
+        tile.style.setProperty('--tile-translate-x', `${translateX}px`);
+        tile.style.setProperty('--tile-translate-y', `${translateY}px`);
+        
+        // Apply initial transform
+        tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+        
+        // Randomize wood grain background position
+        const tileInner = tile.querySelector('.tile-inner');
+        if (tileInner) {
+          const bgX = Math.random() * 600;
+          const bgY = Math.random() * 600;
+          tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+        }
+      });
+
+      // Respect user's motion preferences
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        const hiddenElements = logo.querySelectorAll('.opacity-0');
+        hiddenElements.forEach(el => el.classList.remove('opacity-0'));
+        return;
+      }
+
+      // Animation function
+      function animateScrabbleLogo() {
+        const tiles = logo.querySelectorAll('.scrabble-tile');
+        
+        tiles.forEach((tile, index) => {
+          const delay = parseInt(tile.dataset.delay || '0');
+          
+          setTimeout(() => {
+            tile.classList.remove('opacity-0');
+            tile.classList.add('tile-animate');
+          }, delay);
+        });
+      }
+
+      // Start animation after a short delay
+      setTimeout(animateScrabbleLogo, 300);
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrabbleLogo);
+  } else {
+    initScrabbleLogo();
+  }
+</script>

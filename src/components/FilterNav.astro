@@ -1,0 +1,377 @@
+---
+/**
+ * FilterNav Component
+ * Handles filtering navigation for skills/projects pages
+ */
+import { getButtonStyles } from '../utils/styles';
+
+export interface Props {
+  filters: Array<{
+    value: string;
+    label: string;
+    icon?: string;
+    count?: number;
+  }>;
+  views?: Array<{
+    value: string;
+    label: string;
+  }>;
+  levelOptions?: Array<{
+    value: string;
+    label: string;
+  }>;
+  sortOptions?: Array<{
+    value: string;
+    label: string;
+  }>;
+  defaultFilter?: string;
+  defaultView?: string;
+  defaultLevel?: string;
+  defaultSort?: string;
+  className?: string;
+}
+
+const { 
+  filters, 
+  views,
+  levelOptions,
+  sortOptions,
+  defaultFilter = 'all',
+  defaultView = 'grid',
+  defaultLevel = 'all',
+  defaultSort = 'rating-desc',
+  className = '' 
+} = Astro.props;
+---
+
+<div class={`flex flex-wrap justify-between items-center py-6 gap-4 ${className}`}>
+  <!-- Left side: Filter Buttons and Dropdowns -->
+  <div class="flex flex-wrap items-center gap-2">
+    {filters.map(filter => (
+      <button 
+        data-focus={filter.value}
+        class={`filter-btn ${getButtonStyles('secondary', filter.value === defaultFilter)}`}
+      >
+        {filter.icon && <span>{filter.icon}</span>}
+        {filter.label}
+        {filter.count !== undefined && (
+          <span class={`filter-count-${filter.value} opacity-80 text-sm`}>
+            ({filter.count})
+          </span>
+        )}
+      </button>
+    ))}
+    
+    {/* Separator if we have dropdowns */}
+    {(levelOptions || sortOptions) && (
+      <div class="hidden sm:block w-px h-8 bg-dark-border mx-2"></div>
+    )}
+    
+    {/* Skill Level Dropdown */}
+    {levelOptions && levelOptions.length > 0 && (
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-text-muted font-medium hidden md:inline">Level:</span>
+        <div class="relative inline-block">
+          <select 
+            id="level-filter"
+            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-dark-card text-text-primary border-2 border-dark-border hover:border-accent-blue hover:text-accent-blue focus:outline-none focus:border-accent-blue focus:text-accent-blue appearance-none cursor-pointer"
+          >
+            {levelOptions.map(option => (
+              <option value={option.value} selected={option.value === defaultLevel}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    )}
+    
+    {/* Sort Dropdown */}
+    {sortOptions && sortOptions.length > 0 && (
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-text-muted font-medium hidden md:inline">Sort:</span>
+        <div class="relative inline-block">
+          <select 
+            id="sort-filter"
+            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-dark-card text-text-primary border-2 border-dark-border hover:border-accent-blue hover:text-accent-blue focus:outline-none focus:border-accent-blue focus:text-accent-blue appearance-none cursor-pointer"
+          >
+            {sortOptions.map(option => (
+              <option value={option.value} selected={option.value === defaultSort}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+  
+  <!-- View Toggle (optional) -->
+  {views && views.length > 0 && (
+    <div class="flex rounded-lg border border-dark-border overflow-hidden">
+      {views.map((view, index) => (
+        <button 
+          data-view={view.value}
+          class={`view-btn px-4 py-2 font-medium transition-colors
+            ${view.value === defaultView ? 'bg-accent-blue text-white' : 'bg-dark-card text-text-primary hover:bg-dark-layer'}
+            ${index > 0 ? 'border-l border-dark-border' : ''}
+          `}
+        >
+          {view.label}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  // This script handles the filtering logic
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const viewBtns = document.querySelectorAll('.view-btn');
+    const levelFilter = document.getElementById('level-filter');
+    const sortFilter = document.getElementById('sort-filter');
+    
+    // Get initial state from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialFocus = urlParams.get('focus') || 'all';
+    const initialLevel = urlParams.get('level') || 'all';
+    const initialSort = urlParams.get('sort') || 'rating-desc';
+    
+    // Set initial active state
+    if (initialFocus !== 'all') {
+      updateFilterButtons(initialFocus);
+    }
+    if (levelFilter && initialLevel !== 'all') {
+      levelFilter.value = initialLevel;
+    }
+    if (sortFilter && initialSort !== 'rating-desc') {
+      sortFilter.value = initialSort;
+    }
+    
+    // Filter button click handler
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const focus = this.dataset.focus;
+        updateFilterButtons(focus);
+        applyFiltersAndSort();
+        updateURL();
+      });
+    });
+    
+    // Level filter change handler
+    if (levelFilter) {
+      levelFilter.addEventListener('change', function() {
+        applyFiltersAndSort();
+        updateURL();
+      });
+    }
+    
+    // Sort filter change handler
+    if (sortFilter) {
+      sortFilter.addEventListener('change', function() {
+        applyFiltersAndSort();
+        updateURL();
+      });
+    }
+    
+    // View toggle handler
+    viewBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const view = this.dataset.view;
+        updateViewButtons(view);
+        toggleView(view);
+      });
+    });
+    
+    function updateFilterButtons(activeFocus) {
+      filterBtns.forEach(btn => {
+        const isActive = btn.dataset.focus === activeFocus;
+        
+        // Update button styles
+        if (isActive) {
+          btn.classList.add('bg-accent-blue', 'text-white', 'border-accent-blue');
+          btn.classList.remove('bg-dark-card', 'text-text-primary', 'border-dark-border', 'hover:border-accent-blue', 'hover:text-accent-blue');
+        } else {
+          btn.classList.remove('bg-accent-blue', 'text-white', 'border-accent-blue');
+          btn.classList.add('bg-dark-card', 'text-text-primary', 'border-dark-border', 'hover:border-accent-blue', 'hover:text-accent-blue');
+        }
+      });
+    }
+    
+    function updateViewButtons(activeView) {
+      viewBtns.forEach(btn => {
+        const isActive = btn.dataset.view === activeView;
+        
+        if (isActive) {
+          btn.classList.add('bg-accent-blue', 'text-white');
+          btn.classList.remove('bg-dark-card', 'text-text-primary', 'hover:bg-dark-layer');
+        } else {
+          btn.classList.remove('bg-accent-blue', 'text-white');
+          btn.classList.add('bg-dark-card', 'text-text-primary', 'hover:bg-dark-layer');
+        }
+      });
+    }
+    
+    function applyFiltersAndSort() {
+      // Get current filter values
+      const focus = document.querySelector('.filter-btn.bg-accent-blue')?.dataset.focus || 'all';
+      const level = levelFilter?.value || 'all';
+      const sortBy = sortFilter?.value || 'rating-desc';
+      
+      // Get all cards
+      const cards = Array.from(document.querySelectorAll('.skill-card, .project-card'));
+      
+      // Filter cards
+      cards.forEach(card => {
+        const cardFocus = card.dataset.focus || '';
+        const cardLevel = card.dataset.level || '';
+        
+        const focusMatch = focus === 'all' || cardFocus.includes(focus) || cardFocus.includes('both');
+        const levelMatch = level === 'all' || cardLevel.toLowerCase() === level.toLowerCase();
+        
+        card.style.display = (focusMatch && levelMatch) ? '' : 'none';
+      });
+      
+      // Sort cards
+      sortElements(sortBy);
+      
+      // Handle category sections if they exist
+      const categorySections = document.querySelectorAll('.category-section');
+      categorySections.forEach(section => {
+        const visibleItems = section.querySelectorAll('.skill-card:not([style*="display: none"])');
+        section.style.display = visibleItems.length > 0 ? '' : 'none';
+      });
+      
+      // Trigger custom event
+      window.dispatchEvent(new CustomEvent('filterChanged', { 
+        detail: { focus, level, sortBy } 
+      }));
+    }
+    
+    function sortElements(sortBy) {
+      const gridView = document.querySelector('.skills-grid-view');
+      const categoryView = document.querySelector('.skills-category-view');
+      
+      if (gridView && !gridView.classList.contains('hidden')) {
+        // Sort grid view
+        const container = gridView.querySelector('.grid');
+        if (container) {
+          const cards = Array.from(container.querySelectorAll('.skill-card'));
+          const sortedCards = sortCards(cards, sortBy);
+          
+          // Re-append in sorted order
+          sortedCards.forEach(card => container.appendChild(card));
+        }
+      }
+      
+      if (categoryView && !categoryView.classList.contains('hidden')) {
+        // Sort within each category
+        const categories = categoryView.querySelectorAll('.category-section');
+        categories.forEach(section => {
+          // In category view, the container is .space-y-2, not .grid
+          const container = section.querySelector('.space-y-2');
+          if (container) {
+            const cards = Array.from(container.querySelectorAll('.skill-card'));
+            const sortedCards = sortCards(cards, sortBy);
+            
+            // Re-append in sorted order
+            sortedCards.forEach(card => container.appendChild(card));
+          }
+        });
+      }
+    }
+    
+    function sortCards(cards, sortBy) {
+      return cards.sort((a, b) => {
+        switch(sortBy) {
+          case 'rating-desc':
+            const ratingA = parseInt(a.dataset.rating || '0');
+            const ratingB = parseInt(b.dataset.rating || '0');
+            return ratingB - ratingA;
+          
+          case 'rating-asc':
+            const ratingA2 = parseInt(a.dataset.rating || '0');
+            const ratingB2 = parseInt(b.dataset.rating || '0');
+            return ratingA2 - ratingB2;
+          
+          case 'name-asc':
+            const nameA = a.dataset.name || '';
+            const nameB = b.dataset.name || '';
+            return nameA.localeCompare(nameB);
+          
+          case 'name-desc':
+            const nameA2 = a.dataset.name || '';
+            const nameB2 = b.dataset.name || '';
+            return nameB2.localeCompare(nameA2);
+          
+          default:
+            return 0;
+        }
+      });
+    }
+    
+    function toggleView(view) {
+      const gridView = document.querySelector('.skills-grid-view, .projects-grid-view');
+      const categoryView = document.querySelector('.skills-category-view, .projects-list-view');
+      
+      if (gridView && categoryView) {
+        if (view === 'grid') {
+          gridView.classList.remove('hidden');
+          categoryView.classList.add('hidden');
+        } else {
+          gridView.classList.add('hidden');
+          categoryView.classList.remove('hidden');
+        }
+      }
+      
+      // Trigger custom event
+      window.dispatchEvent(new CustomEvent('viewChanged', { detail: { view } }));
+    }
+    
+    function updateURL() {
+      const url = new URL(window.location);
+      
+      // Get current values
+      const focus = document.querySelector('.filter-btn.bg-accent-blue')?.dataset.focus || 'all';
+      const level = levelFilter?.value || 'all';
+      const sortBy = sortFilter?.value || 'rating-desc';
+      
+      // Update URL params
+      if (focus === 'all') {
+        url.searchParams.delete('focus');
+      } else {
+        url.searchParams.set('focus', focus);
+      }
+      
+      if (level === 'all') {
+        url.searchParams.delete('level');
+      } else {
+        url.searchParams.set('level', level);
+      }
+      
+      if (sortBy === 'rating-desc') {
+        url.searchParams.delete('sort');
+      } else {
+        url.searchParams.set('sort', sortBy);
+      }
+      
+      window.history.pushState({}, '', url);
+    }
+    
+    // Initialize filtering and sorting based on URL params
+    if (initialFocus !== 'all' || initialLevel !== 'all' || initialSort !== 'rating-desc') {
+      applyFiltersAndSort();
+    }
+  });
+</script>

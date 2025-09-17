@@ -1,0 +1,56 @@
+---
+import { featherIcons } from './icons/featherIcons';
+import { customIcons } from './icons/customIcons';
+
+interface Props {
+  name: string;
+  size?: string;
+  class?: string;
+  strokeColor?: string;
+  strokeWidth?: string;
+}
+
+const { name, size = '24', class: className = '', strokeColor = 'currentColor', strokeWidth = '2' } = Astro.props;
+
+const featherIcon = featherIcons[name];
+const customIcon = customIcons[name];
+---
+
+{featherIcon ? (
+  <svg
+    class={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={strokeColor}
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    set:html={featherIcon}
+  />
+) : customIcon ? (
+  <svg
+    class={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox={customIcon.viewBox || "0 0 128 128"}
+    set:html={customIcon.svg}
+  />
+) : (
+  <svg
+    class={className}
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={strokeColor}
+    stroke-width={strokeWidth}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    set:html={featherIcons.code}
+  />
+)}
