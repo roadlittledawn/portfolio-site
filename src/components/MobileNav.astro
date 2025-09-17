@@ -38,7 +38,7 @@ const externalLinks = [
 <!-- Mobile Menu Button (visible on mobile only) -->
 <button 
   id="mobile-menu-button"
-  class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-primary transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 relative z-[60]"
+  class="md:hidden p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-dark-layer relative z-[60]"
   aria-label="Open navigation menu"
   aria-expanded="false"
   aria-controls="mobile-nav"
@@ -54,7 +54,7 @@ const externalLinks = [
 <!-- Mobile Navigation Menu -->
 <nav 
   id="mobile-nav"
-  class="mobile-nav fixed top-0 right-0 h-screen w-full z-[9999] bg-white transform translate-x-full transition-transform duration-300 ease-out md:hidden"
+  class="mobile-nav fixed top-0 right-0 h-screen w-full z-[9999] bg-dark-layer transform translate-x-full transition-transform duration-300 ease-out md:hidden"
   aria-hidden="true"
   style="height: 100vh; height: 100dvh;"
 >
@@ -63,7 +63,7 @@ const externalLinks = [
     <div class="flex justify-end p-6 flex-shrink-0">
       <button 
         id="mobile-nav-close"
-        class="p-3 rounded-full text-gray-700 hover:bg-gray-100 hover:text-primary transition-all focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        class="p-3 rounded-full text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-dark-layer"
         aria-label="Close navigation menu"
       >
         <!-- X Icon SVG -->
@@ -82,10 +82,10 @@ const externalLinks = [
             <li>
               <a 
                 href={link.href}
-                class={`block px-4 py-4 rounded-lg text-lg font-medium transition-all hover:bg-gray-100 hover:text-primary active:bg-gray-200 ${
+                class={`block px-4 py-4 rounded-lg text-lg font-medium transition-all hover:bg-dark-card hover:text-accent-blue active:bg-dark-hover ${
                   currentPath === link.href 
-                    ? 'bg-primary bg-opacity-10 text-primary border-l-4 border-primary' 
-                    : 'text-gray-700'
+                    ? 'bg-accent-blue bg-opacity-20 text-accent-blue border-l-4 border-accent-blue' 
+                    : 'text-text-secondary'
                 }`}
               >
                 {link.label}
@@ -96,8 +96,8 @@ const externalLinks = [
       </div>
       
       <!-- External Links Section -->
-      <div class="border-t border-gray-200 pt-8">
-        <h3 class="px-4 text-sm font-semibold text-gray-500 uppercase tracking-wide mb-6">
+      <div class="border-t border-dark-border pt-8">
+        <h3 class="px-4 text-sm font-semibold text-text-muted uppercase tracking-wide mb-6">
           Connect
         </h3>
         <ul class="space-y-2">
@@ -107,7 +107,7 @@ const externalLinks = [
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center gap-3 px-4 py-4 rounded-lg text-lg font-medium text-gray-700 transition-all hover:bg-gray-100 hover:text-primary active:bg-gray-200"
+                class="flex items-center gap-3 px-4 py-4 rounded-lg text-lg font-medium text-text-secondary transition-all hover:bg-dark-card hover:text-accent-blue active:bg-dark-hover"
               >
                 <Icon name={link.icon} size="20" />
                 {link.label}

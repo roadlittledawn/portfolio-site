@@ -4,14 +4,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary': '#3498db',
-        'primary-dark': '#2c3e50',
-        'secondary': '#5a6c7d',
-        'accent': '#f39c12',
-        'muted': '#7f8c8d',
-        'border': '#e0e0e0',
-        'bg-light': '#f8f9fa',
-        'bg-lighter': '#ecf0f1',
+        // Dark theme inspired by Shopify
+        'dark': {
+          'base': '#0D1213',     // Main background (rgb(13,18,19))
+          'layer': '#151D1E',    // Secondary bg for header/sidebar (rgb(21,29,30))
+          'card': '#24393D',     // Card backgrounds (rgb(36,57,61))
+          'hover': '#2E4A4F',    // Card hover state
+          'border': '#3A5559',   // Border color
+          'border-subtle': '#2A3C3F', // Subtle borders
+        },
+        // Text colors for dark theme
+        'text': {
+          'primary': '#E6E8E9',   // Main text (high contrast)
+          'secondary': '#A8B1B3', // Secondary text
+          'muted': '#7A8587',     // Muted/disabled text
+          'inverse': '#0D1213',   // For light backgrounds
+        },
+        // Accent colors (pops of color)
+        'accent': {
+          'blue': '#5CB3FF',      // Primary accent (bright blue)
+          'green': '#5AE39A',     // Success/positive
+          'amber': '#FFC266',     // Warning/highlight
+          'purple': '#B794F6',    // Alternative accent
+          'pink': '#FF7AA3',      // Alternative accent
+        },
+        // Keep some legacy colors for gradual migration
+        'primary': '#5CB3FF',
+        'primary-dark': '#4299E1',
+        'secondary': '#A8B1B3',
+        'muted': '#7A8587',
+        'border': '#3A5559',
+        'bg-light': '#24393D',
+        'bg-lighter': '#2E4A4F',
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',

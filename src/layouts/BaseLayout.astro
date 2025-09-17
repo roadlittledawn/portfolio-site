@@ -21,8 +21,8 @@ const currentPath = Astro.url.pathname;
     <meta name="description" content={description} />
     <title>{title}</title>
   </head>
-  <body class="font-sans text-gray-800 bg-white">
-    <header class="sticky top-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
+  <body class="font-sans text-text-primary bg-dark-base">
+    <header class="sticky top-0 bg-dark-layer/95 backdrop-blur-sm z-50 border-b border-dark-border-subtle">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
@@ -34,8 +34,8 @@ const currentPath = Astro.url.pathname;
               href="/skills" 
               class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 currentPath === '/skills' 
-                  ? 'bg-primary bg-opacity-10 text-primary' 
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
+                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
               }`}
             >
               Skills
@@ -44,8 +44,8 @@ const currentPath = Astro.url.pathname;
               href="/projects" 
               class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 currentPath === '/projects' 
-                  ? 'bg-primary bg-opacity-10 text-primary' 
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
+                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
               }`}
             >
               Projects
@@ -54,8 +54,8 @@ const currentPath = Astro.url.pathname;
               href="/experience" 
               class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 currentPath === '/experience' 
-                  ? 'bg-primary bg-opacity-10 text-primary' 
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
+                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
               }`}
             >
               Experience
@@ -64,8 +64,8 @@ const currentPath = Astro.url.pathname;
               href="/technical-writing" 
               class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 currentPath === '/technical-writing' 
-                  ? 'bg-primary bg-opacity-10 text-primary' 
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
+                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
               }`}
             >
               Technical Writing
@@ -74,18 +74,18 @@ const currentPath = Astro.url.pathname;
               href="/software-engineering" 
               class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 currentPath === '/software-engineering' 
-                  ? 'bg-primary bg-opacity-10 text-primary' 
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
+                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
               }`}
             >
               Software Engineering
             </a>
-            <div class="flex items-center gap-2 ml-4 pl-4 border-l border-gray-300">
+            <div class="flex items-center gap-2 ml-4 pl-4 border-l border-dark-border">
               <a 
                 href="https://github.com/roadlittledawn" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="p-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-primary transition-all"
+                class="p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all"
                 aria-label="GitHub Profile"
               >
                 <Icon name="github" size="20" />
@@ -94,7 +94,7 @@ const currentPath = Astro.url.pathname;
                 href="https://www.linkedin.com/in/clinton-langosch/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="p-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-primary transition-all"
+                class="p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all"
                 aria-label="LinkedIn Profile"
               >
                 <Icon name="linkedin" size="20" />
@@ -114,9 +114,9 @@ const currentPath = Astro.url.pathname;
       </div>
     </main>
 
-    <footer class="mt-auto border-t border-gray-200 bg-gray-50">
+    <footer class="mt-auto border-t border-dark-border-subtle bg-dark-layer">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="text-center text-gray-600">
+        <div class="text-center text-text-secondary">
           <p>&copy; {new Date().getFullYear()} Clinton Langosch. All rights reserved.</p>
         </div>
       </div>
