@@ -1,0 +1,61 @@
+---
+/**
+ * NavMenu Component
+ * Main site navigation with pages and social links
+ */
+import Icon from './Icon.astro';
+
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+
+const navItems = [
+  { href: '/technical-writing', label: 'Tech Writing' },
+  { href: '/software-engineering', label: 'Eng' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/experience', label: 'Experience' }
+];
+
+const socialLinks = [
+  {
+    href: 'https://github.com/roadlittledawn',
+    icon: 'github',
+    label: 'GitHub Profile'
+  },
+  {
+    href: 'https://www.linkedin.com/in/clinton-langosch/',
+    icon: 'linkedin', 
+    label: 'LinkedIn Profile'
+  }
+];
+---
+
+<div class={`flex items-center gap-1 sm:gap-2 ${className}`}>
+  <!-- Main Navigation -->
+  {navItems.map(item => (
+    <a 
+      href={item.href} 
+      class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-all"
+    >
+      {item.label}
+    </a>
+  ))}
+  
+  <!-- Social Links -->
+  <div class="flex items-center gap-2 ml-4 pl-4 border-l border-gray-300">
+    {socialLinks.map(social => (
+      <a 
+        href={social.href}
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="p-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-primary transition-all"
+        aria-label={social.label}
+      >
+        <Icon name={social.icon} size="20" />
+      </a>
+    ))}
+  </div>
+</div>

@@ -1,0 +1,213 @@
+---
+/**
+ * MobileNav Component
+ * Slide-in mobile navigation menu with hamburger toggle
+ */
+import Icon from './Icon.astro';
+
+export interface Props {
+  currentPath?: string;
+}
+
+const { currentPath } = Astro.props;
+
+// Navigation links
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/technical-writing', label: 'Technical Writing' },
+  { href: '/software-engineering', label: 'Software Engineering' },
+];
+
+// External links
+const externalLinks = [
+  { 
+    href: 'https://github.com/roadlittledawn', 
+    label: 'GitHub', 
+    icon: 'github' 
+  },
+  { 
+    href: 'https://www.linkedin.com/in/clinton-langosch/', 
+    label: 'LinkedIn', 
+    icon: 'linkedin' 
+  },
+];
+---
+
+<!-- Mobile Menu Button (visible on mobile only) -->
+<button 
+  id="mobile-menu-button"
+  class="md:hidden p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-dark-layer relative z-[60]"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+  aria-controls="mobile-nav"
+>
+  <!-- Hamburger Icon -->
+  <div class="hamburger-icon w-6 h-6 relative">
+    <span class="hamburger-line absolute left-0 top-1 w-6 h-0.5 bg-current transform transition-all duration-300"></span>
+    <span class="hamburger-line absolute left-0 top-3 w-6 h-0.5 bg-current transform transition-all duration-300"></span>
+    <span class="hamburger-line absolute left-0 top-5 w-6 h-0.5 bg-current transform transition-all duration-300"></span>
+  </div>
+</button>
+
+<!-- Mobile Navigation Menu -->
+<nav 
+  id="mobile-nav"
+  class="mobile-nav fixed top-0 right-0 h-screen w-full z-[9999] bg-dark-layer transform translate-x-full transition-transform duration-300 ease-out md:hidden"
+  aria-hidden="true"
+  style="height: 100vh; height: 100dvh;"
+>
+  <div class="h-full w-full flex flex-col" style="height: 100%;">
+    <!-- Close Button -->
+    <div class="flex justify-end p-6 flex-shrink-0">
+      <button 
+        id="mobile-nav-close"
+        class="p-3 rounded-full text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-dark-layer"
+        aria-label="Close navigation menu"
+      >
+        <!-- X Icon SVG -->
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Navigation Content -->
+    <div class="flex-1 overflow-y-auto px-8 py-4">
+      <!-- Main Navigation Links -->
+      <div class="mb-12">
+        <ul class="space-y-2">
+          {navLinks.map(link => (
+            <li>
+              <a 
+                href={link.href}
+                class={`block px-4 py-4 rounded-lg text-lg font-medium transition-all hover:bg-dark-card hover:text-accent-blue active:bg-dark-hover ${
+                  currentPath === link.href 
+                    ? 'bg-accent-blue bg-opacity-20 text-accent-blue border-l-4 border-accent-blue' 
+                    : 'text-text-secondary'
+                }`}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <!-- External Links Section -->
+      <div class="border-t border-dark-border pt-8">
+        <h3 class="px-4 text-sm font-semibold text-text-muted uppercase tracking-wide mb-6">
+          Connect
+        </h3>
+        <ul class="space-y-2">
+          {externalLinks.map(link => (
+            <li>
+              <a 
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-3 px-4 py-4 rounded-lg text-lg font-medium text-text-secondary transition-all hover:bg-dark-card hover:text-accent-blue active:bg-dark-hover"
+              >
+                <Icon name={link.icon} size="20" />
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileNav = document.getElementById('mobile-nav');
+    const closeButton = document.getElementById('mobile-nav-close');
+    const navLinks = mobileNav?.querySelectorAll('a');
+    const body = document.body;
+    
+    let isMenuOpen = false;
+    
+    function openMenu() {
+      if (!mobileNav || !menuButton) return;
+      
+      isMenuOpen = true;
+      
+      // Update ARIA states
+      menuButton.setAttribute('aria-expanded', 'true');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      
+      // Animate menu slide in
+      mobileNav.classList.remove('translate-x-full');
+      
+      // Transform hamburger to X
+      const hamburgerLines = menuButton.querySelectorAll('.hamburger-line');
+      if (hamburgerLines.length >= 3) {
+        hamburgerLines[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+        hamburgerLines[1].style.opacity = '0';
+        hamburgerLines[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+      }
+      
+      // Disable body scroll and prevent layout shift
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      body.style.overflow = 'hidden';
+      body.style.paddingRight = scrollbarWidth + 'px';
+      
+      // Focus close button for accessibility
+      setTimeout(() => closeButton?.focus(), 350);
+    }
+    
+    function closeMenu() {
+      if (!mobileNav || !menuButton) return;
+      
+      isMenuOpen = false;
+      
+      // Update ARIA states
+      menuButton.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      
+      // Animate menu slide out
+      mobileNav.classList.add('translate-x-full');
+      
+      // Transform X back to hamburger
+      const hamburgerLines = menuButton.querySelectorAll('.hamburger-line');
+      if (hamburgerLines.length >= 3) {
+        hamburgerLines[0].style.transform = '';
+        hamburgerLines[1].style.opacity = '1';
+        hamburgerLines[2].style.transform = '';
+      }
+      
+      // Re-enable body scroll and remove padding
+      body.style.overflow = '';
+      body.style.paddingRight = '';
+      
+      // Return focus to menu button
+      menuButton.focus();
+    }
+    
+    // Event listeners
+    menuButton?.addEventListener('click', openMenu);
+    closeButton?.addEventListener('click', closeMenu);
+    
+    // Close menu when clicking nav links
+    navLinks?.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+    
+    // Keyboard support
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && isMenuOpen) {
+        closeMenu();
+      }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768 && isMenuOpen) {
+        closeMenu();
+      }
+    });
+  });
+</script>

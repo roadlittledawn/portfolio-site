@@ -1,75 +1,26 @@
-name: Validate pull request
+name: PR Build Check
 
 on:
   pull_request:
     branches:
-      - develop
-
-env:
-  CHOKIDAR_USEPOLLING: 1
+      - main
 
 jobs:
   build:
-    name: Build the site
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-
-      - name: Cache dependencies
-        id: yarn-cache
-        uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Cache Gatsby build
-        uses: actions/cache@v2
-        with:
-          path: |
-            public
-            .cache
-          key: ${{ runner.os }}-gatsby-build-${{ github.run_id }}
-          restore-keys: |
-            ${{ runner.os }}-gatsby-build-
-
+          node-version: '20'
+          cache: 'npm'
+          
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-
-      - name: Gatsby build
-        run: yarn build --log-pages
-        env:
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-          CI: true
-
-  # lint:
-  #   name: run linter
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 12
-
-  #     - name: Cache dependencies
-  #       id: yarn-cache
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-
-  #     - name: Install dependencies
-  #       if: steps.yarn-cache.outputs.cache-hit != 'true'
-  #       run: yarn install --frozen-lockfile
-
-  # - name: Run Eslint
-  #   run: yarn lint
+        run: npm ci
+        
+      - name: Run build
+        run: npm run build

@@ -1,0 +1,290 @@
+---
+/**
+ * ScrabbleName Component
+ * Displays "Clinton Langosch" as Scrabble tiles with drop-in animation
+ */
+
+export interface Props {
+  animateOnLoad?: boolean;
+  className?: string;
+}
+
+const { 
+  animateOnLoad = true, 
+  className = '' 
+} = Astro.props;
+
+// Scrabble letter values (for display only)
+const letterValues: Record<string, number> = {
+  'A': 1, 'E': 1, 'I': 1, 'L': 1, 'N': 1, 'O': 1, 'R': 1, 'S': 1, 'T': 1, 'U': 1,
+  'D': 2, 'G': 2,
+  'B': 3, 'C': 3, 'M': 3, 'P': 3,
+  'F': 4, 'H': 4, 'V': 4, 'W': 4, 'Y': 4,
+  'K': 5,
+  'J': 8, 'X': 8,
+  'Q': 10, 'Z': 10
+};
+
+// Names to display
+const firstName = 'CLINTON';
+const lastName = 'LANGOSCH';
+---
+
+<div class={`scrabble-name ${className}`}>
+  <!-- First Name Rack -->
+  <div class="scrabble-rack mb-4">
+    <div class="flex gap-1 sm:gap-2 justify-center">
+      {firstName.split('').map((letter, index) => (
+        <div 
+          class="scrabble-tile opacity-0"
+          data-letter={letter}
+          data-delay={index * 150}
+        >
+          <div class="tile-inner">
+            <span class="letter">{letter}</span>
+            <span class="points">{letterValues[letter]}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Last Name Rack -->
+  <div class="scrabble-rack">
+    <div class="flex gap-1 sm:gap-2 justify-center">
+      {lastName.split('').map((letter, index) => (
+        <div 
+          class="scrabble-tile opacity-0"
+          data-letter={letter}
+          data-delay={(firstName.length * 150) + 300 + (index * 150)}
+        >
+          <div class="tile-inner">
+            <span class="letter">{letter}</span>
+            <span class="points">{letterValues[letter]}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .scrabble-name {
+    @apply text-center py-6;
+  }
+
+  .scrabble-tile {
+    @apply relative;
+    animation-fill-mode: both;
+  }
+
+  .tile-inner {
+    @apply relative flex items-center justify-center;
+    @apply w-12 h-12 sm:w-16 sm:h-16;
+    @apply transition-all duration-200;
+    
+    /* Authentic Scrabble tile styling with wood texture */
+    background-color: #f5cf90;
+    background-image: url('/src/images/veneer-birch-texture-fs8.png');
+    
+    /* Responsive sizing with proper proportions */
+    width: 48px;
+    height: 48px;
+    
+    /* 3D Scrabble tile borders matching reference */
+    border-style: solid;
+    border-top-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 3px;
+    
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-left-color: rgba(255, 255, 255, 0.25);
+    border-right-color: rgba(0, 0, 0, 0.15);
+    border-bottom-color: rgba(0, 0, 0, 0.30);
+    
+    border-radius: 2px;
+    
+    /* Enhanced 3D shadow effect for dark theme */
+    box-shadow: 
+      0 3px 2px -1px rgba(0, 0, 0, 0.6),
+      0 6px 8px -2px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  @media (min-width: 640px) {
+    .tile-inner {
+      width: 64px;
+      height: 64px;
+      border-top-width: 3px;
+      border-bottom-width: 4px;
+      border-radius: 3px;
+      box-shadow: 
+        0 4px 3px -1px rgba(0, 0, 0, 0.6),
+        0 8px 12px -2px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  .letter {
+    font-family: 'Oswald', 'Arial Black', sans-serif;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    
+    /* Size responsive to tile size */
+    font-size: 28px;
+    
+    /* Enhanced letter styling with depth matching reference */
+    text-shadow: 
+      4px 4px 6px #f5cf90,
+      0 0 0 rgba(0, 0, 0, 0.7),
+      1px 2px 1px rgba(255, 255, 255, 0.5);
+  }
+
+  @media (min-width: 640px) {
+    .letter {
+      font-size: 36px;
+    }
+  }
+
+  .points {
+    color: rgba(0, 0, 0, 0.7);
+    font-family: sans-serif;
+    font-weight: 600;
+    position: absolute;
+    right: 12.5%;
+    bottom: 12.5%;
+    transform: translate(50%, 50%);
+    
+    /* Responsive sizing */
+    font-size: 10px;
+  }
+
+  @media (min-width: 640px) {
+    .points {
+      font-size: 12px;
+    }
+  }
+
+  /* Animation keyframes - now preserves rotation and translation */
+  @keyframes dropIn {
+    0% {
+      transform: translate(var(--tile-translate-x, 0px), calc(var(--tile-translate-y, 0px) - 30px)) scale(0.8) rotate(var(--tile-rotation, 0deg));
+      opacity: 0;
+    }
+    60% {
+      transform: translate(var(--tile-translate-x, 0px), calc(var(--tile-translate-y, 0px) + 5px)) scale(1.05) rotate(var(--tile-rotation, 0deg));
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tile-translate-x, 0px), var(--tile-translate-y, 0px)) scale(1) rotate(var(--tile-rotation, 0deg));
+      opacity: 1;
+    }
+  }
+
+  .tile-animate {
+    animation: dropIn 0.6s ease-out both;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .scrabble-tile {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+    
+    .tile-inner {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  // Use is:inline to ensure this runs immediately
+  function initScrabbleAnimation() {
+    const scrabbleName = document.querySelector('.scrabble-name');
+    if (!scrabbleName) {
+      // Try again in a moment if component isn't ready
+      setTimeout(initScrabbleAnimation, 100);
+      return;
+    }
+
+    console.log('ScrabbleName found, initializing animation');
+
+    // Add natural randomization to tiles for authentic placement
+    const tiles = scrabbleName.querySelectorAll('.scrabble-tile');
+    tiles.forEach(tile => {
+      // Random rotation between -8 and 8 degrees for more natural look
+      const rotation = (Math.random() * 16) - 8;
+      
+      // Random translation for natural scatter (smaller range to keep readable)
+      const translateX = (Math.random() * 6) - 3; // ±3px horizontal
+      const translateY = (Math.random() * 4) - 2; // ±2px vertical
+      
+      // Store values for animation
+      tile.dataset.rotation = rotation;
+      tile.dataset.translateX = translateX;
+      tile.dataset.translateY = translateY;
+      
+      // Set CSS custom properties
+      tile.style.setProperty('--tile-rotation', `${rotation}deg`);
+      tile.style.setProperty('--tile-translate-x', `${translateX}px`);
+      tile.style.setProperty('--tile-translate-y', `${translateY}px`);
+      
+      // Apply initial transform
+      tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+      
+      // Randomize wood grain background position for variety
+      const tileInner = tile.querySelector('.tile-inner');
+      if (tileInner) {
+        const bgX = Math.random() * 600;
+        const bgY = Math.random() * 600;
+        tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+      }
+    });
+
+    // Respect user's motion preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      console.log('Reduced motion detected, showing tiles immediately');
+      const hiddenElements = scrabbleName.querySelectorAll('.opacity-0');
+      hiddenElements.forEach(el => el.classList.remove('opacity-0'));
+      return;
+    }
+
+    // Animation function
+    function animateScrabbleName() {
+      console.log('Starting Scrabble animation');
+      
+      // Animate tiles
+      const tiles = scrabbleName.querySelectorAll('.scrabble-tile');
+      console.log('Found', tiles.length, 'tiles to animate');
+      
+      tiles.forEach((tile, index) => {
+        const delay = parseInt(tile.dataset.delay || '0');
+        console.log('Animating tile', index, 'with delay', delay);
+        
+        setTimeout(() => {
+          tile.classList.remove('opacity-0');
+          tile.classList.add('tile-animate');
+          
+          // Maintain transform during and after animation
+          const rotation = tile.dataset.rotation || 0;
+          const translateX = tile.dataset.translateX || 0;
+          const translateY = tile.dataset.translateY || 0;
+          tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+        }, delay);
+      });
+    }
+
+    // Start animation immediately for testing
+    setTimeout(animateScrabbleName, 500);
+  }
+
+  // Start when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrabbleAnimation);
+  } else {
+    initScrabbleAnimation();
+  }
+</script>

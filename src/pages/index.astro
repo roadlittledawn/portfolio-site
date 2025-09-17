@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GridContainer from '../components/GridContainer.astro';
+import FocusCard from '../components/FocusCard.astro';
+import QuickNav from '../components/QuickNav.astro';
+
+const title = "Clinton Langosch - Technical Writer & Software Engineer";
+const description = "Experienced technical writer and full-stack engineer specializing in developer experience and technical communication.";
+
+const focusAreas = [
+  {
+    title: "📝 Technical Writing",
+    description: "Documentation, content strategy, developer experience",
+    href: "/technical-writing"
+  },
+  {
+    title: "💻 Software Engineering", 
+    description: "Full-stack development, team leadership, architecture",
+    href: "/software-engineering"
+  }
+];
+
+const quickNavLinks = [
+  { href: "/skills", label: "Skills" },
+  { href: "/projects", label: "Projects" },
+  { href: "/experience", label: "Experience" },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="text-center py-16 md:py-20 lg:py-24">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Scrabble Name Display -->
+      
+      <p class="text-2xl md:text-3xl text-text-secondary font-medium mb-8">
+        Technical Writer & Software Engineer
+      </p>
+      
+      <p class="text-xl md:text-2xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-12">
+        Experienced technical communicator and leader with 11 years in technical writing 
+        and 10 years in full-stack development. Writer at heart, engineer by trade, 
+        leader by choice.
+      </p>
+      
+      <!-- Focus Areas -->
+      <div class="mb-12">
+        <GridContainer columns={{ default: 1, md: 2 }} gap="lg" className="max-w-4xl mx-auto">
+          {focusAreas.map(area => (
+            <FocusCard 
+              title={area.title}
+              description={area.description}
+              href={area.href}
+            />
+          ))}
+        </GridContainer>
+      </div>
+      
+      <!-- Quick Navigation -->
+      <QuickNav links={quickNavLinks} className="mt-8" />
+    </div>
+  </section>
+</BaseLayout>
