@@ -64,17 +64,17 @@ const {
     
     {/* Separator if we have dropdowns */}
     {(levelOptions || sortOptions) && (
-      <div class="hidden sm:block w-px h-8 bg-gray-300 mx-2"></div>
+      <div class="hidden sm:block w-px h-8 bg-dark-border mx-2"></div>
     )}
     
     {/* Skill Level Dropdown */}
     {levelOptions && levelOptions.length > 0 && (
       <div class="flex items-center gap-2">
-        <span class="text-sm text-gray-600 font-medium hidden md:inline">Level:</span>
+        <span class="text-sm text-text-muted font-medium hidden md:inline">Level:</span>
         <div class="relative inline-block">
           <select 
             id="level-filter"
-            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:text-primary focus:outline-none focus:border-primary focus:text-primary appearance-none cursor-pointer"
+            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-dark-card text-text-primary border-2 border-dark-border hover:border-accent-blue hover:text-accent-blue focus:outline-none focus:border-accent-blue focus:text-accent-blue appearance-none cursor-pointer"
           >
             {levelOptions.map(option => (
               <option value={option.value} selected={option.value === defaultLevel}>
@@ -83,7 +83,7 @@ const {
             ))}
           </select>
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
@@ -94,11 +94,11 @@ const {
     {/* Sort Dropdown */}
     {sortOptions && sortOptions.length > 0 && (
       <div class="flex items-center gap-2">
-        <span class="text-sm text-gray-600 font-medium hidden md:inline">Sort:</span>
+        <span class="text-sm text-text-muted font-medium hidden md:inline">Sort:</span>
         <div class="relative inline-block">
           <select 
             id="sort-filter"
-            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:text-primary focus:outline-none focus:border-primary focus:text-primary appearance-none cursor-pointer"
+            class="px-4 py-2 pr-8 rounded-lg font-medium transition-all duration-200 bg-dark-card text-text-primary border-2 border-dark-border hover:border-accent-blue hover:text-accent-blue focus:outline-none focus:border-accent-blue focus:text-accent-blue appearance-none cursor-pointer"
           >
             {sortOptions.map(option => (
               <option value={option.value} selected={option.value === defaultSort}>
@@ -107,7 +107,7 @@ const {
             ))}
           </select>
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
@@ -118,13 +118,13 @@ const {
   
   <!-- View Toggle (optional) -->
   {views && views.length > 0 && (
-    <div class="flex rounded-lg border border-gray-300 overflow-hidden">
+    <div class="flex rounded-lg border border-dark-border overflow-hidden">
       {views.map((view, index) => (
         <button 
           data-view={view.value}
           class={`view-btn px-4 py-2 font-medium transition-colors
-            ${view.value === defaultView ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}
-            ${index > 0 ? 'border-l border-gray-300' : ''}
+            ${view.value === defaultView ? 'bg-accent-blue text-white' : 'bg-dark-card text-text-primary hover:bg-dark-layer'}
+            ${index > 0 ? 'border-l border-dark-border' : ''}
           `}
         >
           {view.label}
@@ -200,11 +200,11 @@ const {
         
         // Update button styles
         if (isActive) {
-          btn.classList.add('bg-primary', 'text-white', 'border-primary');
-          btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300', 'hover:border-primary', 'hover:text-primary');
+          btn.classList.add('bg-accent-blue', 'text-white', 'border-accent-blue');
+          btn.classList.remove('bg-dark-card', 'text-text-primary', 'border-dark-border', 'hover:border-accent-blue', 'hover:text-accent-blue');
         } else {
-          btn.classList.remove('bg-primary', 'text-white', 'border-primary');
-          btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300', 'hover:border-primary', 'hover:text-primary');
+          btn.classList.remove('bg-accent-blue', 'text-white', 'border-accent-blue');
+          btn.classList.add('bg-dark-card', 'text-text-primary', 'border-dark-border', 'hover:border-accent-blue', 'hover:text-accent-blue');
         }
       });
     }
@@ -214,18 +214,18 @@ const {
         const isActive = btn.dataset.view === activeView;
         
         if (isActive) {
-          btn.classList.add('bg-primary', 'text-white');
-          btn.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+          btn.classList.add('bg-accent-blue', 'text-white');
+          btn.classList.remove('bg-dark-card', 'text-text-primary', 'hover:bg-dark-layer');
         } else {
-          btn.classList.remove('bg-primary', 'text-white');
-          btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+          btn.classList.remove('bg-accent-blue', 'text-white');
+          btn.classList.add('bg-dark-card', 'text-text-primary', 'hover:bg-dark-layer');
         }
       });
     }
     
     function applyFiltersAndSort() {
       // Get current filter values
-      const focus = document.querySelector('.filter-btn.bg-primary')?.dataset.focus || 'all';
+      const focus = document.querySelector('.filter-btn.bg-accent-blue')?.dataset.focus || 'all';
       const level = levelFilter?.value || 'all';
       const sortBy = sortFilter?.value || 'rating-desc';
       
@@ -343,7 +343,7 @@ const {
       const url = new URL(window.location);
       
       // Get current values
-      const focus = document.querySelector('.filter-btn.bg-primary')?.dataset.focus || 'all';
+      const focus = document.querySelector('.filter-btn.bg-accent-blue')?.dataset.focus || 'all';
       const level = levelFilter?.value || 'all';
       const sortBy = sortFilter?.value || 'rating-desc';
       

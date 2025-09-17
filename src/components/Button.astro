@@ -33,13 +33,13 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  primary: 'bg-primary text-white hover:bg-blue-600 border-2 border-primary',
-  secondary: 'bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white',
-  ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 border-2 border-transparent',
-  link: 'bg-transparent text-primary hover:text-blue-600 underline border-none p-0'
+  primary: 'bg-accent-blue text-white hover:bg-blue-600 border-2 border-accent-blue',
+  secondary: 'bg-dark-card text-accent-blue border-2 border-accent-blue hover:bg-accent-blue hover:text-white',
+  ghost: 'bg-transparent text-text-primary hover:bg-dark-layer border-2 border-transparent',
+  link: 'bg-transparent text-accent-blue hover:text-blue-400 underline border-none p-0'
 };
 
-const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2';
+const baseClasses = 'inline-flex items-center justify-center font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-dark-base';
 
 const buttonClasses = cn(
   baseClasses,

@@ -10,10 +10,10 @@ export type Focus = 'writing' | 'engineering' | 'both' | 'all';
  */
 export function getLevelStyles(level: string): string {
   const styles: Record<string, string> = {
-    expert: 'bg-green-100 text-green-800',
-    advanced: 'bg-blue-100 text-blue-800',
-    intermediate: 'bg-yellow-100 text-yellow-800',
-    beginner: 'bg-red-100 text-red-800'
+    expert: 'bg-accent-green/20 text-accent-green',
+    advanced: 'bg-accent-blue/20 text-accent-blue',
+    intermediate: 'bg-accent-amber/20 text-accent-amber',
+    beginner: 'bg-red-500/20 text-red-400'
   };
   return styles[level.toLowerCase()] || styles.intermediate;
 }
@@ -28,13 +28,13 @@ export function getButtonStyles(
   const base = 'px-4 py-2 rounded-lg font-medium transition-all duration-200';
   
   if (isActive) {
-    return `${base} bg-primary text-white border-2 border-primary hover:shadow-md`;
+    return `${base} bg-accent-blue text-white border-2 border-accent-blue hover:shadow-md`;
   }
   
   const variants = {
-    primary: `${base} bg-primary text-white border-2 border-primary hover:shadow-md`,
-    secondary: `${base} bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:text-primary`,
-    ghost: `${base} text-gray-700 hover:bg-gray-100`
+    primary: `${base} bg-accent-blue text-white border-2 border-accent-blue hover:shadow-md`,
+    secondary: `${base} bg-dark-card text-text-primary border-2 border-dark-border hover:border-accent-blue hover:text-accent-blue`,
+    ghost: `${base} text-text-primary hover:bg-dark-layer`
   };
   
   return variants[variant];
