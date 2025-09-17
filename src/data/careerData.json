@@ -613,6 +613,7 @@
   "projects": [
     {
       "name": "docs-website",
+      "slug": "docs-website",
       "displayName": "New Relic Docs Website Migration & Platform",
       "type": "engineering",
       "category": "Web App Migration",
@@ -650,6 +651,7 @@
     },
     {
       "name": "developer-website",
+      "slug": "developer-website",
       "displayName": "newrelic/developer-website",
       "type": "engineering",
       "category": "Developer Portal",
@@ -672,6 +674,7 @@
     },
     {
       "name": "new-relic-help-center-prototype",
+      "slug": "help-center-prototype",
       "displayName": "New Relic Help Center Prototype",
       "type": "engineering",
       "category": "Product Feature",
@@ -701,6 +704,7 @@
     },
     {
       "name": "gatsby-theme-newrelic",
+      "slug": "gatsby-theme-newrelic",
       "displayName": "newrelic/gatsby-theme-newrelic",
       "type": "engineering",
       "category": "Component Library",
@@ -723,6 +727,7 @@
     },
     {
       "name": "opensource-website",
+      "slug": "opensource-website",
       "displayName": "newrelic/opensource-website",
       "type": "engineering",
       "category": "Marketing Site",
@@ -745,6 +750,7 @@
     },
     {
       "name": "portfolio-site",
+      "slug": "portfolio-site",
       "displayName": "portfolio-site",
       "type": "engineering",
       "category": "Personal Website",
@@ -767,6 +773,7 @@
     },
     {
       "name": "wedding-website",
+      "slug": "wedding-website",
       "displayName": "wedding-website",
       "type": "engineering",
       "category": "Event Website",
@@ -789,6 +796,7 @@
     },
     {
       "name": "wedding-website-rsvp-service",
+      "slug": "wedding-rsvp-service",
       "displayName": "wedding-website-rsvp-service",
       "type": "engineering",
       "category": "Backend API",
@@ -811,6 +819,7 @@
     },
     {
       "name": "workout-tracker",
+      "slug": "workout-tracker",
       "displayName": "Workout Goal Tracker UI",
       "type": "engineering",
       "category": "Personal Project",
@@ -833,6 +842,7 @@
     },
     {
       "name": "new-relic-php-guide",
+      "slug": "php-installation-guide",
       "displayName": "New Relic for PHP Installation Guide",
       "type": "writing",
       "category": "User Guide",
@@ -855,6 +865,7 @@
     },
     {
       "name": "new-relic-infrastructure-guide",
+      "slug": "infrastructure-guide",
       "displayName": "New Relic Infrastructure Installation Guide",
       "type": "writing",
       "category": "User Guide",
@@ -883,6 +894,7 @@
     },
     {
       "name": "new-relic-search-management",
+      "slug": "search-management-guide",
       "displayName": "How to manage New Relic public site search",
       "type": "writing",
       "category": "User Guide",
