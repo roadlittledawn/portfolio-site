@@ -180,7 +180,7 @@ const formatDate = (date: string) => {
                 </a>
               )}
               
-              {project.links.demo && (
+              {project.links.demo && project.type != 'writing' && (
                 <a 
                   href={project.links.demo} 
                   target="_blank" 
@@ -193,6 +193,12 @@ const formatDate = (date: string) => {
                   </svg>
                   <span class="font-medium">View Demo</span>
                 </a>
+              )}
+
+              {project.links.demo && project.type == 'writing' && (
+                <p class="text-text-secondary">
+                  Sample available upon request
+                </p>
               )}
               
               {project.links.article && (

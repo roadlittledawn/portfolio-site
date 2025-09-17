@@ -153,7 +153,7 @@ const typeInfo = getProjectType(project.type);
         Website
       </a>
     )}
-    {project.links.demo && (
+    {project.links.demo && project.type != 'writing' && (
       <a 
         href={project.links.demo} 
         target="_blank" 
