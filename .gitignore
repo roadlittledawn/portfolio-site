@@ -4,3 +4,4 @@ public
 .env
 .DS_store
 yarn-error.log
+dist/
