@@ -32,8 +32,8 @@ const iconName = skill.iconName || skill.name || "code";
 // Grid variant: vertical card layout
 // List variant: horizontal layout for category view
 const baseClasses = variant === 'grid' 
-  ? 'bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200'
-  : 'bg-white border border-gray-200 rounded-lg px-4 py-3 hover:shadow-md transition-shadow';
+  ? 'bg-dark-card border border-dark-border rounded-lg p-4 hover:shadow-lg hover:-translate-y-0.5 hover:bg-dark-hover transition-all duration-200'
+  : 'bg-dark-card border border-dark-border rounded-lg px-4 py-3 hover:shadow-md hover:bg-dark-hover transition-shadow';
 
 const layoutClasses = variant === 'list' 
   ? 'flex justify-between items-center' 
@@ -53,8 +53,8 @@ const layoutClasses = variant === 'list'
       <!-- Grid Layout -->
       <div class="flex justify-between items-start mb-3">
         <div class="flex items-center gap-2">
-          <Icon name={iconName} class="text-gray-600" />
-          <h3 class="text-lg font-semibold text-primary-dark">{skill.name}</h3>
+          <Icon name={iconName} class="text-text-muted" />
+          <h3 class="text-lg font-semibold text-text-primary">{skill.name}</h3>
         </div>
         <LevelBadge level={skill.level} />
       </div>
@@ -63,7 +63,7 @@ const layoutClasses = variant === 'list'
       
       <div class="flex flex-wrap justify-between items-center gap-2">
         {skill.yearsOfExperience && (
-          <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+          <span class="text-xs bg-dark-hover text-text-secondary px-2 py-1 rounded">
             {skill.yearsOfExperience} year{skill.yearsOfExperience !== 1 ? 's' : ''}
           </span>
         )}
@@ -71,7 +71,7 @@ const layoutClasses = variant === 'list'
         {skill.tags && skill.tags.length > 0 && (
           <div class="flex flex-wrap gap-1">
             {skill.tags.slice(0, 2).map(tag => (
-              <span class="text-xs bg-blue-50 text-primary px-2 py-0.5 rounded">
+              <span class="text-xs bg-accent-blue/20 text-accent-blue px-2 py-0.5 rounded">
                 {tag}
               </span>
             ))}
@@ -84,8 +84,8 @@ const layoutClasses = variant === 'list'
       <!-- List Layout -->
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-2">
-          <Icon name={iconName}  class="text-gray-600" />
-          <span class="font-medium text-primary-dark">{skill.name}</span>
+          <Icon name={iconName}  class="text-text-muted" />
+          <span class="font-medium text-text-primary">{skill.name}</span>
         </div>
         <LevelBadge level={skill.level} />
       </div>
@@ -93,7 +93,7 @@ const layoutClasses = variant === 'list'
       <div class="flex items-center gap-3">
         <RatingStars rating={skill.rating} size="sm" />
         {skill.yearsOfExperience && (
-          <span class="text-xs text-gray-600">
+          <span class="text-xs text-text-muted">
             {skill.yearsOfExperience}yr{skill.yearsOfExperience !== 1 ? 's' : ''}
           </span>
         )}

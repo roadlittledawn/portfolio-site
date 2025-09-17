@@ -13,12 +13,12 @@ export interface Props {
 const { value, label, id, className = '' } = Astro.props;
 ---
 
-<div class={`bg-gray-50 rounded-lg p-4 text-center ${className}`}>
+<div class={`bg-dark-card rounded-lg p-4 text-center hover:bg-dark-hover transition-colors ${className}`}>
   <span 
-    class="stat-value block text-3xl font-bold text-primary"
+    class="stat-value block text-3xl font-bold text-accent-blue"
     id={id}
   >
     {value}
   </span>
-  <span class="text-sm text-gray-600 font-medium">{label}</span>
+  <span class="text-sm text-text-secondary font-medium">{label}</span>
 </div>
