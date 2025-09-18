@@ -1,0 +1,41 @@
+---
+/**
+ * Badge Component
+ * Displays badges for categories, types, and featured status
+ */
+
+export interface Props {
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'featured';
+  size?: 'sm' | 'md';
+  icon?: string;
+  className?: string;
+}
+
+const {
+  variant = 'default',
+  size = 'sm',
+  icon,
+  className = ''
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'text-sm px-2 py-1',
+  md: 'text-base px-3 py-1.5'
+};
+
+const variantClasses = {
+  default: 'bg-dark-hover text-text-secondary',
+  primary: 'bg-accent-blue/20 text-accent-blue',
+  secondary: 'bg-dark-hover text-text-secondary',
+  success: 'bg-accent-green/20 text-accent-green',
+  warning: 'bg-accent-amber/20 text-accent-amber',
+  featured: 'bg-accent-amber/20 text-accent-amber font-medium'
+};
+
+const classes = `inline-flex items-center gap-1 rounded-md ${sizeClasses[size]} ${variantClasses[variant]} ${className}`.trim();
+---
+
+<span class={classes}>
+  {icon && <span>{icon}</span>}
+  <slot />
+</span>

@@ -1,0 +1,48 @@
+---
+/**
+ * TechTag Component
+ * Displays technology and tool tags with optional icons
+ */
+import Icon from './Icon.astro';
+
+export interface Props {
+  name: string;
+  variant?: 'technology' | 'tool' | 'default';
+  size?: 'xs' | 'sm' | 'md';
+  showIcon?: boolean;
+  className?: string;
+}
+
+const {
+  name,
+  variant = 'default',
+  size = 'xs',
+  showIcon = false,
+  className = ''
+} = Astro.props;
+
+const sizeClasses = {
+  xs: 'text-xs px-2 py-1',
+  sm: 'text-sm px-2.5 py-1.5',
+  md: 'text-base px-3 py-2'
+};
+
+const variantClasses = {
+  technology: 'bg-accent-blue/20 text-accent-blue',
+  tool: 'bg-accent-green/20 text-accent-green',
+  default: 'bg-dark-bg-secondary text-accent border border-dark-border-subtle'
+};
+
+const iconSizes = {
+  xs: '14',
+  sm: '16',
+  md: '20'
+};
+
+const classes = `inline-flex items-center gap-1.5 rounded ${sizeClasses[size]} ${variantClasses[variant]} ${className}`.trim();
+---
+
+<span class={classes}>
+  {showIcon && <Icon name={name} size={iconSizes[size]} />}
+  <span class={showIcon ? 'font-medium' : ''}>{name}</span>
+</span>

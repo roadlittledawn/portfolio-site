@@ -1,0 +1,28 @@
+---
+/**
+ * ProjectMeta Component
+ * Displays project metadata like role and date
+ */
+
+export interface Props {
+  role?: string;
+  date?: string;
+  separator?: string;
+  className?: string;
+}
+
+const {
+  role,
+  date,
+  separator = '•',
+  className = 'text-sm text-text-muted'
+} = Astro.props;
+---
+
+{(role || date) && (
+  <div class={className}>
+    {role && <span class="font-medium">{role}</span>}
+    {role && date && <span> {separator} </span>}
+    {date && <span>{date}</span>}
+  </div>
+)}
