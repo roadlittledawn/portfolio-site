@@ -146,7 +146,7 @@ const {
     const urlParams = new URLSearchParams(window.location.search);
     const initialFocus = urlParams.get('focus') || 'all';
     const initialLevel = urlParams.get('level') || 'all';
-    const initialSort = urlParams.get('sort') || 'rating-desc';
+    const initialSort = urlParams.get('sort') || 'name-asc';
     
     // Set initial active state
     if (initialFocus !== 'all') {
@@ -155,7 +155,7 @@ const {
     if (levelFilter && initialLevel !== 'all') {
       levelFilter.value = initialLevel;
     }
-    if (sortFilter && initialSort !== 'rating-desc') {
+    if (sortFilter && initialSort !== 'name-asc') {
       sortFilter.value = initialSort;
     }
     
@@ -295,16 +295,6 @@ const {
     function sortCards(cards, sortBy) {
       return cards.sort((a, b) => {
         switch(sortBy) {
-          case 'rating-desc':
-            const ratingA = parseInt(a.dataset.rating || '0');
-            const ratingB = parseInt(b.dataset.rating || '0');
-            return ratingB - ratingA;
-          
-          case 'rating-asc':
-            const ratingA2 = parseInt(a.dataset.rating || '0');
-            const ratingB2 = parseInt(b.dataset.rating || '0');
-            return ratingA2 - ratingB2;
-          
           case 'name-asc':
             const nameA = a.dataset.name || '';
             const nameB = b.dataset.name || '';
@@ -360,7 +350,7 @@ const {
         url.searchParams.set('level', level);
       }
       
-      if (sortBy === 'rating-desc') {
+      if (sortBy === 'name-asc') {
         url.searchParams.delete('sort');
       } else {
         url.searchParams.set('sort', sortBy);
@@ -370,7 +360,7 @@ const {
     }
     
     // Initialize filtering and sorting based on URL params
-    if (initialFocus !== 'all' || initialLevel !== 'all' || initialSort !== 'rating-desc') {
+    if (initialFocus !== 'all' || initialLevel !== 'all' || initialSort !== 'name-asc') {
       applyFiltersAndSort();
     }
   });
