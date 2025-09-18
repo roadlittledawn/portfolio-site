@@ -77,7 +77,7 @@ src/components/
 - **ScrabbleLogo Component**: Compact animated logo displaying "CLINTON" for header navigation
   - Same authentic Scrabble tile styling as ScrabbleName
   - Natural randomization with rotation (±5°) and translation (±1.5px/±1px)
-  - Drop-in animation with 100ms staggered delays
+  - Drop-in animation with 100ms staggered delays (respect's user motion preferences)
   - Hover wiggle effects on individual tiles
   - Size variants (sm, md, lg) for flexible usage
   - Integrated in site header replacing text-based logo
