@@ -5,3 +5,7 @@ public
 .DS_store
 yarn-error.log
 dist/
+
+# Astro
+.astro/
+src/env.d.ts
