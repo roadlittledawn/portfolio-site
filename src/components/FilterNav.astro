@@ -136,7 +136,7 @@ const {
 
 <script>
   // This script handles the filtering logic
-  document.addEventListener('DOMContentLoaded', function() {
+  function initializeFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const viewBtns = document.querySelectorAll('.view-btn');
     const levelFilter = document.getElementById('level-filter');
@@ -363,5 +363,15 @@ const {
     if (initialFocus !== 'all' || initialLevel !== 'all' || initialSort !== 'name-asc') {
       applyFiltersAndSort();
     }
-  });
+  }
+
+  // Initialize on DOMContentLoaded (for initial page load)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeFilters);
+  } else {
+    initializeFilters();
+  }
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', initializeFilters);
 </script>
