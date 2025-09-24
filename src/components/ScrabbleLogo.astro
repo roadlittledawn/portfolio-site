@@ -155,39 +155,50 @@ const sizeClasses = {
 </style>
 
 <script is:inline>
-  function initScrabbleLogo() {
+  function initScrabbleLogo(isInitialLoad = false) {
     const scrabbleLogos = document.querySelectorAll('.scrabble-logo');
-    
+
     scrabbleLogos.forEach(logo => {
+      // Check if logo has already been initialized (for persisted elements)
+      if (logo.dataset.initialized === 'true' && !isInitialLoad) {
+        return; // Skip re-initialization on navigation
+      }
+
+      // Mark as initialized
+      logo.dataset.initialized = 'true';
+
       // Add natural randomization to tiles for authentic placement (same as ScrabbleName)
       const tiles = logo.querySelectorAll('.scrabble-tile');
       tiles.forEach(tile => {
-        // Random rotation between -5 and 5 degrees (matching ScrabbleName)
-        const rotation = (Math.random() * 10) - 5;
-        
-        // Random translation for natural scatter (smaller range for logo)
-        const translateX = (Math.random() * 3) - 1.5; // ±1.5px horizontal
-        const translateY = (Math.random() * 2) - 1; // ±1px vertical
-        
-        // Store values for animation
-        tile.dataset.rotation = rotation;
-        tile.dataset.translateX = translateX;
-        tile.dataset.translateY = translateY;
-        
-        // Set CSS custom properties
-        tile.style.setProperty('--tile-rotation', `${rotation}deg`);
-        tile.style.setProperty('--tile-translate-x', `${translateX}px`);
-        tile.style.setProperty('--tile-translate-y', `${translateY}px`);
-        
-        // Apply initial transform
-        tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
-        
-        // Randomize wood grain background position
-        const tileInner = tile.querySelector('.tile-inner');
-        if (tileInner) {
-          const bgX = Math.random() * 600;
-          const bgY = Math.random() * 600;
-          tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+        // Only set random values if not already set (persisted from previous page)
+        if (!tile.dataset.rotation) {
+          // Random rotation between -5 and 5 degrees (matching ScrabbleName)
+          const rotation = (Math.random() * 10) - 5;
+
+          // Random translation for natural scatter (smaller range for logo)
+          const translateX = (Math.random() * 3) - 1.5; // ±1.5px horizontal
+          const translateY = (Math.random() * 2) - 1; // ±1px vertical
+
+          // Store values for animation
+          tile.dataset.rotation = rotation;
+          tile.dataset.translateX = translateX;
+          tile.dataset.translateY = translateY;
+
+          // Set CSS custom properties
+          tile.style.setProperty('--tile-rotation', `${rotation}deg`);
+          tile.style.setProperty('--tile-translate-x', `${translateX}px`);
+          tile.style.setProperty('--tile-translate-y', `${translateY}px`);
+
+          // Apply initial transform
+          tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+
+          // Randomize wood grain background position
+          const tileInner = tile.querySelector('.tile-inner');
+          if (tileInner) {
+            const bgX = Math.random() * 600;
+            const bgY = Math.random() * 600;
+            tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+          }
         }
       });
 
@@ -199,29 +210,60 @@ const sizeClasses = {
         return;
       }
 
-      // Animation function
-      function animateScrabbleLogo() {
-        const tiles = logo.querySelectorAll('.scrabble-tile');
-        
-        tiles.forEach((tile, index) => {
-          const delay = parseInt(tile.dataset.delay || '0');
-          
-          setTimeout(() => {
-            tile.classList.remove('opacity-0');
-            tile.classList.add('tile-animate');
-          }, delay);
+      // Check if we should animate (only on initial load or if not already animated)
+      const shouldAnimate = isInitialLoad || !sessionStorage.getItem('scrabbleLogoAnimated');
+
+      if (shouldAnimate) {
+        // Animation function
+        function animateScrabbleLogo() {
+          const tiles = logo.querySelectorAll('.scrabble-tile');
+
+          tiles.forEach((tile, index) => {
+            const delay = parseInt(tile.dataset.delay || '0');
+
+            setTimeout(() => {
+              tile.classList.remove('opacity-0');
+              tile.classList.add('tile-animate');
+            }, delay);
+          });
+
+          // Mark as animated for this session
+          sessionStorage.setItem('scrabbleLogoAnimated', 'true');
+        }
+
+        // Start animation after a short delay
+        setTimeout(animateScrabbleLogo, 300);
+      } else {
+        // If not animating, just show the tiles
+        tiles.forEach(tile => {
+          tile.classList.remove('opacity-0');
         });
       }
-
-      // Start animation after a short delay
-      setTimeout(animateScrabbleLogo, 300);
     });
   }
 
+  // Check if this is an initial page load
+  const isInitialPageLoad = !document.querySelector('[data-astro-transition-persist]');
+
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrabbleLogo);
+    document.addEventListener('DOMContentLoaded', () => initScrabbleLogo(isInitialPageLoad));
   } else {
-    initScrabbleLogo();
+    initScrabbleLogo(isInitialPageLoad);
   }
+
+  // Listen for Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    // This fires after View Transitions navigation
+    initScrabbleLogo(false);
+  });
+
+  // Listen for after-swap to handle persisted elements
+  document.addEventListener('astro:after-swap', () => {
+    // Elements with transition:persist are maintained, just ensure they're visible
+    const persistedLogos = document.querySelectorAll('.scrabble-logo[data-astro-transition-persist] .scrabble-tile');
+    persistedLogos.forEach(tile => {
+      tile.classList.remove('opacity-0');
+    });
+  });
 </script>
