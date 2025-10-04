@@ -21,9 +21,9 @@ const { project } = Astro.props;
 // Get project type info
 const getProjectType = (type: string) => {
   const types = {
-    engineering: { icon: '💻', label: 'Engineering', color: 'blue' },
-    writing: { icon: '📝', label: 'Writing', color: 'green' },
-    leadership: { icon: '👥', label: 'Leadership', color: 'purple' }
+    engineering: { icon: 'cpu', label: 'Engineering', color: 'blue' },
+    writing: { icon: 'edit-3', label: 'Writing', color: 'green' },
+    leadership: { icon: 'users', label: 'Leadership', color: 'purple' }
   };
   return types[type] || types.engineering;
 };
@@ -73,7 +73,7 @@ const formatDate = (date: string) => {
         </span>
         
         {project.featured && (
-          <Badge variant="featured" size="md" icon="⭐">
+          <Badge variant="featured" size="md" icon="award">
             Featured Project
           </Badge>
         )}

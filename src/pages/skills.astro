@@ -27,14 +27,14 @@ const skillsByCategory: Record<string, typeof allSkills> = allSkills.reduce((acc
 
 // Category definitions
 const categoryOrder = [
-  { key: 'frontend', name: 'Frontend Development', icon: '🎨' },
-  { key: 'backend', name: 'Backend Development', icon: '⚙️' },
-  { key: 'database', name: 'Databases', icon: '🗄️' },
-  { key: 'tools', name: 'Development Tools', icon: '🔧' },
-  { key: 'cloud-platform', name: 'Cloud Platforms', icon: '☁️' },
-  { key: 'concepts', name: 'Concepts & Practices', icon: '💡' },
-  { key: 'management', name: 'Leadership & Management', icon: '👥' },
-  { key: 'testing', name: 'Testing', icon: '🧪' }
+  { key: 'frontend', name: 'Frontend Development', icon: 'palette' },
+  { key: 'backend', name: 'Backend Development', icon: 'settings' },
+  { key: 'database', name: 'Databases', icon: 'database' },
+  { key: 'tools', name: 'Development Tools', icon: 'tool' },
+  { key: 'cloud-platform', name: 'Cloud Platforms', icon: 'cloud' },
+  { key: 'concepts', name: 'Concepts & Practices', icon: 'light-bulb' },
+  { key: 'management', name: 'Leadership & Management', icon: 'users' },
+  { key: 'testing', name: 'Testing', icon: 'test-tube' }
 ];
 
 // Count skills by focus (including 'both' for each category to match client-side filtering)
@@ -43,9 +43,9 @@ const writingCount = allSkills.filter(s => s.focus?.includes('writing') || s.foc
 
 // Prepare filter and view options
 const filterOptions = [
-  { value: 'all', label: 'All Skills', icon: '🌟', count: allSkills.length },
-  { value: 'engineering', label: 'Engineering', icon: '💻', count: engineeringCount },
-  { value: 'writing', label: 'Writing', icon: '📝', count: writingCount }
+  { value: 'all', label: 'All Skills', icon: 'layers', count: allSkills.length },
+  { value: 'engineering', label: 'Engineering', icon: 'cpu', count: engineeringCount },
+  { value: 'writing', label: 'Writing', icon: 'edit-3', count: writingCount }
 ];
 
 const viewOptions = [

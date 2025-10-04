@@ -41,9 +41,9 @@ const detailUrl = `/projects/${project.slug}`;
 // Get project type icon and label
 const getProjectType = (type: string) => {
   const types = {
-    engineering: { icon: '💻', label: 'Engineering' },
-    writing: { icon: '📝', label: 'Writing' },
-    leadership: { icon: '👥', label: 'Leadership' }
+    engineering: { icon: 'cpu', label: 'Engineering' },
+    writing: { icon: 'edit-3', label: 'Writing' },
+    leadership: { icon: 'users', label: 'Leadership' }
   };
   return types[type] || types.engineering;
 };
@@ -75,7 +75,7 @@ const typeInfo = getProjectType(project.type);
         {project.category}
       </Badge>
       {project.featured && (
-        <Badge variant="featured" icon="⭐">
+        <Badge variant="featured" icon="award">
           Featured
         </Badge>
       )}

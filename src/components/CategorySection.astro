@@ -3,6 +3,8 @@
  * CategorySection Component
  * Section container for categorized items
  */
+import Icon from './Icon.astro';
+
 export interface Props {
   title: string;
   icon?: string;
@@ -11,21 +13,21 @@ export interface Props {
   className?: string;
 }
 
-const { 
-  title, 
-  icon, 
+const {
+  title,
+  icon,
   count,
   categoryKey,
-  className = '' 
+  className = ''
 } = Astro.props;
 ---
 
-<div 
-  class={`category-section mb-8 ${className}`} 
+<div
+  class={`category-section mb-8 ${className}`}
   data-category={categoryKey}
 >
-  <h2 class="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-2">
-    {icon && <span class="text-2xl">{icon}</span>}
+  <h2 class="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+    {icon && <Icon name={icon} size="24" class="text-text-muted" />}
     <span>{title}</span>
     {count !== undefined && (
       <span class="text-base font-normal text-text-muted">({count})</span>

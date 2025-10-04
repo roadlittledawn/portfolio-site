@@ -179,13 +179,27 @@ The site uses a dual-source icon system for comprehensive coverage:
 1. Check featherIcons for UI icons (github, linkedin, code, etc.)
 2. Check customIcons for technology logos (JavaScript, React, Node.js, etc.)
 3. Fall back to "code" icon (angle brackets) if no match found
+
+// Icon component accepts numeric pixel sizes (e.g., "16", "24", "48")
+<Icon name="cpu" size="24" class="text-text-muted" />
 ```
+
+**Available Feather Icons:**
+
+- **Navigation**: github, linkedin, external-link, home, chevron-right/left/down, arrow-right
+- **UI Elements**: code, filter, grid, list, layers, eye, globe, mail, star
+- **Categories**: palette (frontend), settings (backend), database, tool, cloud, light-bulb (concepts), users (leadership), test-tube (testing)
+- **Focus Areas**: edit-3 (writing), cpu (engineering), award (featured)
+- **Actions**: book, edit, briefcase, file-text, user
 
 **Usage:**
 
 - **Skill Cards**: Use `iconName` field in data to map to specific icons
 - **Social Links**: Feather icons for GitHub/LinkedIn in header
-- **UI Elements**: Feather icons for navigation and interface elements
+- **UI Elements**: Feather icons for filters, navigation, categories, and badges
+- **Focus Cards**: Icons display at 48px for homepage focus areas
+- **Filter Nav**: Icons display at 16px in filter buttons
+- **Category Headers**: Icons display at 24px in section headers
 
 ### Component Variants
 
