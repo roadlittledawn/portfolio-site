@@ -3,6 +3,7 @@
  * Badge Component
  * Displays badges for categories, types, and featured status
  */
+import Icon from './Icon.astro';
 
 export interface Props {
   variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'featured';
@@ -23,6 +24,11 @@ const sizeClasses = {
   md: 'text-base px-3 py-1.5'
 };
 
+const iconSizes = {
+  sm: 'xs' as const,
+  md: 'sm' as const
+};
+
 const variantClasses = {
   default: 'bg-dark-hover text-text-secondary',
   primary: 'bg-accent-blue/20 text-accent-blue',
@@ -32,10 +38,10 @@ const variantClasses = {
   featured: 'bg-accent-amber/20 text-accent-amber font-medium'
 };
 
-const classes = `inline-flex items-center gap-1 rounded-md ${sizeClasses[size]} ${variantClasses[variant]} ${className}`.trim();
+const classes = `inline-flex items-center gap-1.5 rounded-md ${sizeClasses[size]} ${variantClasses[variant]} ${className}`.trim();
 ---
 
 <span class={classes}>
-  {icon && <span>{icon}</span>}
+  {icon && <Icon name={icon} size={iconSizes[size]} />}
   <slot />
 </span>

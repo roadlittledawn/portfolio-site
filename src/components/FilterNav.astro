@@ -4,6 +4,7 @@
  * Handles filtering navigation for skills/projects pages
  */
 import { getButtonStyles } from '../utils/styles';
+import Icon from './Icon.astro';
 
 export interface Props {
   filters: Array<{
@@ -31,8 +32,8 @@ export interface Props {
   className?: string;
 }
 
-const { 
-  filters, 
+const {
+  filters,
   views,
   levelOptions,
   sortOptions,
@@ -40,7 +41,7 @@ const {
   defaultView = 'grid',
   defaultLevel = 'all',
   defaultSort = 'rating-desc',
-  className = '' 
+  className = ''
 } = Astro.props;
 ---
 
@@ -48,12 +49,12 @@ const {
   <!-- Left side: Filter Buttons and Dropdowns -->
   <div class="flex flex-wrap items-center gap-2">
     {filters.map(filter => (
-      <button 
+      <button
         data-focus={filter.value}
-        class={`filter-btn ${getButtonStyles('secondary', filter.value === defaultFilter)}`}
+        class={`filter-btn ${getButtonStyles('secondary', filter.value === defaultFilter)} flex items-center gap-2`}
       >
-        {filter.icon && <span>{filter.icon}</span>}
-        {filter.label}
+        {filter.icon && <Icon name={filter.icon} size="xs" />}
+        <span>{filter.label}</span>
         {filter.count !== undefined && (
           <span class={`filter-count-${filter.value} opacity-80 text-sm`}>
             ({filter.count})

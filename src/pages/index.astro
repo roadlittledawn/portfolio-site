@@ -9,12 +9,14 @@ const description = "Experienced technical writer and full-stack engineer specia
 
 const focusAreas = [
   {
-    title: "📝 Technical Writing",
+    title: "Technical Writing",
+    icon: "edit-3",
     description: "Documentation, content strategy, developer experience",
     href: "/technical-writing"
   },
   {
-    title: "💻 Software Engineering", 
+    title: "Software Engineering",
+    icon: "cpu",
     description: "Full-stack development, team leadership, architecture",
     href: "/software-engineering"
   }
@@ -47,8 +49,9 @@ const quickNavLinks = [
       <div class="mb-12">
         <GridContainer columns={{ default: 1, md: 2 }} gap="lg" className="max-w-4xl mx-auto">
           {focusAreas.map(area => (
-            <FocusCard 
+            <FocusCard
               title={area.title}
+              icon={area.icon}
               description={area.description}
               href={area.href}
             />
