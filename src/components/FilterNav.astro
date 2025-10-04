@@ -53,7 +53,7 @@ const {
         data-focus={filter.value}
         class={`filter-btn ${getButtonStyles('secondary', filter.value === defaultFilter)} flex items-center gap-2`}
       >
-        {filter.icon && <Icon name={filter.icon} size="xs" />}
+        {filter.icon && <Icon name={filter.icon} size="16" />}
         <span>{filter.label}</span>
         {filter.count !== undefined && (
           <span class={`filter-count-${filter.value} opacity-80 text-sm`}>
