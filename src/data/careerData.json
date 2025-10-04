@@ -920,6 +920,73 @@
         "cross-functional",
         "seo"
       ]
+    },
+    {
+      "name": "new-relic-help-experience-guide",
+      "slug": "help-experience-guide",
+      "displayName": "New Relic In-App Help Experience Guide",
+      "type": "writing",
+      "category": "Product Documentation",
+      "summary": "Product documentation guide for New Relic product teams (PMs and engineers) on integrating contextual help content into product UI",
+      "description": "Guide for product managers and engineering teams on how to use the New Relic Help Experience system to provide in-context help, onboarding, feature adoption support, and self-service resources. The Help Experience delivers documentation, support, and AI assistance directly within the product UI.",
+      "role": "Engineering Manager - Led the team that built the in-app help content system",
+      "challenge": "Product teams needed to provide contextual help, onboarding guidance, and feature discovery without taking users out of their workflow. This required building both the technical system (UI components, content management backend) and clear documentation to enable teams across the organization to contribute help content effectively.",
+      "technologies": [
+        "Product Documentation",
+        "UI Documentation",
+        "Technical Writing"
+      ],
+      "tools": ["Google Docs"],
+      "date": "2024",
+      "links": {
+        "demo": "https://clintonlangosch.com/samples/new-relic-help-experience-guide",
+        "github": null,
+        "website": null,
+        "article": null
+      },
+      "focus": ["writing"],
+      "featured": true,
+      "tags": [
+        "product-documentation",
+        "user-guide",
+        "internal-docs",
+        "ui-documentation",
+        "engineering-management"
+      ]
+    },
+    {
+      "name": "ai-context-management-guide",
+      "slug": "ai-context-management",
+      "displayName": "Managing Context with AI Coding Assistants",
+      "type": "writing",
+      "category": "Developer Guide",
+      "summary": "Guide for developers on managing context when using AI coding assistants in large codebases",
+      "description": "Developer-focused guide teaching essential strategies for providing effective context to AI coding assistants like Claude Code, GitHub Copilot, and Cursor. Covers the Write-Select-Compress-Isolate framework for context management, addressing common challenges in large codebases, long debugging sessions, and multi-file development tasks.",
+      "role": "Manager Developer Documentation - Developed initial version as part of AI-assisted development content strategy at AWS, then expanded and refined for professional and personal use",
+      "challenge": "As AI coding assistants became widely adopted, developers struggled with context management in large codebases—AI would lose track of important details, make circular mistakes, or fail when context windows filled up. Teams needed practical guidance on optimizing context to ensure performance and quality in AI-generated code.",
+      "technologies": [
+        "Technical Writing",
+        "Developer Documentation",
+        "AI/ML",
+        "Developer Tools"
+      ],
+      "tools": ["Google Docs", "MDX"],
+      "date": "2025",
+      "links": {
+        "demo": "https://clintonlangosch.com/samples/manage-optimize-ai-agent-context",
+        "github": null,
+        "website": null,
+        "article": null
+      },
+      "focus": ["writing"],
+      "featured": true,
+      "tags": [
+        "developer-guide",
+        "ai-tools",
+        "technical-writing",
+        "best-practices",
+        "documentation"
+      ]
     }
   ],
   "work": [
