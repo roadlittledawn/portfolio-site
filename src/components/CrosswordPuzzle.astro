@@ -94,8 +94,8 @@ type CellData = {
   col: number;
 } | null;
 
-const grid: CellData[][] = Array(ROWS).fill(null).map((_, r) => 
-  Array(COLS).fill(null).map((_, c) => null)
+const grid: CellData[][] = Array.from({ length: ROWS }, () => 
+  Array.from({ length: COLS }, () => null)
 );
 
 // Populate the grid with words
@@ -166,12 +166,14 @@ function getAnimationDelay(row: number, col: number): number {
       )}
     </div>
     
-    <!-- Word clues for accessibility -->
+    <!-- Word clues for accessibility (clues only, without answers) -->
     <div class="sr-only">
-      <h2>Crossword Clues</h2>
+      <h2>Crossword Puzzle</h2>
+      <p>An interactive crossword puzzle featuring personal and professional keywords.</p>
+      <h3>Clues</h3>
       <ul>
         {words.map((w, i) => (
-          <li>{i + 1}. {w.clue}: {w.word}</li>
+          <li>{i + 1}. {w.clue}</li>
         ))}
       </ul>
     </div>
@@ -228,9 +230,16 @@ function getAnimationDelay(row: number, col: number): number {
     @apply relative flex items-center justify-center;
     @apply transition-all duration-300;
     
+    /* Define CSS variables for theming - uses colors close to Tailwind config */
+    --cell-bg-start: rgb(36, 57, 61); /* dark-card */
+    --cell-bg-end: rgb(21, 29, 30); /* dark-layer */
+    --cell-border: rgba(92, 179, 255, 0.3); /* accent-blue with opacity */
+    --cell-hover-bg-start: rgb(46, 74, 79); /* dark-hover */
+    --cell-hover-bg-end: rgb(36, 57, 61); /* dark-card */
+    
     /* Base styling - dark theme crossword tile */
-    background: linear-gradient(135deg, #2a3f42 0%, #1e2d30 100%);
-    border: 1px solid rgba(92, 179, 255, 0.3);
+    background: linear-gradient(135deg, var(--cell-bg-start) 0%, var(--cell-bg-end) 100%);
+    border: 1px solid var(--cell-border);
     border-radius: 4px;
     
     /* Subtle 3D effect */
@@ -241,7 +250,7 @@ function getAnimationDelay(row: number, col: number): number {
   }
   
   .crossword-cell:hover {
-    background: linear-gradient(135deg, #344e52 0%, #283d41 100%);
+    background: linear-gradient(135deg, var(--cell-hover-bg-start) 0%, var(--cell-hover-bg-end) 100%);
     border-color: rgba(92, 179, 255, 0.6);
     transform: scale(1.05);
     z-index: 10;
@@ -249,25 +258,28 @@ function getAnimationDelay(row: number, col: number): number {
   
   /* Intersection cells get special highlight */
   .crossword-cell.intersection {
-    border-color: rgba(255, 194, 102, 0.5);
+    border-color: rgba(255, 194, 102, 0.5); /* accent-amber with opacity */
   }
   
   .crossword-cell.intersection:hover {
     border-color: rgba(255, 194, 102, 0.8);
   }
   
-  /* Category-based styling */
+  /* Category-based styling - subtle variations */
   .crossword-cell.name {
-    background: linear-gradient(135deg, #2d3a42 0%, #1e2830 100%);
+    --cell-bg-start: rgb(45, 58, 66);
+    --cell-bg-end: rgb(30, 40, 48);
   }
   
   .crossword-cell.profession {
-    background: linear-gradient(135deg, #2a3f42 0%, #1e2d30 100%);
+    --cell-bg-start: rgb(42, 63, 66);
+    --cell-bg-end: rgb(30, 45, 48);
   }
   
   .crossword-cell.name.profession {
     /* Intersection of name and profession */
-    background: linear-gradient(135deg, #2d4045 0%, #1e2a2d 100%);
+    --cell-bg-start: rgb(45, 64, 69);
+    --cell-bg-end: rgb(30, 42, 45);
   }
   
   .letter {
@@ -350,8 +362,7 @@ function getAnimationDelay(row: number, col: number): number {
   function initCrosswordAnimation() {
     const crosswordPuzzle = document.querySelector('.crossword-puzzle');
     if (!crosswordPuzzle) {
-      setTimeout(initCrosswordAnimation, 100);
-      return;
+      return; // Component not present on this page
     }
     
     const shouldAnimate = crosswordPuzzle.dataset.animate === 'true';
@@ -380,10 +391,11 @@ function getAnimationDelay(row: number, col: number): number {
     setTimeout(animateCells, 300);
   }
   
-  // Initialize when DOM is ready
+  // Initialize when DOM is ready - DOMContentLoaded ensures element exists
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCrosswordAnimation);
   } else {
+    // DOM already loaded, run immediately
     initCrosswordAnimation();
   }
   
