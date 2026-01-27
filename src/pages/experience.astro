@@ -8,10 +8,10 @@ const title = 'Experience';
 const description = 'Career journey spanning technical writing, software engineering, and leadership roles';
 
 // Sort work experience by start date (most recent first)
-const sortedWork = careerData.work.sort((a, b) => {
-  const aYear = a.start?.year || 0;
-  const bYear = b.start?.year || 0;
-  return bYear - aYear;
+const sortedWork = careerData.experiences.sort((a, b) => {
+  const aDate = new Date(a.startDate);
+  const bDate = new Date(b.startDate);
+  return bDate.getTime() - aDate.getTime();
 });
 ---
 

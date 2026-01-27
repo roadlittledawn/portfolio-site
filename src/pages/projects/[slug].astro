@@ -11,7 +11,7 @@ import careerData from '../../data/careerData.json';
 
 export function getStaticPaths() {
   return careerData.projects.map((project) => ({
-    params: { slug: project.slug },
+    params: { slug: project.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') },
     props: { project }
   }));
 }

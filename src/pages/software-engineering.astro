@@ -14,17 +14,17 @@ const description = "Full-stack software engineer and engineering manager with 1
 
 // Filter for engineering-focused content
 const engineeringSkills = careerData.skills
-  .filter(skill => skill.focus?.includes('engineering') || skill.focus?.includes('both'))
+  .filter(skill => skill.roleRelevance?.includes('software_engineer') || skill.roleRelevance?.includes('engineering_manager'))
   .sort((a, b) => b.rating - a.rating)
   .slice(0, 12);
 
 const engineeringProjects = careerData.projects
-  .filter(project => project.focus?.includes('engineering') || project.focus?.includes('both'))
+  .filter(project => project.roleTypes?.includes('software_engineer') || project.roleTypes?.includes('engineering_manager'))
   .filter(project => project.featured);
 
-const engineeringRoles = careerData.work
-  .filter(role => role.focus?.includes('engineering') || role.focus?.includes('both'))
-  .sort((a, b) => (b.start?.year || 0) - (a.start?.year || 0));
+const engineeringRoles = careerData.experiences
+  .filter(role => role.roleTypes?.includes('software_engineer') || role.roleTypes?.includes('engineering_manager'))
+  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const strengths = [
   {

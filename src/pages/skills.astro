@@ -38,8 +38,8 @@ const categoryOrder = [
 ];
 
 // Count skills by focus (including 'both' for each category to match client-side filtering)
-const engineeringCount = allSkills.filter(s => s.focus?.includes('engineering') || s.focus?.includes('both')).length;
-const writingCount = allSkills.filter(s => s.focus?.includes('writing') || s.focus?.includes('both')).length;
+const engineeringCount = allSkills.filter(s => s.roleRelevance?.includes('software_engineer') || s.roleRelevance?.includes('engineering_manager')).length;
+const writingCount = allSkills.filter(s => s.roleRelevance?.includes('technical_writer') || s.roleRelevance?.includes('technical_writing_manager')).length;
 
 // Prepare filter and view options
 const filterOptions = [
