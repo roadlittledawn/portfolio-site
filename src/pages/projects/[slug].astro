@@ -30,13 +30,19 @@ const getProjectType = (type: string) => {
 
 const typeInfo = getProjectType(project.type);
 
+// Parse links array into object
+const linksByType = project.links.reduce((acc, link) => {
+  acc[link.type] = link.url;
+  return acc;
+}, {} as Record<string, string>);
+
 // Format date for display
 const formatDate = (date: string) => {
-  if (date.includes('-')) {
-    const [start, end] = date.split('-');
-    return `${start} - ${end}`;
-  }
-  return date;
+  return new Date(date).toLocaleDateString('en-US', { 
+    month: 'long', 
+    year: 'numeric',
+    timeZone: 'UTC'
+  });
 };
 ---
 
@@ -64,10 +70,6 @@ const formatDate = (date: string) => {
           {typeInfo.label}
         </Badge>
         
-        <Badge variant="primary" size="md">
-          {project.category}
-        </Badge>
-        
         <span class="text-text-secondary">
           {formatDate(project.date)}
         </span>
@@ -88,20 +90,12 @@ const formatDate = (date: string) => {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 py-12">
       <!-- Left Column - Details -->
       <div class="lg:col-span-2 space-y-8">
-        <!-- Role -->
-        <section>
-          <h2 class="text-2xl font-semibold text-text-primary mb-4">My Role</h2>
-          <p class="text-lg text-text-secondary">
-            {project.role}
-          </p>
-        </section>
-
-        <!-- Description -->
-        {project.description && (
+        <!-- Overview -->
+        {project.overview && (
           <section>
             <h2 class="text-2xl font-semibold text-text-primary mb-4">Overview</h2>
             <p class="text-text-secondary leading-relaxed">
-              {project.description}
+              {project.overview}
             </p>
           </section>
         )}
@@ -112,6 +106,26 @@ const formatDate = (date: string) => {
             <h2 class="text-2xl font-semibold text-text-primary mb-4">The Challenge</h2>
             <p class="text-text-secondary leading-relaxed">
               {project.challenge}
+            </p>
+          </section>
+        )}
+
+        <!-- Approach -->
+        {project.approach && (
+          <section>
+            <h2 class="text-2xl font-semibold text-text-primary mb-4">Approach</h2>
+            <p class="text-text-secondary leading-relaxed">
+              {project.approach}
+            </p>
+          </section>
+        )}
+
+        <!-- Outcome -->
+        {project.outcome && (
+          <section>
+            <h2 class="text-2xl font-semibold text-text-primary mb-4">Outcome</h2>
+            <p class="text-text-secondary leading-relaxed">
+              {project.outcome}
             </p>
           </section>
         )}
@@ -127,30 +141,18 @@ const formatDate = (date: string) => {
             </div>
           </section>
         )}
-
-        <!-- Tools -->
-        {project.tools.length > 0 && (
-          <section>
-            <h2 class="text-2xl font-semibold text-text-primary mb-4">Tools & Platforms</h2>
-            <div class="flex flex-wrap gap-2">
-              {project.tools.map((tool: string) => (
-                <TechTag name={tool} variant="default" size="md" showIcon={true} />
-              ))}
-            </div>
-          </section>
-        )}
       </div>
 
       <!-- Right Column - Sidebar -->
       <div class="space-y-6">
         <!-- Links Card -->
-        {(project.links.github || project.links.website || project.links.demo || project.links.article) && (
+        {(linksByType.github || linksByType.website || linksByType.demo || linksByType.demo1 || linksByType.demo2 || linksByType.writing_sample) && (
           <div class="bg-dark-bg-secondary rounded-xl p-6 border border-dark-border-subtle">
             <h3 class="text-lg font-semibold text-text-primary mb-4">Project Links</h3>
             <div class="space-y-3">
-              {project.links.website && (
+              {linksByType.website && (
                 <Button
-                  href={project.links.website}
+                  href={linksByType.website}
                   variant="link"
                   icon="globe"
                   external={true}
@@ -160,9 +162,9 @@ const formatDate = (date: string) => {
                 </Button>
               )}
               
-              {project.links.github && (
+              {linksByType.github && (
                 <Button
-                  href={project.links.github}
+                  href={linksByType.github}
                   variant="link"
                   icon="github"
                   external={true}
@@ -172,9 +174,9 @@ const formatDate = (date: string) => {
                 </Button>
               )}
               
-              {project.links.demo && project.type != 'writing' && (
+              {(linksByType.demo || linksByType.demo1 || linksByType.demo2) && (
                 <Button
-                  href={project.links.demo}
+                  href={linksByType.demo || linksByType.demo1 || linksByType.demo2}
                   variant="link"
                   icon="eye"
                   external={true}
@@ -184,52 +186,15 @@ const formatDate = (date: string) => {
                 </Button>
               )}
 
-              {project.links.demo && project.type == 'writing' && (
+              {linksByType.writing_sample && (
                 <p class="text-text-secondary">
-                  Sample available upon request
+                  Writing sample available upon request
                 </p>
               )}
-              
-              {project.links.article && (
-                <Button
-                  href={project.links.article}
-                  variant="link"
-                  icon="file-text"
-                  external={true}
-                  className="flex items-center gap-3 text-text-secondary hover:text-accent transition-colors"
-                >
-                  Read Article
-                </Button>
-              )}
             </div>
           </div>
         )}
 
-        <!-- Tags -->
-        {project.tags.length > 0 && (
-          <div class="bg-dark-bg-secondary rounded-xl p-6 border border-dark-border-subtle">
-            <h3 class="text-lg font-semibold text-text-primary mb-4">Tags</h3>
-            <div class="flex flex-wrap gap-2">
-              {project.tags.map(tag => (
-                <Tag text={tag} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <!-- Focus Areas -->
-        {project.focus.length > 0 && (
-          <div class="bg-dark-bg-secondary rounded-xl p-6 border border-dark-border-subtle">
-            <h3 class="text-lg font-semibold text-text-primary mb-4">Focus Area</h3>
-            <div class="flex flex-wrap gap-2">
-              {project.focus.map((area: string) => (
-                <Badge variant="secondary" className="capitalize">
-                  {area}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   </div>
