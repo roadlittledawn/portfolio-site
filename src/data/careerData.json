@@ -45,6 +45,7 @@
       "industry": "Tech - Cloud Computing",
       "startDate": "2025-01-01T00:00:00.000Z",
       "endDate": null,
+      "summary": "Lead a team of six programmer writers building AI-driven, content-as-code documentation system that supports 84,000+ Amazon developers, scaling content quality and contributor experience through automated generation, review tooling, and workflow optimization.",
       "organizations": [
         "Software Learning Experience Team",
         "Developer Experience",
@@ -142,6 +143,7 @@
       "industry": "Tech - Information Technology, Application Performance Management / Observability",
       "startDate": "2022-04-01T00:00:00.000Z",
       "endDate": "2025-01-01T00:00:00.000Z",
+      "summary": "Lead a team of engineers that develops the content tooling, sites, and services that power our open source content platform & websites, and New Relic's in-product messaging & help system.",
       "organizations": [
         "Growth Engineering",
         "User Experience Design",
@@ -231,6 +233,7 @@
       "industry": "Tech - Information Technology, Application Performance Management / Observability",
       "startDate": "2017-10-01T00:00:00.000Z",
       "endDate": "2022-03-01T00:00:00.000Z",
+      "summary": "Develop sites, services, and content tooling to help New Relic's customers onboard and get the most out of the product. Supported various projects, programs, and organizations such as developer experience & enablement, user experience design, and growth engineering.",
       "organizations": [
         "Engineering",
         "Product Design",
@@ -309,10 +312,11 @@
       "id": "690952d593b58b903ea8f9fb",
       "company": "New Relic",
       "location": "Portland",
-      "title": "Senior Technical Writer",
+      "title": "Technical Writer",
       "industry": "Tech - Information Technology, Application Performance Management / Observability",
       "startDate": "2014-08-01T00:00:00.000Z",
       "endDate": "2017-10-01T00:00:00.000Z",
+      "summary": "Developed and maintained high-quality technical documentation and Drupal-based CMS, collaborating closely with cross-functional teams to improve product installation and customer experience for New Relic products.",
       "organizations": [
         "Technical Support",
         "UX Product Language",
@@ -361,6 +365,7 @@
       "industry": "Aviation",
       "startDate": "2007-08-01T00:00:00.000Z",
       "endDate": "2014-08-01T00:00:00.000Z",
+      "summary": "Led the modernization of company documentation systems, transitioning from paper to digital formats, while developing custom project management tools and managing high-quality technical documentation across various operational guides.",
       "organizations": [
         "Technical Support",
         "UX Product Language",
@@ -400,6 +405,7 @@
       "industry": "Aviation",
       "startDate": "2006-03-01T00:00:00.000Z",
       "endDate": "2007-07-01T00:00:00.000Z",
+      "summary": "Managed a technical documentation team and system, authored flight systems manuals, and prepared compliance audits and reports for executive leadership.",
       "organizations": [],
       "roleTypes": [
         "technical_writing_manager"

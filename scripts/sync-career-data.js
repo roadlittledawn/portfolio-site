@@ -59,6 +59,7 @@ const QUERY = gql`
       industry
       startDate
       endDate
+      summary
       organizations
       roleTypes
       responsibilities
