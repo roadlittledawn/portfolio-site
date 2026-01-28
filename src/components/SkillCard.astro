@@ -13,7 +13,7 @@ export interface Props {
     rating: number;
     yearsOfExperience?: number;
     tags?: string[];
-    focus?: string[];
+    roleRelevance?: string[];
     iconName?: string | null;
   };
   variant?: 'grid' | 'list';
@@ -41,7 +41,7 @@ const layoutClasses = variant === 'list'
 
 <div 
   class={`skill-card ${baseClasses} ${layoutClasses} ${className}`}
-  data-focus={skill.focus?.join(' ')} 
+  data-focus={skill.roleRelevance?.join(' ')} 
   data-categories={skill.tags?.join(' ')}
   data-level={skill.level}
   data-name={skill.name}
