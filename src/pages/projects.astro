@@ -13,8 +13,12 @@ const description = "Software engineering and technical writing projects spannin
 const allProjects = careerData.projects;
 
 // Count projects by focus
-const engineeringCount = allProjects.filter(p => p.roleTypes?.includes('software_engineer') || p.roleTypes?.includes('engineering_manager')).length;
-const writingCount = allProjects.filter(p => p.roleTypes?.includes('technical_writer') || p.roleTypes?.includes('technical_writing_manager')).length;
+const engineeringCount = allProjects.filter(p => 
+  p.roleTypes?.includes('software_engineer') || p.roleTypes?.includes('engineering_manager')
+).length;
+const writingCount = allProjects.filter(p => 
+  p.roleTypes?.includes('technical_writer') || p.roleTypes?.includes('technical_writing_manager')
+).length;
 
 // Prepare filter options (no view toggle for projects)
 const filterOptions = [
