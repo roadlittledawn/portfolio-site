@@ -14,17 +14,17 @@ const description = "Full-stack software engineer and engineering manager with 1
 
 // Filter for engineering-focused content
 const engineeringSkills = careerData.skills
-  .filter(skill => skill.focus?.includes('engineering') || skill.focus?.includes('both'))
+  .filter(skill => skill.roleRelevance?.includes('engineering'))
   .sort((a, b) => b.rating - a.rating)
   .slice(0, 12);
 
 const engineeringProjects = careerData.projects
-  .filter(project => project.focus?.includes('engineering') || project.focus?.includes('both'))
+  .filter(project => project.roleTypes?.includes('software_engineer') || project.roleTypes?.includes('engineering_manager'))
   .filter(project => project.featured);
 
-const engineeringRoles = careerData.work
-  .filter(role => role.focus?.includes('engineering') || role.focus?.includes('both'))
-  .sort((a, b) => (b.start?.year || 0) - (a.start?.year || 0));
+const engineeringRoles = careerData.experiences
+  .filter(role => role.roleTypes?.includes('software_engineer') || role.roleTypes?.includes('engineering_manager'))
+  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const strengths = [
   {
@@ -40,8 +40,8 @@ const strengths = [
     description: "Content tooling, CI/CD, performance optimization, and developer productivity"
   },
   {
-    title: "System Architecture",
-    description: "Scalable systems, observability, microservices, and cloud platforms (AWS)"
+    title: "Content Driven Apps",
+    description: "Cost effective content management systems, contributor enablement, "
   }
 ];
 ---
@@ -49,8 +49,8 @@ const strengths = [
 <BaseLayout title={title} description={description}>
   <HeroSection
     title="Software Engineering & Technical Leadership"
-    subtitle="10 years of full-stack development experience building scalable web applications and leading high-performing engineering teams."
-    description="Builder and life-long learner at heart – I ship resilient, high-throughput teams and systems. My engineering background spans frontend to backend, with deep expertise in web technologies and team leadership."
+    subtitle="6 years of full-stack development experience building sites and services and 3 years leading customer focused engineering teams"
+    description={careerData.profile.positioning.byRole.software_engineer}
   />
 
   <!-- Core Expertise -->

@@ -37,9 +37,15 @@ const categoryOrder = [
   { key: 'testing', name: 'Testing', icon: 'test-tube' }
 ];
 
-// Count skills by focus (including 'both' for each category to match client-side filtering)
-const engineeringCount = allSkills.filter(s => s.focus?.includes('engineering') || s.focus?.includes('both')).length;
-const writingCount = allSkills.filter(s => s.focus?.includes('writing') || s.focus?.includes('both')).length;
+// Count skills by focus
+const engineeringCount = allSkills.filter(s => 
+  s.roleRelevance?.includes('engineering') || s.roleRelevance?.includes('both')
+).length;
+const writingCount = allSkills.filter(s => 
+  s.roleRelevance?.includes('writing') || 
+  s.roleRelevance?.includes('technical_writing') || 
+  s.roleRelevance?.includes('both')
+).length;
 
 // Prepare filter and view options
 const filterOptions = [
