@@ -14,7 +14,7 @@ const description = "Full-stack software engineer and engineering manager with 1
 
 // Filter for engineering-focused content
 const engineeringSkills = careerData.skills
-  .filter(skill => skill.roleRelevance?.includes('software_engineer') || skill.roleRelevance?.includes('engineering_manager'))
+  .filter(skill => skill.roleRelevance?.includes('engineering'))
   .sort((a, b) => b.rating - a.rating)
   .slice(0, 12);
 
@@ -40,8 +40,8 @@ const strengths = [
     description: "Content tooling, CI/CD, performance optimization, and developer productivity"
   },
   {
-    title: "System Architecture",
-    description: "Scalable systems, observability, microservices, and cloud platforms (AWS)"
+    title: "Content Driven Apps",
+    description: "Cost effective content management systems, contributor enablement, "
   }
 ];
 ---
@@ -49,8 +49,8 @@ const strengths = [
 <BaseLayout title={title} description={description}>
   <HeroSection
     title="Software Engineering & Technical Leadership"
-    subtitle="10 years of full-stack development experience building scalable web applications and leading high-performing engineering teams."
-    description="Builder and life-long learner at heart – I ship resilient, high-throughput teams and systems. My engineering background spans frontend to backend, with deep expertise in web technologies and team leadership."
+    subtitle="6 years of full-stack development experience building sites and services and 3 years leading customer focused engineering teams"
+    description={careerData.profile.positioning.byRole.software_engineer}
   />
 
   <!-- Core Expertise -->
