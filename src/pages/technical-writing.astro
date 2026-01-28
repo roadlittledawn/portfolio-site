@@ -14,17 +14,17 @@ const description = "Technical writer and content strategist with 11 years of ex
 
 // Filter for writing-focused content
 const writingSkills = careerData.skills
-  .filter(skill => skill.focus?.includes('writing') || skill.focus?.includes('both'))
+  .filter(skill => skill.roleRelevance?.includes('technical_writer') || skill.roleRelevance?.includes('technical_writing_manager'))
   .sort((a, b) => b.rating - a.rating)
   .slice(0, 12);
 
 const writingProjects = careerData.projects
-  .filter(project => project.focus?.includes('writing') || project.focus?.includes('both'))
+  .filter(project => project.roleTypes?.includes('technical_writer') || project.roleTypes?.includes('technical_writing_manager'))
   .filter(project => project.featured);
 
-const writingRoles = careerData.work
-  .filter(role => role.focus?.includes('writing') || role.focus?.includes('both'))
-  .sort((a, b) => (b.start?.year || 0) - (a.start?.year || 0));
+const writingRoles = careerData.experiences
+  .filter(role => role.roleTypes?.includes('technical_writer') || role.roleTypes?.includes('technical_writing_manager'))
+  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const strengths = [
   {
@@ -48,9 +48,9 @@ const strengths = [
 
 <BaseLayout title={title} description={description}>
   <HeroSection
-    title="Technical Writing & Content Strategy"
-    subtitle="11 years of experience creating clear, effective technical documentation and building content systems that scale."
-    description="Writer at heart, engineer by trade – I pride myself on putting the <em>technical</em> in technical writer. My passion for technical communication thrives at the intersection of technology and content."
+    title="Technical Writing & Leadership"
+    subtitle="11 years of experience creating clear, effective technical documentation and building modern content systems."
+    description={careerData.profile.positioning.byRole.technical_writer}
   />
 
   <!-- Core Expertise -->
