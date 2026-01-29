@@ -47,7 +47,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         id: create-pr
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           branch: chore/sync-career-data
           base: develop
           title: "chore: update career data from API"
