@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GridContainer from '../components/GridContainer.astro';
 import FocusCard from '../components/FocusCard.astro';
 import QuickNav from '../components/QuickNav.astro';
+import CrosswordPuzzle from '../components/CrosswordPuzzle.astro';
+import Icon from '../components/Icon.astro';
 
 const title = "Clinton Langosch - Technical Writer & Software Engineer";
 const description = "Experienced technical writer and full-stack engineer specializing in developer experience and technical communication.";
@@ -29,24 +31,25 @@ const quickNavLinks = [
 ];
 ---
 
-<BaseLayout title={title} description={description}>
-  <!-- Hero Section -->
-  <section class="text-center py-16 md:py-20 lg:py-24">
-    <div class="max-w-4xl mx-auto px-4">
-      <!-- Scrabble Name Display -->
+<BaseLayout title={title} description={description} hideHeader={true}>
+  <!-- Hero Section with Crossword -->
+  <section class="text-center py-8 md:py-12 lg:py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <!-- Crossword Puzzle as main hero element -->
+      <CrosswordPuzzle className="mb-8" />
       
-      <p class="text-2xl md:text-3xl text-text-secondary font-medium mb-8">
+      <p class="text-2xl md:text-3xl text-text-secondary font-medium mb-6">
         Technical Writer & Software Engineer
       </p>
       
-      <p class="text-xl md:text-2xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-12">
+      <p class="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed mb-10">
         Experienced technical communicator and leader with 11 years in technical writing 
         and 10 years in full-stack development. Writer at heart, engineer by trade, 
         leader by choice.
       </p>
       
       <!-- Focus Areas -->
-      <div class="mb-12">
+      <div class="mb-10">
         <GridContainer columns={{ default: 1, md: 2 }} gap="lg" className="max-w-4xl mx-auto">
           {focusAreas.map(area => (
             <FocusCard
@@ -60,7 +63,29 @@ const quickNavLinks = [
       </div>
       
       <!-- Quick Navigation -->
-      <QuickNav links={quickNavLinks} className="mt-8" />
+      <QuickNav links={quickNavLinks} className="mb-8" />
+      
+      <!-- Social Links -->
+      <div class="flex justify-center gap-4 pt-4">
+        <a 
+          href="https://github.com/roadlittledawn" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="p-3 rounded-lg bg-dark-card text-text-secondary hover:bg-dark-hover hover:text-accent-blue transition-all"
+          aria-label="GitHub Profile"
+        >
+          <Icon name="github" size="24" />
+        </a>
+        <a 
+          href="https://www.linkedin.com/in/clinton-langosch/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="p-3 rounded-lg bg-dark-card text-text-secondary hover:bg-dark-hover hover:text-accent-blue transition-all"
+          aria-label="LinkedIn Profile"
+        >
+          <Icon name="linkedin" size="24" />
+        </a>
+      </div>
     </div>
   </section>
 </BaseLayout>
