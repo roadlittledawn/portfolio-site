@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "sync-data": "node --env-file=.env scripts/sync-career-data.js"
+    "sync-data": "node --env-file=.env scripts/sync-career-data.js",
+    "sync-data:ci": "node scripts/sync-career-data.js"
   },
   "dependencies": {
     "astro": "^4.0.0"
