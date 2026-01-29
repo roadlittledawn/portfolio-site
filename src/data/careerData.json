@@ -14,7 +14,7 @@
       }
     },
     "positioning": {
-      "current": "Experienced technical communicator and leader with 11 years in technical writing and 10 years in full-stack development. I've written a wide variety of content, developed many technical content sites / features / systems, and managed writing and engineering teams.\n\nI'm a writer who loves technology, an engineer who loves to communicate, and a leader who's passionate about making things better for both users and developers. Throughout my career, I've thrived at the intersection of technology and content, using a hands-on approach and technical expertise to craft clear, effective content to educate users and make docs an important part of the user experience.",
+      "current": "Experienced technical communicator and leader with 11 years in technical writing and 10 years in full-stack development. I've written a wide variety of content, developed many technical content sites / features / systems, and managed writing and engineering teams.\n\nI'm a writer who loves code, an engineer who loves to communicate, and a leader who's passionate about making things better for both users and developers. Throughout my career, I've thrived at the intersection of technology and content, using a hands-on approach and technical expertise to craft clear, effective content to educate users and make docs an important part of the user experience.",
       "byRole": {
         "technical_writer": "Experienced technical communicator and leader with 11 years in technical writing and 10 years in full-stack development. I've written a wide variety of content, developed many technical content sites / features / systems, and managed writing and engineering teams.",
         "technical_writing_manager": "Experienced technical communicator and leader with 11 years in technical writing and 10 years in full-stack development. I've written a wide variety of content, developed many technical content sites / features / systems, and managed writing and engineering teams.",
@@ -43,9 +43,9 @@
       "location": "Seattle, WA",
       "title": "Manager Developer Documentation",
       "industry": "Tech - Cloud Computing",
-      "startDate": "2025-01-01T00:00:00.000Z",
+      "startDate": "2025-01-01",
       "endDate": null,
-      "summary": "Lead a team of six programmer writers building AI-driven, content-as-code documentation system that supports 84,000+ Amazon developers, scaling content quality and contributor experience through automated generation, review tooling, and workflow optimization.",
+      "summary": "Lead a cross-functional team, including six programmer writers and a technical product manager, building AI-driven, content-as-code documentation system that supports 84,000+ Amazon developers, scaling content quality and contributor experience through automated generation, review tooling, and workflow optimization.",
       "organizations": [
         "Software Learning Experience Team",
         "Developer Experience",
@@ -1381,14 +1381,12 @@
       "name": "Adobe Framemaker",
       "roleRelevance": [
         "writing",
-        "engineering"
+        "technical_writing"
       ],
-      "level": "Expert",
+      "level": "Intermediate",
       "rating": 4,
       "yearsOfExperience": 9,
-      "tags": [
-        "tools"
-      ],
+      "tags": [],
       "keywords": [],
       "iconName": null
     },
@@ -1437,6 +1435,34 @@
       ],
       "keywords": [],
       "iconName": null
+    },
+    {
+      "id": "697aa98c55e9503972906ea9",
+      "name": "Astro.js",
+      "roleRelevance": [
+        "technical_writing",
+        "engineering"
+      ],
+      "level": "Beginner",
+      "rating": 3,
+      "yearsOfExperience": 1,
+      "tags": [],
+      "keywords": [],
+      "iconName": null
+    },
+    {
+      "id": "697b91c84c5c5220cfce19a8",
+      "name": "Claude Code",
+      "roleRelevance": [
+        "engineering",
+        "technical_writing"
+      ],
+      "level": "Intermediate",
+      "rating": 3,
+      "yearsOfExperience": 2,
+      "tags": [],
+      "keywords": [],
+      "iconName": "Robot"
     }
   ],
   "projects": [
@@ -1887,10 +1913,10 @@
       "id": "690e223594119982554ec01f",
       "name": "gatsby-plugin-newrelic",
       "type": "software_engineering",
-      "date": "2020-08-01T00:00:00.000Z",
+      "date": "2020-08-01",
       "featured": true,
       "overview": "Gatsby plugin enabling developers to easily add New Relic's Browser agent to their Gatsby sites for tracking frontend performance. Published to NPM with ~20k downloads per week at peak adoption.",
-      "challenge": "Created accessible tooling for Gatsby developers to integrate New Relic's browser monitoring without complex configuration, enabling real-world performance tracking across thousands of Gatsby sites.",
+      "challenge": "Created accessible tooling for Gatsby developers to integrate New Relic's browser monitoring without manual configuration, enabling performance tracking across thousands of Gatsby sites.",
       "approach": null,
       "outcome": "Widely adopted plugin reaching ~20k downloads per week, enabling thousands of Gatsby sites to monitor frontend performance with New Relic",
       "impact": null,
