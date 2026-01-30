@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type { Project, ProjectLink } from "../../../lib/types";
+import type { Project, ProjectLink, ProjectType, RoleType } from "../../../lib/types";
 import { Button, Input, Textarea, Select, Card, CardHeader } from "../ui";
 import Tag from "../ui/Tag";
+import AIChatPanel from "../ai/AIChatPanel";
 
 interface ProjectFormProps {
   initialData?: Project;
@@ -11,28 +12,23 @@ interface ProjectFormProps {
 }
 
 const PROJECT_TYPE_OPTIONS = [
-  { value: "documentation", label: "Documentation" },
-  { value: "web-application", label: "Web Application" },
-  { value: "api", label: "API" },
-  { value: "library", label: "Library/Package" },
-  { value: "tool", label: "Tool/Utility" },
-  { value: "open-source", label: "Open Source" },
-  { value: "content-strategy", label: "Content Strategy" },
-  { value: "developer-experience", label: "Developer Experience" },
+  { value: "technical_writing", label: "Technical Writing" },
+  { value: "software_engineering", label: "Software Engineering" },
+  { value: "leadership", label: "Leadership" },
+  { value: "hybrid", label: "Hybrid" },
 ];
 
 const ROLE_TYPE_OPTIONS = [
-  { value: "software_engineer", label: "Software Engineer" },
-  { value: "engineering_manager", label: "Engineering Manager" },
   { value: "technical_writer", label: "Technical Writer" },
   { value: "technical_writing_manager", label: "Technical Writing Manager" },
+  { value: "software_engineer", label: "Software Engineer" },
+  { value: "engineering_manager", label: "Engineering Manager" },
 ];
 
 const LINK_TYPE_OPTIONS = [
   { value: "github", label: "GitHub" },
-  { value: "demo", label: "Live Demo" },
-  { value: "docs", label: "Documentation" },
-  { value: "article", label: "Article" },
+  { value: "demo", label: "Demo/Live Site" },
+  { value: "writing_sample", label: "Writing Sample" },
   { value: "other", label: "Other" },
 ];
 
@@ -51,33 +47,28 @@ export default function ProjectForm({
     initialData?.keywords || []
   );
   const [newKeyword, setNewKeyword] = useState("");
-  const [roleTypes, setRoleTypes] = useState<string[]>(
-    initialData?.roleTypes || []
-  );
   const [links, setLinks] = useState<ProjectLink[]>(initialData?.links || []);
-  const [newLink, setNewLink] = useState<ProjectLink>({
-    type: "github",
-    url: "",
-    linkText: "",
-  });
+  const [showAIPanel, setShowAIPanel] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       name: initialData?.name || "",
-      type: initialData?.type || "",
+      type: initialData?.type || "technical_writing",
       date: initialData?.date
         ? new Date(initialData.date).toISOString().split("T")[0]
         : "",
+      featured: initialData?.featured || false,
       overview: initialData?.overview || "",
       challenge: initialData?.challenge || "",
       approach: initialData?.approach || "",
       outcome: initialData?.outcome || "",
       impact: initialData?.impact || "",
-      featured: initialData?.featured || false,
+      roleTypes: initialData?.roleTypes || [],
     },
   });
 
@@ -88,8 +79,9 @@ export default function ProjectForm({
     try {
       const projectData: Partial<Project> = {
         name: data.name,
-        type: data.type,
+        type: data.type as ProjectType,
         date: data.date || undefined,
+        featured: data.featured,
         overview: data.overview,
         challenge: data.challenge || undefined,
         approach: data.approach || undefined,
@@ -97,9 +89,8 @@ export default function ProjectForm({
         impact: data.impact || undefined,
         technologies,
         keywords,
-        roleTypes,
-        links: links.filter((l) => l.url),
-        featured: data.featured,
+        links,
+        roleTypes: data.roleTypes,
       };
 
       await onSubmit(projectData);
@@ -116,8 +107,8 @@ export default function ProjectForm({
     }
   };
 
-  const removeTechnology = (index: number) => {
-    setTechnologies(technologies.filter((_, i) => i !== index));
+  const removeTechnology = (tech: string) => {
+    setTechnologies(technologies.filter((t) => t !== tech));
   };
 
   const addKeyword = () => {
@@ -127,27 +118,32 @@ export default function ProjectForm({
     }
   };
 
-  const removeKeyword = (index: number) => {
-    setKeywords(keywords.filter((_, i) => i !== index));
-  };
-
-  const toggleRoleType = (roleType: string) => {
-    setRoleTypes((prev) =>
-      prev.includes(roleType)
-        ? prev.filter((r) => r !== roleType)
-        : [...prev, roleType]
-    );
+  const removeKeyword = (keyword: string) => {
+    setKeywords(keywords.filter((k) => k !== keyword));
   };
 
   const addLink = () => {
-    if (newLink.url.trim()) {
-      setLinks([...links, { ...newLink }]);
-      setNewLink({ type: "github", url: "", linkText: "" });
-    }
+    setLinks([...links, { url: "", linkText: "", type: "github" }]);
+  };
+
+  const updateLink = (index: number, field: string, value: string) => {
+    const updated = [...links];
+    updated[index] = { ...updated[index], [field]: value };
+    setLinks(updated);
   };
 
   const removeLink = (index: number) => {
     setLinks(links.filter((_, i) => i !== index));
+  };
+
+  const getCurrentProjectData = () => {
+    const formData = watch();
+    return {
+      ...formData,
+      technologies,
+      keywords,
+      links,
+    };
   };
 
   return (
@@ -238,7 +234,7 @@ export default function ProjectForm({
       {/* Role Types */}
       <Card>
         <CardHeader
-          title="Role Types"
+          title="Relevant Role Types"
           description="Which career tracks does this project showcase?"
         />
 
@@ -250,14 +246,22 @@ export default function ProjectForm({
             >
               <input
                 type="checkbox"
-                checked={roleTypes.includes(role.value)}
-                onChange={() => toggleRoleType(role.value)}
+                value={role.value}
+                {...register("roleTypes", {
+                  required: "Select at least one role type",
+                })}
+                disabled={isSubmitting}
                 className="w-4 h-4 rounded border-dark-border bg-dark-layer text-accent-blue focus:ring-accent-blue focus:ring-offset-dark-base"
               />
               <span className="text-text-primary">{role.label}</span>
             </label>
           ))}
         </div>
+        {errors.roleTypes && (
+          <span className="text-red-400 text-sm mt-2 block">
+            {errors.roleTypes.message}
+          </span>
+        )}
       </Card>
 
       {/* Technologies */}
@@ -289,11 +293,16 @@ export default function ProjectForm({
         {technologies.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {technologies.map((tech, index) => (
-              <Tag key={index} onRemove={() => removeTechnology(index)}>
+              <Tag key={index} onRemove={() => removeTechnology(tech)}>
                 {tech}
               </Tag>
             ))}
           </div>
+        )}
+        {technologies.length === 0 && (
+          <span className="text-red-400 text-sm">
+            At least one technology is required
+          </span>
         )}
       </Card>
 
@@ -323,7 +332,7 @@ export default function ProjectForm({
         {keywords.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {keywords.map((keyword, index) => (
-              <Tag key={index} onRemove={() => removeKeyword(index)}>
+              <Tag key={index} onRemove={() => removeKeyword(keyword)}>
                 {keyword}
               </Tag>
             ))}
@@ -333,59 +342,82 @@ export default function ProjectForm({
 
       {/* Links */}
       <Card>
-        <CardHeader title="Project Links" description="Add links to demos, repos, or documentation" />
+        <CardHeader title="Project Links (Optional)" />
 
-        <div className="flex flex-wrap gap-2 mb-4">
-          <Select
-            options={LINK_TYPE_OPTIONS}
-            value={newLink.type}
-            onChange={(e) => setNewLink({ ...newLink, type: e.target.value })}
-            className="w-32"
-          />
-          <input
-            type="url"
-            value={newLink.url}
-            onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
-            placeholder="URL"
-            className="flex-1 min-w-[200px] px-4 py-2 bg-dark-layer border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue"
-          />
-          <input
-            type="text"
-            value={newLink.linkText || ""}
-            onChange={(e) => setNewLink({ ...newLink, linkText: e.target.value })}
-            placeholder="Link text (optional)"
-            className="w-40 px-4 py-2 bg-dark-layer border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue"
-          />
-          <Button type="button" variant="secondary" onClick={addLink}>
-            Add
-          </Button>
-        </div>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={addLink}
+          disabled={isSubmitting}
+          className="mb-4"
+        >
+          + Add Link
+        </Button>
 
-        {links.length > 0 && (
-          <ul className="space-y-2">
-            {links.map((link, index) => (
-              <li
-                key={index}
-                className="flex items-center gap-3 p-3 bg-dark-layer rounded-lg"
-              >
-                <span className="text-accent-blue font-medium capitalize">{link.type}</span>
-                <span className="flex-1 text-text-primary truncate">{link.url}</span>
-                {link.linkText && (
-                  <span className="text-text-muted">({link.linkText})</span>
-                )}
-                <button
-                  type="button"
-                  onClick={() => removeLink(index)}
-                  className="text-text-muted hover:text-red-400 transition-colors"
+        {links.map((link, idx) => (
+          <div
+            key={idx}
+            className="p-4 mb-4 bg-dark-layer border border-dark-border rounded-lg space-y-4"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-text-secondary mb-1">
+                  Type
+                </label>
+                <select
+                  value={link.type}
+                  onChange={(e) => updateLink(idx, "type", e.target.value)}
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 bg-dark-card border border-dark-border rounded-lg text-text-primary focus:outline-none focus:border-accent-blue"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+                  {LINK_TYPE_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-text-secondary mb-1">
+                  URL
+                </label>
+                <input
+                  type="url"
+                  value={link.url}
+                  onChange={(e) => updateLink(idx, "url", e.target.value)}
+                  placeholder="https://..."
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 bg-dark-card border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-1">
+                Link Text
+              </label>
+              <input
+                type="text"
+                value={link.linkText || ""}
+                onChange={(e) => updateLink(idx, "linkText", e.target.value)}
+                placeholder="e.g., View on GitHub, Read the docs"
+                disabled={isSubmitting}
+                className="w-full px-4 py-2 bg-dark-card border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue"
+              />
+            </div>
+
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => removeLink(idx)}
+              disabled={isSubmitting}
+              className="text-red-400 hover:text-red-300"
+            >
+              Remove Link
+            </Button>
+          </div>
+        ))}
       </Card>
 
       {/* Display Options */}
@@ -404,13 +436,55 @@ export default function ProjectForm({
 
       {/* Form Actions */}
       <div className="flex justify-end gap-4 pt-4 border-t border-dark-border">
-        <Button type="button" variant="secondary" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onCancel}
+          disabled={isSubmitting}
+        >
           Cancel
         </Button>
-        <Button type="submit" isLoading={isSubmitting}>
-          {isSubmitting ? "Saving..." : "Save Project"}
+        <Button
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={isSubmitting || technologies.length === 0}
+        >
+          {isSubmitting
+            ? "Saving..."
+            : initialData
+            ? "Update Project"
+            : "Create Project"}
         </Button>
       </div>
+
+      {/* Floating AI Assistant Button */}
+      <button
+        type="button"
+        onClick={() => setShowAIPanel(true)}
+        className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-full shadow-lg transition-colors z-40"
+        disabled={isSubmitting}
+        title="Open AI Writing Assistant"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        Ask AI
+      </button>
+
+      {/* AI Chat Panel */}
+      <AIChatPanel
+        isOpen={showAIPanel}
+        onClose={() => setShowAIPanel(false)}
+        contextData={getCurrentProjectData()}
+        contextLabel="Project Form Data"
+      />
     </form>
   );
 }
