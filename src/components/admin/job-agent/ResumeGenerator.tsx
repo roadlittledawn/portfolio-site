@@ -1,0 +1,224 @@
+import { useState } from 'react';
+import { marked } from 'marked';
+import type { JobType } from '../../../lib/job-agent-prompts';
+import { getAuthToken } from '../../../lib/auth';
+import { Button, Card, CardHeader, Textarea } from '../ui';
+
+interface ResumeGeneratorProps {
+  jobInfo: {
+    description: string;
+    jobType: JobType;
+    companyName?: string;
+    url?: string;
+  };
+  onResumeGenerated: (resume: string) => void;
+  onBack: () => void;
+}
+
+export default function ResumeGenerator({
+  jobInfo,
+  onResumeGenerated,
+  onBack,
+}: ResumeGeneratorProps) {
+  const [resume, setResume] = useState<string>('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [additionalContext, setAdditionalContext] = useState('');
+  const [showAdditionalContext, setShowAdditionalContext] = useState(false);
+
+  const generateResume = async () => {
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      const token = getAuthToken();
+      if (!token) {
+        throw new Error('Not authenticated');
+      }
+
+      const messages = [
+        {
+          role: 'user' as const,
+          content: `Please generate a tailored resume for the following job:
+
+**Job Type:** ${jobInfo.jobType.replace(/-/g, ' ')}
+${jobInfo.companyName ? `**Company:** ${jobInfo.companyName}` : ''}
+
+**Job Description:**
+${jobInfo.description}
+
+${additionalContext ? `**Additional Context:**\n${additionalContext}` : ''}
+
+Please tailor my resume to highlight the most relevant experiences, skills, and achievements for this position. Output the resume in clean markdown format.`,
+        },
+      ];
+
+      const response = await fetch('/.netlify/functions/ai-assistant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          messages,
+          context: {
+            editingContext: {
+              collection: 'resume',
+              roleType: jobInfo.jobType.replace(/-/g, '_'),
+            },
+            profileSummary: {
+              name: 'User',
+              positioning: '',
+              valueProps: [],
+            },
+          },
+          options: {
+            maxTokens: 4000,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate resume');
+      }
+
+      const data = await response.json();
+      setResume(data.message.content);
+      onResumeGenerated(data.message.content);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to generate resume');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const downloadResume = () => {
+    const blob = new Blob([resume], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `resume-${jobInfo.jobType}-${Date.now()}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(resume);
+      alert('Resume copied to clipboard!');
+    } catch {
+      // Fallback
+      const textArea = document.createElement('textarea');
+      textArea.value = resume;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('Resume copied to clipboard!');
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader
+        title="Tailored Resume"
+        description={`Generating resume for ${jobInfo.jobType.replace(/-/g, ' ')} position${jobInfo.companyName ? ` at ${jobInfo.companyName}` : ''}`}
+        actions={
+          <Button variant="ghost" size="sm" onClick={onBack}>
+            Back to Job Info
+          </Button>
+        }
+      />
+
+      {error && (
+        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400">
+          {error}
+        </div>
+      )}
+
+      {!resume && (
+        <div className="space-y-6">
+          <div>
+            <button
+              onClick={() => setShowAdditionalContext(!showAdditionalContext)}
+              className="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <svg
+                className={`w-4 h-4 transition-transform ${showAdditionalContext ? 'rotate-90' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+              </svg>
+              Add additional context (optional)
+            </button>
+
+            {showAdditionalContext && (
+              <Textarea
+                className="mt-3"
+                value={additionalContext}
+                onChange={(e) => setAdditionalContext(e.target.value)}
+                placeholder="Any specific skills, projects, or achievements you want to highlight..."
+                rows={4}
+              />
+            )}
+          </div>
+
+          <div className="flex justify-center">
+            <Button onClick={generateResume} isLoading={isGenerating} size="lg">
+              {isGenerating ? 'Generating Resume...' : 'Generate Tailored Resume'}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {resume && (
+        <div className="space-y-6">
+          {/* Actions */}
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={downloadResume} variant="secondary">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download Markdown
+            </Button>
+            <Button onClick={copyToClipboard} variant="secondary">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Copy to Clipboard
+            </Button>
+            <Button onClick={() => setResume('')} variant="ghost">
+              Regenerate
+            </Button>
+          </div>
+
+          {/* Preview */}
+          <div className="border border-dark-border rounded-lg overflow-hidden">
+            <div className="px-4 py-2 bg-dark-layer border-b border-dark-border">
+              <span className="text-sm font-medium text-text-secondary">Preview</span>
+            </div>
+            <div
+              className="p-6 bg-white text-gray-900 prose prose-sm max-w-none overflow-auto max-h-[600px]"
+              dangerouslySetInnerHTML={{ __html: marked(resume) }}
+            />
+          </div>
+
+          {/* Raw Markdown */}
+          <details>
+            <summary className="text-sm text-text-secondary hover:text-text-primary cursor-pointer">
+              View Raw Markdown
+            </summary>
+            <pre className="mt-2 p-4 bg-dark-layer rounded-lg text-sm text-text-primary overflow-auto max-h-96">
+              {resume}
+            </pre>
+          </details>
+        </div>
+      )}
+    </Card>
+  );
+}
