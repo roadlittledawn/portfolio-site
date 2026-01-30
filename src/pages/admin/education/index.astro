@@ -1,0 +1,57 @@
+---
+// Education management page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Education | Career Admin">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-text-primary">Education</h1>
+        <p class="text-text-secondary mt-1">Manage your educational background</p>
+      </div>
+      <a
+        href="/admin/education/new"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Add Education
+      </a>
+    </div>
+
+    <div id="education-list">
+      <div class="flex items-center justify-center py-12">
+        <div class="text-text-secondary">Loading education...</div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  import { verifyToken } from "../../../lib/auth";
+
+  async function init() {
+    const result = await verifyToken();
+    if (!result.valid) {
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    const container = document.getElementById("education-list");
+    if (container) {
+      container.innerHTML = `
+        <div class="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
+          <p class="text-text-secondary mb-4">Education list will be loaded from the GraphQL API</p>
+          <a href="/admin/education/new" class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors">
+            Add First Education
+          </a>
+        </div>
+      `;
+    }
+  }
+
+  init();
+</script>

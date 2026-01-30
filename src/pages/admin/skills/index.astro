@@ -1,0 +1,60 @@
+---
+// Skills management page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Skills | Career Admin">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-text-primary">Skills</h1>
+        <p class="text-text-secondary mt-1">Manage your technical skills</p>
+      </div>
+      <a
+        href="/admin/skills/new"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Add Skill
+      </a>
+    </div>
+
+    <div id="skills-list">
+      <div class="flex items-center justify-center py-12">
+        <div class="text-text-secondary">Loading skills...</div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  import { verifyToken, getAuthHeader } from "../../../lib/auth";
+
+  async function init() {
+    // Check auth
+    const result = await verifyToken();
+    if (!result.valid) {
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    // TODO: Load skills from API and render list
+    // For now, show placeholder
+    const container = document.getElementById("skills-list");
+    if (container) {
+      container.innerHTML = `
+        <div class="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
+          <p class="text-text-secondary mb-4">Skills list will be loaded from the GraphQL API</p>
+          <a href="/admin/skills/new" class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors">
+            Add First Skill
+          </a>
+        </div>
+      `;
+    }
+  }
+
+  init();
+</script>

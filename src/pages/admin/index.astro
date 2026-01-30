@@ -1,0 +1,158 @@
+---
+// Admin dashboard page
+export const prerender = false;
+import AdminLayout from "../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Dashboard | Career Admin">
+  <div class="space-y-8">
+    <div>
+      <h1 class="text-3xl font-bold text-text-primary">Dashboard</h1>
+      <p class="text-text-secondary mt-2">Manage your career data</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a
+        href="/admin/experiences"
+        class="p-6 bg-dark-card border border-dark-border rounded-lg hover:border-accent-blue transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-accent-blue/20 rounded-lg">
+            <svg class="w-6 h-6 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">Experiences</h3>
+            <p class="text-sm text-text-muted">Manage work history</p>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="/admin/skills"
+        class="p-6 bg-dark-card border border-dark-border rounded-lg hover:border-accent-blue transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-accent-green/20 rounded-lg">
+            <svg class="w-6 h-6 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">Skills</h3>
+            <p class="text-sm text-text-muted">Manage technical skills</p>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="/admin/projects"
+        class="p-6 bg-dark-card border border-dark-border rounded-lg hover:border-accent-blue transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-accent-amber/20 rounded-lg">
+            <svg class="w-6 h-6 text-accent-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">Projects</h3>
+            <p class="text-sm text-text-muted">Manage portfolio projects</p>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="/admin/profile"
+        class="p-6 bg-dark-card border border-dark-border rounded-lg hover:border-accent-blue transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-accent-purple/20 rounded-lg">
+            <svg class="w-6 h-6 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">Profile</h3>
+            <p class="text-sm text-text-muted">Edit personal info</p>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="/admin/education"
+        class="p-6 bg-dark-card border border-dark-border rounded-lg hover:border-accent-blue transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-accent-pink/20 rounded-lg">
+            <svg class="w-6 h-6 text-accent-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">Education</h3>
+            <p class="text-sm text-text-muted">Manage education history</p>
+          </div>
+        </div>
+      </a>
+
+      <a
+        href="/admin/job-agent"
+        class="p-6 bg-dark-card border border-dark-border rounded-lg hover:border-accent-blue transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-accent-blue/20 rounded-lg">
+            <svg class="w-6 h-6 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-text-primary group-hover:text-accent-blue transition-colors">Job Agent</h3>
+            <p class="text-sm text-text-muted">Generate tailored resumes</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Recent Activity / Stats could go here -->
+    <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
+      <h2 class="text-xl font-semibold text-text-primary mb-4">Quick Tips</h2>
+      <ul class="space-y-3 text-text-secondary">
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Keep your experiences updated with quantifiable achievements</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Use the Job Agent to generate tailored resumes and cover letters</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Mark your best skills and projects as "Featured" for visibility</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  // Check auth on page load
+  import { verifyToken } from "../../lib/auth";
+
+  async function checkAuth() {
+    const result = await verifyToken();
+    if (!result.valid) {
+      window.location.href = "/admin/login";
+    }
+  }
+
+  checkAuth();
+</script>

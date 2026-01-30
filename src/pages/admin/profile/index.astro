@@ -1,0 +1,67 @@
+---
+// Profile management page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Profile | Career Admin">
+  <div class="space-y-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-text-primary">Profile</h1>
+        <p class="text-text-secondary mt-1">Manage your personal information and positioning</p>
+      </div>
+      <a
+        href="/admin/profile/edit"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+        Edit Profile
+      </a>
+    </div>
+
+    <div id="profile-view">
+      <div class="flex items-center justify-center py-12">
+        <div class="text-text-secondary">Loading profile...</div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  import { verifyToken } from "../../../lib/auth";
+
+  async function init() {
+    const result = await verifyToken();
+    if (!result.valid) {
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    const container = document.getElementById("profile-view");
+    if (container) {
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
+            <h2 class="text-xl font-semibold text-text-primary mb-4">Personal Information</h2>
+            <p class="text-text-secondary">Profile data will be loaded from the GraphQL API</p>
+          </div>
+
+          <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
+            <h2 class="text-xl font-semibold text-text-primary mb-4">Positioning</h2>
+            <p class="text-text-secondary">Career positioning statements by role type</p>
+          </div>
+
+          <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
+            <h2 class="text-xl font-semibold text-text-primary mb-4">Value Propositions</h2>
+            <p class="text-text-secondary">Key value propositions and unique selling points</p>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  init();
+</script>
