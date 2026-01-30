@@ -4,6 +4,7 @@ import { ViewTransitions } from "astro:transitions";
 import Icon from '../components/Icon.astro';
 import MobileNav from '../components/MobileNav.astro';
 import ScrabbleLogo from '../components/ScrabbleLogo.astro';
+import NavLink from '../components/NavLink.astro';
 
 export interface Props {
   title: string;
@@ -32,56 +33,11 @@ const currentPath = Astro.url.pathname;
           </a>
           <!-- Desktop Navigation (hidden on mobile) -->
           <div class="hidden md:flex items-center gap-1 sm:gap-2">
-            <a 
-              href="/skills" 
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                currentPath === '/skills' 
-                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
-                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
-              }`}
-            >
-              Skills
-            </a>
-            <a 
-              href="/projects" 
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                currentPath === '/projects' 
-                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
-                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
-              }`}
-            >
-              Projects
-            </a>
-            <a 
-              href="/experience" 
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                currentPath === '/experience' 
-                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
-                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
-              }`}
-            >
-              Experience
-            </a>
-            <a 
-              href="/technical-writing" 
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                currentPath === '/technical-writing' 
-                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
-                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
-              }`}
-            >
-              Technical Writing
-            </a>
-            <a 
-              href="/software-engineering" 
-              class={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                currentPath === '/software-engineering' 
-                  ? 'bg-accent-blue bg-opacity-20 text-accent-blue' 
-                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
-              }`}
-            >
-              Software Engineering
-            </a>
+            <NavLink href="/skills" currentPath={currentPath}>Skills</NavLink>
+            <NavLink href="/projects" currentPath={currentPath}>Projects</NavLink>
+            <NavLink href="/experience" currentPath={currentPath}>Experience</NavLink>
+            <NavLink href="/technical-writing" currentPath={currentPath}>Technical Writing</NavLink>
+            <NavLink href="/software-engineering" currentPath={currentPath}>Software Engineering</NavLink>
             <div class="flex items-center gap-2 ml-4 pl-4 border-l border-dark-border">
               <a 
                 href="https://github.com/roadlittledawn" 
