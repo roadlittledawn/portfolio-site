@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { createContext, useState, useEffect, useCallback, useContext, type ReactNode } from 'react';
 import type { AuthUser } from '../../lib/auth';
 import * as auth from '../../lib/auth';
 
@@ -108,11 +108,9 @@ export default function AuthProvider({ children, onAuthChange }: AuthProviderPro
 
 // Hook to use auth context
 export function useAuth() {
-  const context = React.useContext(AuthContext);
+  const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }
-
-import React from 'react';
