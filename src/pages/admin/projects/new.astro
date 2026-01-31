@@ -1,8 +1,7 @@
 ---
-// New project page
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { ProjectForm } from "../../../components/admin/forms";
+import { ProjectEditPage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="New Project | Career Admin">
@@ -22,16 +21,7 @@ import { ProjectForm } from "../../../components/admin/forms";
       </div>
     </div>
 
-    <ProjectForm
-      client:only="react"
-      onSubmit={async (data) => {
-        console.log('Submitting project:', data);
-        window.location.href = '/admin/projects';
-      }}
-      onCancel={() => {
-        window.location.href = '/admin/projects';
-      }}
-    />
+    <ProjectEditPage client:only="react" />
   </div>
 </AdminLayout>
 

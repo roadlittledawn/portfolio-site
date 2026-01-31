@@ -2,6 +2,7 @@
 // Skills management page
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { SkillsPage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="Skills | Career Admin">
@@ -22,39 +23,19 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
       </a>
     </div>
 
-    <div id="skills-list">
-      <div class="flex items-center justify-center py-12">
-        <div class="text-text-secondary">Loading skills...</div>
-      </div>
-    </div>
+    <SkillsPage client:only="react" />
   </div>
 </AdminLayout>
 
 <script>
-  import { verifyToken, getAuthHeader } from "../../../lib/auth";
+  import { verifyToken } from "../../../lib/auth";
 
-  async function init() {
-    // Check auth
+  async function checkAuth() {
     const result = await verifyToken();
     if (!result.valid) {
       window.location.href = "/admin/login";
-      return;
-    }
-
-    // TODO: Load skills from API and render list
-    // For now, show placeholder
-    const container = document.getElementById("skills-list");
-    if (container) {
-      container.innerHTML = `
-        <div class="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
-          <p class="text-text-secondary mb-4">Skills list will be loaded from the GraphQL API</p>
-          <a href="/admin/skills/new" class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors">
-            Add First Skill
-          </a>
-        </div>
-      `;
     }
   }
 
-  init();
+  checkAuth();
 </script>

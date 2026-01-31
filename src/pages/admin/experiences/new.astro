@@ -1,8 +1,7 @@
 ---
-// New experience page
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { ExperienceForm } from "../../../components/admin/forms";
+import { ExperienceEditPage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="New Experience | Career Admin">
@@ -22,16 +21,7 @@ import { ExperienceForm } from "../../../components/admin/forms";
       </div>
     </div>
 
-    <ExperienceForm
-      client:only="react"
-      onSubmit={async (data) => {
-        console.log('Submitting experience:', data);
-        window.location.href = '/admin/experiences';
-      }}
-      onCancel={() => {
-        window.location.href = '/admin/experiences';
-      }}
-    />
+    <ExperienceEditPage client:only="react" />
   </div>
 </AdminLayout>
 

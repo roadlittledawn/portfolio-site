@@ -2,6 +2,7 @@
 // Profile management page
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { ProfilePage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="Profile | Career Admin">
@@ -22,46 +23,19 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
       </a>
     </div>
 
-    <div id="profile-view">
-      <div class="flex items-center justify-center py-12">
-        <div class="text-text-secondary">Loading profile...</div>
-      </div>
-    </div>
+    <ProfilePage client:only="react" />
   </div>
 </AdminLayout>
 
 <script>
   import { verifyToken } from "../../../lib/auth";
 
-  async function init() {
+  async function checkAuth() {
     const result = await verifyToken();
     if (!result.valid) {
       window.location.href = "/admin/login";
-      return;
-    }
-
-    const container = document.getElementById("profile-view");
-    if (container) {
-      container.innerHTML = `
-        <div class="space-y-6">
-          <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
-            <h2 class="text-xl font-semibold text-text-primary mb-4">Personal Information</h2>
-            <p class="text-text-secondary">Profile data will be loaded from the GraphQL API</p>
-          </div>
-
-          <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
-            <h2 class="text-xl font-semibold text-text-primary mb-4">Positioning</h2>
-            <p class="text-text-secondary">Career positioning statements by role type</p>
-          </div>
-
-          <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
-            <h2 class="text-xl font-semibold text-text-primary mb-4">Value Propositions</h2>
-            <p class="text-text-secondary">Key value propositions and unique selling points</p>
-          </div>
-        </div>
-      `;
     }
   }
 
-  init();
+  checkAuth();
 </script>

@@ -1,8 +1,7 @@
 ---
-// New skill page
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
-import { SkillsForm } from "../../../components/admin/forms";
+import { SkillEditPage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="New Skill | Career Admin">
@@ -22,19 +21,7 @@ import { SkillsForm } from "../../../components/admin/forms";
       </div>
     </div>
 
-    <div id="skill-form-container">
-      <SkillsForm
-        client:only="react"
-        onSubmit={async (data) => {
-          console.log('Submitting skill:', data);
-          // TODO: Submit to GraphQL API
-          window.location.href = '/admin/skills';
-        }}
-        onCancel={() => {
-          window.location.href = '/admin/skills';
-        }}
-      />
-    </div>
+    <SkillEditPage client:only="react" />
   </div>
 </AdminLayout>
 

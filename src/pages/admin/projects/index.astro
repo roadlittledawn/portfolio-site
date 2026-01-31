@@ -2,6 +2,7 @@
 // Projects management page
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { ProjectsPage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="Projects | Career Admin">
@@ -22,36 +23,19 @@ import AdminLayout from "../../../layouts/AdminLayout.astro";
       </a>
     </div>
 
-    <div id="projects-list">
-      <div class="flex items-center justify-center py-12">
-        <div class="text-text-secondary">Loading projects...</div>
-      </div>
-    </div>
+    <ProjectsPage client:only="react" />
   </div>
 </AdminLayout>
 
 <script>
   import { verifyToken } from "../../../lib/auth";
 
-  async function init() {
+  async function checkAuth() {
     const result = await verifyToken();
     if (!result.valid) {
       window.location.href = "/admin/login";
-      return;
-    }
-
-    const container = document.getElementById("projects-list");
-    if (container) {
-      container.innerHTML = `
-        <div class="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
-          <p class="text-text-secondary mb-4">Projects list will be loaded from the GraphQL API</p>
-          <a href="/admin/projects/new" class="inline-flex items-center gap-2 px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors">
-            Add First Project
-          </a>
-        </div>
-      `;
     }
   }
 
-  init();
+  checkAuth();
 </script>
