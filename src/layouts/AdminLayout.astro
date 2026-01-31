@@ -2,8 +2,11 @@
 /**
  * AdminLayout Component
  * Layout wrapper for admin pages with dark theme and sidebar navigation
+ *
+ * Note: ViewTransitions is intentionally NOT used here because:
+ * 1. Netlify sets X-Frame-Options: DENY which blocks the iframe-based transitions
+ * 2. Admin CRUD pages work better with full page reloads for form submissions
  */
-import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
   title: string;
@@ -36,7 +39,6 @@ function isActive(href: string): boolean {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
-    <ViewTransitions />
   </head>
   <body class="font-sans text-text-primary bg-dark-base min-h-screen">
     <!-- Admin Header -->
