@@ -11,8 +11,8 @@
   timeout = 60
 
 [dev]
-  command = "npm run dev"
-  port = 8888
+  command = "npm run dev:astro"
+  port = 8080
   targetPort = 4321
   functionsPort = 9999
   autoLaunch = false

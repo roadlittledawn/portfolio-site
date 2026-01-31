@@ -1,5 +1,5 @@
-const Anthropic = require('@anthropic-ai/sdk');
-const jwt = require('jsonwebtoken');
+import Anthropic from '@anthropic-ai/sdk';
+import jwt from 'jsonwebtoken';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -9,7 +9,7 @@ const anthropic = new Anthropic({
  * AI Writing Assistant Netlify Function
  * Proxies requests to Claude API with career data context
  */
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -46,7 +46,7 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { messages, context, options = {} } = JSON.parse(event.body);
+    const { messages, context: aiContext, options = {} } = JSON.parse(event.body);
 
     // Validate required fields
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -57,7 +57,7 @@ exports.handler = async (event, context) => {
       };
     }
 
-    if (!context || !context.editingContext) {
+    if (!aiContext || !aiContext.editingContext) {
       return {
         statusCode: 400,
         headers,
@@ -66,7 +66,7 @@ exports.handler = async (event, context) => {
     }
 
     // Build system prompt with context
-    const systemPrompt = buildSystemPrompt(context);
+    const systemPrompt = buildSystemPrompt(aiContext);
 
     // Call Claude API
     const claudeOptions = {
