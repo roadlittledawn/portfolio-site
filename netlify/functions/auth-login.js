@@ -41,12 +41,12 @@ export const handler = async (event, context) => {
       };
     }
 
-    // Check username
-    const adminUsername = process.env.ADMIN_USERNAME || "admin";
+    // Check credentials from environment
+    const adminUsername = process.env.ADMIN_USERNAME;
     const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
-    if (!adminPasswordHash) {
-      console.error("ADMIN_PASSWORD_HASH not configured");
+    if (!adminUsername || !adminPasswordHash) {
+      console.error("ADMIN_USERNAME or ADMIN_PASSWORD_HASH not configured");
       return {
         statusCode: 500,
         headers,

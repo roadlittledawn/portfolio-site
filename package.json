@@ -10,7 +10,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "sync-data": "node --env-file=.env scripts/sync-career-data.js",
-    "sync-data:ci": "node scripts/sync-career-data.js"
+    "sync-data:ci": "node scripts/sync-career-data.js",
+    "generate-secrets": "node scripts/generate-auth-secrets.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
