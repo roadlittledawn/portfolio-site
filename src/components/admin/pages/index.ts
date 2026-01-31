@@ -1,1 +1,15 @@
 export { default as JobAgentPage } from './JobAgentPage';
+export { default as ExperiencesPage } from './ExperiencesPage';
+export { default as ExperienceDetailPage } from './ExperienceDetailPage';
+export { default as ExperienceEditPage } from './ExperienceEditPage';
+export { default as SkillsPage } from './SkillsPage';
+export { default as SkillDetailPage } from './SkillDetailPage';
+export { default as SkillEditPage } from './SkillEditPage';
+export { default as ProjectsPage } from './ProjectsPage';
+export { default as ProjectDetailPage } from './ProjectDetailPage';
+export { default as ProjectEditPage } from './ProjectEditPage';
+export { default as ProfilePage } from './ProfilePage';
+export { default as ProfileEditPage } from './ProfileEditPage';
+export { default as EducationPage } from './EducationPage';
+export { default as EducationDetailPage } from './EducationDetailPage';
+export { default as EducationEditPage } from './EducationEditPage';
