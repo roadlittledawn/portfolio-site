@@ -112,8 +112,6 @@ export interface Education {
   degree: string;
   field: string;
   graduationYear: number;
-  relevantCoursework: string[];
-  displayOrder?: number;
   createdAt: string;
   updatedAt: string;
 }
