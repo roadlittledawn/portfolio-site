@@ -117,14 +117,18 @@ export default function RoleLandingPageContent({
 
     const skills = data.skills
       .filter((skill) =>
-        skill.roleRelevance?.some((r) => roleFilters.includes(r)),
+        skill.roleRelevance?.some(
+          (r) => roleFilters.includes(r) && skill.featured,
+        ),
       )
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 12);
 
     const projects = data.projects
       .filter((project) =>
-        project.roleTypes?.some((r) => roleFilters.includes(r)),
+        project.roleTypes?.some(
+          (r) => roleFilters.includes(r) && project.featured,
+        ),
       )
       .filter((project) => project.featured);
 
