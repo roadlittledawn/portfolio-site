@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { SKILL_QUERY, DELETE_SKILL_MUTATION } from '../../../lib/graphql/queries';
+import { SKILL_QUERY, DELETE_SKILL_MUTATION } from '../../../lib/graphql';
 import type { Skill } from '../../../lib/types';
 import { Button, Card, Badge, LevelBadge } from '../ui';
 import { ConfirmModal } from '../ui/Modal';

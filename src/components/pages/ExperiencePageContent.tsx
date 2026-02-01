@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../lib/graphql-client';
-import { EXPERIENCES_QUERY } from '../../lib/graphql/queries';
+import { EXPERIENCES_QUERY } from '../../lib/graphql';
 import type { Experience } from '../../lib/types';
 
 interface ExperiencesResponse {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getGraphQLClient } from '../../lib/graphql-client';
-import { SKILLS_QUERY } from '../../lib/graphql/queries';
+import { SKILLS_QUERY } from '../../lib/graphql';
 import type { Skill } from '../../lib/types';
 
 interface SkillsResponse {

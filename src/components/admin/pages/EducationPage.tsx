@@ -1,20 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { EDUCATIONS_QUERY, DELETE_EDUCATION_MUTATION } from '../../../lib/graphql/queries';
-import type { Education } from '../../../lib/types';
-import { Button, Card } from '../ui';
+import { EDUCATIONS_QUERY, DELETE_EDUCATION_MUTATION } from '../../../lib/graphql';
+import type { Education, EducationsResponse, DeleteEducationResponse } from '../../../lib/types';
+import { Button, Card, ErrorState, LoadingState, EmptyState } from '../ui';
 import { ConfirmModal } from '../ui/Modal';
-
-interface EducationsResponse {
-  educations: Education[];
-}
-
-interface DeleteResponse {
-  deleteEducation: {
-    success: boolean;
-    id: string;
-  };
-}
 
 export default function EducationPage() {
   const [educations, setEducations] = useState<Education[]>([]);
@@ -51,7 +40,7 @@ export default function EducationPage() {
     setIsDeleting(true);
     try {
       const client = getGraphQLClient();
-      await client.request<DeleteResponse>(DELETE_EDUCATION_MUTATION, { id: deleteId });
+      await client.request<DeleteEducationResponse>(DELETE_EDUCATION_MUTATION, { id: deleteId });
       setEducations(educations.filter(e => e.id !== deleteId));
     } catch (err) {
       console.error('Failed to delete education:', err);
@@ -62,35 +51,23 @@ export default function EducationPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-text-secondary">Loading education...</div>
-      </div>
-    );
+    return <LoadingState message="Loading education..." />;
   }
 
   if (error) {
-    return (
-      <div className="p-6 bg-red-900/20 border border-red-500/50 rounded-lg text-center">
-        <p className="text-red-400 mb-4">{error}</p>
-        <button
-          onClick={fetchEducations}
-          className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
-        >
-          Retry
-        </button>
-      </div>
-    );
+    return <ErrorState message={error} onRetry={fetchEducations} />;
   }
 
   if (educations.length === 0) {
     return (
-      <Card padding="lg" className="text-center">
-        <p className="text-text-secondary mb-4">No education entries found</p>
-        <Button onClick={() => (window.location.href = "/admin/education/new")}>
-          Add First Education
-        </Button>
-      </Card>
+      <EmptyState
+        title="No education entries found"
+        description="Add your educational background to get started."
+        action={{
+          label: "Add First Education",
+          href: "/admin/education/new"
+        }}
+      />
     );
   }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { PROFILE_QUERY } from '../../../lib/graphql/queries';
+import { PROFILE_QUERY } from '../../../lib/graphql';
 import type { Profile } from '../../../lib/types';
 import { Card } from '../ui';
 

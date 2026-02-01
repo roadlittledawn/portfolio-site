@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { PROFILE_QUERY, UPDATE_PROFILE_MUTATION } from '../../../lib/graphql/queries';
+import { PROFILE_QUERY, UPDATE_PROFILE_MUTATION } from '../../../lib/graphql';
 import type { Profile } from '../../../lib/types';
 import ProfileForm from '../forms/ProfileForm';
 

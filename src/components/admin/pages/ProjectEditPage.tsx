@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { PROJECT_QUERY, UPDATE_PROJECT_MUTATION, CREATE_PROJECT_MUTATION } from '../../../lib/graphql/queries';
+import { PROJECT_QUERY, UPDATE_PROJECT_MUTATION, CREATE_PROJECT_MUTATION } from '../../../lib/graphql';
 import type { Project } from '../../../lib/types';
 import ProjectForm from '../forms/ProjectForm';
 

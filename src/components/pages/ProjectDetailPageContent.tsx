@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../lib/graphql-client';
-import { PROJECTS_QUERY } from '../../lib/graphql/queries';
+import { PROJECTS_QUERY } from '../../lib/graphql';
 import type { Project } from '../../lib/types';
 
 interface ProjectsResponse {

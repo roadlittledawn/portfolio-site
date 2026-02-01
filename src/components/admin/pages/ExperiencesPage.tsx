@@ -1,19 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { EXPERIENCES_QUERY, DELETE_EXPERIENCE_MUTATION } from '../../../lib/graphql/queries';
-import type { Experience } from '../../../lib/types';
+import { EXPERIENCES_QUERY, DELETE_EXPERIENCE_MUTATION } from '../../../lib/graphql';
+import type { Experience, ExperiencesResponse, DeleteExperienceResponse } from '../../../lib/types';
+import { ErrorState } from '../ui';
 import ExperiencesList from '../lists/ExperiencesList';
-
-interface ExperiencesResponse {
-  experiences: Experience[];
-}
-
-interface DeleteResponse {
-  deleteExperience: {
-    success: boolean;
-    id: string;
-  };
-}
 
 export default function ExperiencesPage() {
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -53,7 +43,7 @@ export default function ExperiencesPage() {
   const handleDelete = async (id: string) => {
     try {
       const client = getGraphQLClient();
-      await client.request<DeleteResponse>(DELETE_EXPERIENCE_MUTATION, { id });
+      await client.request<DeleteExperienceResponse>(DELETE_EXPERIENCE_MUTATION, { id });
       setExperiences(experiences.filter(exp => exp.id !== id));
     } catch (err) {
       console.error('Failed to delete experience:', err);
@@ -62,17 +52,7 @@ export default function ExperiencesPage() {
   };
 
   if (error) {
-    return (
-      <div className="p-6 bg-red-900/20 border border-red-500/50 rounded-lg text-center">
-        <p className="text-red-400 mb-4">{error}</p>
-        <button
-          onClick={fetchExperiences}
-          className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
-        >
-          Retry
-        </button>
-      </div>
-    );
+    return <ErrorState message={error} onRetry={fetchExperiences} />;
   }
 
   return (

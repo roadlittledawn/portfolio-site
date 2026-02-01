@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { EDUCATION_QUERY, UPDATE_EDUCATION_MUTATION, CREATE_EDUCATION_MUTATION } from '../../../lib/graphql/queries';
+import { EDUCATION_QUERY, UPDATE_EDUCATION_MUTATION, CREATE_EDUCATION_MUTATION } from '../../../lib/graphql';
 import type { Education } from '../../../lib/types';
 import EducationForm from '../forms/EducationForm';
 

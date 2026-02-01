@@ -1,19 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { PROJECTS_QUERY, DELETE_PROJECT_MUTATION } from '../../../lib/graphql/queries';
-import type { Project } from '../../../lib/types';
+import { PROJECTS_QUERY, DELETE_PROJECT_MUTATION } from '../../../lib/graphql';
+import type { Project, ProjectsResponse, DeleteProjectResponse } from '../../../lib/types';
+import { ErrorState } from '../ui';
 import ProjectsList from '../lists/ProjectsList';
-
-interface ProjectsResponse {
-  projects: Project[];
-}
-
-interface DeleteResponse {
-  deleteProject: {
-    success: boolean;
-    id: string;
-  };
-}
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -56,7 +46,7 @@ export default function ProjectsPage() {
   const handleDelete = async (id: string) => {
     try {
       const client = getGraphQLClient();
-      await client.request<DeleteResponse>(DELETE_PROJECT_MUTATION, { id });
+      await client.request<DeleteProjectResponse>(DELETE_PROJECT_MUTATION, { id });
       setProjects(projects.filter(p => p.id !== id));
     } catch (err) {
       console.error('Failed to delete project:', err);
@@ -65,17 +55,7 @@ export default function ProjectsPage() {
   };
 
   if (error) {
-    return (
-      <div className="p-6 bg-red-900/20 border border-red-500/50 rounded-lg text-center">
-        <p className="text-red-400 mb-4">{error}</p>
-        <button
-          onClick={fetchProjects}
-          className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
-        >
-          Retry
-        </button>
-      </div>
-    );
+    return <ErrorState message={error} onRetry={fetchProjects} />;
   }
 
   return (

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getGraphQLClient } from '../../lib/graphql-client';
-import { SKILLS_QUERY, PROJECTS_QUERY, EXPERIENCES_QUERY, PROFILE_QUERY } from '../../lib/graphql/queries';
+import { SKILLS_QUERY, PROJECTS_QUERY, EXPERIENCES_QUERY, PROFILE_QUERY } from '../../lib/graphql';
 import type { Skill, Project, Experience, Profile } from '../../lib/types';
 
 interface RoleLandingPageContentProps {

@@ -1,19 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { SKILLS_QUERY, DELETE_SKILL_MUTATION } from '../../../lib/graphql/queries';
-import type { Skill } from '../../../lib/types';
+import { SKILLS_QUERY, DELETE_SKILL_MUTATION } from '../../../lib/graphql';
+import type { Skill, SkillsResponse, DeleteSkillResponse } from '../../../lib/types';
+import { ErrorState } from '../ui';
 import SkillsList from '../lists/SkillsList';
-
-interface SkillsResponse {
-  skills: Skill[];
-}
-
-interface DeleteResponse {
-  deleteSkill: {
-    success: boolean;
-    id: string;
-  };
-}
 
 export default function SkillsPage() {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -53,7 +43,7 @@ export default function SkillsPage() {
   const handleDelete = async (id: string) => {
     try {
       const client = getGraphQLClient();
-      await client.request<DeleteResponse>(DELETE_SKILL_MUTATION, { id });
+      await client.request<DeleteSkillResponse>(DELETE_SKILL_MUTATION, { id });
       setSkills(skills.filter(s => s.id !== id));
     } catch (err) {
       console.error('Failed to delete skill:', err);
@@ -62,17 +52,7 @@ export default function SkillsPage() {
   };
 
   if (error) {
-    return (
-      <div className="p-6 bg-red-900/20 border border-red-500/50 rounded-lg text-center">
-        <p className="text-red-400 mb-4">{error}</p>
-        <button
-          onClick={fetchSkills}
-          className="px-4 py-2 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
-        >
-          Retry
-        </button>
-      </div>
-    );
+    return <ErrorState message={error} onRetry={fetchSkills} />;
   }
 
   return (
