@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { marked } from 'marked';
 import type { JobType } from '../../../lib/job-agent-prompts';
-import { getAuthToken } from '../../../lib/auth';
+import { getGraphQLClient } from '../../../lib/graphql-client';
+import { GENERATE_COVER_LETTER_MUTATION } from '../../../lib/graphql/queries';
 import { Button, Card, CardHeader, Textarea } from '../ui';
 
 interface CoverLetterGeneratorProps {
@@ -32,10 +33,7 @@ export default function CoverLetterGenerator({
     setError(null);
 
     try {
-      const token = getAuthToken();
-      if (!token) {
-        throw new Error('Not authenticated');
-      }
+      const client = getGraphQLClient();
 
       const toneInstructions = {
         professional: 'Use a professional, formal tone',
@@ -43,68 +41,42 @@ export default function CoverLetterGenerator({
         enthusiastic: 'Use an enthusiastic, energetic tone that shows genuine excitement',
       };
 
-      const messages = [
-        {
-          role: 'user' as const,
-          content: `Please generate a cover letter for the following job application:
+      // Build job info for the GraphQL mutation
+      const jobInfoInput = {
+        description: jobInfo.description,
+        jobType: jobInfo.jobType.replace(/-/g, '_'), // Convert to snake_case for API
+      };
 
-**Job Type:** ${jobInfo.jobType.replace(/-/g, ' ')}
-${jobInfo.companyName ? `**Company:** ${jobInfo.companyName}` : ''}
+      // Build additional context with tone and custom instructions
+      const additionalContextParts = [
+        `Tone: ${toneInstructions[tone]}`,
+        jobInfo.companyName ? `Company: ${jobInfo.companyName}` : '',
+        customInstructions ? `Special Instructions: ${customInstructions}` : '',
+        `Resume Context (for reference): ${resume.substring(0, 2000)}${resume.length > 2000 ? '...' : ''}`,
+      ].filter(Boolean);
 
-**Job Description:**
-${jobInfo.description}
-
-**Tone:** ${toneInstructions[tone]}
-
-${customInstructions ? `**Special Instructions:**\n${customInstructions}` : ''}
-
-**Resume Context (for reference):**
-${resume.substring(0, 2000)}${resume.length > 2000 ? '...' : ''}
-
-Please write a compelling cover letter that:
-1. Opens with a strong hook relevant to the position
-2. Highlights 2-3 key achievements from my experience
-3. Shows genuine interest in the company and role
-4. Ends with a clear call to action
-
-Output the cover letter in clean, professional format.`,
-        },
-      ];
-
-      const response = await fetch('/.netlify/functions/ai-assistant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          messages,
-          context: {
-            editingContext: {
-              collection: 'cover-letter',
-              roleType: jobInfo.jobType.replace(/-/g, '_'),
-            },
-            profileSummary: {
-              name: 'User',
-              positioning: '',
-              valueProps: [],
-            },
-          },
-          options: {
-            maxTokens: 2000,
-          },
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate cover letter');
+      interface GenerateCoverLetterResponse {
+        generateCoverLetter: {
+          content: string;
+          usage: {
+            inputTokens: number;
+            outputTokens: number;
+          };
+        };
       }
 
-      const data = await response.json();
-      setCoverLetter(data.message.content);
-      onCoverLetterGenerated(data.message.content);
+      const data = await client.request<GenerateCoverLetterResponse>(
+        GENERATE_COVER_LETTER_MUTATION,
+        {
+          jobInfo: jobInfoInput,
+          additionalContext: additionalContextParts.join('\n\n'),
+        }
+      );
+
+      setCoverLetter(data.generateCoverLetter.content);
+      onCoverLetterGenerated(data.generateCoverLetter.content);
     } catch (err) {
+      console.error('Cover letter generation error:', err);
       setError(err instanceof Error ? err.message : 'Failed to generate cover letter');
     } finally {
       setIsGenerating(false);

@@ -428,3 +428,91 @@ export const DELETE_EDUCATION_MUTATION = gql`
     }
   }
 `;
+
+// ============================================================================
+// JOB AGENT MUTATIONS (AI Generation)
+// ============================================================================
+
+export const GENERATE_RESUME_MUTATION = gql`
+  mutation GenerateResume($jobInfo: JobInfoInput!, $additionalContext: String) {
+    generateResume(jobInfo: $jobInfo, additionalContext: $additionalContext) {
+      content
+      usage {
+        inputTokens
+        outputTokens
+        cacheReadInputTokens
+        cacheCreationInputTokens
+      }
+    }
+  }
+`;
+
+export const REVISE_RESUME_MUTATION = gql`
+  mutation ReviseResume($jobInfo: JobInfoInput!, $feedback: String!) {
+    reviseResume(jobInfo: $jobInfo, feedback: $feedback) {
+      content
+      usage {
+        inputTokens
+        outputTokens
+        cacheReadInputTokens
+        cacheCreationInputTokens
+      }
+    }
+  }
+`;
+
+export const GENERATE_COVER_LETTER_MUTATION = gql`
+  mutation GenerateCoverLetter($jobInfo: JobInfoInput!, $additionalContext: String) {
+    generateCoverLetter(jobInfo: $jobInfo, additionalContext: $additionalContext) {
+      content
+      usage {
+        inputTokens
+        outputTokens
+        cacheReadInputTokens
+        cacheCreationInputTokens
+      }
+    }
+  }
+`;
+
+export const REVISE_COVER_LETTER_MUTATION = gql`
+  mutation ReviseCoverLetter($jobInfo: JobInfoInput!, $feedback: String!) {
+    reviseCoverLetter(jobInfo: $jobInfo, feedback: $feedback) {
+      content
+      usage {
+        inputTokens
+        outputTokens
+        cacheReadInputTokens
+        cacheCreationInputTokens
+      }
+    }
+  }
+`;
+
+export const GENERATE_ANSWER_MUTATION = gql`
+  mutation GenerateAnswer($jobInfo: JobInfoInput!, $question: String!, $currentAnswer: String) {
+    generateAnswer(jobInfo: $jobInfo, question: $question, currentAnswer: $currentAnswer) {
+      content
+      usage {
+        inputTokens
+        outputTokens
+        cacheReadInputTokens
+        cacheCreationInputTokens
+      }
+    }
+  }
+`;
+
+export const REVISE_ANSWER_MUTATION = gql`
+  mutation ReviseAnswer($jobInfo: JobInfoInput!, $question: String!, $currentAnswer: String!, $feedback: String!) {
+    reviseAnswer(jobInfo: $jobInfo, question: $question, currentAnswer: $currentAnswer, feedback: $feedback) {
+      content
+      usage {
+        inputTokens
+        outputTokens
+        cacheReadInputTokens
+        cacheCreationInputTokens
+      }
+    }
+  }
+`;

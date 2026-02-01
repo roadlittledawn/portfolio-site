@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { marked } from 'marked';
 import type { JobType } from '../../../lib/job-agent-prompts';
-import { getAuthToken } from '../../../lib/auth';
+import { getGraphQLClient } from '../../../lib/graphql-client';
+import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql/queries';
 import { Button, Card, CardHeader, Textarea } from '../ui';
 
 interface ResumeGeneratorProps {
@@ -31,62 +32,36 @@ export default function ResumeGenerator({
     setError(null);
 
     try {
-      const token = getAuthToken();
-      if (!token) {
-        throw new Error('Not authenticated');
+      const client = getGraphQLClient();
+
+      // Build job info for the GraphQL mutation
+      const jobInfoInput = {
+        description: jobInfo.description,
+        jobType: jobInfo.jobType.replace(/-/g, '_'), // Convert to snake_case for API
+      };
+
+      interface GenerateResumeResponse {
+        generateResume: {
+          content: string;
+          usage: {
+            inputTokens: number;
+            outputTokens: number;
+          };
+        };
       }
 
-      const messages = [
+      const data = await client.request<GenerateResumeResponse>(
+        GENERATE_RESUME_MUTATION,
         {
-          role: 'user' as const,
-          content: `Please generate a tailored resume for the following job:
+          jobInfo: jobInfoInput,
+          additionalContext: additionalContext || null,
+        }
+      );
 
-**Job Type:** ${jobInfo.jobType.replace(/-/g, ' ')}
-${jobInfo.companyName ? `**Company:** ${jobInfo.companyName}` : ''}
-
-**Job Description:**
-${jobInfo.description}
-
-${additionalContext ? `**Additional Context:**\n${additionalContext}` : ''}
-
-Please tailor my resume to highlight the most relevant experiences, skills, and achievements for this position. Output the resume in clean markdown format.`,
-        },
-      ];
-
-      const response = await fetch('/.netlify/functions/ai-assistant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          messages,
-          context: {
-            editingContext: {
-              collection: 'resume',
-              roleType: jobInfo.jobType.replace(/-/g, '_'),
-            },
-            profileSummary: {
-              name: 'User',
-              positioning: '',
-              valueProps: [],
-            },
-          },
-          options: {
-            maxTokens: 4000,
-          },
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate resume');
-      }
-
-      const data = await response.json();
-      setResume(data.message.content);
-      onResumeGenerated(data.message.content);
+      setResume(data.generateResume.content);
+      onResumeGenerated(data.generateResume.content);
     } catch (err) {
+      console.error('Resume generation error:', err);
       setError(err instanceof Error ? err.message : 'Failed to generate resume');
     } finally {
       setIsGenerating(false);
