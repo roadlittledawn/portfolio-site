@@ -127,7 +127,7 @@ export const PROJECT_FULL_FIELDS = gql`
 // ============================================================================
 
 export const PROFILE_LINKS_FIELDS = gql`
-  fragment ProfileLinksFields on ProfileLinks {
+  fragment ProfileLinksFields on Links {
     portfolio
     github
     linkedin

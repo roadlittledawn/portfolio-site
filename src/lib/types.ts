@@ -16,6 +16,12 @@ export interface PersonalInfo {
     writingSamples?: string;
   };
 }
+export interface Links {
+  portfolio?: string;
+  github?: string;
+  linkedin?: string;
+  writingSamples?: string;
+}
 
 export interface Positioning {
   current?: string;
