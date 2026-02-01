@@ -102,7 +102,7 @@ export default function AIChatPanel({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -112,19 +112,23 @@ export default function AIChatPanel({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex justify-end">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-black/50 transition-opacity duration-300"
+        onClick={onClose}
+      />
 
-      {/* Panel */}
-      <div className="relative w-full max-w-2xl h-[80vh] bg-dark-card border border-dark-border rounded-lg shadow-xl flex flex-col">
+      {/* Side Panel - slides in from right */}
+      <div className="relative w-full max-w-lg h-full bg-dark-card border-l border-dark-border shadow-2xl flex flex-col animate-slide-in-right">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dark-border">
+        <div className="flex items-center justify-between p-4 border-b border-dark-border bg-dark-layer">
           <div>
             <h2 className="text-lg font-semibold text-text-primary">AI Writing Assistant</h2>
             <p className="text-sm text-text-muted">Context: {contextLabel}</p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             className="p-2 text-text-muted hover:text-text-primary hover:bg-dark-hover rounded-lg transition-colors"
           >
@@ -135,8 +139,9 @@ export default function AIChatPanel({
         </div>
 
         {/* Context Section */}
-        <div className="px-4 py-2 border-b border-dark-border">
+        <div className="px-4 py-3 border-b border-dark-border bg-dark-layer/50">
           <button
+            type="button"
             onClick={() => setShowContext(!showContext)}
             className="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
           >
@@ -151,7 +156,7 @@ export default function AIChatPanel({
             View Data Context
           </button>
           {showContext && (
-            <pre className="mt-2 p-3 bg-dark-layer rounded-lg text-xs text-text-muted overflow-auto max-h-32">
+            <pre className="mt-2 p-3 bg-dark-base rounded-lg text-xs text-text-muted overflow-auto max-h-40">
               {JSON.stringify(contextData, null, 2)}
             </pre>
           )}
@@ -162,11 +167,11 @@ export default function AIChatPanel({
           {messages.length === 0 && (
             <div className="text-center py-8">
               <p className="text-text-primary mb-4">Hi! I can help you with:</p>
-              <ul className="text-text-secondary text-sm space-y-2">
-                <li>Writing compelling descriptions</li>
-                <li>Improving clarity and impact</li>
-                <li>Suggesting keywords and technologies</li>
-                <li>Refining your messaging</li>
+              <ul className="text-text-secondary text-sm space-y-2 text-left max-w-xs mx-auto">
+                <li>• Writing compelling descriptions</li>
+                <li>• Improving clarity and impact</li>
+                <li>• Suggesting keywords and technologies</li>
+                <li>• Refining your messaging</li>
               </ul>
               <p className="text-text-muted mt-4 text-sm">Ask me anything about your content!</p>
             </div>
@@ -178,29 +183,29 @@ export default function AIChatPanel({
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[80%] rounded-lg p-3 ${
+                className={`max-w-[85%] rounded-lg p-3 ${
                   message.role === 'user'
                     ? 'bg-accent-blue text-white'
-                    : 'bg-dark-layer text-text-primary'
+                    : 'bg-dark-layer text-text-primary border border-dark-border'
                 }`}
               >
                 <div
-                  className={`text-xs mb-1 ${
-                    message.role === 'user' ? 'text-white/70' : 'text-text-muted'
+                  className={`text-xs mb-1 font-medium ${
+                    message.role === 'user' ? 'text-white/70' : 'text-accent-green'
                   }`}
                 >
                   {message.role === 'user' ? 'You' : 'AI Assistant'}
                 </div>
-                <div className="whitespace-pre-wrap">{message.content}</div>
+                <div className="whitespace-pre-wrap text-sm">{message.content}</div>
               </div>
             </div>
           ))}
 
           {isLoading && (
             <div className="flex justify-start">
-              <div className="max-w-[80%] rounded-lg p-3 bg-dark-layer">
-                <div className="text-xs text-text-muted mb-1">AI Assistant</div>
-                <div className="flex items-center gap-2 text-text-secondary">
+              <div className="max-w-[85%] rounded-lg p-3 bg-dark-layer border border-dark-border">
+                <div className="text-xs text-accent-green mb-1 font-medium">AI Assistant</div>
+                <div className="flex items-center gap-2 text-text-secondary text-sm">
                   <span className="animate-pulse">Thinking</span>
                   <span className="flex gap-1">
                     <span className="w-1.5 h-1.5 bg-accent-blue rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -216,27 +221,43 @@ export default function AIChatPanel({
         </div>
 
         {/* Input Area */}
-        <div className="p-4 border-t border-dark-border">
+        <div className="p-4 border-t border-dark-border bg-dark-layer">
           <div className="flex gap-3">
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="Ask for help... (Shift+Enter for new line)"
               rows={2}
               disabled={isLoading}
-              className="flex-1 px-4 py-2.5 bg-dark-layer border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue resize-none disabled:opacity-50"
+              className="flex-1 px-4 py-2.5 bg-dark-base border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue resize-none disabled:opacity-50"
             />
             <button
+              type="button"
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}
-              className="px-6 py-2.5 bg-accent-blue hover:bg-accent-blue/80 disabled:bg-accent-blue/50 text-white font-medium rounded-lg transition-colors"
+              className="px-5 py-2.5 bg-accent-blue hover:bg-accent-blue/80 disabled:bg-accent-blue/50 text-white font-medium rounded-lg transition-colors"
             >
               Send
             </button>
           </div>
         </div>
       </div>
+
+      {/* Animation styles */}
+      <style>{`
+        @keyframes slide-in-right {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in-right {
+          animation: slide-in-right 0.3s ease-out;
+        }
+      `}</style>
     </div>
   );
 }

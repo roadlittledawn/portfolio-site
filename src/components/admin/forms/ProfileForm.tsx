@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { Profile } from "../../../lib/types";
 import { Button, Input, Textarea, Card, CardHeader } from "../ui";
+import AIChatPanel from "../ai/AIChatPanel";
 
 interface ProfileFormProps {
   initialData?: Profile;
@@ -34,10 +35,12 @@ export default function ProfileForm({
   const [byRolePositioning, setByRolePositioning] = useState<Record<string, string>>(
     initialData?.positioning?.byRole || {}
   );
+  const [showAIPanel, setShowAIPanel] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -367,6 +370,42 @@ export default function ProfileForm({
           {isSubmitting ? "Saving..." : "Save Profile"}
         </Button>
       </div>
+
+      {/* Floating AI Assistant Button */}
+      <button
+        type="button"
+        onClick={() => setShowAIPanel(true)}
+        className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-full shadow-lg transition-colors z-40"
+        disabled={isSubmitting}
+        title="Open AI Writing Assistant"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        Ask AI
+      </button>
+
+      {/* AI Chat Panel */}
+      <AIChatPanel
+        isOpen={showAIPanel}
+        onClose={() => setShowAIPanel(false)}
+        contextData={{
+          ...watch(),
+          valuePropositions,
+          uniqueSellingPoints,
+          byRolePositioning,
+        }}
+        contextLabel="Profile Form Data"
+        collection="profile"
+        roleType="technical_writer"
+      />
     </form>
   );
 }

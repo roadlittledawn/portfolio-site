@@ -9,6 +9,7 @@ import {
 } from "../../../lib/constants";
 import { Button, Input, Textarea, Select, Card, CardHeader } from "../ui";
 import Tag from "../ui/Tag";
+import AIChatPanel from "../ai/AIChatPanel";
 
 interface ExperienceFormProps {
   initialData?: Experience;
@@ -51,10 +52,12 @@ export default function ExperienceForm({
   const [crossFunctional, setCrossFunctional] = useState<string[]>(
     initialData?.crossFunctional || []
   );
+  const [showAIPanel, setShowAIPanel] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -399,6 +402,45 @@ export default function ExperienceForm({
           {isSubmitting ? "Saving..." : "Save Experience"}
         </Button>
       </div>
+
+      {/* Floating AI Assistant Button */}
+      <button
+        type="button"
+        onClick={() => setShowAIPanel(true)}
+        className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-full shadow-lg transition-colors z-40"
+        disabled={isSubmitting}
+        title="Open AI Writing Assistant"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        Ask AI
+      </button>
+
+      {/* AI Chat Panel */}
+      <AIChatPanel
+        isOpen={showAIPanel}
+        onClose={() => setShowAIPanel(false)}
+        contextData={{
+          ...watch(),
+          roleTypes,
+          responsibilities,
+          achievements,
+          technologies,
+          organizations,
+          crossFunctional,
+        }}
+        contextLabel="Experience Form Data"
+        collection="experiences"
+        roleType={roleTypes[0] || "technical_writer"}
+      />
     </form>
   );
 }
