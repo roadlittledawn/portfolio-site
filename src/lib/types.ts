@@ -223,3 +223,84 @@ export interface ProjectFilters {
   featured?: boolean;
   limit?: number;
 }
+
+// ============================================================================
+// GraphQL Response Types
+// ============================================================================
+
+// Experience responses
+export interface ExperiencesResponse {
+  experiences: Experience[];
+}
+
+export interface ExperienceResponse {
+  experience: Experience | null;
+}
+
+export interface DeleteExperienceResponse {
+  deleteExperience: {
+    success: boolean;
+    id: string;
+  };
+}
+
+// Skill responses
+export interface SkillsResponse {
+  skills: Skill[];
+}
+
+export interface SkillResponse {
+  skill: Skill | null;
+}
+
+export interface DeleteSkillResponse {
+  deleteSkill: {
+    success: boolean;
+    id: string;
+  };
+}
+
+// Project responses
+export interface ProjectsResponse {
+  projects: Project[];
+}
+
+export interface ProjectResponse {
+  project: Project | null;
+}
+
+export interface DeleteProjectResponse {
+  deleteProject: {
+    success: boolean;
+    id: string;
+  };
+}
+
+// Education responses
+export interface EducationsResponse {
+  educations: Education[];
+}
+
+export interface EducationResponse {
+  education: Education | null;
+}
+
+export interface DeleteEducationResponse {
+  deleteEducation: {
+    success: boolean;
+    id: string;
+  };
+}
+
+// Profile responses
+export interface ProfileResponse {
+  profile: Profile | null;
+}
+
+// Generic delete response type
+export interface DeleteResponse<T extends string> {
+  [key: string]: {
+    success: boolean;
+    id: string;
+  };
+}
