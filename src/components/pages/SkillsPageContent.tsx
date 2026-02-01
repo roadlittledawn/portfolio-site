@@ -1,7 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
-import { getGraphQLClient } from '../../lib/graphql-client';
-import { SKILLS_QUERY } from '../../lib/graphql';
-import type { Skill } from '../../lib/types';
+import { useState, useEffect, useMemo } from "react";
+import { getGraphQLClient } from "../../lib/graphql-client";
+import { SKILLS_QUERY } from "../../lib/graphql";
+import type { Skill } from "../../lib/types";
+import { isEngineeringRole, isWritingRole } from "../../lib/constants";
 
 interface SkillsResponse {
   skills: Skill[];
@@ -9,24 +10,24 @@ interface SkillsResponse {
 
 // Category definitions
 const categoryOrder = [
-  { key: 'frontend', name: 'Frontend Development', icon: 'palette' },
-  { key: 'backend', name: 'Backend Development', icon: 'settings' },
-  { key: 'database', name: 'Databases', icon: 'database' },
-  { key: 'tools', name: 'Development Tools', icon: 'tool' },
-  { key: 'cloud-platform', name: 'Cloud Platforms', icon: 'cloud' },
-  { key: 'concepts', name: 'Concepts & Practices', icon: 'light-bulb' },
-  { key: 'management', name: 'Leadership & Management', icon: 'users' },
-  { key: 'testing', name: 'Testing', icon: 'test-tube' },
+  { key: "frontend", name: "Frontend Development", icon: "palette" },
+  { key: "backend", name: "Backend Development", icon: "settings" },
+  { key: "database", name: "Databases", icon: "database" },
+  { key: "tools", name: "Development Tools", icon: "tool" },
+  { key: "cloud-platform", name: "Cloud Platforms", icon: "cloud" },
+  { key: "concepts", name: "Concepts & Practices", icon: "light-bulb" },
+  { key: "management", name: "Leadership & Management", icon: "users" },
+  { key: "testing", name: "Testing", icon: "test-tube" },
 ];
 
 export default function SkillsPageContent() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState('all');
-  const [view, setView] = useState<'grid' | 'category'>('grid');
-  const [level, setLevel] = useState('all');
-  const [sort, setSort] = useState('name-asc');
+  const [filter, setFilter] = useState("all");
+  const [view, setView] = useState<"grid" | "category">("grid");
+  const [level, setLevel] = useState("all");
+  const [sort, setSort] = useState("name-asc");
 
   useEffect(() => {
     fetchSkills();
@@ -38,8 +39,8 @@ export default function SkillsPageContent() {
       const data = await client.request<SkillsResponse>(SKILLS_QUERY);
       setSkills(data.skills);
     } catch (err) {
-      console.error('Failed to fetch skills:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch skills');
+      console.error("Failed to fetch skills:", err);
+      setError(err instanceof Error ? err.message : "Failed to fetch skills");
     } finally {
       setIsLoading(false);
     }
@@ -50,28 +51,25 @@ export default function SkillsPageContent() {
     let result = [...skills];
 
     // Apply focus filter
-    if (filter === 'engineering') {
+    if (filter === "engineering") {
       result = result.filter(
-        (s) => s.roleRelevance?.includes('engineering') || s.roleRelevance?.includes('both')
+        (s) => s.roleRelevance && isEngineeringRole(s.roleRelevance),
       );
-    } else if (filter === 'writing') {
+    } else if (filter === "writing") {
       result = result.filter(
-        (s) =>
-          s.roleRelevance?.includes('writing') ||
-          s.roleRelevance?.includes('technical_writing') ||
-          s.roleRelevance?.includes('both')
+        (s) => s.roleRelevance && isWritingRole(s.roleRelevance),
       );
     }
 
     // Apply level filter
-    if (level !== 'all') {
+    if (level !== "all") {
       result = result.filter((s) => s.level?.toLowerCase() === level);
     }
 
     // Apply sorting
-    if (sort === 'name-asc') {
+    if (sort === "name-asc") {
       result.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sort === 'name-desc') {
+    } else if (sort === "name-desc") {
       result.sort((a, b) => b.name.localeCompare(a.name));
     }
 
@@ -94,13 +92,10 @@ export default function SkillsPageContent() {
 
   // Count skills by focus
   const engineeringCount = skills.filter(
-    (s) => s.roleRelevance?.includes('engineering') || s.roleRelevance?.includes('both')
+    (s) => s.roleRelevance && isEngineeringRole(s.roleRelevance),
   ).length;
   const writingCount = skills.filter(
-    (s) =>
-      s.roleRelevance?.includes('writing') ||
-      s.roleRelevance?.includes('technical_writing') ||
-      s.roleRelevance?.includes('both')
+    (s) => s.roleRelevance && isWritingRole(s.roleRelevance),
   ).length;
 
   if (isLoading) {
@@ -133,17 +128,21 @@ export default function SkillsPageContent() {
       <div className="flex flex-wrap gap-4 items-center justify-between bg-dark-layer p-4 rounded-lg">
         <div className="flex flex-wrap gap-2">
           {[
-            { value: 'all', label: 'All Skills', count: skills.length },
-            { value: 'engineering', label: 'Engineering', count: engineeringCount },
-            { value: 'writing', label: 'Writing', count: writingCount },
+            { value: "all", label: "All Skills", count: skills.length },
+            {
+              value: "engineering",
+              label: "Engineering",
+              count: engineeringCount,
+            },
+            { value: "writing", label: "Writing", count: writingCount },
           ].map((opt) => (
             <button
               key={opt.value}
               onClick={() => setFilter(opt.value)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === opt.value
-                  ? 'bg-accent-blue text-text-inverse'
-                  : 'bg-dark-card text-text-secondary hover:bg-dark-hover'
+                  ? "bg-accent-blue text-text-inverse"
+                  : "bg-dark-card text-text-secondary hover:bg-dark-hover"
               }`}
             >
               {opt.label} ({opt.count})
@@ -175,17 +174,21 @@ export default function SkillsPageContent() {
 
           <div className="flex border border-dark-border rounded-lg overflow-hidden">
             <button
-              onClick={() => setView('grid')}
+              onClick={() => setView("grid")}
               className={`px-3 py-2 text-sm ${
-                view === 'grid' ? 'bg-accent-blue text-text-inverse' : 'bg-dark-card text-text-secondary'
+                view === "grid"
+                  ? "bg-accent-blue text-text-inverse"
+                  : "bg-dark-card text-text-secondary"
               }`}
             >
               Grid
             </button>
             <button
-              onClick={() => setView('category')}
+              onClick={() => setView("category")}
               className={`px-3 py-2 text-sm ${
-                view === 'category' ? 'bg-accent-blue text-text-inverse' : 'bg-dark-card text-text-secondary'
+                view === "category"
+                  ? "bg-accent-blue text-text-inverse"
+                  : "bg-dark-card text-text-secondary"
               }`}
             >
               Category
@@ -195,7 +198,7 @@ export default function SkillsPageContent() {
       </div>
 
       {/* Grid View */}
-      {view === 'grid' && (
+      {view === "grid" && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredSkills.map((skill) => (
             <SkillCard key={skill.id} skill={skill} />
@@ -204,7 +207,7 @@ export default function SkillsPageContent() {
       )}
 
       {/* Category View */}
-      {view === 'category' && (
+      {view === "category" && (
         <div className="space-y-8">
           {categoryOrder.map((category) => {
             const categorySkills = skillsByCategory[category.key] || [];
@@ -214,7 +217,9 @@ export default function SkillsPageContent() {
               <div key={category.key} className="space-y-4">
                 <h3 className="text-xl font-semibold text-text-primary flex items-center gap-2">
                   {category.name}
-                  <span className="text-sm font-normal text-text-muted">({categorySkills.length})</span>
+                  <span className="text-sm font-normal text-text-muted">
+                    ({categorySkills.length})
+                  </span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {categorySkills.map((skill) => (
@@ -241,7 +246,9 @@ function SkillCard({ skill }: { skill: Skill }) {
   return (
     <div className="bg-dark-card border border-dark-border rounded-lg p-6 hover:bg-dark-hover transition-colors">
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-lg font-semibold text-text-primary">{skill.name}</h3>
+        <h3 className="text-lg font-semibold text-text-primary">
+          {skill.name}
+        </h3>
         {skill.featured && (
           <span className="px-2 py-1 bg-accent-amber/20 text-accent-amber text-xs font-medium rounded">
             Featured
@@ -252,13 +259,13 @@ function SkillCard({ skill }: { skill: Skill }) {
       <div className="flex items-center gap-4 mb-4">
         <span
           className={`px-2 py-1 text-xs font-medium rounded ${
-            skill.level === 'Expert'
-              ? 'bg-accent-green/20 text-accent-green'
-              : skill.level === 'Advanced'
-              ? 'bg-accent-blue/20 text-accent-blue'
-              : skill.level === 'Intermediate'
-              ? 'bg-accent-amber/20 text-accent-amber'
-              : 'bg-dark-layer text-text-muted'
+            skill.level === "Expert"
+              ? "bg-accent-green/20 text-accent-green"
+              : skill.level === "Advanced"
+                ? "bg-accent-blue/20 text-accent-blue"
+                : skill.level === "Intermediate"
+                  ? "bg-accent-amber/20 text-accent-amber"
+                  : "bg-dark-layer text-text-muted"
           }`}
         >
           {skill.level}
@@ -267,7 +274,7 @@ function SkillCard({ skill }: { skill: Skill }) {
           {[1, 2, 3, 4, 5].map((star) => (
             <span
               key={star}
-              className={`text-sm ${star <= skill.rating ? 'text-accent-amber' : 'text-dark-border'}`}
+              className={`text-sm ${star <= skill.rating ? "text-accent-amber" : "text-dark-border"}`}
             >
               ★
             </span>
@@ -276,13 +283,18 @@ function SkillCard({ skill }: { skill: Skill }) {
       </div>
 
       {skill.yearsOfExperience && (
-        <p className="text-sm text-text-muted mb-3">{skill.yearsOfExperience} years experience</p>
+        <p className="text-sm text-text-muted mb-3">
+          {skill.yearsOfExperience} years experience
+        </p>
       )}
 
       {skill.tags && skill.tags.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {skill.tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="px-2 py-0.5 bg-dark-layer text-xs text-text-secondary rounded">
+            <span
+              key={tag}
+              className="px-2 py-0.5 bg-dark-layer text-xs text-text-secondary rounded"
+            >
               {tag}
             </span>
           ))}
@@ -299,17 +311,19 @@ function SkillCardCompact({ skill }: { skill: Skill }) {
       <div className="flex items-center gap-3">
         <h4 className="font-medium text-text-primary">{skill.name}</h4>
         {skill.featured && (
-          <span className="px-1.5 py-0.5 bg-accent-amber/20 text-accent-amber text-xs rounded">★</span>
+          <span className="px-1.5 py-0.5 bg-accent-amber/20 text-accent-amber text-xs rounded">
+            ★
+          </span>
         )}
       </div>
       <div className="flex items-center gap-3">
         <span
           className={`px-2 py-0.5 text-xs font-medium rounded ${
-            skill.level === 'Expert'
-              ? 'bg-accent-green/20 text-accent-green'
-              : skill.level === 'Advanced'
-              ? 'bg-accent-blue/20 text-accent-blue'
-              : 'bg-accent-amber/20 text-accent-amber'
+            skill.level === "Expert"
+              ? "bg-accent-green/20 text-accent-green"
+              : skill.level === "Advanced"
+                ? "bg-accent-blue/20 text-accent-blue"
+                : "bg-accent-amber/20 text-accent-amber"
           }`}
         >
           {skill.level}
@@ -318,7 +332,7 @@ function SkillCardCompact({ skill }: { skill: Skill }) {
           {[1, 2, 3, 4, 5].map((star) => (
             <span
               key={star}
-              className={`text-xs ${star <= skill.rating ? 'text-accent-amber' : 'text-dark-border'}`}
+              className={`text-xs ${star <= skill.rating ? "text-accent-amber" : "text-dark-border"}`}
             >
               ★
             </span>

@@ -3,26 +3,13 @@ import { useForm } from "react-hook-form";
 import type { Skill } from "../../../lib/types";
 import { Button, Input, Select, Card, CardHeader } from "../ui";
 import Tag from "../ui/Tag";
+import { ROLE_TYPE_OPTIONS, SKILL_LEVEL_OPTIONS } from "../../../lib/constants";
 
 interface SkillsFormProps {
   initialData?: Skill;
   onSubmit: (data: Partial<Skill>) => Promise<void>;
   onCancel: () => void;
 }
-
-const SKILL_LEVELS = [
-  { value: "Beginner", label: "Beginner" },
-  { value: "Intermediate", label: "Intermediate" },
-  { value: "Advanced", label: "Advanced" },
-  { value: "Expert", label: "Expert" },
-];
-
-const ROLE_RELEVANCE_OPTIONS = [
-  { value: "engineering", label: "Engineering" },
-  { value: "technical_writing", label: "Technical Writing" },
-  { value: "management", label: "Management" },
-  { value: "design", label: "Design" },
-];
 
 export default function SkillsForm({
   initialData,
@@ -33,10 +20,16 @@ export default function SkillsForm({
   const [error, setError] = useState("");
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
   const [newTag, setNewTag] = useState("");
-  const [keywords, setKeywords] = useState<string[]>(initialData?.keywords || []);
+  const [keywords, setKeywords] = useState<string[]>(
+    initialData?.keywords || [],
+  );
   const [newKeyword, setNewKeyword] = useState("");
-  const [roleRelevance, setRoleRelevance] = useState<string[]>(initialData?.roleRelevance || []);
-  const [featured, setFeatured] = useState<boolean>(initialData?.featured || false);
+  const [roleRelevance, setRoleRelevance] = useState<string[]>(
+    initialData?.roleRelevance || [],
+  );
+  const [featured, setFeatured] = useState<boolean>(
+    initialData?.featured || false,
+  );
 
   const {
     register,
@@ -53,6 +46,10 @@ export default function SkillsForm({
   });
 
   const onFormSubmit = async (data: any) => {
+    console.log("=== SkillsForm onFormSubmit ===");
+    console.log("roleRelevance state:", roleRelevance);
+    console.log("form data:", data);
+
     setError("");
     setIsSubmitting(true);
 
@@ -69,6 +66,10 @@ export default function SkillsForm({
         featured: featured,
       };
 
+      console.log(
+        "skillData being passed to onSubmit:",
+        JSON.stringify(skillData, null, 2),
+      );
       await onSubmit(skillData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save skill");
@@ -99,11 +100,18 @@ export default function SkillsForm({
   };
 
   const toggleRole = (roleValue: string) => {
-    setRoleRelevance((prev) =>
-      prev.includes(roleValue)
+    console.log("=== toggleRole called ===");
+    console.log("roleValue:", roleValue);
+    console.log("current roleRelevance:", roleRelevance);
+
+    setRoleRelevance((prev) => {
+      const newValue = prev.includes(roleValue)
         ? prev.filter((r) => r !== roleValue)
-        : [...prev, roleValue]
-    );
+        : [...prev, roleValue];
+
+      console.log("new roleRelevance:", newValue);
+      return newValue;
+    });
   };
 
   return (
@@ -129,7 +137,7 @@ export default function SkillsForm({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Select
               label="Proficiency Level"
-              options={SKILL_LEVELS}
+              options={SKILL_LEVEL_OPTIONS}
               placeholder="Select level..."
               {...register("level", { required: "Level is required" })}
               error={errors.level?.message}
@@ -182,7 +190,7 @@ export default function SkillsForm({
         />
 
         <div className="flex flex-wrap gap-4">
-          {ROLE_RELEVANCE_OPTIONS.map((role) => (
+          {ROLE_TYPE_OPTIONS.map((role) => (
             <label
               key={role.value}
               className="flex items-center gap-2 cursor-pointer"

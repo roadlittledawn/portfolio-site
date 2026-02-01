@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
-import { getGraphQLClient } from '../../../lib/graphql-client';
-import { SKILL_QUERY, UPDATE_SKILL_MUTATION, CREATE_SKILL_MUTATION } from '../../../lib/graphql';
-import type { Skill } from '../../../lib/types';
-import SkillsForm from '../forms/SkillsForm';
+import { useState, useEffect } from "react";
+import { getGraphQLClient } from "../../../lib/graphql-client";
+import {
+  SKILL_QUERY,
+  UPDATE_SKILL_MUTATION,
+  CREATE_SKILL_MUTATION,
+} from "../../../lib/graphql";
+import type { Skill } from "../../../lib/types";
+import SkillsForm from "../forms/SkillsForm";
 
 interface SkillEditPageProps {
   skillId?: string;
@@ -28,17 +32,23 @@ export default function SkillEditPage({ skillId }: SkillEditPageProps) {
     setError(null);
     try {
       const client = getGraphQLClient();
-      const data = await client.request<SkillResponse>(SKILL_QUERY, { id: skillId });
+      const data = await client.request<SkillResponse>(SKILL_QUERY, {
+        id: skillId,
+      });
       setSkill(data.skill);
     } catch (err) {
-      console.error('Failed to fetch skill:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch skill');
+      console.error("Failed to fetch skill:", err);
+      setError(err instanceof Error ? err.message : "Failed to fetch skill");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSubmit = async (data: Partial<Skill>) => {
+    console.log("=== SkillEditPage handleSubmit ===");
+    console.log("Skill data being sent:", JSON.stringify(data, null, 2));
+    console.log("roleRelevance:", data.roleRelevance);
+
     const client = getGraphQLClient();
 
     if (skillId) {
@@ -47,11 +57,11 @@ export default function SkillEditPage({ skillId }: SkillEditPageProps) {
       await client.request(CREATE_SKILL_MUTATION, { input: data });
     }
 
-    window.location.href = '/admin/skills';
+    window.location.href = "/admin/skills";
   };
 
   const handleCancel = () => {
-    window.location.href = '/admin/skills';
+    window.location.href = "/admin/skills";
   };
 
   if (isLoading) {
