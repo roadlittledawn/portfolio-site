@@ -207,7 +207,7 @@ export const EDUCATION_FULL_FIELDS = gql`
 // ============================================================================
 
 export const AI_USAGE_FIELDS = gql`
-  fragment AIUsageFields on AIUsage {
+  fragment AIUsageFields on TokenUsage {
     inputTokens
     outputTokens
     cacheReadInputTokens

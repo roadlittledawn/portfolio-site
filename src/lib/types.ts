@@ -144,6 +144,19 @@ export interface KeywordCategory {
   updatedAt: Date;
 }
 
+// AI Generation Types (matches GraphQL schema)
+export interface TokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  cacheReadInputTokens?: number;
+  cacheCreationInputTokens?: number;
+}
+
+export interface GenerationResult {
+  content: string;
+  usage: TokenUsage;
+}
+
 // AI Assistant Types
 export interface AIContext {
   profileSummary: {
