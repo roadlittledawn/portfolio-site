@@ -2,7 +2,11 @@
  * Job Agent AI Prompts and Configuration
  */
 
-export type JobType = 'technical-writer' | 'technical-writing-manager' | 'software-engineer' | 'software-engineering-manager';
+export type JobType =
+  | "technical-writer"
+  | "technical-writing-manager"
+  | "software-engineer"
+  | "software-engineering-manager";
 
 export const JOB_AGENT_PROMPTS = {
   RESUME_SYSTEM_PROMPT: `# Tailor Resume for Job Position
@@ -72,30 +76,50 @@ You are an expert cover letter writing assistant. Your job is to create compelli
 Provide the cover letter in clean, professional format ready for use.`,
 
   JOB_TYPE_CONFIGS: {
-    'technical-writer': {
-      displayName: 'Technical Writer',
-      roleTypes: ['technical_writer'],
-      skillRelevance: ['technical_writer', 'technical_writing_manager'],
-      focusAreas: ['documentation', 'API documentation', 'user guides', 'technical communication']
+    "technical-writer": {
+      displayName: "Technical Writer",
+      roleTypes: ["technical_writer"],
+      skillRelevance: ["technical_writer", "manager_technical_writing"],
+      focusAreas: [
+        "documentation",
+        "API documentation",
+        "user guides",
+        "technical communication",
+      ],
     },
-    'technical-writing-manager': {
-      displayName: 'Technical Writing Manager',
-      roleTypes: ['technical_writing_manager', 'technical_writer'],
-      skillRelevance: ['technical_writing_manager', 'technical_writer'],
-      focusAreas: ['team leadership', 'documentation strategy', 'content management', 'cross-functional collaboration']
+    "technical-writing-manager": {
+      displayName: "Technical Writing Manager",
+      roleTypes: ["manager_technical_writing", "technical_writer"],
+      skillRelevance: ["manager_technical_writing", "technical_writer"],
+      focusAreas: [
+        "team leadership",
+        "documentation strategy",
+        "content management",
+        "cross-functional collaboration",
+      ],
     },
-    'software-engineer': {
-      displayName: 'Software Engineer',
-      roleTypes: ['software_engineer'],
-      skillRelevance: ['software_engineer'],
-      focusAreas: ['software development', 'programming', 'system design', 'technical problem solving']
+    "software-engineer": {
+      displayName: "Software Engineer",
+      roleTypes: ["software_engineer"],
+      skillRelevance: ["software_engineer"],
+      focusAreas: [
+        "software development",
+        "programming",
+        "system design",
+        "technical problem solving",
+      ],
     },
-    'software-engineering-manager': {
-      displayName: 'Software Engineering Manager',
-      roleTypes: ['engineering_manager', 'software_engineer'],
-      skillRelevance: ['engineering_manager', 'software_engineer'],
-      focusAreas: ['engineering leadership', 'team management', 'technical strategy', 'project delivery']
-    }
+    "software-engineering-manager": {
+      displayName: "Software Engineering Manager",
+      roleTypes: ["manager_software_engineering", "software_engineer"],
+      skillRelevance: ["manager_software_engineering", "software_engineer"],
+      focusAreas: [
+        "engineering leadership",
+        "team management",
+        "technical strategy",
+        "project delivery",
+      ],
+    },
   } as const,
 
   USER_PROMPTS: {
@@ -117,8 +141,8 @@ Please provide any additional context or specific points you'd like incorporated
 - Reference specific company values or initiatives?
 - Include any personal connection to the company or role?
 
-Please provide any specific instructions for the cover letter tone and content.`
-  }
+Please provide any specific instructions for the cover letter tone and content.`,
+  },
 };
 
 export const getJobTypeConfig = (jobType: JobType) => {
