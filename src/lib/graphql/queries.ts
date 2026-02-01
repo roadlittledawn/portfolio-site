@@ -376,6 +376,7 @@ export const EDUCATIONS_QUERY = gql`
       degree
       field
       graduationYear
+      relevantCoursework
     }
   }
 `;
@@ -388,6 +389,7 @@ export const EDUCATION_QUERY = gql`
       degree
       field
       graduationYear
+      relevantCoursework
       createdAt
       updatedAt
     }
@@ -400,6 +402,7 @@ export const CREATE_EDUCATION_MUTATION = gql`
       id
       institution
       degree
+      relevantCoursework
     }
   }
 `;
@@ -412,6 +415,7 @@ export const UPDATE_EDUCATION_MUTATION = gql`
       degree
       field
       graduationYear
+      relevantCoursework
     }
   }
 `;
