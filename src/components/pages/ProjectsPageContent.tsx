@@ -1,11 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getGraphQLClient } from '../../lib/graphql-client';
 import { PROJECTS_QUERY } from '../../lib/graphql';
-import type { Project } from '../../lib/types';
-
-interface ProjectsResponse {
-  projects: Project[];
-}
+import type { Project, ProjectsResponse } from '../../lib/types';
 
 export default function ProjectsPageContent() {
   const [projects, setProjects] = useState<Project[]>([]);
