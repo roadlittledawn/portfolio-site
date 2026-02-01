@@ -229,7 +229,7 @@ export default function SkillsForm({
             type="text"
             value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 addTag();
@@ -266,7 +266,7 @@ export default function SkillsForm({
             type="text"
             value={newKeyword}
             onChange={(e) => setNewKeyword(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 addKeyword();

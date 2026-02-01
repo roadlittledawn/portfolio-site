@@ -260,7 +260,7 @@ export default function ProfileForm({
               type="text"
               value={newValueProp}
               onChange={(e) => setNewValueProp(e.target.value)}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
                   addValueProposition();
@@ -323,7 +323,7 @@ export default function ProfileForm({
               type="text"
               value={newUSP}
               onChange={(e) => setNewUSP(e.target.value)}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
                   addUniqueSellingPoint();

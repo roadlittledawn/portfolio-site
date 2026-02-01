@@ -276,7 +276,7 @@ export default function ProjectForm({
             type="text"
             value={newTech}
             onChange={(e) => setNewTech(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 addTechnology();
@@ -315,7 +315,7 @@ export default function ProjectForm({
             type="text"
             value={newKeyword}
             onChange={(e) => setNewKeyword(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 addKeyword();

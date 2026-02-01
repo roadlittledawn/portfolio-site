@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql/queries';
+import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader, Textarea } from '../ui';
 
 interface ResumeGeneratorProps {
@@ -179,7 +180,7 @@ export default function ResumeGenerator({
             </div>
             <div
               className="p-6 bg-white text-gray-900 prose prose-sm max-w-none overflow-auto max-h-[600px]"
-              dangerouslySetInnerHTML={{ __html: marked(resume) }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(resume) as string) }}
             />
           </div>
 

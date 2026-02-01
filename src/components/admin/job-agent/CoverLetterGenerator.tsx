@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { GENERATE_COVER_LETTER_MUTATION } from '../../../lib/graphql/queries';
+import { GENERATE_COVER_LETTER_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader, Textarea } from '../ui';
 
 interface CoverLetterGeneratorProps {
@@ -202,7 +203,7 @@ export default function CoverLetterGenerator({
             </div>
             <div
               className="p-6 bg-white text-gray-900 prose prose-sm max-w-none overflow-auto max-h-[500px]"
-              dangerouslySetInnerHTML={{ __html: marked(coverLetter) }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(coverLetter) as string) }}
             />
           </div>
         </div>
