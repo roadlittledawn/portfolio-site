@@ -3,7 +3,7 @@
  * Shared field definitions to reduce duplication across queries
  */
 
-import { gql } from 'graphql-request';
+import { gql } from "graphql-request";
 
 // ============================================================================
 // EXPERIENCE FRAGMENTS
@@ -84,7 +84,7 @@ export const SKILL_FULL_FIELDS = gql`
 // ============================================================================
 
 export const PROJECT_LINK_FIELDS = gql`
-  fragment ProjectLinkFields on ProjectLink {
+  fragment ProjectLinkFields on Link {
     type
     url
     linkText

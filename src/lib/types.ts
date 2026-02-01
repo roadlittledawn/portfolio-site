@@ -81,7 +81,7 @@ export interface Skill {
   updatedAt: string;
 }
 
-export interface ProjectLink {
+export interface Link {
   type: string;
   url: string;
   linkText?: string;
@@ -101,7 +101,7 @@ export interface Project {
   technologies: string[];
   keywords: string[];
   roleTypes: string[];
-  links?: ProjectLink[];
+  links?: Link[];
   createdAt: string;
   updatedAt: string;
 }
