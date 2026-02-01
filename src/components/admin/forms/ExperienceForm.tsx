@@ -45,6 +45,12 @@ export default function ExperienceForm({
   const [roleTypes, setRoleTypes] = useState<string[]>(
     initialData?.roleTypes || []
   );
+  const [organizations, setOrganizations] = useState<string[]>(
+    initialData?.organizations || []
+  );
+  const [crossFunctional, setCrossFunctional] = useState<string[]>(
+    initialData?.crossFunctional || []
+  );
 
   const {
     register,
@@ -85,6 +91,8 @@ export default function ExperienceForm({
         responsibilities,
         achievements,
         technologies,
+        organizations,
+        crossFunctional,
         displayOrder: parseInt(data.displayOrder) || 0,
         featured: data.featured,
       };
