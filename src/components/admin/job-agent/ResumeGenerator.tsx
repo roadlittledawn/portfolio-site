@@ -5,6 +5,7 @@ import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader, Textarea } from '../ui';
+import './markdown-preview.css';
 
 interface ResumeGeneratorProps {
   jobInfo: {
@@ -179,7 +180,7 @@ export default function ResumeGenerator({
               <span className="text-sm font-medium text-text-secondary">Preview</span>
             </div>
             <div
-              className="p-6 bg-white text-gray-900 prose prose-sm max-w-none overflow-auto max-h-[600px]"
+              className="p-6 bg-white text-gray-900 overflow-auto max-h-[600px] markdown-preview"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(resume) as string) }}
             />
           </div>
