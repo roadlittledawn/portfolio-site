@@ -81,11 +81,11 @@ export default function ProjectsPageContent() {
   if (error) {
     return (
       <div className="max-w-2xl mx-auto py-12 px-4">
-        <div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center">
-          <p className="text-red-600 mb-4">{error}</p>
+        <div className="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
+          <p className="text-accent-pink mb-4">{error}</p>
           <button
             onClick={fetchProjects}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            className="px-4 py-2 bg-accent-blue text-text-inverse rounded-lg hover:bg-accent-blue/80 transition-colors"
           >
             Retry
           </button>
@@ -97,7 +97,7 @@ export default function ProjectsPageContent() {
   return (
     <div className="space-y-8">
       {/* Filter Navigation */}
-      <div className="flex flex-wrap gap-2 bg-bg-light p-4 rounded-lg">
+      <div className="flex flex-wrap gap-2 bg-dark-layer p-4 rounded-lg">
         {[
           { value: 'all', label: 'All Projects', count: projects.length },
           { value: 'engineering', label: 'Engineering', count: engineeringCount },
@@ -108,8 +108,8 @@ export default function ProjectsPageContent() {
             onClick={() => setFilter(opt.value)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filter === opt.value
-                ? 'bg-primary text-white'
-                : 'bg-white text-secondary hover:bg-bg-lighter'
+                ? 'bg-accent-blue text-text-inverse'
+                : 'bg-dark-card text-text-secondary hover:bg-dark-hover'
             }`}
           >
             {opt.label} ({opt.count})
@@ -125,18 +125,18 @@ export default function ProjectsPageContent() {
       </div>
 
       {filteredProjects.length === 0 && (
-        <div className="text-center py-12 text-muted">No projects match the current filter.</div>
+        <div className="text-center py-12 text-text-muted">No projects match the current filter.</div>
       )}
 
       {/* Project Stats */}
-      <div className="mt-12 pt-8 border-t border-border">
+      <div className="mt-12 pt-8 border-t border-dark-border">
         <div className="text-center">
-          <p className="text-secondary">
-            <span className="font-semibold text-accent text-lg">{projects.length}</span> projects
+          <p className="text-text-secondary">
+            <span className="font-semibold text-accent-blue text-lg">{projects.length}</span> projects
             showcasing{' '}
-            <span className="font-semibold text-accent text-lg">{engineeringCount}</span>{' '}
+            <span className="font-semibold text-accent-blue text-lg">{engineeringCount}</span>{' '}
             engineering and{' '}
-            <span className="font-semibold text-accent text-lg">{writingCount}</span> writing
+            <span className="font-semibold text-accent-blue text-lg">{writingCount}</span> writing
             initiatives
           </p>
         </div>
@@ -156,18 +156,18 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <a
       href={`/projects/${slug}`}
-      className="block bg-white border border-border rounded-lg p-6 hover:shadow-lg transition-all hover:-translate-y-1"
+      className="block bg-dark-card border border-dark-border rounded-lg p-6 hover:bg-dark-hover hover:border-dark-border transition-all hover:-translate-y-1"
     >
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-xl font-semibold text-primary-dark">{project.name}</h3>
+        <h3 className="text-xl font-semibold text-text-primary">{project.name}</h3>
         {project.featured && (
-          <span className="px-2 py-1 bg-accent/10 text-accent text-xs font-medium rounded">
+          <span className="px-2 py-1 bg-accent-amber/20 text-accent-amber text-xs font-medium rounded">
             Featured
           </span>
         )}
       </div>
 
-      <p className="text-secondary mb-4 line-clamp-3">{project.overview}</p>
+      <p className="text-text-secondary mb-4 line-clamp-3">{project.overview}</p>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {project.roleTypes?.map((role) => (
@@ -175,8 +175,8 @@ function ProjectCard({ project }: { project: Project }) {
             key={role}
             className={`px-2 py-1 text-xs font-medium rounded ${
               role.includes('engineer')
-                ? 'bg-blue-100 text-blue-700'
-                : 'bg-green-100 text-green-700'
+                ? 'bg-accent-blue/20 text-accent-blue'
+                : 'bg-accent-green/20 text-accent-green'
             }`}
           >
             {role.replace(/_/g, ' ')}
@@ -187,12 +187,12 @@ function ProjectCard({ project }: { project: Project }) {
       {project.technologies && project.technologies.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {project.technologies.slice(0, 5).map((tech) => (
-            <span key={tech} className="px-2 py-0.5 bg-bg-light text-xs text-muted rounded">
+            <span key={tech} className="px-2 py-0.5 bg-dark-layer text-xs text-text-muted rounded">
               {tech}
             </span>
           ))}
           {project.technologies.length > 5 && (
-            <span className="px-2 py-0.5 text-xs text-muted">
+            <span className="px-2 py-0.5 text-xs text-text-muted">
               +{project.technologies.length - 5} more
             </span>
           )}
@@ -200,9 +200,9 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       {project.links && project.links.length > 0 && (
-        <div className="mt-4 pt-4 border-t border-border flex gap-3">
+        <div className="mt-4 pt-4 border-t border-dark-border-subtle flex gap-3">
           {project.links.slice(0, 2).map((link, idx) => (
-            <span key={idx} className="text-sm text-primary hover:underline">
+            <span key={idx} className="text-sm text-accent-blue">
               {link.linkText || link.type}
             </span>
           ))}

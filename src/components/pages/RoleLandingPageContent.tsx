@@ -127,7 +127,7 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-secondary">Loading...</div>
+        <div className="text-text-secondary">Loading...</div>
       </div>
     );
   }
@@ -135,11 +135,11 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
   if (error) {
     return (
       <div className="max-w-2xl mx-auto py-12 px-4">
-        <div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center">
-          <p className="text-red-600 mb-4">{error}</p>
+        <div className="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
+          <p className="text-accent-pink mb-4">{error}</p>
           <button
             onClick={fetchData}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            className="px-4 py-2 bg-accent-blue text-text-inverse rounded-lg hover:bg-accent-blue/80 transition-colors"
           >
             Retry
           </button>
@@ -155,21 +155,21 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
       {/* Hero Description */}
       {filteredData.positioning && (
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <p className="text-lg text-secondary">{filteredData.positioning}</p>
+          <p className="text-lg text-text-secondary">{filteredData.positioning}</p>
         </div>
       )}
 
       {/* Core Expertise */}
       <section className="py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Core Expertise</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Core Expertise</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {strengths.map((strength, idx) => (
-            <div key={idx} className="bg-white border border-border rounded-lg p-6 text-center">
-              <h3 className="text-lg font-semibold text-primary-dark mb-2">{strength.title}</h3>
-              <p className="text-secondary text-sm">{strength.description}</p>
+            <div key={idx} className="bg-dark-card border border-dark-border rounded-lg p-6 text-center">
+              <h3 className="text-lg font-semibold text-text-primary mb-2">{strength.title}</h3>
+              <p className="text-text-secondary text-sm">{strength.description}</p>
             </div>
           ))}
         </div>
@@ -177,10 +177,10 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
 
       {/* Featured Projects */}
       {filteredData.projects.length > 0 && (
-        <section className="py-16 bg-bg-light">
+        <section className="py-16 bg-dark-layer">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
                 {roleType === 'engineering' ? 'Engineering Projects' : 'Writing Projects'}
               </h2>
             </div>
@@ -194,7 +194,7 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
             <div className="text-center mt-8">
               <a
                 href="/projects"
-                className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                className="inline-block px-6 py-3 bg-accent-blue text-text-inverse rounded-lg hover:bg-accent-blue/80 transition-colors"
               >
                 View All Projects
               </a>
@@ -207,24 +207,24 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
       {filteredData.skills.length > 0 && (
         <section className="py-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-4">Top Skills</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">Top Skills</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredData.skills.map((skill) => (
               <div
                 key={skill.id}
-                className="bg-white border border-border rounded-lg p-4 flex items-center justify-between"
+                className="bg-dark-card border border-dark-border rounded-lg p-4 flex items-center justify-between"
               >
                 <div>
-                  <h4 className="font-medium text-primary-dark">{skill.name}</h4>
-                  <span className="text-xs text-muted">{skill.level}</span>
+                  <h4 className="font-medium text-text-primary">{skill.name}</h4>
+                  <span className="text-xs text-text-muted">{skill.level}</span>
                 </div>
                 <div className="flex gap-0.5">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
                       key={star}
-                      className={`text-sm ${star <= skill.rating ? 'text-accent' : 'text-gray-300'}`}
+                      className={`text-sm ${star <= skill.rating ? 'text-accent-amber' : 'text-dark-border'}`}
                     >
                       ★
                     </span>
@@ -237,7 +237,7 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
           <div className="text-center mt-8">
             <a
               href="/skills"
-              className="inline-block px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors"
+              className="inline-block px-6 py-3 border border-accent-blue text-accent-blue rounded-lg hover:bg-accent-blue hover:text-text-inverse transition-colors"
             >
               View All Skills
             </a>
@@ -247,10 +247,10 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
 
       {/* Experience Timeline */}
       {filteredData.experiences.length > 0 && (
-        <section className="py-16 bg-bg-light">
+        <section className="py-16 bg-dark-layer">
           <div className="max-w-4xl mx-auto px-4">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
                 {roleType === 'engineering' ? 'Engineering Experience' : 'Writing Experience'}
               </h2>
             </div>
@@ -259,16 +259,16 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
               {filteredData.experiences.slice(0, 4).map((exp) => (
                 <div
                   key={exp.id}
-                  className="bg-white border border-border rounded-lg p-6"
+                  className="bg-dark-card border border-dark-border rounded-lg p-6"
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
-                    <h3 className="text-lg font-semibold text-primary-dark">{exp.title}</h3>
-                    <span className="text-sm text-muted">
+                    <h3 className="text-lg font-semibold text-text-primary">{exp.title}</h3>
+                    <span className="text-sm text-text-muted">
                       {formatDate(exp.startDate)} - {exp.endDate ? formatDate(exp.endDate) : 'Present'}
                     </span>
                   </div>
-                  <p className="text-primary mb-2">{exp.company}</p>
-                  {exp.summary && <p className="text-secondary text-sm">{exp.summary}</p>}
+                  <p className="text-accent-blue mb-2">{exp.company}</p>
+                  {exp.summary && <p className="text-text-secondary text-sm">{exp.summary}</p>}
                 </div>
               ))}
             </div>
@@ -276,7 +276,7 @@ export default function RoleLandingPageContent({ roleType }: RoleLandingPageCont
             <div className="text-center mt-8">
               <a
                 href="/experience"
-                className="inline-block px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-colors"
+                className="inline-block px-6 py-3 border border-accent-blue text-accent-blue rounded-lg hover:bg-accent-blue hover:text-text-inverse transition-colors"
               >
                 View Full Experience
               </a>
@@ -298,21 +298,21 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <a
       href={`/projects/${slug}`}
-      className="block bg-white border border-border rounded-lg p-6 hover:shadow-lg transition-all"
+      className="block bg-dark-card border border-dark-border rounded-lg p-6 hover:bg-dark-hover transition-all"
     >
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-xl font-semibold text-primary-dark">{project.name}</h3>
+        <h3 className="text-xl font-semibold text-text-primary">{project.name}</h3>
         {project.featured && (
-          <span className="px-2 py-1 bg-accent/10 text-accent text-xs font-medium rounded">
+          <span className="px-2 py-1 bg-accent-amber/20 text-accent-amber text-xs font-medium rounded">
             Featured
           </span>
         )}
       </div>
-      <p className="text-secondary mb-4 line-clamp-2">{project.overview}</p>
+      <p className="text-text-secondary mb-4 line-clamp-2">{project.overview}</p>
       {project.technologies && project.technologies.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {project.technologies.slice(0, 4).map((tech) => (
-            <span key={tech} className="px-2 py-0.5 bg-bg-light text-xs text-muted rounded">
+            <span key={tech} className="px-2 py-0.5 bg-dark-layer text-xs text-text-muted rounded">
               {tech}
             </span>
           ))}

@@ -1,123 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import FilterNav from '../components/FilterNav.astro';
-import GridContainer from '../components/GridContainer.astro';
-import CategorySection from '../components/CategorySection.astro';
-import SkillCard from '../components/SkillCard.astro';
-import careerData from '../data/careerData.json';
+import SkillsPageContent from '../components/pages/SkillsPageContent';
 
 const title = "Skills - Clinton Langosch";
 const description = "Technical and professional skills spanning software engineering, technical writing, and leadership.";
-
-// Get and process skills data
-const allSkills = careerData.skills
-  .sort((a, b) => a.name.localeCompare(b.name));
-
-// Organize skills by category
-const skillsByCategory: Record<string, typeof allSkills> = allSkills.reduce((acc, skill) => {
-  skill.tags?.forEach((tag: string) => {
-    if (!acc[tag]) acc[tag] = [];
-    if (!acc[tag].some((s: any) => s.name === skill.name)) {
-      acc[tag].push(skill);
-    }
-  });
-  return acc;
-}, {} as Record<string, typeof allSkills>);
-
-// Category definitions
-const categoryOrder = [
-  { key: 'frontend', name: 'Frontend Development', icon: 'palette' },
-  { key: 'backend', name: 'Backend Development', icon: 'settings' },
-  { key: 'database', name: 'Databases', icon: 'database' },
-  { key: 'tools', name: 'Development Tools', icon: 'tool' },
-  { key: 'cloud-platform', name: 'Cloud Platforms', icon: 'cloud' },
-  { key: 'concepts', name: 'Concepts & Practices', icon: 'light-bulb' },
-  { key: 'management', name: 'Leadership & Management', icon: 'users' },
-  { key: 'testing', name: 'Testing', icon: 'test-tube' }
-];
-
-// Count skills by focus
-const engineeringCount = allSkills.filter(s => 
-  s.roleRelevance?.includes('engineering') || s.roleRelevance?.includes('both')
-).length;
-const writingCount = allSkills.filter(s => 
-  s.roleRelevance?.includes('writing') || 
-  s.roleRelevance?.includes('technical_writing') || 
-  s.roleRelevance?.includes('both')
-).length;
-
-// Prepare filter and view options
-const filterOptions = [
-  { value: 'all', label: 'All Skills', icon: 'layers', count: allSkills.length },
-  { value: 'engineering', label: 'Engineering', icon: 'cpu', count: engineeringCount },
-  { value: 'writing', label: 'Writing', icon: 'edit-3', count: writingCount }
-];
-
-const viewOptions = [
-  { value: 'grid', label: 'Grid View' },
-  { value: 'category', label: 'By Category' }
-];
-
-const levelOptions = [
-  { value: 'all', label: 'All Levels' },
-  { value: 'expert', label: 'Expert Only' },
-  { value: 'intermediate', label: 'Intermediate Only' },
-  { value: 'beginner', label: 'Beginner Only' }
-];
-
-const sortOptions = [
-  { value: 'name-asc', label: 'Alphabetical (A-Z)' },
-  { value: 'name-desc', label: 'Alphabetical (Z-A)' }
-];
-
 ---
 
 <BaseLayout title={title} description={description}>
-  <PageHeader 
+  <PageHeader
     title="Skills & Expertise"
     description="Technical and professional skills developed over 10+ years in software engineering and technical writing, with deep expertise in web technologies and content systems."
   />
 
-  <FilterNav 
-    filters={filterOptions}
-    views={viewOptions}
-    levelOptions={levelOptions}
-    sortOptions={sortOptions}
-    defaultFilter="all"
-    defaultView="grid"
-    defaultLevel="all"
-    defaultSort="name-asc"
-  />
-
-  <!-- Grid View -->
-  <div class="skills-grid-view">
-    <GridContainer columns={{default: 1, md: 2, lg: 3}} gap="md">
-      {allSkills.map(skill => (
-        <SkillCard skill={skill} variant="grid" />
-      ))}
-    </GridContainer>
-  </div>
-
-  <!-- Category View -->
-  <div class="skills-category-view hidden">
-    {categoryOrder.map(category => {
-      const categorySkills = skillsByCategory[category.key] || [];
-      if (categorySkills.length === 0) return null;
-      
-      return (
-        <CategorySection
-          title={category.name}
-          icon={category.icon}
-          count={categorySkills.length}
-          categoryKey={category.key}
-        >
-          {categorySkills.map((skill: any) => (
-            <SkillCard skill={skill} variant="list" />
-          ))}
-        </CategorySection>
-      );
-    })}
-  </div>
-
+  <SkillsPageContent client:only="react" />
 </BaseLayout>

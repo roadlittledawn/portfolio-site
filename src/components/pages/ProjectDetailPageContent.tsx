@@ -56,9 +56,9 @@ export default function ProjectDetailPageContent() {
 
   const getProjectType = (type: string) => {
     const types: Record<string, { label: string; colorClass: string }> = {
-      engineering: { label: 'Engineering', colorClass: 'bg-blue-100 text-blue-700' },
-      writing: { label: 'Writing', colorClass: 'bg-green-100 text-green-700' },
-      leadership: { label: 'Leadership', colorClass: 'bg-purple-100 text-purple-700' },
+      engineering: { label: 'Engineering', colorClass: 'bg-accent-blue/20 text-accent-blue' },
+      writing: { label: 'Writing', colorClass: 'bg-accent-green/20 text-accent-green' },
+      leadership: { label: 'Leadership', colorClass: 'bg-accent-purple/20 text-accent-purple' },
     };
     return types[type] || types.engineering;
   };
@@ -66,7 +66,7 @@ export default function ProjectDetailPageContent() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="text-secondary">Loading project...</div>
+        <div className="text-text-secondary">Loading project...</div>
       </div>
     );
   }
@@ -74,11 +74,11 @@ export default function ProjectDetailPageContent() {
   if (error || !project) {
     return (
       <div className="max-w-2xl mx-auto py-12 px-4">
-        <div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center">
-          <p className="text-red-600 mb-4">{error || 'Project not found'}</p>
+        <div className="p-6 bg-dark-card border border-dark-border rounded-lg text-center">
+          <p className="text-accent-pink mb-4">{error || 'Project not found'}</p>
           <a
             href="/projects"
-            className="inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            className="inline-block px-4 py-2 bg-accent-blue text-text-inverse rounded-lg hover:bg-accent-blue/80 transition-colors"
           >
             Back to Projects
           </a>
@@ -99,11 +99,11 @@ export default function ProjectDetailPageContent() {
   return (
     <div className="container mx-auto px-4 max-w-6xl">
       {/* Hero Section */}
-      <div className="pt-8 pb-12 border-b border-border">
+      <div className="pt-8 pb-12 border-b border-dark-border">
         <div className="mb-6">
           <a
             href="/projects"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary-dark transition-colors"
+            className="inline-flex items-center gap-2 text-accent-blue hover:text-accent-blue/80 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -112,24 +112,24 @@ export default function ProjectDetailPageContent() {
           </a>
         </div>
 
-        <h1 className="text-4xl font-bold text-primary-dark mb-4">{project.name}</h1>
+        <h1 className="text-4xl font-bold text-text-primary mb-4">{project.name}</h1>
 
         <div className="flex flex-wrap items-center gap-4 mb-6">
           <span className={`px-3 py-1 rounded-full text-sm font-medium ${typeInfo.colorClass}`}>
             {typeInfo.label}
           </span>
 
-          <span className="text-secondary">{formatDate(project.date)}</span>
+          <span className="text-text-secondary">{formatDate(project.date)}</span>
 
           {project.featured && (
-            <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-medium">
+            <span className="px-3 py-1 bg-accent-amber/20 text-accent-amber rounded-full text-sm font-medium">
               Featured Project
             </span>
           )}
         </div>
 
         {project.overview && (
-          <p className="text-xl text-secondary leading-relaxed">{project.overview}</p>
+          <p className="text-xl text-text-secondary leading-relaxed">{project.overview}</p>
         )}
       </div>
 
@@ -140,44 +140,44 @@ export default function ProjectDetailPageContent() {
           {/* Challenge */}
           {project.challenge && (
             <section>
-              <h2 className="text-2xl font-semibold text-primary-dark mb-4">The Challenge</h2>
-              <p className="text-secondary leading-relaxed">{project.challenge}</p>
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">The Challenge</h2>
+              <p className="text-text-secondary leading-relaxed">{project.challenge}</p>
             </section>
           )}
 
           {/* Approach */}
           {project.approach && (
             <section>
-              <h2 className="text-2xl font-semibold text-primary-dark mb-4">Approach</h2>
-              <p className="text-secondary leading-relaxed">{project.approach}</p>
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">Approach</h2>
+              <p className="text-text-secondary leading-relaxed">{project.approach}</p>
             </section>
           )}
 
           {/* Outcome */}
           {project.outcome && (
             <section>
-              <h2 className="text-2xl font-semibold text-primary-dark mb-4">Outcome</h2>
-              <p className="text-secondary leading-relaxed">{project.outcome}</p>
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">Outcome</h2>
+              <p className="text-text-secondary leading-relaxed">{project.outcome}</p>
             </section>
           )}
 
           {/* Impact */}
           {project.impact && (
             <section>
-              <h2 className="text-2xl font-semibold text-primary-dark mb-4">Impact</h2>
-              <p className="text-secondary leading-relaxed">{project.impact}</p>
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">Impact</h2>
+              <p className="text-text-secondary leading-relaxed">{project.impact}</p>
             </section>
           )}
 
           {/* Technologies Used */}
           {project.technologies && project.technologies.length > 0 && (
             <section>
-              <h2 className="text-2xl font-semibold text-primary-dark mb-4">Technologies</h2>
+              <h2 className="text-2xl font-semibold text-text-primary mb-4">Technologies</h2>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1.5 bg-bg-light text-secondary rounded-lg text-sm"
+                    className="px-3 py-1.5 bg-dark-layer text-text-secondary rounded-lg text-sm"
                   >
                     {tech}
                   </span>
@@ -196,15 +196,15 @@ export default function ProjectDetailPageContent() {
             linksByType.demo1 ||
             linksByType.demo2 ||
             linksByType.writing_sample) && (
-            <div className="bg-bg-light rounded-xl p-6 border border-border">
-              <h3 className="text-lg font-semibold text-primary-dark mb-4">Project Links</h3>
+            <div className="bg-dark-card rounded-xl p-6 border border-dark-border">
+              <h3 className="text-lg font-semibold text-text-primary mb-4">Project Links</h3>
               <div className="space-y-3">
                 {linksByType.website && (
                   <a
                     href={linksByType.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-secondary hover:text-primary transition-colors"
+                    className="flex items-center gap-3 text-text-secondary hover:text-accent-blue transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -223,7 +223,7 @@ export default function ProjectDetailPageContent() {
                     href={linksByType.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-secondary hover:text-primary transition-colors"
+                    className="flex items-center gap-3 text-text-secondary hover:text-accent-blue transition-colors"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
@@ -237,7 +237,7 @@ export default function ProjectDetailPageContent() {
                     href={linksByType.demo || linksByType.demo1 || linksByType.demo2}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-secondary hover:text-primary transition-colors"
+                    className="flex items-center gap-3 text-text-secondary hover:text-accent-blue transition-colors"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -258,7 +258,7 @@ export default function ProjectDetailPageContent() {
                 )}
 
                 {linksByType.writing_sample && (
-                  <p className="text-secondary text-sm">Writing sample available upon request</p>
+                  <p className="text-text-secondary text-sm">Writing sample available upon request</p>
                 )}
               </div>
             </div>
@@ -266,16 +266,16 @@ export default function ProjectDetailPageContent() {
 
           {/* Role Types */}
           {project.roleTypes && project.roleTypes.length > 0 && (
-            <div className="bg-bg-light rounded-xl p-6 border border-border">
-              <h3 className="text-lg font-semibold text-primary-dark mb-4">Focus Areas</h3>
+            <div className="bg-dark-card rounded-xl p-6 border border-dark-border">
+              <h3 className="text-lg font-semibold text-text-primary mb-4">Focus Areas</h3>
               <div className="flex flex-wrap gap-2">
                 {project.roleTypes.map((role) => (
                   <span
                     key={role}
                     className={`px-2 py-1 text-xs font-medium rounded ${
                       role.includes('engineer')
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-green-100 text-green-700'
+                        ? 'bg-accent-blue/20 text-accent-blue'
+                        : 'bg-accent-green/20 text-accent-green'
                     }`}
                   >
                     {role.replace(/_/g, ' ')}

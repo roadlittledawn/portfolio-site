@@ -1,134 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
-import GridContainer from '../components/GridContainer.astro';
-import StrengthCard from '../components/StrengthCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import SkillCard from '../components/SkillCard.astro';
-import ExperienceCard from '../components/ExperienceCard.astro';
-import Button from '../components/Button.astro';
-import careerData from '../data/careerData.json';
+import RoleLandingPageContent from '../components/pages/RoleLandingPageContent';
 
 const title = "Technical Writing - Clinton Langosch";
 const description = "Technical writer and content strategist with 11 years of experience in documentation, developer experience, and technical communication.";
-
-// Filter for writing-focused content
-const writingSkills = careerData.skills
-  .filter(skill => skill.roleRelevance?.includes('technical_writer') || skill.roleRelevance?.includes('technical_writing_manager'))
-  .sort((a, b) => b.rating - a.rating)
-  .slice(0, 12);
-
-const writingProjects = careerData.projects
-  .filter(project => project.roleTypes?.includes('technical_writer') || project.roleTypes?.includes('technical_writing_manager'))
-  .filter(project => project.featured);
-
-const writingRoles = careerData.experiences
-  .filter(role => role.roleTypes?.includes('technical_writer') || role.roleTypes?.includes('technical_writing_manager'))
-  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-
-const strengths = [
-  {
-    title: "Documentation Systems",
-    description: "Docs-as-code, content reuse, style guides, and culture of documentation"
-  },
-  {
-    title: "Developer Experience",
-    description: "API documentation, technical tutorials, and developer-focused content strategy"
-  },
-  {
-    title: "Content Leadership", 
-    description: "Team management, content strategy, and scaling documentation processes"
-  },
-  {
-    title: "Technical Tools",
-    description: "Modern publishing workflows, internationalization, and content tooling"
-  }
-];
 ---
 
 <BaseLayout title={title} description={description}>
   <HeroSection
     title="Technical Writing & Leadership"
     subtitle="11 years of experience creating clear, effective technical documentation and building modern content systems."
-    description={careerData.profile.positioning.byRole.technical_writer}
   />
 
-  <!-- Core Expertise -->
-  <section class="py-16">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Core Expertise</h2>
-    </div>
-    
-    <GridContainer columns={{ default: 1, md: 2, lg: 4 }} gap="lg">
-      {strengths.map(strength => (
-        <StrengthCard 
-          title={strength.title}
-          description={strength.description}
-        />
-      ))}
-    </GridContainer>
-  </section>
-
-  <!-- Featured Projects -->
-  <section class="py-16 bg-dark-bg-secondary">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Writing-Focused Projects</h2>
-      </div>
-      
-      <GridContainer columns={{ default: 1, lg: 2 }} gap="lg">
-        {writingProjects.map(project => (
-          <ProjectCard project={project} />
-        ))}
-      </GridContainer>
-      
-      <div class="text-center mt-8">
-        <Button href="/projects?focus=writing" variant="secondary">
-          View All Writing Projects →
-        </Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Writing & Communication Skills -->
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Writing & Communication Skills</h2>
-      </div>
-      
-      <GridContainer columns={{ default: 1, md: 2, lg: 3, xl: 4 }} gap="md">
-        {writingSkills.map(skill => (
-          <SkillCard skill={skill} variant="grid" />
-        ))}
-      </GridContainer>
-      
-      <div class="text-center mt-8">
-        <Button href="/skills?focus=writing" variant="secondary">
-          View All Writing Skills →
-        </Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Experience Highlights -->
-  <section class="py-16 bg-dark-bg-secondary">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Writing & Content Leadership Experience</h2>
-      </div>
-      
-      <div class="space-y-6">
-        {writingRoles.slice(0, 3).map((role: any) => (
-          <ExperienceCard role={role} showHighlights={-1} />
-        ))}
-      </div>
-      
-      <div class="text-center mt-8">
-        <Button href="/experience" variant="secondary">
-          View Full Experience →
-        </Button>
-      </div>
-    </div>
-  </section>
+  <RoleLandingPageContent roleType="writing" client:only="react" />
 </BaseLayout>
