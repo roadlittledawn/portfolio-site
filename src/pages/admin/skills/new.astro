@@ -1,39 +1,18 @@
 ---
 export const prerender = false;
 import AdminLayout from "../../../layouts/AdminLayout.astro";
+import AdminPageHeader from "../../../components/admin/layout/AdminPageHeader.astro";
 import { SkillEditPage } from "../../../components/admin/pages";
 ---
 
 <AdminLayout title="New Skill | Career Admin">
   <div class="space-y-6">
-    <div class="flex items-center gap-4">
-      <a
-        href="/admin/skills"
-        class="p-2 text-text-muted hover:text-text-primary hover:bg-dark-card rounded-lg transition-colors"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-      </a>
-      <div>
-        <h1 class="text-3xl font-bold text-text-primary">New Skill</h1>
-        <p class="text-text-secondary mt-1">Add a new skill to your profile</p>
-      </div>
-    </div>
+    <AdminPageHeader
+      title="New Skill"
+      subtitle="Add a new skill to your profile"
+      backHref="/admin/skills"
+    />
 
     <SkillEditPage client:only="react" />
   </div>
 </AdminLayout>
-
-<script>
-  import { verifyToken } from "../../../lib/auth";
-
-  async function checkAuth() {
-    const result = await verifyToken();
-    if (!result.valid) {
-      window.location.href = "/admin/login";
-    }
-  }
-
-  checkAuth();
-</script>

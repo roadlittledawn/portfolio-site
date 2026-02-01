@@ -26,16 +26,3 @@ import { ProfilePage } from "../../../components/admin/pages";
     <ProfilePage client:only="react" />
   </div>
 </AdminLayout>
-
-<script>
-  import { verifyToken } from "../../../lib/auth";
-
-  async function checkAuth() {
-    const result = await verifyToken();
-    if (!result.valid) {
-      window.location.href = "/admin/login";
-    }
-  }
-
-  checkAuth();
-</script>

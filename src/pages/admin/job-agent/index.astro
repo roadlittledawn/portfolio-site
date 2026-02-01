@@ -15,16 +15,3 @@ import { JobAgentPage } from "../../../components/admin/pages";
     <JobAgentPage client:only="react" />
   </div>
 </AdminLayout>
-
-<script>
-  import { verifyToken } from "../../../lib/auth";
-
-  async function checkAuth() {
-    const result = await verifyToken();
-    if (!result.valid) {
-      window.location.href = "/admin/login";
-    }
-  }
-
-  checkAuth();
-</script>

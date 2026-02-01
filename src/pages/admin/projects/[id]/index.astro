@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import AdminLayout from "../../../../layouts/AdminLayout.astro";
+import AdminPageHeader from "../../../../components/admin/layout/AdminPageHeader.astro";
 import { ProjectDetailPage } from "../../../../components/admin/pages";
 
 const { id } = Astro.params;
@@ -8,33 +9,12 @@ const { id } = Astro.params;
 
 <AdminLayout title="Project Details | Career Admin">
   <div class="space-y-6">
-    <div class="flex items-center gap-4">
-      <a
-        href="/admin/projects"
-        class="p-2 text-text-muted hover:text-text-primary hover:bg-dark-card rounded-lg transition-colors"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-      </a>
-      <div>
-        <h1 class="text-3xl font-bold text-text-primary">Project Details</h1>
-      </div>
-    </div>
+    <AdminPageHeader
+      title="Project Details"
+      subtitle="View project information"
+      backHref="/admin/projects"
+    />
 
     <ProjectDetailPage client:only="react" projectId={id} />
   </div>
 </AdminLayout>
-
-<script>
-  import { verifyToken } from "../../../../lib/auth";
-
-  async function checkAuth() {
-    const result = await verifyToken();
-    if (!result.valid) {
-      window.location.href = "/admin/login";
-    }
-  }
-
-  checkAuth();
-</script>
