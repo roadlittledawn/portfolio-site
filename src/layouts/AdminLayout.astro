@@ -6,13 +6,18 @@
  * Note: ViewTransitions is intentionally NOT used here because:
  * 1. Netlify sets X-Frame-Options: DENY which blocks the iframe-based transitions
  * 2. Admin CRUD pages work better with full page reloads for form submissions
+ *
+ * Auth: This layout includes authentication verification for all admin pages.
+ * Unauthenticated users are redirected to /admin/login.
  */
 
 export interface Props {
   title: string;
+  /** Set to true to skip auth check (for login page) */
+  skipAuth?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, skipAuth = false } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const navItems = [
@@ -129,5 +134,21 @@ function isActive(href: string): boolean {
 
     <!-- Auth Provider (React Island) -->
     <div id="admin-auth-root"></div>
+
+    {/* Auth verification script - runs on all admin pages except login */}
+    {!skipAuth && (
+      <script>
+        import { verifyToken } from "../lib/auth";
+
+        async function checkAuth() {
+          const result = await verifyToken();
+          if (!result.valid) {
+            window.location.href = "/admin/login";
+          }
+        }
+
+        checkAuth();
+      </script>
+    )}
   </body>
 </html>
