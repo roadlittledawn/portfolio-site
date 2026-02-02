@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { JobInfoForm, ResumeGenerator, CoverLetterGenerator } from '../job-agent';
+import { Button, Card, CardHeader, Textarea } from '../ui';
 
-type Step = 'job-info' | 'resume' | 'cover-letter' | 'complete';
+type Step = 'job-info' | 'context' | 'resume' | 'cover-letter' | 'complete';
 
 interface JobInfo {
   description: string;
@@ -16,10 +17,11 @@ export default function JobAgentPage() {
   const [jobInfo, setJobInfo] = useState<JobInfo | null>(null);
   const [resume, setResume] = useState<string>('');
   const [coverLetter, setCoverLetter] = useState<string>('');
+  const [additionalContext, setAdditionalContext] = useState<string>('');
 
   const handleJobInfoSubmit = (data: JobInfo) => {
     setJobInfo(data);
-    setStep('resume');
+    setStep('context');
   };
 
   const handleResumeGenerated = (generatedResume: string) => {
@@ -28,7 +30,6 @@ export default function JobAgentPage() {
 
   const handleCoverLetterGenerated = (generatedCoverLetter: string) => {
     setCoverLetter(generatedCoverLetter);
-    setStep('complete');
   };
 
   const resetWorkflow = () => {
@@ -36,88 +37,173 @@ export default function JobAgentPage() {
     setJobInfo(null);
     setResume('');
     setCoverLetter('');
+    setAdditionalContext('');
   };
 
   // Progress indicator
   const steps = [
     { id: 'job-info', label: 'Job Info', number: 1 },
-    { id: 'resume', label: 'Resume', number: 2 },
-    { id: 'cover-letter', label: 'Cover Letter', number: 3 },
-    { id: 'complete', label: 'Complete', number: 4 },
-  ];
+    { id: 'context', label: 'Context', number: 2 },
+    { id: 'resume', label: 'Resume', number: 3 },
+    { id: 'cover-letter', label: 'Cover Letter', number: 4 },
+    { id: 'complete', label: 'Complete', number: 5 },
+  ] as const;
 
   const currentStepIndex = steps.findIndex((s) => s.id === step);
+
+  // Determine which steps are accessible (completed or current)
+  const getHighestCompletedStepIndex = () => {
+    if (coverLetter) return 4; // Can access complete
+    if (resume) return 3; // Can access cover-letter
+    if (jobInfo) return 2; // Can access context and resume (context is optional)
+    return 0; // Only job-info
+  };
+
+  const highestAccessibleIndex = getHighestCompletedStepIndex();
+
+  const handleStepClick = (stepId: Step, index: number) => {
+    // Can only click on steps that have been completed or are current
+    if (index <= highestAccessibleIndex) {
+      setStep(stepId);
+    }
+  };
 
   return (
     <div className="space-y-8">
       {/* Progress Indicator */}
       <div className="flex items-center justify-center">
         <div className="flex items-center gap-2">
-          {steps.map((s, index) => (
-            <div key={s.id} className="flex items-center">
-              <div
-                className={`flex items-center justify-center w-10 h-10 rounded-full font-bold transition-colors ${
-                  index <= currentStepIndex
-                    ? 'bg-accent-blue text-white'
-                    : 'bg-dark-card border border-dark-border text-text-muted'
-                }`}
-              >
-                {index < currentStepIndex ? (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                ) : (
-                  s.number
+          {steps.map((s, index) => {
+            const isAccessible = index <= highestAccessibleIndex;
+            const isCompleted = index < currentStepIndex;
+            const isCurrent = index === currentStepIndex;
+
+            return (
+              <div key={s.id} className="flex items-center">
+                <button
+                  onClick={() => handleStepClick(s.id as Step, index)}
+                  disabled={!isAccessible}
+                  className={`flex items-center justify-center w-10 h-10 rounded-full font-bold transition-colors ${
+                    isCurrent
+                      ? 'bg-accent-blue text-white'
+                      : isCompleted
+                        ? 'bg-accent-blue/70 text-white hover:bg-accent-blue cursor-pointer'
+                        : isAccessible
+                          ? 'bg-dark-card border border-dark-border text-text-muted hover:bg-dark-hover cursor-pointer'
+                          : 'bg-dark-card border border-dark-border text-text-muted cursor-not-allowed opacity-50'
+                  }`}
+                >
+                  {isCompleted ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    s.number
+                  )}
+                </button>
+                <span
+                  className={`ml-2 text-sm font-medium ${
+                    isAccessible ? 'text-text-primary' : 'text-text-muted'
+                  } ${isAccessible && !isCurrent ? 'cursor-pointer hover:text-accent-blue' : ''}`}
+                  onClick={() => isAccessible && handleStepClick(s.id as Step, index)}
+                >
+                  {s.label}
+                </span>
+                {index < steps.length - 1 && (
+                  <div
+                    className={`w-12 h-0.5 mx-4 ${
+                      isCompleted ? 'bg-accent-blue' : 'bg-dark-border'
+                    }`}
+                  />
                 )}
               </div>
-              <span
-                className={`ml-2 text-sm font-medium ${
-                  index <= currentStepIndex ? 'text-text-primary' : 'text-text-muted'
-                }`}
-              >
-                {s.label}
-              </span>
-              {index < steps.length - 1 && (
-                <div
-                  className={`w-12 h-0.5 mx-4 ${
-                    index < currentStepIndex ? 'bg-accent-blue' : 'bg-dark-border'
-                  }`}
-                />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {/* Step Content */}
-      {step === 'job-info' && <JobInfoForm onSubmit={handleJobInfoSubmit} />}
-
-      {step === 'resume' && jobInfo && (
-        <ResumeGenerator
-          jobInfo={jobInfo}
-          onResumeGenerated={handleResumeGenerated}
-          onBack={() => setStep('job-info')}
+      {step === 'job-info' && (
+        <JobInfoForm
+          onSubmit={handleJobInfoSubmit}
+          initialData={jobInfo || undefined}
         />
       )}
 
-      {step === 'resume' && resume && (
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={() => setStep('cover-letter')}
-            className="px-6 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
-          >
-            Continue to Cover Letter
-          </button>
-        </div>
+      {step === 'context' && jobInfo && (
+        <Card>
+          <CardHeader
+            title="Additional Context"
+            description="Optionally provide extra information to personalize your resume"
+            actions={
+              <Button variant="ghost" size="sm" onClick={() => setStep('job-info')}>
+                Back to Job Info
+              </Button>
+            }
+          />
+          <div className="space-y-6">
+            <Textarea
+              label="Additional Context (Optional)"
+              value={additionalContext}
+              onChange={(e) => setAdditionalContext(e.target.value)}
+              placeholder="Any specific skills, projects, achievements, or experiences you want to highlight for this role..."
+              rows={6}
+              helperText="This helps tailor the resume to emphasize your most relevant qualifications"
+            />
+            <div className="flex justify-between">
+              <Button variant="ghost" onClick={() => setStep('job-info')}>
+                Back
+              </Button>
+              <Button onClick={() => setStep('resume')}>
+                Continue to Resume
+              </Button>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {step === 'resume' && jobInfo && (
+        <>
+          <ResumeGenerator
+            jobInfo={jobInfo}
+            initialResume={resume}
+            additionalContext={additionalContext}
+            onResumeGenerated={handleResumeGenerated}
+            onBack={() => setStep('context')}
+          />
+          {resume && (
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => setStep('cover-letter')}
+                className="px-6 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
+              >
+                Continue to Cover Letter
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {step === 'cover-letter' && jobInfo && (
-        <CoverLetterGenerator
-          jobInfo={jobInfo}
-          resume={resume}
-          onCoverLetterGenerated={handleCoverLetterGenerated}
-          onBack={() => setStep('resume')}
-        />
+        <>
+          <CoverLetterGenerator
+            jobInfo={jobInfo}
+            resume={resume}
+            initialCoverLetter={coverLetter}
+            onCoverLetterGenerated={handleCoverLetterGenerated}
+            onBack={() => setStep('resume')}
+          />
+          {coverLetter && (
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => setStep('complete')}
+                className="px-6 py-3 bg-accent-blue hover:bg-accent-blue/80 text-white font-medium rounded-lg transition-colors"
+              >
+                Continue to Complete
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {step === 'complete' && (

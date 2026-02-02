@@ -5,6 +5,7 @@ import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_COVER_LETTER_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader, Textarea } from '../ui';
+import './markdown-preview.css';
 
 interface CoverLetterGeneratorProps {
   jobInfo: {
@@ -13,6 +14,7 @@ interface CoverLetterGeneratorProps {
     companyName?: string;
   };
   resume: string;
+  initialCoverLetter?: string;
   onCoverLetterGenerated: (coverLetter: string) => void;
   onBack: () => void;
 }
@@ -20,10 +22,11 @@ interface CoverLetterGeneratorProps {
 export default function CoverLetterGenerator({
   jobInfo,
   resume,
+  initialCoverLetter = '',
   onCoverLetterGenerated,
   onBack,
 }: CoverLetterGeneratorProps) {
-  const [coverLetter, setCoverLetter] = useState<string>('');
+  const [coverLetter, setCoverLetter] = useState<string>(initialCoverLetter);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tone, setTone] = useState<'professional' | 'conversational' | 'enthusiastic'>('professional');
@@ -202,7 +205,7 @@ export default function CoverLetterGenerator({
               <span className="text-sm font-medium text-text-secondary">Preview</span>
             </div>
             <div
-              className="p-6 bg-white text-gray-900 prose prose-sm max-w-none overflow-auto max-h-[500px]"
+              className="p-6 bg-white text-gray-900 overflow-auto max-h-[500px] markdown-preview"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(coverLetter) as string) }}
             />
           </div>

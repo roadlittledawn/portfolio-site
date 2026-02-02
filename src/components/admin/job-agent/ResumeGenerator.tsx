@@ -4,7 +4,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql';
-import { Button, Card, CardHeader, Textarea } from '../ui';
+import { Button, Card, CardHeader } from '../ui';
 import './markdown-preview.css';
 
 interface ResumeGeneratorProps {
@@ -14,20 +14,22 @@ interface ResumeGeneratorProps {
     companyName?: string;
     url?: string;
   };
+  initialResume?: string;
+  additionalContext?: string;
   onResumeGenerated: (resume: string) => void;
   onBack: () => void;
 }
 
 export default function ResumeGenerator({
   jobInfo,
+  initialResume = '',
+  additionalContext = '',
   onResumeGenerated,
   onBack,
 }: ResumeGeneratorProps) {
-  const [resume, setResume] = useState<string>('');
+  const [resume, setResume] = useState<string>(initialResume);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [additionalContext, setAdditionalContext] = useState('');
-  const [showAdditionalContext, setShowAdditionalContext] = useState(false);
 
   const generateResume = async () => {
     setIsGenerating(true);
@@ -118,32 +120,12 @@ export default function ResumeGenerator({
 
       {!resume && (
         <div className="space-y-6">
-          <div>
-            <button
-              onClick={() => setShowAdditionalContext(!showAdditionalContext)}
-              className="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
-            >
-              <svg
-                className={`w-4 h-4 transition-transform ${showAdditionalContext ? 'rotate-90' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-              Add additional context (optional)
-            </button>
-
-            {showAdditionalContext && (
-              <Textarea
-                className="mt-3"
-                value={additionalContext}
-                onChange={(e) => setAdditionalContext(e.target.value)}
-                placeholder="Any specific skills, projects, or achievements you want to highlight..."
-                rows={4}
-              />
-            )}
-          </div>
+          {additionalContext && (
+            <div className="p-4 bg-dark-layer border border-dark-border rounded-lg">
+              <p className="text-sm text-text-secondary mb-1">Additional context provided:</p>
+              <p className="text-sm text-text-primary">{additionalContext}</p>
+            </div>
+          )}
 
           <div className="flex justify-center">
             <Button onClick={generateResume} isLoading={isGenerating} size="lg">
