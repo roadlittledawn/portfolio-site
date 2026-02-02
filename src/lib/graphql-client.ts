@@ -4,6 +4,7 @@
  */
 
 import { GraphQLClient } from 'graphql-request';
+import { getAuthToken } from './auth';
 
 // For client-side (admin UI)
 const GRAPHQL_ENDPOINT = import.meta.env.PUBLIC_GRAPHQL_ENDPOINT;
@@ -12,15 +13,19 @@ const API_KEY = import.meta.env.PUBLIC_API_KEY || '';
 /**
  * Create a GraphQL client for runtime use (admin UI)
  * This uses PUBLIC_ prefixed env vars that are available client-side
+ * Includes auth token for authenticated requests
  */
 export function createGraphQLClient(): GraphQLClient {
   if (!GRAPHQL_ENDPOINT) {
     throw new Error('PUBLIC_GRAPHQL_ENDPOINT environment variable is required');
   }
 
+  const token = getAuthToken();
+
   return new GraphQLClient(GRAPHQL_ENDPOINT, {
     headers: {
       'X-API-Key': API_KEY,
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
     },
   });
 }
@@ -44,14 +49,12 @@ export function createServerGraphQLClient(endpoint?: string, apiKey?: string): G
   });
 }
 
-// Default client for admin UI (lazy initialization)
-let _graphqlClient: GraphQLClient | null = null;
-
+/**
+ * Get a GraphQL client for admin UI requests
+ * Creates a fresh client each time to ensure current auth token is used
+ */
 export function getGraphQLClient(): GraphQLClient {
-  if (!_graphqlClient) {
-    _graphqlClient = createGraphQLClient();
-  }
-  return _graphqlClient;
+  return createGraphQLClient();
 }
 
 export default getGraphQLClient;
