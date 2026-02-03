@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.0.0",
   "scripts": {
-    "dev": "netlify dev",
+    "dev": "rm -rf .netlify .astro && netlify dev",
     "dev:astro": "astro dev",
     "start": "netlify dev",
     "build": "astro build",

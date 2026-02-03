@@ -38,7 +38,7 @@ function isActive(href: string): boolean {
 }
 ---
 
-<html lang="en">
+<html lang="en" data-skip-auth={skipAuth ? 'true' : 'false'}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -135,20 +135,22 @@ function isActive(href: string): boolean {
     <!-- Auth Provider (React Island) -->
     <div id="admin-auth-root"></div>
 
-    {/* Auth verification script - runs on all admin pages except login */}
-    {!skipAuth && (
-      <script>
-        import { verifyToken } from "../lib/auth";
+    {/* Auth verification script */}
+    <script>
+      import { verifyToken } from "../lib/auth.ts";
 
-        async function checkAuth() {
-          const result = await verifyToken();
+      // Check if we should skip auth (login page sets data attribute)
+      const skipAuth = document.documentElement.dataset.skipAuth === 'true';
+
+      if (!skipAuth) {
+        verifyToken().then(result => {
           if (!result.valid) {
             window.location.href = "/admin/login";
           }
-        }
-
-        checkAuth();
-      </script>
-    )}
+        }).catch(() => {
+          window.location.href = "/admin/login";
+        });
+      }
+    </script>
   </body>
 </html>
