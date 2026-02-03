@@ -1,0 +1,20 @@
+---
+export const prerender = false;
+import AdminLayout from "../../../../layouts/AdminLayout.astro";
+import AdminPageHeader from "../../../../components/admin/layout/AdminPageHeader.astro";
+import { ProjectDetailPage } from "../../../../components/admin/pages";
+
+const { id } = Astro.params;
+---
+
+<AdminLayout title="Project Details | Career Admin">
+  <div class="space-y-6">
+    <AdminPageHeader
+      title="Project Details"
+      subtitle="View project information"
+      backHref="/admin/projects"
+    />
+
+    <ProjectDetailPage client:only="react" projectId={id} />
+  </div>
+</AdminLayout>

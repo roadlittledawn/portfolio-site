@@ -1,0 +1,20 @@
+---
+// Projects management page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import AdminListHeader from "../../../components/admin/layout/AdminListHeader.astro";
+import { ProjectsPage } from "../../../components/admin/pages";
+---
+
+<AdminLayout title="Projects | Career Admin">
+  <div class="space-y-6">
+    <AdminListHeader
+      title="Projects"
+      subtitle="Manage your portfolio projects"
+      addHref="/admin/projects/new"
+      addLabel="Add Project"
+    />
+
+    <ProjectsPage client:only="react" />
+  </div>
+</AdminLayout>

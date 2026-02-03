@@ -1,0 +1,26 @@
+---
+/**
+ * CardBase Component
+ * Shared base styling for card components
+ */
+interface Props {
+  variant?: 'default' | 'featured' | 'compact' | 'hover';
+  class?: string;
+  as?: 'div' | 'article' | 'section';
+}
+
+const { variant = 'default', class: className = '', as: Element = 'div' } = Astro.props;
+
+const baseStyles = 'bg-dark-card border border-dark-border rounded-lg';
+
+const variantStyles = {
+  default: 'p-4 sm:p-6',
+  featured: 'p-4 sm:p-6 border-accent-blue/50 shadow-lg shadow-accent-blue/10',
+  compact: 'px-4 py-3',
+  hover: 'p-4 sm:p-6 hover:shadow-lg hover:-translate-y-0.5 hover:bg-dark-hover transition-all duration-200',
+};
+---
+
+<Element class:list={[baseStyles, variantStyles[variant], className]}>
+  <slot />
+</Element>

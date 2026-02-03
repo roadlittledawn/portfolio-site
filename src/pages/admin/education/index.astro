@@ -1,0 +1,20 @@
+---
+// Education management page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import AdminListHeader from "../../../components/admin/layout/AdminListHeader.astro";
+import { EducationPage } from "../../../components/admin/pages";
+---
+
+<AdminLayout title="Education | Career Admin">
+  <div class="space-y-6">
+    <AdminListHeader
+      title="Education"
+      subtitle="Manage your educational background"
+      addHref="/admin/education/new"
+      addLabel="Add Education"
+    />
+
+    <EducationPage client:only="react" />
+  </div>
+</AdminLayout>

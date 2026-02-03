@@ -1,0 +1,91 @@
+---
+// Admin dashboard page
+export const prerender = false;
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import AdminNavCard from "../../components/admin/layout/AdminNavCard.astro";
+---
+
+<AdminLayout title="Dashboard | Career Admin">
+  <div class="space-y-8">
+    <div>
+      <h1 class="text-3xl font-bold text-text-primary">Dashboard</h1>
+      <p class="text-text-secondary mt-2">Manage your career data</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <AdminNavCard
+        href="/admin/experiences"
+        icon="briefcase"
+        color="blue"
+        title="Experiences"
+        description="Manage work history"
+      />
+
+      <AdminNavCard
+        href="/admin/skills"
+        icon="code"
+        color="green"
+        title="Skills"
+        description="Manage technical skills"
+      />
+
+      <AdminNavCard
+        href="/admin/projects"
+        icon="folder"
+        color="amber"
+        title="Projects"
+        description="Manage portfolio projects"
+      />
+
+      <AdminNavCard
+        href="/admin/profile"
+        icon="user"
+        color="purple"
+        title="Profile"
+        description="Edit personal info"
+      />
+
+      <AdminNavCard
+        href="/admin/education"
+        icon="book"
+        color="pink"
+        title="Education"
+        description="Manage education history"
+      />
+
+      <AdminNavCard
+        href="/admin/job-agent"
+        icon="zap"
+        color="blue"
+        title="Job Agent"
+        description="Generate tailored resumes"
+      />
+    </div>
+
+    <!-- Recent Activity / Stats could go here -->
+    <div class="p-6 bg-dark-card border border-dark-border rounded-lg">
+      <h2 class="text-xl font-semibold text-text-primary mb-4">Quick Tips</h2>
+      <ul class="space-y-3 text-text-secondary">
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Keep your experiences updated with quantifiable achievements</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Use the Job Agent to generate tailored resumes and cover letters</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-accent-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Mark your best skills and projects as "Featured" for visibility</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</AdminLayout>

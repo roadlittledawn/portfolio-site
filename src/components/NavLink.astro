@@ -1,0 +1,27 @@
+---
+/**
+ * NavLink Component
+ * Reusable navigation link with active state styling
+ */
+interface Props {
+  href: string;
+  currentPath: string;
+  class?: string;
+}
+
+const { href, currentPath, class: className = '' } = Astro.props;
+const isActive = currentPath === href || (href !== '/' && currentPath.startsWith(href));
+---
+
+<a
+  href={href}
+  class:list={[
+    'px-3 py-2 rounded-md text-sm font-medium transition-all',
+    isActive
+      ? 'bg-accent-blue bg-opacity-20 text-accent-blue'
+      : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue',
+    className
+  ]}
+>
+  <slot />
+</a>
