@@ -1,0 +1,17 @@
+---
+// Job Agent page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { JobAgentPage } from "../../../components/admin/pages";
+---
+
+<AdminLayout title="Job Agent | Career Admin">
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-3xl font-bold text-text-primary">Job Agent</h1>
+      <p class="text-text-secondary mt-1">Generate tailored resumes and cover letters for job applications</p>
+    </div>
+
+    <JobAgentPage client:only="react" />
+  </div>
+</AdminLayout>

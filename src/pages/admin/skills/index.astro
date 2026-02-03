@@ -1,0 +1,20 @@
+---
+// Skills management page
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import AdminListHeader from "../../../components/admin/layout/AdminListHeader.astro";
+import { SkillsPage } from "../../../components/admin/pages";
+---
+
+<AdminLayout title="Skills | Career Admin">
+  <div class="space-y-6">
+    <AdminListHeader
+      title="Skills"
+      subtitle="Manage your technical skills"
+      addHref="/admin/skills/new"
+      addLabel="Add Skill"
+    />
+
+    <SkillsPage client:only="react" />
+  </div>
+</AdminLayout>
