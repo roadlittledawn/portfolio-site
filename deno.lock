@@ -25,6 +25,7 @@
         "npm:clsx@^2.1.1",
         "npm:graphql-request@^6.1.0",
         "npm:graphql@^16.9.0",
+        "npm:isomorphic-dompurify@^2.35.0",
         "npm:jsonwebtoken@^9.0.3",
         "npm:marked@^15.0.6",
         "npm:react-dom@^18.3.1",

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { getAuthToken } from '../../../lib/auth';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -47,11 +46,6 @@ export default function AIChatPanel({
     setIsLoading(true);
 
     try {
-      const token = getAuthToken();
-      if (!token) {
-        throw new Error('Not authenticated');
-      }
-
       const claudeMessages = newMessages.map((msg) => ({
         role: msg.role,
         content: msg.content,
@@ -61,8 +55,8 @@ export default function AIChatPanel({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
+        credentials: 'include', // Include cookies
         body: JSON.stringify({
           messages: claudeMessages,
           context: {

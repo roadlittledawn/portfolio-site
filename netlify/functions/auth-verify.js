@@ -8,7 +8,8 @@ export const handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Credentials': 'true',
   };
 
   // Handle preflight OPTIONS request
@@ -20,7 +21,7 @@ export const handler = async (event, context) => {
     };
   }
 
-  if (event.httpMethod !== 'GET') {
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
       headers,
@@ -28,17 +29,36 @@ export const handler = async (event, context) => {
     };
   }
 
-  // Get token from Authorization header
-  const authHeader = event.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  // Get token from cookie or body
+  let token;
+  
+  // Check body first (for server-side calls)
+  if (event.body) {
+    try {
+      const body = JSON.parse(event.body);
+      token = body.token;
+    } catch (e) {
+      // Not JSON, ignore
+    }
+  }
+  
+  // If no token in body, check cookies
+  if (!token && event.headers.cookie) {
+    const cookies = event.headers.cookie.split(';').reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split('=');
+      acc[key] = value;
+      return acc;
+    }, {});
+    token = cookies.auth_token;
+  }
+
+  if (!token) {
     return {
       statusCode: 401,
       headers,
-      body: JSON.stringify({ error: 'No token provided' }),
+      body: JSON.stringify({ valid: false, error: 'No token provided' }),
     };
   }
-
-  const token = authHeader.replace('Bearer ', '');
 
   try {
     // Verify token

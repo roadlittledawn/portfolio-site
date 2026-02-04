@@ -84,11 +84,18 @@ export const handler = async (event, context) => {
       }
     );
 
+    // Set HTTP-only cookie (Secure only in production)
+    const isProduction = process.env.CONTEXT === 'production' || process.env.NODE_ENV === 'production';
+    const cookieHeader = `auth_token=${token}; HttpOnly; ${isProduction ? 'Secure; ' : ''}SameSite=Lax; Path=/; Max-Age=86400`;
+
     return {
       statusCode: 200,
-      headers,
+      headers: {
+        ...headers,
+        'Set-Cookie': cookieHeader,
+      },
       body: JSON.stringify({
-        token,
+        success: true,
         user: {
           username: adminUsername,
         },
