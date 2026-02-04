@@ -26,13 +26,16 @@ export const handler = async (event, context) => {
     };
   }
 
-  // For JWT, logout is client-side (remove token)
-  // This endpoint is mainly for consistency and potential future use
-  // (e.g., token blacklist)
+  // Clear the auth cookie (Secure only in production)
+  const isProduction = process.env.CONTEXT === 'production' || process.env.NODE_ENV === 'production';
+  const cookieHeader = `auth_token=; HttpOnly; ${isProduction ? 'Secure; ' : ''}SameSite=Lax; Path=/; Max-Age=0`;
 
   return {
     statusCode: 200,
-    headers,
+    headers: {
+      ...headers,
+      'Set-Cookie': cookieHeader,
+    },
     body: JSON.stringify({
       message: 'Logged out successfully',
     }),
