@@ -3,8 +3,11 @@ import { defineMiddleware } from 'astro:middleware';
 export const onRequest = defineMiddleware(async (context, next) => {
   const { url, cookies, redirect } = context;
   
+  // Normalize pathname (remove trailing slash)
+  const pathname = url.pathname.replace(/\/$/, '') || '/';
+  
   // Check if this is an admin page (but not login)
-  if (url.pathname.startsWith('/admin') && url.pathname !== '/admin/login') {
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     const token = cookies.get('auth_token')?.value;
     
     if (!token) {
