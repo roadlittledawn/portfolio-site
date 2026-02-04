@@ -13,11 +13,9 @@
 
 export interface Props {
   title: string;
-  /** Set to true to skip auth check (for login page) */
-  skipAuth?: boolean;
 }
 
-const { title, skipAuth = false } = Astro.props;
+const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const navItems = [
@@ -38,7 +36,7 @@ function isActive(href: string): boolean {
 }
 ---
 
-<html lang="en" data-skip-auth={skipAuth ? 'true' : 'false'}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -134,23 +132,5 @@ function isActive(href: string): boolean {
 
     <!-- Auth Provider (React Island) -->
     <div id="admin-auth-root"></div>
-
-    {/* Auth verification script */}
-    <script>
-      import { verifyToken } from "../lib/auth.ts";
-
-      // Check if we should skip auth (login page sets data attribute)
-      const skipAuth = document.documentElement.dataset.skipAuth === 'true';
-
-      if (!skipAuth) {
-        verifyToken().then(result => {
-          if (!result.valid) {
-            window.location.href = "/admin/login";
-          }
-        }).catch(() => {
-          window.location.href = "/admin/login";
-        });
-      }
-    </script>
   </body>
 </html>

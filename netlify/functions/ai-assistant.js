@@ -35,8 +35,17 @@ export const handler = async (event, context) => {
     };
   }
 
-  // Authentication check
-  const authToken = event.headers.authorization?.replace('Bearer ', '');
+  // Authentication check - get token from cookie
+  let authToken;
+  if (event.headers.cookie) {
+    const cookies = event.headers.cookie.split(';').reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split('=');
+      acc[key] = value;
+      return acc;
+    }, {});
+    authToken = cookies.auth_token;
+  }
+  
   if (!isAuthenticated(authToken)) {
     return {
       statusCode: 401,
