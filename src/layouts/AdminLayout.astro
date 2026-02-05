@@ -10,6 +10,7 @@
  * Auth: This layout includes authentication verification for all admin pages.
  * Unauthenticated users are redirected to /admin/login.
  */
+import AdminMobileNav from '../components/admin/layout/AdminMobileNav.astro';
 
 export interface Props {
   title: string;
@@ -49,6 +50,7 @@ function isActive(href: string): boolean {
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center gap-4">
+            <AdminMobileNav currentPath={currentPath} />
             <a href="/" class="text-accent-blue hover:text-accent-blue/80 transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -124,7 +126,7 @@ function isActive(href: string): boolean {
 
       <!-- Main Content -->
       <main class="flex-1 overflow-auto">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <slot />
         </div>
       </main>

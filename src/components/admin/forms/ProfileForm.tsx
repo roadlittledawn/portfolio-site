@@ -121,7 +121,7 @@ export default function ProfileForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-8">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-8 pb-24">
       {error && (
         <div className="p-4 bg-red-500/10 border border-red-500/50 rounded-lg text-red-400 text-sm">
           {error}

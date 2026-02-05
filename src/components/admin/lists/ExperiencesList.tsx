@@ -62,16 +62,16 @@ export default function ExperiencesList({
         {experiences.map((exp) => (
           <div
             key={exp.id}
-            className="flex items-center justify-between p-4 bg-dark-card border border-dark-border rounded-lg hover:border-dark-hover transition-colors"
+            className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 p-4 bg-dark-card border border-dark-border rounded-lg hover:border-dark-hover transition-colors"
           >
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
                 <h3 className="font-medium text-text-primary">{exp.title}</h3>
                 <span className="text-text-muted">at</span>
                 <span className="text-accent-blue">{exp.company}</span>
                 {exp.featured && <Badge variant="primary">Featured</Badge>}
               </div>
-              <div className="flex items-center gap-4 mt-1 text-sm text-text-muted">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-text-muted">
                 <span>
                   {formatDate(exp.startDate)} - {exp.endDate ? formatDate(exp.endDate) : "Present"}
                 </span>
@@ -101,7 +101,7 @@ export default function ExperiencesList({
               )}
             </div>
 
-            <div className="flex items-center gap-2 ml-4">
+            <div className="flex items-center gap-2 sm:flex-shrink-0">
               <Button
                 variant="ghost"
                 size="sm"
