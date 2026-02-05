@@ -55,29 +55,27 @@ export default function SkillsList({
         {skills.map((skill) => (
           <div
             key={skill.id}
-            className="flex items-center justify-between p-4 bg-dark-card border border-dark-border rounded-lg hover:border-dark-hover transition-colors"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-dark-card border border-dark-border rounded-lg hover:border-dark-hover transition-colors"
           >
-            <div className="flex items-center gap-4">
-              <div>
-                <div className="flex items-center gap-3">
-                  <h3 className="font-medium text-text-primary">{skill.name}</h3>
-                  <LevelBadge level={skill.level} />
-                  {skill.featured && <Badge variant="primary">Featured</Badge>}
-                </div>
-                <div className="flex items-center gap-4 mt-1 text-sm text-text-muted">
-                  <span>Rating: {skill.rating}/5</span>
-                  <span>{skill.yearsOfExperience} years</span>
-                  {skill.tags && skill.tags.length > 0 && (
-                    <span className="truncate max-w-xs">
-                      Tags: {skill.tags.slice(0, 3).join(", ")}
-                      {skill.tags.length > 3 && "..."}
-                    </span>
-                  )}
-                </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <h3 className="font-medium text-text-primary">{skill.name}</h3>
+                <LevelBadge level={skill.level} />
+                {skill.featured && <Badge variant="primary">Featured</Badge>}
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-text-muted">
+                <span>Rating: {skill.rating}/5</span>
+                <span>{skill.yearsOfExperience} years</span>
+                {skill.tags && skill.tags.length > 0 && (
+                  <span className="truncate max-w-xs">
+                    Tags: {skill.tags.slice(0, 3).join(", ")}
+                    {skill.tags.length > 3 && "..."}
+                  </span>
+                )}
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:flex-shrink-0">
               <Button
                 variant="ghost"
                 size="sm"

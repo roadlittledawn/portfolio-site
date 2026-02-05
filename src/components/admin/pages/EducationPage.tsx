@@ -77,21 +77,21 @@ export default function EducationPage() {
         {educations.map((edu) => (
           <div
             key={edu.id}
-            className="flex items-center justify-between p-4 bg-dark-card border border-dark-border rounded-lg hover:border-dark-hover transition-colors"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-dark-card border border-dark-border rounded-lg hover:border-dark-hover transition-colors"
           >
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
                 <h3 className="font-medium text-text-primary">{edu.degree}</h3>
                 <span className="text-text-muted">in</span>
                 <span className="text-accent-blue">{edu.field}</span>
               </div>
-              <div className="flex items-center gap-4 mt-1 text-sm text-text-muted">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-text-muted">
                 <span>{edu.institution}</span>
                 <span>Class of {edu.graduationYear}</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 ml-4">
+            <div className="flex items-center gap-2 sm:flex-shrink-0">
               <Button
                 variant="ghost"
                 size="sm"
