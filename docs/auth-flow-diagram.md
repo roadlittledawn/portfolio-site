@@ -2,87 +2,45 @@
 
 ## System Overview
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         Portfolio Site (Netlify)                         │
-│                      https://clintonlangosch.com                         │
-└─────────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    │ Proxies GraphQL requests
-                                    ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    GraphQL API (AWS Lambda)                              │
-│                   Different domain/deployment                            │
-└─────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    Portfolio["Portfolio Site (Netlify)<br/>https://clintonlangosch.com"]
+    API["GraphQL API (AWS Lambda)<br/>Different domain/deployment"]
+    
+    Portfolio -->|Proxies GraphQL requests| API
+    
+    style Portfolio fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style API fill:#2d333b,stroke:#58a6ff,color:#e6edf3
 ```
 
 ## 1. Unauthenticated Frontend Requests (Public Site)
 
 **Flow**: Public pages → React component → GraphQL proxy → API (read-only)
 
-```
-┌──────────────┐
-│   Browser    │
-│  (Visitor)   │
-└──────┬───────┘
-       │
-       │ 1. GET /skills
-       │
-       ▼
-┌──────────────────────────────────────────────────────────┐
-│  skills.astro (Static Astro page)                        │
-│  - Renders PageHeader                                    │
-│  - Renders <SkillsPageContent client:only="react" />    │
-└──────────────────┬───────────────────────────────────────┘
-                   │
-                   │ 2. React component hydrates
-                   │
-                   ▼
-┌──────────────────────────────────────────────────────────┐
-│  SkillsPageContent.tsx                                   │
-│  - useEffect(() => fetchSkills())                        │
-│  - const client = getGraphQLClient()                     │
-│  - client.request(SKILLS_QUERY)                          │
-└──────────────────┬───────────────────────────────────────┘
-                   │
-                   │ 3. POST /.netlify/functions/graphql-proxy
-                   │    Body: { query: "query { skills { ... } }" }
-                   │    credentials: 'include'
-                   │    (No auth_token cookie - visitor not logged in)
-                   │
-                   ▼
-┌──────────────────────────────────────────────────────────┐
-│  graphql-proxy.js                                        │
-│  1. No auth_token cookie found                           │
-│  2. Build headers:                                       │
-│     - X-API-Key: GRAPHQL_API_KEY                         │
-│     - NO Authorization header (no token)                 │
-│  3. Forward to GRAPHQL_ENDPOINT                          │
-└──────────────────┬───────────────────────────────────────┘
-                   │
-                   │ 4. POST https://api.example.com/graphql
-                   │    X-API-Key: <key>
-                   │    Body: { query: "query { skills { ... } }" }
-                   │
-                   ▼
-┌──────────────────────────────────────────────────────────┐
-│  GraphQL API (AWS Lambda)                                │
-│  src/middleware/auth.ts                                  │
-│                                                           │
-│  1. Validate X-API-Key ✓                                 │
-│  2. Check if mutation? NO (it's a query)                 │
-│  3. JWT not required for queries                         │
-│  4. Execute query, return skills data                    │
-└──────────────────┬───────────────────────────────────────┘
-                   │
-                   │ 5. Response: { data: { skills: [...] } }
-                   │
-                   ▼
-┌──────────────────────────────────────────────────────────┐
-│  SkillsPageContent.tsx                                   │
-│  - setSkills(data.skills)                                │
-│  - Renders skill cards with data                         │
-└──────────────────────────────────────────────────────────┘
+```mermaid
+sequenceDiagram
+    participant Browser as Browser<br/>(Visitor)
+    participant Astro as skills.astro<br/>(Static Page)
+    participant React as SkillsPageContent.tsx<br/>(React Component)
+    participant Proxy as graphql-proxy.js<br/>(Netlify Function)
+    participant API as GraphQL API<br/>(AWS Lambda)
+    
+    Browser->>Astro: 1. GET /skills
+    Astro->>Browser: 2. HTML with React component
+    Browser->>React: 3. Component hydrates
+    React->>React: 4. useEffect(() => fetchSkills())
+    React->>Proxy: 5. POST /.netlify/functions/graphql-proxy<br/>Body: { query: "query { skills {...} }" }<br/>credentials: 'include'<br/>(No auth_token cookie)
+    
+    Note over Proxy: No auth_token found<br/>Build headers:<br/>- X-API-Key: GRAPHQL_API_KEY<br/>- NO Authorization header
+    
+    Proxy->>API: 6. POST /graphql<br/>X-API-Key: <key><br/>Body: { query: "query { skills {...} }" }
+    
+    Note over API: auth.ts middleware:<br/>1. Validate X-API-Key ✓<br/>2. Check if mutation? NO<br/>3. JWT not required for queries<br/>4. Execute query
+    
+    API->>Proxy: 7. { data: { skills: [...] } }
+    Proxy->>React: 8. Response
+    React->>React: 9. setSkills(data.skills)
+    React->>Browser: 10. Render skill cards
 ```
 
 **Key Points**:
@@ -98,48 +56,22 @@
 
 **Flow**: Login form → Netlify Function → JWT cookie set
 
-```
-┌──────────────┐
-│   Browser    │
-│   (Admin)    │
-└──────┬───────┘
-       │
-       │ 1. Navigate to /admin/login
-       │
-       ▼
-┌────────────────────────────────────────────────────────────┐
-│  LoginForm.tsx                                             │
-│  - User enters username/password                           │
-│  - Calls auth.login(username, password)                    │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 2. POST /.netlify/functions/auth-login
-                     │    Body: { username, password }
-                     │    credentials: 'include'
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  auth-login.js (Netlify Function)                          │
-│                                                             │
-│  1. Validate username === ADMIN_USERNAME                   │
-│  2. bcrypt.compare(password, ADMIN_PASSWORD_HASH)          │
-│  3. Generate JWT:                                          │
-│     jwt.sign({ username, iat }, AUTH_SECRET, { 24h })      │
-│  4. Set HTTP-only cookie:                                  │
-│     Set-Cookie: auth_token=<JWT>;                          │
-│                 HttpOnly; Secure; SameSite=Lax;            │
-│                 Path=/; Max-Age=86400                      │
-│  5. Return: { success: true, user: { username } }          │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 3. Response with Set-Cookie header
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  Browser                                                    │
-│  - Stores auth_token cookie (HTTP-only, can't access JS)  │
-│  - Redirects to /admin                                     │
-└────────────────────────────────────────────────────────────┘
+```mermaid
+sequenceDiagram
+    participant Browser as Browser<br/>(Admin)
+    participant Form as LoginForm.tsx
+    participant Login as auth-login.js<br/>(Netlify Function)
+    
+    Browser->>Form: 1. Navigate to /admin/login<br/>Enter username/password
+    Form->>Login: 2. POST /.netlify/functions/auth-login<br/>Body: { username, password }<br/>credentials: 'include'
+    
+    Note over Login: 1. Validate username === ADMIN_USERNAME<br/>2. bcrypt.compare(password, ADMIN_PASSWORD_HASH)<br/>3. Generate JWT:<br/>jwt.sign({ username, iat }, AUTH_SECRET, { 24h })<br/>4. Set HTTP-only cookie:<br/>Set-Cookie: auth_token=<JWT>;<br/>HttpOnly; Secure; SameSite=Lax;<br/>Path=/; Max-Age=86400
+    
+    Login->>Browser: 3. Response with Set-Cookie header<br/>{ success: true, user: { username } }
+    
+    Note over Browser: Stores auth_token cookie<br/>(HTTP-only, can't access via JS)
+    
+    Browser->>Browser: 4. Redirect to /admin
 ```
 
 **Security Features**:
@@ -156,53 +88,38 @@
 
 **Flow**: Request admin page → Middleware validates cookie → Allow/Deny
 
-```
-┌──────────────┐
-│   Browser    │
-│   (Admin)    │
-└──────┬───────┘
-       │
-       │ 1. GET /admin/skills
-       │    Cookie: auth_token=<JWT>
-       │
-       ▼
-┌────────────────────────────────────────────────────────────┐
-│  src/middleware.ts (Astro Middleware)                      │
-│                                                             │
-│  1. Check if path starts with /admin (except /admin/login) │
-│  2. Extract auth_token from cookies                        │
-│  3. If no token → redirect('/admin/login')                 │
-│  4. Verify token:                                          │
-│     POST /.netlify/functions/auth-verify                   │
-│     Body: { token }                                        │
-│  5. If invalid → redirect('/admin/login')                  │
-│  6. If valid → next() (continue to page)                   │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 2. Token valid, continue
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  Admin Page (SSR)                                          │
-│  - src/pages/admin/skills/index.astro                      │
-│  - export const prerender = false (SSR enabled)            │
-│  - Renders AdminLayout with React component                │
-│  - <SkillsList client:only="react" />                      │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 3. HTML response
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  Browser                                                    │
-│  - Page loads                                              │
-│  - Client-side auth check runs (see next section)          │
-└────────────────────────────────────────────────────────────┘
+```mermaid
+sequenceDiagram
+    participant Browser as Browser<br/>(Admin)
+    participant Middleware as middleware.ts<br/>(Astro Middleware)
+    participant Verify as auth-verify.js<br/>(Netlify Function)
+    participant Page as Admin Page<br/>(SSR)
+    
+    Browser->>Middleware: 1. GET /admin/skills<br/>Cookie: auth_token=<JWT>
+    
+    Note over Middleware: Check path starts with /admin<br/>(except /admin/login)<br/>Extract auth_token from cookies
+    
+    alt No token
+        Middleware->>Browser: redirect('/admin/login')
+    else Has token
+        Middleware->>Verify: 2. POST /.netlify/functions/auth-verify<br/>Body: { token }
+        
+        Note over Verify: jwt.verify(token, AUTH_SECRET)
+        
+        Verify->>Middleware: 3. { valid: true/false }
+        
+        alt Invalid token
+            Middleware->>Browser: redirect('/admin/login')
+        else Valid token
+            Middleware->>Page: 4. Continue to page
+            Page->>Browser: 5. HTML response<br/>(with React component)
+        end
+    end
 ```
 
 **Two-Layer Auth**:
 1. **Server-side** (middleware): Validates token before rendering page
-2. **Client-side** (script): Additional check after page loads (see below)
+2. **Client-side** (script): Additional check after page loads (see next section)
 
 ---
 
@@ -210,40 +127,27 @@
 
 **Flow**: Page loads → Script verifies token → Stay/Redirect
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  Admin Page HTML                                           │
-│  <script>                                                  │
-│    import { verifyToken } from "../../../lib/auth";        │
-│    async function checkAuth() {                            │
-│      const result = await verifyToken();                   │
-│      if (!result.valid)                                    │
-│        window.location.href = "/admin/login";              │
-│    }                                                       │
-│    checkAuth();                                            │
-│  </script>                                                 │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ POST /.netlify/functions/auth-verify
-                     │ credentials: 'include' (sends cookie)
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  auth-verify.js (Netlify Function)                         │
-│                                                             │
-│  1. Extract auth_token from cookies                        │
-│  2. jwt.verify(token, AUTH_SECRET)                         │
-│  3. Return: { valid: true/false, user: { username } }     │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ Response: { valid: true }
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  Browser                                                    │
-│  - Token valid, stay on page                               │
-│  - React components hydrate                                │
-└────────────────────────────────────────────────────────────┘
+```mermaid
+sequenceDiagram
+    participant Browser as Browser
+    participant Script as Admin Page Script
+    participant Auth as auth.ts<br/>(verifyToken)
+    participant Verify as auth-verify.js<br/>(Netlify Function)
+    
+    Browser->>Script: 1. Page loads, script executes
+    Script->>Auth: 2. checkAuth() calls verifyToken()
+    Auth->>Verify: 3. POST /.netlify/functions/auth-verify<br/>credentials: 'include' (sends cookie)
+    
+    Note over Verify: Extract auth_token from cookies<br/>jwt.verify(token, AUTH_SECRET)
+    
+    Verify->>Auth: 4. { valid: true/false, user: {...} }
+    
+    alt Invalid token
+        Auth->>Browser: 5. window.location.href = "/admin/login"
+    else Valid token
+        Auth->>Script: 5. Token valid
+        Script->>Browser: 6. Stay on page, React components hydrate
+    end
 ```
 
 **Why Two Checks?**
@@ -256,141 +160,158 @@
 
 **Flow**: React form → GraphQL proxy → External API
 
-```
-┌──────────────┐
-│   Browser    │
-│   (Admin)    │
-└──────┬───────┘
-       │
-       │ 1. User submits form (add/edit skill)
-       │
-       ▼
-┌────────────────────────────────────────────────────────────┐
-│  SkillsForm.tsx (React Component)                          │
-│  - User fills form                                         │
-│  - onSubmit calls GraphQL mutation                         │
-│  - Uses graphqlClient from src/lib/graphql-client.ts       │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 2. GraphQL mutation request
-                     │    POST /.netlify/functions/graphql-proxy
-                     │    Cookie: auth_token=<JWT>
-                     │    credentials: 'include'
-                     │    Body: { query: "mutation { ... }" }
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  graphql-proxy.js (Netlify Function)                       │
-│                                                             │
-│  1. Extract auth_token from cookies                        │
-│  2. Verify JWT: jwt.verify(token, AUTH_SECRET)             │
-│  3. Build headers for GraphQL API:                         │
-│     - Content-Type: application/json                       │
-│     - X-API-Key: GRAPHQL_API_KEY (from env)                │
-│     - Authorization: Bearer <JWT> (from cookie)            │
-│  4. Forward request to GRAPHQL_ENDPOINT                    │
-│  5. Return response to client                              │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 3. Proxied request
-                     │    POST https://api.example.com/graphql
-                     │    X-API-Key: <key>
-                     │    Authorization: Bearer <JWT>
-                     │    Body: { query: "mutation { ... }" }
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  GraphQL API (AWS Lambda - Different Domain)               │
-│  src/middleware/auth.ts                                    │
-│                                                             │
-│  1. Validate X-API-Key === API_ACCESS_KEY                  │
-│     - Required for ALL requests                            │
-│     - Returns 401 if missing/invalid                       │
-│                                                             │
-│  2. Check if request is mutation:                          │
-│     - isMutationRequest(body) checks for "mutation"        │
-│                                                             │
-│  3. If mutation, validate JWT:                             │
-│     - Extract Authorization: Bearer <token>                │
-│     - jwt.verify(token, AUTH_SECRET)                       │
-│     - Returns 401 if missing/invalid                       │
-│                                                             │
-│  4. If query (not mutation):                               │
-│     - Only API key required                                │
-│     - No JWT needed                                        │
-│                                                             │
-│  5. Execute GraphQL operation                              │
-│  6. Return result                                          │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 4. GraphQL response
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  graphql-proxy.js                                          │
-│  - Forwards response back to client                        │
-└────────────────────┬───────────────────────────────────────┘
-                     │
-                     │ 5. Response
-                     │
-                     ▼
-┌────────────────────────────────────────────────────────────┐
-│  SkillsForm.tsx                                            │
-│  - Receives response                                       │
-│  - Updates UI                                              │
-│  - Shows success/error message                             │
-└────────────────────────────────────────────────────────────┘
+```mermaid
+sequenceDiagram
+    participant Browser as Browser<br/>(Admin)
+    participant Form as SkillsForm.tsx<br/>(React Component)
+    participant Client as graphql-client.ts
+    participant Proxy as graphql-proxy.js<br/>(Netlify Function)
+    participant API as GraphQL API<br/>(AWS Lambda)
+    
+    Browser->>Form: 1. User submits form (add/edit skill)
+    Form->>Client: 2. onSubmit calls GraphQL mutation
+    Client->>Proxy: 3. POST /.netlify/functions/graphql-proxy<br/>Cookie: auth_token=<JWT><br/>credentials: 'include'<br/>Body: { query: "mutation { ... }" }
+    
+    Note over Proxy: 1. Extract auth_token from cookies<br/>2. Verify JWT: jwt.verify(token, AUTH_SECRET)<br/>3. Build headers:<br/>- Content-Type: application/json<br/>- X-API-Key: GRAPHQL_API_KEY<br/>- Authorization: Bearer <JWT>
+    
+    Proxy->>API: 4. POST /graphql<br/>X-API-Key: <key><br/>Authorization: Bearer <JWT><br/>Body: { query: "mutation { ... }" }
+    
+    Note over API: auth.ts middleware:<br/>1. Validate X-API-Key ✓<br/>2. Check if mutation? YES<br/>3. Validate JWT ✓<br/>4. Execute mutation
+    
+    API->>Proxy: 5. { data: { ... } }
+    Proxy->>Client: 6. Response
+    Client->>Form: 7. Update UI
+    Form->>Browser: 8. Show success message
 ```
 
 ---
 
-## 6. Why GraphQL Proxy is Needed
+## 6. CORS Configuration
 
-**Problem**: Cross-domain cookie restrictions
+### Why CORS Matters
 
+The GraphQL proxy must handle CORS because:
+1. Browser enforces same-origin policy for fetch requests
+2. Preflight OPTIONS requests must be handled
+3. Credentials (cookies) require explicit CORS headers
+
+### Proxy CORS Headers
+
+```javascript
+// netlify/functions/graphql-proxy.js
+const headers = {
+  'Access-Control-Allow-Origin': allowedOrigin,  // Dynamic based on request
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-Key',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Credentials': 'true',  // Required for cookies!
+};
 ```
-❌ WITHOUT PROXY (Doesn't work):
 
-Browser (clintonlangosch.com)
-    │
-    │ POST https://api.example.com/graphql
-    │ Cookie: auth_token=<JWT>
-    │
-    ▼
-GraphQL API (api.example.com)
-    │
-    └─ ❌ Browser won't send cookies cross-domain!
-       ❌ No Authorization header
-       ❌ Request fails authentication
+### Origin Validation
+
+```mermaid
+flowchart TD
+    Request[Incoming Request] --> CheckOrigin{Origin in<br/>allowed list?}
+    
+    CheckOrigin -->|Yes| SetOrigin[Set Access-Control-Allow-Origin<br/>to request origin]
+    CheckOrigin -->|No, Production| Reject[403 Forbidden]
+    CheckOrigin -->|No, Dev| Default[Use localhost:8080]
+    
+    SetOrigin --> Preflight{OPTIONS<br/>request?}
+    Default --> Preflight
+    
+    Preflight -->|Yes| Return200[Return 200<br/>empty body]
+    Preflight -->|No| Process[Process POST<br/>request]
+    
+    style Request fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style SetOrigin fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style Reject fill:#2d333b,stroke:#f85149,color:#e6edf3
+    style Default fill:#2d333b,stroke:#d29922,color:#e6edf3
+    style Return200 fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style Process fill:#2d333b,stroke:#3fb950,color:#e6edf3
 ```
 
+**Allowed Origins**:
+```javascript
+const allowedOrigins = [
+  'http://localhost:8080',      // Netlify Dev
+  'http://localhost:4321',      // Astro direct
+  'https://clintonlangosch.com', // Production
+  process.env.URL,              // Deploy previews
+];
 ```
-✅ WITH PROXY (Works):
 
-Browser (clintonlangosch.com)
-    │
-    │ POST /.netlify/functions/graphql-proxy
-    │ Cookie: auth_token=<JWT>  ← Same domain, cookie sent!
-    │
-    ▼
-Proxy (clintonlangosch.com)
-    │ Extracts cookie
-    │ Adds Authorization: Bearer <JWT>
-    │
-    │ POST https://api.example.com/graphql
-    │ Authorization: Bearer <JWT>  ← Now has auth!
-    │
-    ▼
-GraphQL API (api.example.com)
-    │
-    └─ ✅ Receives Authorization header
-       ✅ Validates JWT
-       ✅ Executes mutation
+### Critical CORS Settings
+
+| Header | Value | Why |
+|--------|-------|-----|
+| `Access-Control-Allow-Credentials` | `true` | **Required** for browser to send cookies |
+| `Access-Control-Allow-Origin` | Dynamic (from request) | Must match request origin when using credentials |
+| `Access-Control-Allow-Headers` | `Content-Type, Authorization, X-API-Key` | Allows GraphQL headers |
+| `Access-Control-Allow-Methods` | `POST, OPTIONS` | GraphQL uses POST, OPTIONS for preflight |
+
+**Important**: When `Access-Control-Allow-Credentials: true`, you **cannot** use `Access-Control-Allow-Origin: *`. Must specify exact origin.
+
+### Preflight Request Flow
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Proxy as graphql-proxy.js
+    
+    Note over Browser: Before actual request,<br/>browser sends preflight
+    
+    Browser->>Proxy: OPTIONS /.netlify/functions/graphql-proxy<br/>Origin: https://clintonlangosch.com<br/>Access-Control-Request-Method: POST<br/>Access-Control-Request-Headers: content-type
+    
+    Note over Proxy: Validate origin<br/>Return CORS headers
+    
+    Proxy->>Browser: 200 OK<br/>Access-Control-Allow-Origin: https://clintonlangosch.com<br/>Access-Control-Allow-Methods: POST, OPTIONS<br/>Access-Control-Allow-Headers: Content-Type, ...<br/>Access-Control-Allow-Credentials: true
+    
+    Note over Browser: Preflight passed,<br/>send actual request
+    
+    Browser->>Proxy: POST /.netlify/functions/graphql-proxy<br/>Cookie: auth_token=<JWT><br/>Body: { query: "..." }
+    
+    Proxy->>Browser: Response with same CORS headers
 ```
 
 ---
 
-## 7. GraphQL API Authentication Rules
+## 7. Why GraphQL Proxy is Needed
+
+**Two Problems Solved**:
+1. **Cross-domain cookies** - Browsers won't send cookies to different domains
+2. **CORS with credentials** - Requires same-origin or explicit CORS configuration
+
+```mermaid
+graph TB
+    subgraph "❌ WITHOUT PROXY (Doesn't work)"
+        B1[Browser<br/>clintonlangosch.com]
+        A1[GraphQL API<br/><api-domain>]
+        
+        B1 -->|POST /graphql<br/>Cookie: auth_token=JWT| A1
+        A1 -.->|❌ Browser won't send<br/>cookies cross-domain!| B1
+    end
+    
+    subgraph "✅ WITH PROXY (Works)"
+        B2[Browser<br/>clintonlangosch.com]
+        P2[Proxy<br/>clintonlangosch.com]
+        A2[GraphQL API<br/><api-domain>]
+        
+        B2 -->|POST /.netlify/functions/graphql-proxy<br/>Cookie: auth_token=JWT<br/>✓ Same domain, cookie sent!| P2
+        P2 -->|Extracts cookie<br/>Adds Authorization: Bearer JWT| P2
+        P2 -->|POST /graphql<br/>Authorization: Bearer JWT<br/>✓ Now has auth!| A2
+    end
+    
+    style B1 fill:#2d333b,stroke:#f85149,color:#e6edf3
+    style A1 fill:#2d333b,stroke:#f85149,color:#e6edf3
+    style B2 fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style P2 fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style A2 fill:#2d333b,stroke:#3fb950,color:#e6edf3
+```
+
+---
+
+## 8. GraphQL API Authentication Rules
 
 The external GraphQL API (`src/middleware/auth.ts`) enforces:
 
@@ -429,7 +350,7 @@ function isMutationRequest(body) {
 
 ---
 
-## 8. Complete Authentication Summary
+## 9. Complete Authentication Summary
 
 ### Credentials Storage
 | Credential | Location | Format |
@@ -440,11 +361,27 @@ function isMutationRequest(body) {
 | GraphQL API key (API side) | `API_ACCESS_KEY` env var | String (must match) |
 
 ### Token Flow
-```
-1. Login → JWT generated → Stored in HTTP-only cookie
-2. Admin page request → Cookie sent automatically → Middleware validates
-3. GraphQL mutation → Cookie sent to proxy → Proxy adds to Authorization header
-4. GraphQL API → Validates API key + JWT → Executes mutation
+
+```mermaid
+flowchart LR
+    Login[1. Login] --> JWT[2. JWT Generated]
+    JWT --> Cookie[3. Stored in<br/>HTTP-only Cookie]
+    Cookie --> Middleware[4. Middleware<br/>Validates]
+    Middleware --> Mutation[5. GraphQL Mutation]
+    Mutation --> Proxy[6. Proxy Extracts<br/>Cookie]
+    Proxy --> Auth[7. Adds to<br/>Authorization Header]
+    Auth --> API[8. API Validates<br/>API Key + JWT]
+    API --> Execute[9. Executes<br/>Mutation]
+    
+    style Login fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style JWT fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style Cookie fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style Middleware fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style Mutation fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style Proxy fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style Auth fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style API fill:#2d333b,stroke:#3fb950,color:#e6edf3
+    style Execute fill:#2d333b,stroke:#3fb950,color:#e6edf3
 ```
 
 ### Security Layers
@@ -459,12 +396,12 @@ function isMutationRequest(body) {
 
 ---
 
-## 9. Environment Variables
+## 10. Environment Variables
 
 ### Portfolio Site (Netlify)
 ```bash
 # GraphQL API (server-side only, not exposed to client)
-GRAPHQL_ENDPOINT=https://api.example.com/graphql
+GRAPHQL_ENDPOINT=<graphql-api-url>
 GRAPHQL_API_KEY=<api-key>
 
 # Admin Auth
@@ -485,7 +422,7 @@ AUTH_SECRET=<64-char-hex>  # Must match portfolio site AUTH_SECRET
 
 ---
 
-## 10. Key Files Reference
+## 11. Key Files Reference
 
 ### Portfolio Site
 ```
