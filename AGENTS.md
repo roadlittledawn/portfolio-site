@@ -60,8 +60,6 @@ portfolio-site/
 │   │   ├── urlState.ts         # URL state management
 │   │   └── roleTypeMapping.ts  # Role type mappings
 │   ├── middleware.ts           # Cookie-based auth check
-│   └── data/
-│       └── careerData.json     # Cached career data (synced from API)
 ├── netlify/functions/           # Serverless functions (ES modules)
 │   ├── auth-login.js           # JWT login
 │   ├── auth-verify.js          # Token verification
