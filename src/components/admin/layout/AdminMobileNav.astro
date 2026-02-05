@@ -1,0 +1,193 @@
+---
+/**
+ * AdminMobileNav Component
+ * Mobile navigation menu for admin pages
+ */
+
+export interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navItems = [
+  { href: '/admin', label: 'Dashboard', icon: 'home' },
+  { href: '/admin/profile', label: 'Profile', icon: 'user' },
+  { href: '/admin/experiences', label: 'Experiences', icon: 'briefcase' },
+  { href: '/admin/skills', label: 'Skills', icon: 'code' },
+  { href: '/admin/projects', label: 'Projects', icon: 'folder' },
+  { href: '/admin/education', label: 'Education', icon: 'book' },
+  { href: '/admin/job-agent', label: 'Job Agent', icon: 'zap' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/admin') {
+    return currentPath === '/admin' || currentPath === '/admin/';
+  }
+  return currentPath.startsWith(href);
+}
+---
+
+<!-- Mobile Menu Button -->
+<button 
+  id="admin-mobile-menu-button"
+  class="md:hidden p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue relative z-[60]"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+>
+  <div class="w-6 h-6 relative">
+    <span class="hamburger-line absolute left-0 top-1 w-6 h-0.5 bg-current transition-all duration-300"></span>
+    <span class="hamburger-line absolute left-0 top-3 w-6 h-0.5 bg-current transition-all duration-300"></span>
+    <span class="hamburger-line absolute left-0 top-5 w-6 h-0.5 bg-current transition-all duration-300"></span>
+  </div>
+</button>
+
+<!-- Mobile Navigation Menu -->
+<nav 
+  id="admin-mobile-nav"
+  class="fixed top-0 right-0 h-screen w-full z-[9999] bg-dark-layer transform translate-x-full transition-transform duration-300 md:hidden"
+  aria-hidden="true"
+  style="height: 100vh; height: 100dvh;"
+>
+  <div class="h-full flex flex-col">
+    <!-- Close Button -->
+    <div class="flex justify-end p-6">
+      <button 
+        id="admin-mobile-nav-close"
+        class="p-3 rounded-full text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue"
+        aria-label="Close navigation menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Navigation Links -->
+    <div class="flex-1 overflow-y-auto px-8 py-4">
+      <ul class="space-y-2">
+        {navItems.map(item => (
+          <li>
+            <a 
+              href={item.href}
+              class:list={[
+                'flex items-center gap-3 px-4 py-4 rounded-lg text-lg font-medium transition-all',
+                isActive(item.href)
+                  ? 'bg-accent-blue/20 text-accent-blue border-l-4 border-accent-blue'
+                  : 'text-text-secondary hover:bg-dark-card hover:text-accent-blue'
+              ]}
+            >
+              <span class="w-5 h-5">
+                {item.icon === 'home' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                )}
+                {item.icon === 'user' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                )}
+                {item.icon === 'briefcase' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                )}
+                {item.icon === 'code' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                )}
+                {item.icon === 'folder' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                )}
+                {item.icon === 'book' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                )}
+                {item.icon === 'zap' && (
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                )}
+              </span>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.getElementById('admin-mobile-menu-button');
+    const mobileNav = document.getElementById('admin-mobile-nav');
+    const closeButton = document.getElementById('admin-mobile-nav-close');
+    const navLinks = mobileNav?.querySelectorAll('a');
+    const body = document.body;
+    
+    let isMenuOpen = false;
+    
+    function openMenu() {
+      if (!mobileNav || !menuButton) return;
+      
+      isMenuOpen = true;
+      menuButton.setAttribute('aria-expanded', 'true');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      mobileNav.classList.remove('translate-x-full');
+      
+      const hamburgerLines = menuButton.querySelectorAll('.hamburger-line');
+      if (hamburgerLines.length >= 3) {
+        hamburgerLines[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+        hamburgerLines[1].style.opacity = '0';
+        hamburgerLines[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+      }
+      
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      body.style.overflow = 'hidden';
+      body.style.paddingRight = scrollbarWidth + 'px';
+      
+      setTimeout(() => closeButton?.focus(), 350);
+    }
+    
+    function closeMenu() {
+      if (!mobileNav || !menuButton) return;
+      
+      isMenuOpen = false;
+      menuButton.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      mobileNav.classList.add('translate-x-full');
+      
+      const hamburgerLines = menuButton.querySelectorAll('.hamburger-line');
+      if (hamburgerLines.length >= 3) {
+        hamburgerLines[0].style.transform = '';
+        hamburgerLines[1].style.opacity = '1';
+        hamburgerLines[2].style.transform = '';
+      }
+      
+      body.style.overflow = '';
+      body.style.paddingRight = '';
+      menuButton.focus();
+    }
+    
+    menuButton?.addEventListener('click', openMenu);
+    closeButton?.addEventListener('click', closeMenu);
+    
+    navLinks?.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isMenuOpen) closeMenu();
+    });
+    
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && isMenuOpen) closeMenu();
+    });
+  });
+</script>
