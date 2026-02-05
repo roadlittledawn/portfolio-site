@@ -5,24 +5,18 @@
 
 import { GraphQLClient } from 'graphql-request';
 
-// For client-side (admin UI)
-const GRAPHQL_ENDPOINT = import.meta.env.PUBLIC_GRAPHQL_ENDPOINT;
-const API_KEY = import.meta.env.PUBLIC_API_KEY || '';
-
 /**
  * Create a GraphQL client for runtime use (admin UI)
- * This uses PUBLIC_ prefixed env vars that are available client-side
+ * This uses the Netlify function proxy which adds Authorization header from HTTP-only cookie
  */
 export function createGraphQLClient(): GraphQLClient {
-  if (!GRAPHQL_ENDPOINT) {
-    throw new Error('PUBLIC_GRAPHQL_ENDPOINT environment variable is required');
-  }
+  // Use the GraphQL proxy function for client-side requests
+  // This allows the server to extract the auth token from HTTP-only cookie
+  // and add it to the Authorization header for the GraphQL API
+  const proxyEndpoint = '/.netlify/functions/graphql-proxy';
 
-  return new GraphQLClient(GRAPHQL_ENDPOINT, {
-    headers: {
-      'X-API-Key': API_KEY,
-    },
-    credentials: 'include', // Include cookies for auth
+  return new GraphQLClient(proxyEndpoint, {
+    credentials: 'include', // Include cookies so proxy can extract auth token
   });
 }
 
