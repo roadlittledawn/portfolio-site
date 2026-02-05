@@ -49,7 +49,11 @@ portfolio-site/
 
 3. Create `.env` file:
    ```bash
-   # GraphQL API (local dev)
+   # GraphQL API - Server-side (required for GraphQL proxy and mutations)
+   GRAPHQL_ENDPOINT=http://localhost:8888/graphql
+   GRAPHQL_API_KEY=<your-api-key>
+   
+   # GraphQL API - Client-side (for static builds/sync scripts)
    PUBLIC_GRAPHQL_ENDPOINT=http://localhost:8888/graphql
    PUBLIC_API_KEY=<your-api-key>
 
@@ -92,12 +96,14 @@ portfolio-site/
 ## Deployment
 
 Pushes to `main` auto-deploy to Netlify. Required env vars in Netlify dashboard:
-- `PUBLIC_GRAPHQL_ENDPOINT`
-- `PUBLIC_API_KEY`
-- `AUTH_SECRET`
-- `ADMIN_USERNAME`
-- `ADMIN_PASSWORD_HASH`
-- `ANTHROPIC_API_KEY`
+- `GRAPHQL_ENDPOINT` - GraphQL API endpoint for server-side (mutations)
+- `GRAPHQL_API_KEY` - API key for server-side GraphQL requests
+- `PUBLIC_GRAPHQL_ENDPOINT` - GraphQL API endpoint for client-side (static builds)
+- `PUBLIC_API_KEY` - API key for client-side GraphQL requests (static builds)
+- `AUTH_SECRET` - JWT secret for authentication
+- `ADMIN_USERNAME` - Admin login username
+- `ADMIN_PASSWORD_HASH` - Bcrypt hash of admin password
+- `ANTHROPIC_API_KEY` - Optional, for AI assistant features
 
 ## Data Sync
 
