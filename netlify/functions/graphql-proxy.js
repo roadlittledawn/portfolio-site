@@ -15,7 +15,19 @@ export const handler = async (event, context) => {
   ].filter(Boolean);
   
   const isAllowedOrigin = allowedOrigins.includes(requestOrigin);
-  const allowedOrigin = isAllowedOrigin ? requestOrigin : allowedOrigins[0];
+  
+  // Reject requests from non-allowed origins in production
+  if (!isAllowedOrigin && process.env.CONTEXT === 'production') {
+    return {
+      statusCode: 403,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ error: 'Forbidden' }),
+    };
+  }
+  
+  const allowedOrigin = isAllowedOrigin ? requestOrigin : 'http://localhost:8080';
 
   // CORS headers
   const headers = {
@@ -59,8 +71,13 @@ export const handler = async (event, context) => {
     let authToken;
     if (event.headers.cookie) {
       const cookies = event.headers.cookie.split(';').reduce((acc, cookie) => {
-        const [key, value] = cookie.trim().split('=');
-        acc[key] = value;
+        const trimmed = cookie.trim();
+        const firstEquals = trimmed.indexOf('=');
+        if (firstEquals > 0) {
+          const key = trimmed.substring(0, firstEquals);
+          const value = trimmed.substring(firstEquals + 1);
+          acc[key] = value;
+        }
         return acc;
       }, {});
       authToken = cookies.auth_token;
@@ -113,7 +130,6 @@ export const handler = async (event, context) => {
       headers,
       body: JSON.stringify({
         error: 'Internal server error',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined,
       }),
     };
   }
