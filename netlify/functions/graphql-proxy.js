@@ -5,9 +5,21 @@ import jwt from 'jsonwebtoken';
  * Proxies GraphQL requests and adds Authorization header from HTTP-only cookie
  */
 export const handler = async (event, context) => {
+  // Determine allowed origin
+  const requestOrigin = event.headers.origin || event.headers.Origin;
+  const allowedOrigins = [
+    'http://localhost:8080',
+    'http://localhost:4321',
+    'https://clintonlangosch.com',
+    process.env.URL, // Netlify deploy preview URL
+  ].filter(Boolean);
+  
+  const isAllowedOrigin = allowedOrigins.includes(requestOrigin);
+  const allowedOrigin = isAllowedOrigin ? requestOrigin : allowedOrigins[0];
+
   // CORS headers
   const headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-Key',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Credentials': 'true',
@@ -32,14 +44,14 @@ export const handler = async (event, context) => {
   }
 
   try {
-    // Get GraphQL endpoint from environment
-    const graphqlEndpoint = process.env.GRAPHQL_ENDPOINT || process.env.PUBLIC_GRAPHQL_ENDPOINT;
+    // Get GraphQL endpoint from environment (server-side only)
+    const graphqlEndpoint = process.env.GRAPHQL_ENDPOINT;
     if (!graphqlEndpoint) {
-      console.error('GraphQL endpoint not configured');
+      console.error('GRAPHQL_ENDPOINT environment variable not configured');
       return {
         statusCode: 500,
         headers,
-        body: JSON.stringify({ error: 'GraphQL endpoint not configured' }),
+        body: JSON.stringify({ error: 'Server configuration error' }),
       };
     }
 
@@ -59,8 +71,8 @@ export const handler = async (event, context) => {
       'Content-Type': 'application/json',
     };
 
-    // Add API key if available
-    const apiKey = process.env.GRAPHQL_API_KEY || process.env.PUBLIC_API_KEY;
+    // Add API key if available (server-side only)
+    const apiKey = process.env.GRAPHQL_API_KEY;
     if (apiKey) {
       graphqlHeaders['X-API-Key'] = apiKey;
     }
@@ -72,7 +84,7 @@ export const handler = async (event, context) => {
         jwt.verify(authToken, process.env.AUTH_SECRET);
         graphqlHeaders['Authorization'] = `Bearer ${authToken}`;
       } catch (err) {
-        console.warn('Invalid auth token, proceeding without Authorization header');
+        console.warn('Invalid auth token:', err.message);
         // Continue without Authorization header - let GraphQL API handle it
       }
     }
