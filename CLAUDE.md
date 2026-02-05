@@ -140,11 +140,28 @@ portfolio-site/
 
 ### Data Management
 
-Content is managed through JSON files in `src/data/`:
-
+**Public Site**: Content is managed through JSON files in `src/data/`:
 - Career data including skills, projects, and work experience
 - Focus tagging system for content filtering
 - Structured data optimized for component consumption
+
+**Admin Panel**: React-based CRUD interface at `/admin` for managing career data:
+- Cookie-based JWT authentication via Netlify middleware
+- GraphQL proxy architecture (service on different domain)
+- React Islands for SSR admin pages
+- Forms use react-hook-form
+
+**GraphQL Proxy**: Admin mutations go through `/.netlify/functions/graphql-proxy`:
+- Extracts `auth_token` cookie from requests
+- Adds cookie as `Authorization: Bearer` header
+- Forwards to external GraphQL service
+- Required because browsers won't send cookies cross-domain
+
+**Relevant files**:
+- `netlify/functions/graphql-proxy.js` - Proxy function
+- `src/lib/graphql-client.ts` - Client (points to proxy)
+- `src/middleware.ts` - Cookie validation
+- `src/components/admin/` - React admin components
 
 ## 🎨 Design System
 

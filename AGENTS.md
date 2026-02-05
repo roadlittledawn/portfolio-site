@@ -5,6 +5,7 @@ Comprehensive reference for AI coding assistants working on this codebase.
 ## Project Overview
 
 This is a personal portfolio site with two main parts:
+
 1. **Public Site**: Static Astro pages showcasing skills, projects, and experience
 2. **Admin Panel**: React-based CRUD interface for managing career data
 
@@ -12,16 +13,16 @@ The site uses a hybrid architecture: public pages are statically generated, whil
 
 ## Technology Stack
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Astro v4 (hybrid output mode) |
-| Admin UI | React 18 with React Islands |
-| Styling | Tailwind CSS (dark theme) |
-| Forms | react-hook-form |
-| Auth | JWT (jsonwebtoken, bcryptjs) |
-| Functions | Netlify Functions (ES modules) |
-| Data | GraphQL API → MongoDB |
-| AI | Anthropic Claude API |
+| Layer     | Technology                      |
+| --------- | ------------------------------- |
+| Framework | Astro v4 (hybrid output mode)   |
+| Admin UI  | React 18 with React Islands     |
+| Styling   | Tailwind CSS (dark theme)       |
+| Forms     | react-hook-form                 |
+| Auth      | Cookie-based JWT via middleware |
+| Functions | Netlify Functions (ES modules)  |
+| Data      | GraphQL proxy → external API    |
+| AI        | Anthropic Claude API            |
 
 ## Directory Structure
 
@@ -49,7 +50,7 @@ portfolio-site/
 │   ├── lib/
 │   │   ├── types.ts            # TypeScript interfaces
 │   │   ├── auth.ts             # Client-side auth utilities
-│   │   ├── graphql-client.ts   # GraphQL client
+│   │   ├── graphql-client.ts   # GraphQL client (uses proxy)
 │   │   ├── constants.ts        # Shared constants
 │   │   ├── job-agent-prompts.ts# AI prompt templates
 │   │   └── hooks/              # React hooks
@@ -58,12 +59,14 @@ portfolio-site/
 │   │   ├── filterEngine.ts     # Client-side filtering logic
 │   │   ├── urlState.ts         # URL state management
 │   │   └── roleTypeMapping.ts  # Role type mappings
+│   ├── middleware.ts           # Cookie-based auth check
 │   └── data/
 │       └── careerData.json     # Cached career data (synced from API)
 ├── netlify/functions/           # Serverless functions (ES modules)
 │   ├── auth-login.js           # JWT login
 │   ├── auth-verify.js          # Token verification
 │   ├── auth-logout.js          # Logout
+│   ├── graphql-proxy.js        # GraphQL proxy (handles auth cookies)
 │   └── ai-assistant.js         # Claude API proxy
 ├── scripts/
 │   ├── sync-career-data.js     # Fetch data from GraphQL API
@@ -75,9 +78,28 @@ portfolio-site/
 
 ## Key Patterns
 
+### GraphQL Proxy Architecture
+
+**Why we use a proxy**: The GraphQL service is on a different domain than the portfolio site. Browsers won't send cookies cross-domain, so we proxy requests through a Netlify function on our domain.
+
+**Flow**:
+
+1. Admin UI makes GraphQL request → `/.netlify/functions/graphql-proxy`
+2. Proxy extracts `auth_token` cookie (set by login)
+3. Proxy adds cookie as `Authorization: Bearer` header
+4. Proxy forwards request to external GraphQL service
+5. Response returned to client
+
+**Relevant files**:
+
+- `netlify/functions/graphql-proxy.js` - Proxy function
+- `src/lib/graphql-client.ts` - Client configuration (points to proxy)
+- `src/middleware.ts` - Sets/validates auth cookies
+
 ### Astro Pages vs React Components
 
 **Public pages** (static):
+
 ```astro
 ---
 // src/pages/skills.astro
@@ -91,6 +113,7 @@ import SkillCard from '../components/SkillCard.astro';
 ```
 
 **Admin pages** (SSR with React):
+
 ```astro
 ---
 // src/pages/admin/skills/index.astro
@@ -116,12 +139,13 @@ import { SkillsList } from '../../../components/admin/lists';
 ### React Component Pattern
 
 Admin React components follow this pattern:
+
 ```tsx
 // src/components/admin/forms/SkillsForm.tsx
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import type { Skill } from '../../../lib/types';
-import { Button, Input, Select, Card, CardHeader } from '../ui';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import type { Skill } from "../../../lib/types";
+import { Button, Input, Select, Card, CardHeader } from "../ui";
 
 interface SkillsFormProps {
   initialData?: Skill;
@@ -129,10 +153,20 @@ interface SkillsFormProps {
   onCancel: () => void;
 }
 
-export default function SkillsForm({ initialData, onSubmit, onCancel }: SkillsFormProps) {
+export default function SkillsForm({
+  initialData,
+  onSubmit,
+  onCancel,
+}: SkillsFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: { /* ... */ }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      /* ... */
+    },
   });
   // ...
 }
@@ -141,20 +175,21 @@ export default function SkillsForm({ initialData, onSubmit, onCancel }: SkillsFo
 ### Netlify Functions (ES Modules)
 
 Functions use ES module syntax:
+
 ```javascript
 // netlify/functions/auth-login.js
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export const handler = async (event, context) => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
   };
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers, body: "" };
   }
 
   // ... handler logic
@@ -165,8 +200,8 @@ export const handler = async (event, context) => {
 
 1. User submits credentials to `/admin/login`
 2. `LoginForm.tsx` calls `auth.login()` → `/.netlify/functions/auth-login`
-3. Function validates with bcrypt, returns JWT
-4. Token stored in localStorage
+3. Function validates with bcrypt, returns JWT and sets `auth_token` cookie
+4. `src/middleware.ts` checks cookie on admin page requests
 5. Admin pages run `checkAuth()` script on load
 6. `verifyToken()` calls `/.netlify/functions/auth-verify`
 7. Invalid/missing token redirects to `/admin/login`
@@ -174,6 +209,7 @@ export const handler = async (event, context) => {
 ### Data Types
 
 Key interfaces in `src/lib/types.ts`:
+
 ```typescript
 interface Experience {
   _id: string;
@@ -192,7 +228,7 @@ interface Skill {
   _id: string;
   name: string;
   category: string;
-  level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  level: "beginner" | "intermediate" | "advanced" | "expert";
   yearsOfExperience: number;
   featured: boolean;
   iconName?: string;
@@ -210,8 +246,16 @@ interface Project {
   featured: boolean;
 }
 
-type RoleType = 'software_engineer' | 'engineering_manager' | 'technical_writer' | 'technical_writing_manager';
-type ProjectType = 'technical_writing' | 'software_engineering' | 'leadership' | 'hybrid';
+type RoleType =
+  | "software_engineer"
+  | "engineering_manager"
+  | "technical_writer"
+  | "technical_writing_manager";
+type ProjectType =
+  | "technical_writing"
+  | "software_engineering"
+  | "leadership"
+  | "hybrid";
 ```
 
 ## Styling
@@ -219,6 +263,7 @@ type ProjectType = 'technical_writing' | 'software_engineering' | 'leadership' |
 ### Tailwind Dark Theme
 
 The site uses a custom dark theme defined in `tailwind.config.mjs`:
+
 ```javascript
 colors: {
   dark: {
@@ -263,13 +308,13 @@ colors: {
 ## Environment Variables
 
 | Variable | Purpose | Required |
-|----------|---------|----------|
-| `PUBLIC_GRAPHQL_ENDPOINT` | GraphQL API URL | Yes |
-| `PUBLIC_API_KEY` | GraphQL API key | Yes |
+| --- | --- | --- |
+| `GRAPHQL_ENDPOINT` | GraphQL API URL (server-side) | Yes |
+| `GRAPHQL_API_KEY` | GraphQL API key (server-side) | Yes |
 | `AUTH_SECRET` | JWT signing secret (64 char hex) | Yes |
 | `ADMIN_USERNAME` | Admin login username | Yes |
 | `ADMIN_PASSWORD_HASH` | bcrypt hash of admin password | Yes |
-| `ANTHROPIC_API_KEY` | Claude API key for AI features | Optional |
+| `ANTHROPIC_API_KEY` | Claude API key for AI features | Yes (for Job Agent and AI chat features) |
 
 Generate auth secrets: `npm run generate-secrets <password>`
 
@@ -287,6 +332,7 @@ Functions only work through the Netlify Dev proxy (port 8080).
 ### Adding a new admin page
 
 1. Create Astro page in `src/pages/admin/`:
+
 ```astro
 ---
 export const prerender = false;
@@ -329,8 +375,9 @@ import { MyComponent } from "../../components/admin/pages";
 ## GraphQL Queries
 
 The GraphQL client is in `src/lib/graphql-client.ts`. Example usage:
+
 ```typescript
-import { graphqlClient, QUERIES } from '../lib/graphql-client';
+import { graphqlClient, QUERIES } from "../lib/graphql-client";
 
 const data = await graphqlClient.request(QUERIES.GET_EXPERIENCES);
 ```
@@ -338,6 +385,7 @@ const data = await graphqlClient.request(QUERIES.GET_EXPERIENCES);
 ## AI Integration
 
 The AI assistant (`netlify/functions/ai-assistant.js`) proxies requests to Claude API with career context. Used by:
+
 - `AIChatPanel.tsx`: Floating chat for content assistance
 - `ResumeGenerator.tsx`: Job-tailored resume generation
 - `CoverLetterGenerator.tsx`: Cover letter generation
