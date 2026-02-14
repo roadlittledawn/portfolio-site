@@ -64,7 +64,6 @@ portfolio-site/
 │   ├── auth-login.js           # JWT login
 │   ├── auth-verify.js          # Token verification
 │   ├── auth-logout.js          # Logout
-│   ├── graphql-proxy.js        # GraphQL proxy (handles auth cookies)
 │   └── ai-assistant.js         # Claude API proxy
 ├── scripts/
 │   ├── sync-career-data.js     # Fetch data from GraphQL API
@@ -76,23 +75,26 @@ portfolio-site/
 
 ## Key Patterns
 
-### GraphQL Proxy Architecture
+### GraphQL Direct Access Architecture
 
-**Why we use a proxy**: The GraphQL service is on a different domain than the portfolio site. Browsers won't send cookies cross-domain, so we proxy requests through a Netlify function on our domain.
+**How it works**: The portfolio site connects directly to the GraphQL API using API key-based authentication. There are two types of API keys:
+
+1. **Read-only key** (`PUBLIC_GRAPHQL_READ_KEY`): Used on public pages, allows queries only
+2. **Write key** (`PUBLIC_GRAPHQL_WRITE_KEY`): Used on admin pages, allows both queries and mutations
+
+**Security**: Admin pages are protected by cookie-based JWT authentication via middleware. The write API key is only exposed to authenticated users.
 
 **Flow**:
 
-1. Admin UI makes GraphQL request → `/.netlify/functions/graphql-proxy`
-2. Proxy extracts `auth_token` cookie (set by login)
-3. Proxy adds cookie as `Authorization: Bearer` header
-4. Proxy forwards request to external GraphQL service
-5. Response returned to client
+1. Public pages make GraphQL queries directly to the API with read-only key
+2. Admin UI makes GraphQL requests directly to the API with write key
+3. No proxy or intermediary needed
+4. Eliminates timeout issues for long-running operations (job agent)
 
 **Relevant files**:
 
-- `netlify/functions/graphql-proxy.js` - Proxy function
-- `src/lib/graphql-client.ts` - Client configuration (points to proxy)
-- `src/middleware.ts` - Sets/validates auth cookies
+- `src/lib/graphql-client.ts` - Client configuration with read/write key support
+- `src/middleware.ts` - Sets/validates auth cookies for admin access
 
 ### Astro Pages vs React Components
 

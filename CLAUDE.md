@@ -147,20 +147,20 @@ portfolio-site/
 
 **Admin Panel**: React-based CRUD interface at `/admin` for managing career data:
 - Cookie-based JWT authentication via Netlify middleware
-- GraphQL proxy architecture (service on different domain)
+- Direct GraphQL API access with API key-based authentication
 - React Islands for SSR admin pages
 - Forms use react-hook-form
 
-**GraphQL Proxy**: Admin mutations go through `/.netlify/functions/graphql-proxy`:
-- Extracts `auth_token` cookie from requests
-- Adds cookie as `Authorization: Bearer` header
-- Forwards to external GraphQL service
-- Required because browsers won't send cookies cross-domain
+**Data Management**: Career data is managed through a GraphQL API with direct access:
+- Admin mutations connect directly to the GraphQL API using write API key
+- Public queries use read-only API key
+- Extracts API key from environment variables
+- Connects to GraphQL service with appropriate permissions
+- Required for both public data fetching and admin CRUD operations
 
 **Relevant files**:
-- `netlify/functions/graphql-proxy.js` - Proxy function
-- `src/lib/graphql-client.ts` - Client (points to proxy)
-- `src/middleware.ts` - Cookie validation
+- `src/lib/graphql-client.ts` - Client with read/write key support
+- `src/middleware.ts` - Cookie validation for admin access
 - `src/components/admin/` - React admin components
 
 ## 🎨 Design System
