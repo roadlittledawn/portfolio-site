@@ -143,7 +143,7 @@ Once deployed, verify:
 2. Proxy extracts cookie, adds to Authorization header
 3. Proxy → GraphQL API
 
-**Issue**: Netlify functions have strict timeout limits (10 seconds for free tier, 26 seconds for paid)
+**Issue**: Netlify functions have strict timeout limits which can cause issues for long-running operations
 
 ### After (Direct Access)
 1. Browser → GraphQL API (with API key in header)

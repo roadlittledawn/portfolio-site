@@ -38,7 +38,7 @@ export function createReadOnlyClient(): GraphQLClient {
   const apiKey = import.meta.env?.PUBLIC_GRAPHQL_READ_KEY || '';
 
   if (!apiKey) {
-    console.warn('PUBLIC_GRAPHQL_READ_KEY not set. Read-only queries may fail.');
+    console.warn('PUBLIC_GRAPHQL_READ_KEY not configured. GraphQL queries will fail without a valid API key.');
   }
 
   return new GraphQLClient(endpoint, {
@@ -97,10 +97,13 @@ export function createServerGraphQLClient(endpoint?: string, apiKey?: string): G
  * - Admin pages: Write client (allows mutations)
  * - Public pages: Read-only client (queries only)
  * 
- * For explicit control, use createReadOnlyClient() or createWriteClient() directly
+ * Note: This function uses URL path detection (/admin/*) which aligns with
+ * the middleware auth pattern. For explicit control or server-side usage,
+ * call createReadOnlyClient() or createWriteClient() directly.
  */
 export function getGraphQLClient(): GraphQLClient {
   // Check if we're on an admin page by looking at the URL
+  // This matches the middleware pattern where all admin routes start with /admin
   if (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {
     return createWriteClient();
   }
