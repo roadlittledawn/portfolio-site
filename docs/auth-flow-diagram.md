@@ -159,7 +159,7 @@ sequenceDiagram
 
 ## 5. Admin Data Mutations (Direct GraphQL Access)
 
-**Flow**: React form → GraphQL API (write key)
+**Flow**: React form → GraphQL API (write key + JWT)
 
 ```mermaid
 sequenceDiagram
@@ -167,24 +167,26 @@ sequenceDiagram
     participant Form as SkillsForm.tsx<br/>(React Component)
     participant Client as graphql-client.ts
     participant API as GraphQL API<br/>(AWS Lambda)
-    
+
     Browser->>Form: 1. User submits form (add/edit skill)
     Form->>Client: 2. onSubmit calls GraphQL mutation
-    
-    Note over Client: Get write client<br/>Includes write API key
-    
-    Client->>API: 3. POST /graphql<br/>X-API-Key: WRITE_KEY<br/>Body: { query: "mutation { ... }" }
-    
-    Note over API: Validate write key<br/>Execute mutation
-    
+
+    Note over Client: Get write client<br/>Includes write API key<br/>and JWT auth token
+
+    Client->>API: 3. POST /graphql<br/>X-API-Key: WRITE_KEY<br/>Authorization: Bearer JWT<br/>Body: { query: "mutation { ... }" }
+
+    Note over API: 1. Validate write key<br/>2. Verify JWT signature<br/>3. Execute mutation
+
     API->>Client: 4. { data: { ... } }
     Client->>Form: 5. Update UI
     Form->>Browser: 6. Show success message
 ```
 
 **Key Points**:
-- Admin pages use **write API key** for mutations
-- Write key is protected by middleware (admin auth required)
+- Admin mutations require **both** write API key and valid JWT (two-factor auth)
+- Write key and JWT are injected server-side by AdminLayout.astro
+- JWT is the same admin auth token used for page access (auth_token cookie)
+- Neither credential alone is sufficient — prevents leaked key abuse
 - No proxy needed - direct API access
 - Eliminates timeout issues for long-running operations (job agent)
 
@@ -192,21 +194,30 @@ sequenceDiagram
 
 ## 6. GraphQL API Authentication Model
 
-The GraphQL API validates API keys on all requests:
+The GraphQL API validates API keys on all requests, with JWT as a second factor for mutations:
 
-### All Requests (Queries + Mutations)
+### Query Requests
 ```
 REQUIRED: X-API-Key header
 - Read-only key: Allows queries only
-- Write key: Allows queries and mutations
+- Write key: Also allows queries
+```
+
+### Mutation Requests
+```
+REQUIRED: X-API-Key header (write key)
+REQUIRED: Authorization: Bearer <JWT> header
+- Both credentials must be valid
+- JWT is verified against AUTH_SECRET (shared between portfolio site and API)
 ```
 
 ### Security Layers
 1. **Read-only key**: Public, safe to expose, queries only
 2. **Write key**: Injected server-side, never in static JS, allows mutations
-3. **Cookie auth**: Controls access to admin pages
-4. **Middleware validation**: Server-side check before page render
-5. **Client validation**: Client-side check after page load
+3. **JWT second factor**: Admin auth token forwarded as Bearer token, required for mutations
+4. **Cookie auth**: Controls access to admin pages
+5. **Middleware validation**: Server-side check before page render
+6. **Client validation**: Client-side check after page load
 
 ---
 
@@ -241,6 +252,9 @@ ANTHROPIC_API_KEY=<key>
 # API Authentication
 API_READ_KEY=<read-key>   # Must match PUBLIC_GRAPHQL_READ_KEY
 API_WRITE_KEY=<write-key> # Must match GRAPHQL_WRITE_KEY
+
+# JWT Verification (must match AUTH_SECRET in portfolio site)
+AUTH_SECRET=<64-char-hex>
 ```
 
 ---
