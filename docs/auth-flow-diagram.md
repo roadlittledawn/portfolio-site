@@ -7,48 +7,49 @@ graph TB
     Portfolio["Portfolio Site (Netlify)<br/>https://clintonlangosch.com"]
     API["GraphQL API (AWS Lambda)<br/>Different domain/deployment"]
     
-    Portfolio -->|Proxies GraphQL requests| API
+    Portfolio -->|Direct GraphQL requests<br/>with API keys| API
     
     style Portfolio fill:#2d333b,stroke:#58a6ff,color:#e6edf3
     style API fill:#2d333b,stroke:#58a6ff,color:#e6edf3
 ```
 
+## Key Architecture Changes
+
+**Previous**: GraphQL requests were proxied through a Netlify function to add authentication headers from cookies.
+
+**Current**: Direct GraphQL API access using API key-based authentication:
+- **Read-only key**: Public, safe to expose in browser, allows queries only
+- **Write key**: Injected server-side by AdminLayout.astro (not bundled in JS), allows queries and mutations
+
 ## 1. Unauthenticated Frontend Requests (Public Site)
 
-**Flow**: Public pages → React component → GraphQL proxy → API (read-only)
+**Flow**: Public pages → React component → GraphQL API (read-only key)
 
 ```mermaid
 sequenceDiagram
     participant Browser as Browser<br/>(Visitor)
     participant Astro as skills.astro<br/>(Static Page)
     participant React as SkillsPageContent.tsx<br/>(React Component)
-    participant Proxy as graphql-proxy.js<br/>(Netlify Function)
     participant API as GraphQL API<br/>(AWS Lambda)
     
     Browser->>Astro: 1. GET /skills
     Astro->>Browser: 2. HTML with React component
     Browser->>React: 3. Component hydrates
     React->>React: 4. useEffect(() => fetchSkills())
-    React->>Proxy: 5. POST /.netlify/functions/graphql-proxy<br/>Body: { query: "query { skills {...} }" }<br/>credentials: 'include'<br/>(No auth_token cookie)
+    React->>API: 5. POST /graphql<br/>X-API-Key: READ_KEY<br/>Body: { query: "query { skills {...} }" }
     
-    Note over Proxy: No auth_token found<br/>Build headers:<br/>- X-API-Key: GRAPHQL_API_KEY<br/>- NO Authorization header
+    Note over API: Validate read-only key<br/>Execute query
     
-    Proxy->>API: 6. POST /graphql<br/>X-API-Key: <key><br/>Body: { query: "query { skills {...} }" }
-    
-    Note over API: auth.ts middleware:<br/>1. Validate X-API-Key ✓<br/>2. Check if mutation? NO<br/>3. JWT not required for queries<br/>4. Execute query
-    
-    API->>Proxy: 7. { data: { skills: [...] } }
-    Proxy->>React: 8. Response
-    React->>React: 9. setSkills(data.skills)
-    React->>Browser: 10. Render skill cards
+    API->>React: 6. { data: { skills: [...] } }
+    React->>React: 7. setSkills(data.skills)
+    React->>Browser: 8. Render skill cards
 ```
 
 **Key Points**:
 - Public pages use **React components** that fetch data at runtime
-- GraphQL **queries** (read-only) don't require JWT authentication
-- Only **API key** is required (added by proxy)
-- Visitors never see the API key (server-side only in proxy)
-- Same GraphQL proxy used for both public and admin requests
+- GraphQL **queries** use read-only API key
+- Read-only key is safe to expose in browser (queries only)
+- No authentication required for public data
 
 ---
 
@@ -156,253 +157,86 @@ sequenceDiagram
 
 ---
 
-## 5. Admin Data Mutations (GraphQL via Proxy)
+## 5. Admin Data Mutations (Direct GraphQL Access)
 
-**Flow**: React form → GraphQL proxy → External API
+**Flow**: React form → GraphQL API (write key + JWT)
 
 ```mermaid
 sequenceDiagram
     participant Browser as Browser<br/>(Admin)
     participant Form as SkillsForm.tsx<br/>(React Component)
     participant Client as graphql-client.ts
-    participant Proxy as graphql-proxy.js<br/>(Netlify Function)
     participant API as GraphQL API<br/>(AWS Lambda)
-    
+
     Browser->>Form: 1. User submits form (add/edit skill)
     Form->>Client: 2. onSubmit calls GraphQL mutation
-    Client->>Proxy: 3. POST /.netlify/functions/graphql-proxy<br/>Cookie: auth_token=<JWT><br/>credentials: 'include'<br/>Body: { query: "mutation { ... }" }
-    
-    Note over Proxy: 1. Extract auth_token from cookies<br/>2. Verify JWT: jwt.verify(token, AUTH_SECRET)<br/>3. Build headers:<br/>- Content-Type: application/json<br/>- X-API-Key: GRAPHQL_API_KEY<br/>- Authorization: Bearer <JWT>
-    
-    Proxy->>API: 4. POST /graphql<br/>X-API-Key: <key><br/>Authorization: Bearer <JWT><br/>Body: { query: "mutation { ... }" }
-    
-    Note over API: auth.ts middleware:<br/>1. Validate X-API-Key ✓<br/>2. Check if mutation? YES<br/>3. Validate JWT ✓<br/>4. Execute mutation
-    
-    API->>Proxy: 5. { data: { ... } }
-    Proxy->>Client: 6. Response
-    Client->>Form: 7. Update UI
-    Form->>Browser: 8. Show success message
+
+    Note over Client: Get write client<br/>Includes write API key<br/>and JWT auth token
+
+    Client->>API: 3. POST /graphql<br/>X-API-Key: WRITE_KEY<br/>Authorization: Bearer JWT<br/>Body: { query: "mutation { ... }" }
+
+    Note over API: 1. Validate write key<br/>2. Verify JWT signature<br/>3. Execute mutation
+
+    API->>Client: 4. { data: { ... } }
+    Client->>Form: 5. Update UI
+    Form->>Browser: 6. Show success message
 ```
+
+**Key Points**:
+- Admin mutations require **both** write API key and valid JWT (two-factor auth)
+- Write key and JWT are injected server-side by AdminLayout.astro
+- JWT is the same admin auth token used for page access (auth_token cookie)
+- Neither credential alone is sufficient — prevents leaked key abuse
+- No proxy needed - direct API access
+- Eliminates timeout issues for long-running operations (job agent)
 
 ---
 
-## 6. CORS Configuration
+## 6. GraphQL API Authentication Model
 
-### Why CORS Matters
+The GraphQL API validates API keys on all requests, with JWT as a second factor for mutations:
 
-The GraphQL proxy must handle CORS because:
-1. Browser enforces same-origin policy for fetch requests
-2. Preflight OPTIONS requests must be handled
-3. Credentials (cookies) require explicit CORS headers
-
-### Proxy CORS Headers
-
-```javascript
-// netlify/functions/graphql-proxy.js
-const headers = {
-  'Access-Control-Allow-Origin': allowedOrigin,  // Dynamic based on request
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-Key',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Credentials': 'true',  // Required for cookies!
-};
-```
-
-### Origin Validation
-
-```mermaid
-flowchart TD
-    Request[Incoming Request] --> CheckOrigin{Origin in<br/>allowed list?}
-    
-    CheckOrigin -->|Yes| SetOrigin[Set Access-Control-Allow-Origin<br/>to request origin]
-    CheckOrigin -->|No, Production| Reject[403 Forbidden]
-    CheckOrigin -->|No, Dev| Default[Use localhost:8080]
-    
-    SetOrigin --> Preflight{OPTIONS<br/>request?}
-    Default --> Preflight
-    
-    Preflight -->|Yes| Return200[Return 200<br/>empty body]
-    Preflight -->|No| Process[Process POST<br/>request]
-    
-    style Request fill:#2d333b,stroke:#58a6ff,color:#e6edf3
-    style SetOrigin fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style Reject fill:#2d333b,stroke:#f85149,color:#e6edf3
-    style Default fill:#2d333b,stroke:#d29922,color:#e6edf3
-    style Return200 fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style Process fill:#2d333b,stroke:#3fb950,color:#e6edf3
-```
-
-**Allowed Origins**:
-```javascript
-const allowedOrigins = [
-  'http://localhost:8080',      // Netlify Dev
-  'http://localhost:4321',      // Astro direct
-  'https://clintonlangosch.com', // Production
-  process.env.URL,              // Deploy previews
-];
-```
-
-### Critical CORS Settings
-
-| Header | Value | Why |
-|--------|-------|-----|
-| `Access-Control-Allow-Credentials` | `true` | **Required** for browser to send cookies |
-| `Access-Control-Allow-Origin` | Dynamic (from request) | Must match request origin when using credentials |
-| `Access-Control-Allow-Headers` | `Content-Type, Authorization, X-API-Key` | Allows GraphQL headers |
-| `Access-Control-Allow-Methods` | `POST, OPTIONS` | GraphQL uses POST, OPTIONS for preflight |
-
-**Important**: When `Access-Control-Allow-Credentials: true`, you **cannot** use `Access-Control-Allow-Origin: *`. Must specify exact origin.
-
-### Preflight Request Flow
-
-```mermaid
-sequenceDiagram
-    participant Browser
-    participant Proxy as graphql-proxy.js
-    
-    Note over Browser: Before actual request,<br/>browser sends preflight
-    
-    Browser->>Proxy: OPTIONS /.netlify/functions/graphql-proxy<br/>Origin: https://clintonlangosch.com<br/>Access-Control-Request-Method: POST<br/>Access-Control-Request-Headers: content-type
-    
-    Note over Proxy: Validate origin<br/>Return CORS headers
-    
-    Proxy->>Browser: 200 OK<br/>Access-Control-Allow-Origin: https://clintonlangosch.com<br/>Access-Control-Allow-Methods: POST, OPTIONS<br/>Access-Control-Allow-Headers: Content-Type, ...<br/>Access-Control-Allow-Credentials: true
-    
-    Note over Browser: Preflight passed,<br/>send actual request
-    
-    Browser->>Proxy: POST /.netlify/functions/graphql-proxy<br/>Cookie: auth_token=<JWT><br/>Body: { query: "..." }
-    
-    Proxy->>Browser: Response with same CORS headers
-```
-
----
-
-## 7. Why GraphQL Proxy is Needed
-
-**Two Problems Solved**:
-1. **Cross-domain cookies** - Browsers won't send cookies to different domains
-2. **CORS with credentials** - Requires same-origin or explicit CORS configuration
-
-```mermaid
-graph TB
-    subgraph "❌ WITHOUT PROXY (Doesn't work)"
-        B1[Browser<br/>clintonlangosch.com]
-        A1[GraphQL API<br/><api-domain>]
-        
-        B1 -->|POST /graphql<br/>Cookie: auth_token=JWT| A1
-        A1 -.->|❌ Browser won't send<br/>cookies cross-domain!| B1
-    end
-    
-    subgraph "✅ WITH PROXY (Works)"
-        B2[Browser<br/>clintonlangosch.com]
-        P2[Proxy<br/>clintonlangosch.com]
-        A2[GraphQL API<br/><api-domain>]
-        
-        B2 -->|POST /.netlify/functions/graphql-proxy<br/>Cookie: auth_token=JWT<br/>✓ Same domain, cookie sent!| P2
-        P2 -->|Extracts cookie<br/>Adds Authorization: Bearer JWT| P2
-        P2 -->|POST /graphql<br/>Authorization: Bearer JWT<br/>✓ Now has auth!| A2
-    end
-    
-    style B1 fill:#2d333b,stroke:#f85149,color:#e6edf3
-    style A1 fill:#2d333b,stroke:#f85149,color:#e6edf3
-    style B2 fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style P2 fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style A2 fill:#2d333b,stroke:#3fb950,color:#e6edf3
-```
-
----
-
-## 8. GraphQL API Authentication Rules
-
-The external GraphQL API (`src/middleware/auth.ts`) enforces:
-
-### All Requests (Queries + Mutations)
+### Query Requests
 ```
 REQUIRED: X-API-Key header
-- Must match API_ACCESS_KEY env var
-- Returns 401 if missing/invalid
+- Read-only key: Allows queries only
+- Write key: Also allows queries
 ```
 
-### Mutations Only
+### Mutation Requests
 ```
-REQUIRED: Authorization: Bearer <JWT>
-- JWT must be valid (signed with AUTH_SECRET)
-- Returns 401 if missing/invalid
-```
-
-### Queries (Read-only)
-```
-OPTIONAL: Authorization header
-- API key is sufficient
-- JWT not required for queries
-```
-
-**Detection Logic**:
-```javascript
-function isMutationRequest(body) {
-  const query = body.query || body.mutation || "";
-  return (
-    query.trim().startsWith("mutation") ||
-    query.includes("mutation ") ||
-    query.includes("mutation{")
-  );
-}
-```
-
----
-
-## 9. Complete Authentication Summary
-
-### Credentials Storage
-| Credential | Location | Format |
-|------------|----------|--------|
-| Admin password | `ADMIN_PASSWORD_HASH` env var | bcrypt hash |
-| JWT secret | `AUTH_SECRET` env var | 64-char hex |
-| GraphQL API key | `GRAPHQL_API_KEY` env var | String |
-| GraphQL API key (API side) | `API_ACCESS_KEY` env var | String (must match) |
-
-### Token Flow
-
-```mermaid
-flowchart LR
-    Login[1. Login] --> JWT[2. JWT Generated]
-    JWT --> Cookie[3. Stored in<br/>HTTP-only Cookie]
-    Cookie --> Middleware[4. Middleware<br/>Validates]
-    Middleware --> Mutation[5. GraphQL Mutation]
-    Mutation --> Proxy[6. Proxy Extracts<br/>Cookie]
-    Proxy --> Auth[7. Adds to<br/>Authorization Header]
-    Auth --> API[8. API Validates<br/>API Key + JWT]
-    API --> Execute[9. Executes<br/>Mutation]
-    
-    style Login fill:#2d333b,stroke:#58a6ff,color:#e6edf3
-    style JWT fill:#2d333b,stroke:#58a6ff,color:#e6edf3
-    style Cookie fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style Middleware fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style Mutation fill:#2d333b,stroke:#58a6ff,color:#e6edf3
-    style Proxy fill:#2d333b,stroke:#58a6ff,color:#e6edf3
-    style Auth fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style API fill:#2d333b,stroke:#3fb950,color:#e6edf3
-    style Execute fill:#2d333b,stroke:#3fb950,color:#e6edf3
+REQUIRED: X-API-Key header (write key)
+REQUIRED: Authorization: Bearer <JWT> header
+- Both credentials must be valid
+- JWT is verified against AUTH_SECRET (shared between portfolio site and API)
 ```
 
 ### Security Layers
-1. **HTTP-only cookie**: JavaScript cannot access token
-2. **Secure flag**: HTTPS only in production
-3. **SameSite=Lax**: CSRF protection
-4. **JWT expiration**: 24-hour lifetime
-5. **Server-side validation**: Middleware checks before rendering
-6. **Client-side validation**: Script checks after page load
-7. **API key**: Required for all GraphQL requests
-8. **JWT for mutations**: Required for data modifications
+1. **Read-only key**: Public, safe to expose, queries only
+2. **Write key**: Injected server-side, never in static JS, allows mutations
+3. **JWT second factor**: Admin auth token forwarded as Bearer token, required for mutations
+4. **Cookie auth**: Controls access to admin pages
+5. **Middleware validation**: Server-side check before page render
+6. **Client validation**: Client-side check after page load
 
 ---
 
-## 10. Environment Variables
+## 7. Environment Variables
 
 ### Portfolio Site (Netlify)
 ```bash
-# GraphQL API (server-side only, not exposed to client)
-GRAPHQL_ENDPOINT=<graphql-api-url>
-GRAPHQL_API_KEY=<api-key>
+# GraphQL API endpoint (public, used by client-side code)
+PUBLIC_GRAPHQL_ENDPOINT=<graphql-api-url>
+
+# Read-only API key (public, safe to expose, queries only)
+PUBLIC_GRAPHQL_READ_KEY=<read-key>
+
+# Write API key (server-side only, injected by AdminLayout.astro, allows mutations)
+GRAPHQL_WRITE_KEY=<write-key>
+
+# Legacy env vars (for backwards compatibility with scripts)
+GRAPHQL_ENDPOINT=${PUBLIC_GRAPHQL_ENDPOINT}
+GRAPHQL_API_KEY=${GRAPHQL_WRITE_KEY}
 
 # Admin Auth
 AUTH_SECRET=<64-char-hex>
@@ -416,13 +250,16 @@ ANTHROPIC_API_KEY=<key>
 ### GraphQL API (AWS Lambda)
 ```bash
 # API Authentication
-API_ACCESS_KEY=<api-key>  # Must match GRAPHQL_API_KEY above
-AUTH_SECRET=<64-char-hex>  # Must match portfolio site AUTH_SECRET
+API_READ_KEY=<read-key>   # Must match PUBLIC_GRAPHQL_READ_KEY
+API_WRITE_KEY=<write-key> # Must match GRAPHQL_WRITE_KEY
+
+# JWT Verification (must match AUTH_SECRET in portfolio site)
+AUTH_SECRET=<64-char-hex>
 ```
 
 ---
 
-## 11. Key Files Reference
+## 8. Key Files Reference
 
 ### Portfolio Site
 ```
@@ -430,19 +267,42 @@ netlify/functions/
 ├── auth-login.js          # Login, set JWT cookie
 ├── auth-verify.js         # Verify JWT from cookie
 ├── auth-logout.js         # Clear cookie
-└── graphql-proxy.js       # Proxy GraphQL, add auth header
+└── ai-assistant.js        # Claude API proxy
 
 src/
 ├── middleware.ts          # Server-side auth check
 ├── lib/
 │   ├── auth.ts           # Client auth utilities
-│   └── graphql-client.ts # GraphQL client (points to proxy)
-└── components/admin/     # React admin components
+│   └── graphql-client.ts # GraphQL client (direct access with API keys)
+└── components/
+    ├── pages/            # Public page components (use read-only key)
+    └── admin/            # Admin components (use write key)
 ```
 
 ### GraphQL API
 ```
 src/
 └── middleware/
-    └── auth.ts           # API key + JWT validation
+    └── auth.ts           # API key validation
 ```
+
+---
+
+## 9. Migration from Proxy Architecture
+
+### What Changed
+- **Removed**: `netlify/functions/graphql-proxy.js` - No longer needed
+- **Updated**: `src/lib/graphql-client.ts` - Now uses direct API access with keys
+- **New**: API key-based authentication (read-only and write keys)
+
+### What Stayed the Same
+- Cookie-based admin authentication (middleware + JWT)
+- Admin page protection via middleware
+- Login/logout/verify flow unchanged
+- Security model for admin access unchanged
+
+### Benefits
+- **No timeouts**: Direct API access eliminates Netlify function timeout issues
+- **Simpler architecture**: One less moving part (no proxy)
+- **Better performance**: Fewer network hops
+- **Easier debugging**: Direct request/response flow
