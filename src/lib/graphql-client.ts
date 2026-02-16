@@ -6,6 +6,9 @@
  * - Read-only key (PUBLIC_GRAPHQL_READ_KEY): Public, embedded in client JS, only allows queries
  * - Write key (GRAPHQL_WRITE_KEY): Injected server-side by AdminLayout.astro into
  *   window.__GRAPHQL_WRITE_KEY__. Never bundled into static JS by Vite.
+ * - Auth token (auth_token cookie): Injected server-side by AdminLayout.astro into
+ *   window.__GRAPHQL_AUTH_TOKEN__. Sent as Authorization: Bearer header for mutations,
+ *   providing a second authentication factor alongside the write key.
  */
 
 import { GraphQLClient } from 'graphql-request';
@@ -53,23 +56,30 @@ export function createReadOnlyClient(): GraphQLClient {
  * Create a GraphQL client for admin operations (mutations and queries)
  * Uses a write API key injected at SSR time via AdminLayout.astro
  *
- * Security: The write key is injected server-side into admin page HTML only after
- * middleware validates the auth cookie. It is NOT bundled into any JS file by Vite,
- * so unauthenticated users cannot extract it from static assets.
+ * Security: The write key and auth token are injected server-side into admin page
+ * HTML only after middleware validates the auth cookie. Neither value is bundled
+ * into any JS file by Vite, so unauthenticated users cannot extract them from
+ * static assets. Mutations require both the write key (X-API-Key) and a valid
+ * JWT (Authorization: Bearer) as a second authentication factor.
  */
 export function createWriteClient(): GraphQLClient {
   const endpoint = getGraphQLEndpoint();
   const apiKey = (typeof window !== 'undefined' && (window as any).__GRAPHQL_WRITE_KEY__) || '';
+  const authToken = (typeof window !== 'undefined' && (window as any).__GRAPHQL_AUTH_TOKEN__) || '';
 
   if (!apiKey) {
     throw new Error('GRAPHQL_WRITE_KEY not available. Ensure you are on an authenticated admin page.');
   }
 
-  return new GraphQLClient(endpoint, {
-    headers: {
-      'X-API-Key': apiKey,
-    },
-  });
+  const headers: Record<string, string> = {
+    'X-API-Key': apiKey,
+  };
+
+  if (authToken) {
+    headers['Authorization'] = `Bearer ${authToken}`;
+  }
+
+  return new GraphQLClient(endpoint, { headers });
 }
 
 /**
