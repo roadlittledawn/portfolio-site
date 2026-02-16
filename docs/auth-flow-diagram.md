@@ -19,7 +19,7 @@ graph TB
 
 **Current**: Direct GraphQL API access using API key-based authentication:
 - **Read-only key**: Public, safe to expose in browser, allows queries only
-- **Write key**: Protected by admin middleware, allows queries and mutations
+- **Write key**: Injected server-side by AdminLayout.astro (not bundled in JS), allows queries and mutations
 
 ## 1. Unauthenticated Frontend Requests (Public Site)
 
@@ -203,7 +203,7 @@ REQUIRED: X-API-Key header
 
 ### Security Layers
 1. **Read-only key**: Public, safe to expose, queries only
-2. **Write key**: Protected by admin middleware, allows mutations
+2. **Write key**: Injected server-side, never in static JS, allows mutations
 3. **Cookie auth**: Controls access to admin pages
 4. **Middleware validation**: Server-side check before page render
 5. **Client validation**: Client-side check after page load
@@ -220,12 +220,12 @@ PUBLIC_GRAPHQL_ENDPOINT=<graphql-api-url>
 # Read-only API key (public, safe to expose, queries only)
 PUBLIC_GRAPHQL_READ_KEY=<read-key>
 
-# Write API key (protected by admin auth, allows mutations)
-PUBLIC_GRAPHQL_WRITE_KEY=<write-key>
+# Write API key (server-side only, injected by AdminLayout.astro, allows mutations)
+GRAPHQL_WRITE_KEY=<write-key>
 
 # Legacy env vars (for backwards compatibility with scripts)
 GRAPHQL_ENDPOINT=${PUBLIC_GRAPHQL_ENDPOINT}
-GRAPHQL_API_KEY=${PUBLIC_GRAPHQL_WRITE_KEY}
+GRAPHQL_API_KEY=${GRAPHQL_WRITE_KEY}
 
 # Admin Auth
 AUTH_SECRET=<64-char-hex>
@@ -240,7 +240,7 @@ ANTHROPIC_API_KEY=<key>
 ```bash
 # API Authentication
 API_READ_KEY=<read-key>   # Must match PUBLIC_GRAPHQL_READ_KEY
-API_WRITE_KEY=<write-key> # Must match PUBLIC_GRAPHQL_WRITE_KEY
+API_WRITE_KEY=<write-key> # Must match GRAPHQL_WRITE_KEY
 ```
 
 ---

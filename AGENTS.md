@@ -80,9 +80,9 @@ portfolio-site/
 **How it works**: The portfolio site connects directly to the GraphQL API using API key-based authentication. There are two types of API keys:
 
 1. **Read-only key** (`PUBLIC_GRAPHQL_READ_KEY`): Used on public pages, allows queries only
-2. **Write key** (`PUBLIC_GRAPHQL_WRITE_KEY`): Used on admin pages, allows both queries and mutations
+2. **Write key** (`GRAPHQL_WRITE_KEY`): Used on admin pages, allows both queries and mutations
 
-**Security**: Admin pages are protected by cookie-based JWT authentication via middleware. The write API key is only exposed to authenticated users.
+**Security**: The write key has no `PUBLIC_` prefix so Vite never bundles it into client JS. Instead, `AdminLayout.astro` injects it server-side via `window.__GRAPHQL_WRITE_KEY__` only after middleware validates the auth cookie.
 
 **Flow**:
 

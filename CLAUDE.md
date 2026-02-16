@@ -152,7 +152,7 @@ portfolio-site/
 - Forms use react-hook-form
 
 **Data Management**: Career data is managed through a GraphQL API with direct access:
-- Admin mutations connect directly to the GraphQL API using write API key
+- Admin mutations connect directly to the GraphQL API using write API key (injected server-side, not bundled by Vite)
 - Public queries use read-only API key
 - Extracts API key from environment variables
 - Connects to GraphQL service with appropriate permissions
