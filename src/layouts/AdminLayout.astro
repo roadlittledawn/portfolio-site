@@ -45,6 +45,10 @@ function isActive(href: string): boolean {
     <title>{title}</title>
   </head>
   <body class="font-sans text-text-primary bg-dark-base min-h-screen">
+    <!-- Inject write key server-side so it's only available to authenticated admin users -->
+    <script define:vars={{ writeKey: import.meta.env.GRAPHQL_WRITE_KEY }}>
+      window.__GRAPHQL_WRITE_KEY__ = writeKey;
+    </script>
     <!-- Admin Header -->
     <header class="sticky top-0 bg-dark-layer/95 backdrop-blur-sm z-50 border-b border-dark-border-subtle">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

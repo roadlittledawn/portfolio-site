@@ -1,10 +1,11 @@
 /**
  * GraphQL Client Configuration
  * Connects directly to the career data GraphQL API using API key-based authentication
- * 
+ *
  * Security Model:
- * - Read-only key: Public, embedded in client code, only allows queries
- * - Write key: Protected by admin auth middleware, allows mutations
+ * - Read-only key (PUBLIC_GRAPHQL_READ_KEY): Public, embedded in client JS, only allows queries
+ * - Write key (GRAPHQL_WRITE_KEY): Injected server-side by AdminLayout.astro into
+ *   window.__GRAPHQL_WRITE_KEY__. Never bundled into static JS by Vite.
  */
 
 import { GraphQLClient } from 'graphql-request';
@@ -38,7 +39,7 @@ export function createReadOnlyClient(): GraphQLClient {
   const apiKey = import.meta.env?.PUBLIC_GRAPHQL_READ_KEY || '';
 
   if (!apiKey) {
-    console.warn('PUBLIC_GRAPHQL_READ_KEY not configured. GraphQL queries will fail without a valid API key.');
+    throw new Error('PUBLIC_GRAPHQL_READ_KEY not set. Public queries will fail.');
   }
 
   return new GraphQLClient(endpoint, {
@@ -50,18 +51,18 @@ export function createReadOnlyClient(): GraphQLClient {
 
 /**
  * Create a GraphQL client for admin operations (mutations and queries)
- * Uses a write API key that's protected by admin authentication middleware
- * 
- * Security: This key is only loaded on admin pages which require cookie-based
- * authentication. While the key is visible in browser code, access is controlled
- * by the middleware auth check.
+ * Uses a write API key injected at SSR time via AdminLayout.astro
+ *
+ * Security: The write key is injected server-side into admin page HTML only after
+ * middleware validates the auth cookie. It is NOT bundled into any JS file by Vite,
+ * so unauthenticated users cannot extract it from static assets.
  */
 export function createWriteClient(): GraphQLClient {
   const endpoint = getGraphQLEndpoint();
-  const apiKey = import.meta.env?.PUBLIC_GRAPHQL_WRITE_KEY || '';
-  
+  const apiKey = (typeof window !== 'undefined' && (window as any).__GRAPHQL_WRITE_KEY__) || '';
+
   if (!apiKey) {
-    throw new Error('PUBLIC_GRAPHQL_WRITE_KEY not set. Admin operations will fail.');
+    throw new Error('GRAPHQL_WRITE_KEY not available. Ensure you are on an authenticated admin page.');
   }
 
   return new GraphQLClient(endpoint, {
