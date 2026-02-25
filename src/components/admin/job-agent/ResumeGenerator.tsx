@@ -19,6 +19,7 @@ interface ResumeGeneratorProps {
   additionalContext?: string;
   onResumeGenerated: (resume: string) => void;
   onBack: () => void;
+  onUploadSuccess?: () => void;
 }
 
 export default function ResumeGenerator({
@@ -27,6 +28,7 @@ export default function ResumeGenerator({
   additionalContext = '',
   onResumeGenerated,
   onBack,
+  onUploadSuccess,
 }: ResumeGeneratorProps) {
   const [resume, setResume] = useState<string>(initialResume);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -112,7 +114,7 @@ export default function ResumeGenerator({
     setUploadSuccess(null);
 
     try {
-      const response = await fetch('/api/google-drive-upload', {
+      const response = await fetch('/.netlify/functions/google-drive-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -130,6 +132,7 @@ export default function ResumeGenerator({
 
       if (data.success && data.uploads[0]) {
         setUploadSuccess(data.uploads[0].webViewLink);
+        onUploadSuccess?.();
       } else {
         setError(data.error || 'Upload failed');
       }

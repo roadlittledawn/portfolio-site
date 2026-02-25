@@ -15,6 +15,10 @@ interface GoogleDriveBatchUploadProps {
   jobDescription: string;
   jobTitle: string;
   companyName: string;
+  resumeUploaded?: boolean;
+  coverLetterUploaded?: boolean;
+  jobDescUploaded?: boolean;
+  onUploadSuccess?: (type: 'resume' | 'cover-letter' | 'job-description') => void;
 }
 
 export default function GoogleDriveBatchUpload({
@@ -23,6 +27,10 @@ export default function GoogleDriveBatchUpload({
   jobDescription,
   jobTitle,
   companyName,
+  resumeUploaded = false,
+  coverLetterUploaded = false,
+  jobDescUploaded = false,
+  onUploadSuccess,
 }: GoogleDriveBatchUploadProps) {
   const [resumeFolderId, setResumeFolderId] = useState('');
   const [coverLetterFolderId, setCoverLetterFolderId] = useState('');
@@ -32,8 +40,41 @@ export default function GoogleDriveBatchUpload({
   const [error, setError] = useState<string | null>(null);
 
   const handleUploadAll = async () => {
-    if (!resumeFolderId || !coverLetterFolderId || !jobDescFolderId) {
-      setError('Please select folders for all files');
+    // Build list of files to upload (only those with folder selected and not already uploaded)
+    const filesToUpload = [];
+    
+    if (resumeFolderId && !resumeUploaded) {
+      filesToUpload.push({
+        content: resume,
+        type: 'resume',
+        folderId: resumeFolderId,
+        jobTitle,
+        companyName,
+      });
+    }
+    
+    if (coverLetterFolderId && !coverLetterUploaded) {
+      filesToUpload.push({
+        content: coverLetter,
+        type: 'cover-letter',
+        folderId: coverLetterFolderId,
+        jobTitle,
+        companyName,
+      });
+    }
+    
+    if (jobDescFolderId && !jobDescUploaded) {
+      filesToUpload.push({
+        content: jobDescription,
+        type: 'job-description',
+        folderId: jobDescFolderId,
+        jobTitle,
+        companyName,
+      });
+    }
+
+    if (filesToUpload.length === 0) {
+      setError('Please select folders for files you want to upload');
       return;
     }
 
@@ -42,40 +83,20 @@ export default function GoogleDriveBatchUpload({
     setUploads([]);
 
     try {
-      const response = await fetch('/api/google-drive-upload', {
+      const response = await fetch('/.netlify/functions/google-drive-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          files: [
-            {
-              content: resume,
-              type: 'resume',
-              folderId: resumeFolderId,
-              jobTitle,
-              companyName,
-            },
-            {
-              content: coverLetter,
-              type: 'cover-letter',
-              folderId: coverLetterFolderId,
-              jobTitle,
-              companyName,
-            },
-            {
-              content: jobDescription,
-              type: 'job-description',
-              folderId: jobDescFolderId,
-              jobTitle,
-              companyName,
-            },
-          ],
-        }),
+        body: JSON.stringify({ files: filesToUpload }),
       });
 
       const data = await response.json();
 
       if (data.success) {
         setUploads(data.uploads);
+        // Notify parent of successful uploads
+        data.uploads.forEach((upload: UploadResult) => {
+          onUploadSuccess?.(upload.type as 'resume' | 'cover-letter' | 'job-description');
+        });
       } else {
         setError(data.error || 'Upload failed');
       }
@@ -93,32 +114,63 @@ export default function GoogleDriveBatchUpload({
         description="Select folders and upload all files at once"
       />
       <div className="space-y-4">
-        <GoogleDriveFolderSelector
-          label="Resume Folder"
-          value={resumeFolderId}
-          onChange={setResumeFolderId}
-          disabled={uploading}
-        />
-        <GoogleDriveFolderSelector
-          label="Cover Letter Folder"
-          value={coverLetterFolderId}
-          onChange={setCoverLetterFolderId}
-          disabled={uploading}
-        />
-        <GoogleDriveFolderSelector
-          label="Job Description Folder"
-          value={jobDescFolderId}
-          onChange={setJobDescFolderId}
-          disabled={uploading}
-        />
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-medium text-text-primary">Resume</label>
+            {resumeUploaded && (
+              <span className="text-xs text-accent-green">✓ Uploaded</span>
+            )}
+          </div>
+          <GoogleDriveFolderSelector
+            label=""
+            value={resumeFolderId}
+            onChange={setResumeFolderId}
+            disabled={uploading || resumeUploaded}
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-medium text-text-primary">Cover Letter</label>
+            {coverLetterUploaded && (
+              <span className="text-xs text-accent-green">✓ Uploaded</span>
+            )}
+          </div>
+          <GoogleDriveFolderSelector
+            label=""
+            value={coverLetterFolderId}
+            onChange={setCoverLetterFolderId}
+            disabled={uploading || coverLetterUploaded}
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-medium text-text-primary">Job Description</label>
+            {jobDescUploaded && (
+              <span className="text-xs text-accent-green">✓ Uploaded</span>
+            )}
+          </div>
+          <GoogleDriveFolderSelector
+            label=""
+            value={jobDescFolderId}
+            onChange={setJobDescFolderId}
+            disabled={uploading || jobDescUploaded}
+          />
+        </div>
 
         <Button
           onClick={handleUploadAll}
           isLoading={uploading}
-          disabled={!resumeFolderId || !coverLetterFolderId || !jobDescFolderId}
+          disabled={
+            (!resumeFolderId && !coverLetterFolderId && !jobDescFolderId) ||
+            (resumeUploaded && coverLetterUploaded && jobDescUploaded)
+          }
           className="w-full"
         >
-          Upload All to Drive
+          {resumeUploaded && coverLetterUploaded && jobDescUploaded
+            ? 'All Files Uploaded'
+            : 'Upload Selected to Drive'}
         </Button>
 
         {error && (

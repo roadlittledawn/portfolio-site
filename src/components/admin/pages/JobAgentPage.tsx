@@ -19,6 +19,9 @@ export default function JobAgentPage() {
   const [resume, setResume] = useState<string>('');
   const [coverLetter, setCoverLetter] = useState<string>('');
   const [additionalContext, setAdditionalContext] = useState<string>('');
+  const [resumeUploaded, setResumeUploaded] = useState(false);
+  const [coverLetterUploaded, setCoverLetterUploaded] = useState(false);
+  const [jobDescUploaded, setJobDescUploaded] = useState(false);
 
   const handleJobInfoSubmit = (data: JobInfo) => {
     setJobInfo(data);
@@ -39,6 +42,9 @@ export default function JobAgentPage() {
     setResume('');
     setCoverLetter('');
     setAdditionalContext('');
+    setResumeUploaded(false);
+    setCoverLetterUploaded(false);
+    setJobDescUploaded(false);
   };
 
   // Progress indicator
@@ -125,10 +131,17 @@ export default function JobAgentPage() {
 
       {/* Step Content */}
       {step === 'job-info' && (
-        <JobInfoForm
-          onSubmit={handleJobInfoSubmit}
-          initialData={jobInfo || undefined}
-        />
+        <>
+          {/* Temporary: Google Drive Connection Status for testing */}
+          <div className="mb-6 flex justify-center">
+            <GoogleDriveConnectionStatus />
+          </div>
+          
+          <JobInfoForm
+            onSubmit={handleJobInfoSubmit}
+            initialData={jobInfo || undefined}
+          />
+        </>
       )}
 
       {step === 'context' && jobInfo && (
@@ -171,6 +184,7 @@ export default function JobAgentPage() {
             additionalContext={additionalContext}
             onResumeGenerated={handleResumeGenerated}
             onBack={() => setStep('context')}
+            onUploadSuccess={() => setResumeUploaded(true)}
           />
           {resume && (
             <div className="flex justify-center mt-6">
@@ -193,6 +207,7 @@ export default function JobAgentPage() {
             initialCoverLetter={coverLetter}
             onCoverLetterGenerated={handleCoverLetterGenerated}
             onBack={() => setStep('resume')}
+            onUploadSuccess={() => setCoverLetterUploaded(true)}
           />
           {coverLetter && (
             <div className="flex justify-center mt-6">
@@ -254,6 +269,14 @@ export default function JobAgentPage() {
               jobDescription={jobInfo.description}
               jobTitle={jobInfo.jobType}
               companyName={jobInfo.companyName || 'company'}
+              resumeUploaded={resumeUploaded}
+              coverLetterUploaded={coverLetterUploaded}
+              jobDescUploaded={jobDescUploaded}
+              onUploadSuccess={(type) => {
+                if (type === 'resume') setResumeUploaded(true);
+                if (type === 'cover-letter') setCoverLetterUploaded(true);
+                if (type === 'job-description') setJobDescUploaded(true);
+              }}
             />
           )}
         </div>
