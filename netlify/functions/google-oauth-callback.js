@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 import { GraphQLClient } from 'graphql-request';
+import jwt from 'jsonwebtoken';
 
 export const handler = async (event) => {
   if (event.httpMethod !== 'GET') {
@@ -25,18 +26,35 @@ export const handler = async (event) => {
       process.env.GOOGLE_OAUTH_REDIRECT_URI
     );
 
+    console.log('Exchanging code for tokens...');
     const { tokens } = await oauth2Client.getToken(code);
+    console.log('Tokens received:', { 
+      hasAccessToken: !!tokens.access_token,
+      hasRefreshToken: !!tokens.refresh_token,
+      scope: tokens.scope 
+    });
+    
+    // Set credentials BEFORE making API calls
     oauth2Client.setCredentials(tokens);
 
     // Get user email
+    console.log('Getting user info...');
     const oauth2 = google.oauth2({ version: 'v2', auth: oauth2Client });
     const { data } = await oauth2.userinfo.get();
+    console.log('User email:', data.email);
+
+    // Generate a valid JWT for server-to-server auth
+    const token = jwt.sign(
+      { username: 'admin', iat: Math.floor(Date.now() / 1000) },
+      process.env.AUTH_SECRET,
+      { expiresIn: '1h' }
+    );
 
     // Store tokens in MongoDB via GraphQL API
-    const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT, {
+    const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT || process.env.PUBLIC_GRAPHQL_ENDPOINT, {
       headers: {
         'X-API-Key': process.env.GRAPHQL_WRITE_KEY,
-        'Authorization': `Bearer ${process.env.AUTH_SECRET}`,
+        'Authorization': `Bearer ${token}`,
       },
     });
 

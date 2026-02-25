@@ -47,9 +47,9 @@ export const handler = async (event) => {
   }
 
   // Query OAuth token from API
-  const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT, {
+  const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT || process.env.PUBLIC_GRAPHQL_ENDPOINT, {
     headers: {
-      'X-API-Key': process.env.GRAPHQL_READ_KEY,
+      'X-API-Key': process.env.PUBLIC_GRAPHQL_READ_KEY,
     },
   });
 

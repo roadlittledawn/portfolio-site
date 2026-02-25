@@ -18,7 +18,7 @@ function generateFilename(type, jobTitle, companyName) {
 }
 
 async function getOAuthCredentials(authToken) {
-  const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT, {
+  const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT || process.env.PUBLIC_GRAPHQL_ENDPOINT, {
     headers: {
       'X-API-Key': process.env.GRAPHQL_WRITE_KEY,
       'Authorization': `Bearer ${authToken}`,
