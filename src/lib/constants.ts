@@ -345,3 +345,23 @@ export function getFocusFromRoleTypes(
   });
   return Array.from(focuses);
 }
+
+// ============================================================================
+// Google Drive Folders
+// ============================================================================
+
+export interface GoogleDriveFolder {
+  id: string;
+  name: string;
+}
+
+export const GOOGLE_DRIVE_FOLDERS: GoogleDriveFolder[] = [
+  { id: "folder-id-1", name: "Personal Applications" },
+  { id: "folder-id-2", name: "Client A" },
+  { id: "folder-id-3", name: "Client B" },
+  { id: "folder-id-4", name: "Consulting Projects" },
+  { id: "folder-id-5", name: "Full-Time Roles" },
+  { id: "folder-id-6", name: "Contract Work" },
+  { id: "folder-id-7", name: "Archive" },
+  { id: "folder-id-8", name: "Templates" },
+];

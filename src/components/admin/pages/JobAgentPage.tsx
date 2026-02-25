@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { JobInfoForm, ResumeGenerator, CoverLetterGenerator } from '../job-agent';
 import { Button, Card, CardHeader, Textarea } from '../ui';
+import { GoogleDriveConnectionStatus, GoogleDriveBatchUpload } from '../google-drive';
 
 type Step = 'job-info' | 'context' | 'resume' | 'cover-letter' | 'complete';
 
@@ -207,8 +208,8 @@ export default function JobAgentPage() {
       )}
 
       {step === 'complete' && (
-        <div className="text-center space-y-6">
-          <div className="p-8 bg-dark-card border border-dark-border rounded-lg">
+        <div className="space-y-6">
+          <div className="text-center p-8 bg-dark-card border border-dark-border rounded-lg">
             <div className="w-16 h-16 mx-auto mb-4 bg-accent-green/20 rounded-full flex items-center justify-center">
               <svg className="w-8 h-8 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
@@ -239,6 +240,22 @@ export default function JobAgentPage() {
               </button>
             </div>
           </div>
+
+          {/* Google Drive Connection Status */}
+          <div className="flex justify-center">
+            <GoogleDriveConnectionStatus />
+          </div>
+
+          {/* Batch Upload */}
+          {jobInfo && (
+            <GoogleDriveBatchUpload
+              resume={resume}
+              coverLetter={coverLetter}
+              jobDescription={jobInfo.description}
+              jobTitle={jobInfo.jobType}
+              companyName={jobInfo.companyName || 'company'}
+            />
+          )}
         </div>
       )}
     </div>

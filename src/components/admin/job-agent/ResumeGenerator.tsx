@@ -5,6 +5,7 @@ import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader } from '../ui';
+import { GoogleDriveFolderSelector } from '../google-drive';
 import './markdown-preview.css';
 
 interface ResumeGeneratorProps {
@@ -30,6 +31,9 @@ export default function ResumeGenerator({
   const [resume, setResume] = useState<string>(initialResume);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [folderId, setFolderId] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
 
   const generateResume = async () => {
     setIsGenerating(true);
@@ -97,6 +101,42 @@ export default function ResumeGenerator({
       document.execCommand('copy');
       document.body.removeChild(textArea);
       alert('Resume copied to clipboard!');
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!folderId) return;
+
+    setUploading(true);
+    setError(null);
+    setUploadSuccess(null);
+
+    try {
+      const response = await fetch('/api/google-drive-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          files: [{
+            content: resume,
+            type: 'resume',
+            folderId,
+            jobTitle: jobInfo.jobType,
+            companyName: jobInfo.companyName || 'company',
+          }],
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.uploads[0]) {
+        setUploadSuccess(data.uploads[0].webViewLink);
+      } else {
+        setError(data.error || 'Upload failed');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -176,6 +216,35 @@ export default function ResumeGenerator({
               {resume}
             </pre>
           </details>
+
+          {/* Upload to Google Drive */}
+          <div className="border-t border-dark-border pt-6">
+            <h3 className="text-lg font-medium text-text-primary mb-4">Upload to Google Drive</h3>
+            <div className="space-y-4">
+              <GoogleDriveFolderSelector
+                value={folderId}
+                onChange={setFolderId}
+                disabled={uploading}
+              />
+              <Button
+                onClick={handleUpload}
+                isLoading={uploading}
+                disabled={!folderId}
+              >
+                Upload Resume to Drive
+              </Button>
+              {uploadSuccess && (
+                <a
+                  href={uploadSuccess}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-3 bg-accent-green/10 border border-accent-green/20 rounded-lg text-accent-green text-sm hover:bg-accent-green/20 transition-colors"
+                >
+                  ✓ Uploaded successfully - View in Drive
+                </a>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </Card>
