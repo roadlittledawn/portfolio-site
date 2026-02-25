@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Card, CardHeader } from '../ui';
 import GoogleDriveFolderSelector from './GoogleDriveFolderSelector';
+import { getDefaultFolderForRole } from '../../../lib/constants';
 
 interface UploadResult {
   type: string;
@@ -38,6 +39,21 @@ export default function GoogleDriveBatchUpload({
   const [uploading, setUploading] = useState(false);
   const [uploads, setUploads] = useState<UploadResult[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  // Set default folders based on role type
+  useEffect(() => {
+    const defaultAppFolder = getDefaultFolderForRole(jobTitle, 'application');
+    const defaultJdFolder = getDefaultFolderForRole(jobTitle, 'job-description');
+    
+    if (defaultAppFolder && !resumeUploaded) {
+      setResumeFolderId(defaultAppFolder);
+      setCoverLetterFolderId(defaultAppFolder);
+    }
+    
+    if (defaultJdFolder && !jobDescUploaded) {
+      setJobDescFolderId(defaultJdFolder);
+    }
+  }, [jobTitle, resumeUploaded, jobDescUploaded]);
 
   const handleUploadAll = async () => {
     // Build list of files to upload (only those with folder selected and not already uploaded)

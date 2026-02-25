@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
 import type { JobType } from '../../../lib/job-agent-prompts';
@@ -6,6 +6,7 @@ import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader } from '../ui';
 import { GoogleDriveFolderSelector } from '../google-drive';
+import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
 
 interface ResumeGeneratorProps {
@@ -36,6 +37,14 @@ export default function ResumeGenerator({
   const [folderId, setFolderId] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+
+  // Set default folder based on role type
+  useEffect(() => {
+    const defaultFolder = getDefaultFolderForRole(jobInfo.jobType, 'application');
+    if (defaultFolder) {
+      setFolderId(defaultFolder);
+    }
+  }, [jobInfo.jobType]);
 
   const generateResume = async () => {
     setIsGenerating(true);
