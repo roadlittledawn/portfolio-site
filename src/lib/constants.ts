@@ -373,6 +373,9 @@ export function getDefaultFolderForRole(
 ): string | undefined {
   const prefix = fileType === 'job-description' ? 'JDs:' : 'Applications:';
   
+  // Normalize role type (handle both kebab-case and snake_case)
+  const normalizedRole = roleType.replace(/-/g, '_');
+  
   const roleToFolderName: Record<string, string> = {
     'technical_writer': `${prefix} Technical Writing`,
     'manager_technical_writing': `${prefix} Manager Technical Writing`,
@@ -380,7 +383,7 @@ export function getDefaultFolderForRole(
     'manager_software_engineering': `${prefix} Manager Engineering`,
   };
   
-  const folderName = roleToFolderName[roleType];
+  const folderName = roleToFolderName[normalizedRole];
   if (!folderName) return undefined;
   
   const folder = GOOGLE_DRIVE_FOLDERS.find(f => f.name === folderName);
