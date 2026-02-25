@@ -365,3 +365,24 @@ export const GOOGLE_DRIVE_FOLDERS: GoogleDriveFolder[] = [
   { id: "1gX0DGyIBCqZ_1OOeEa9w6df_bWNvfzBO", name: "Applications: Manager Technical Writing" },
   { id: "1wsdfl3AX3ZE_55h-Ets4CQpgMPHYjGuQ", name: "Applications: Manager Engineering" },
 ];
+
+// Map role types to default Google Drive folders
+export function getDefaultFolderForRole(
+  roleType: string,
+  fileType: 'job-description' | 'application'
+): string | undefined {
+  const prefix = fileType === 'job-description' ? 'JDs:' : 'Applications:';
+  
+  const roleToFolderName: Record<string, string> = {
+    'technical_writer': `${prefix} Technical Writing`,
+    'manager_technical_writing': `${prefix} Manager Technical Writing`,
+    'software_engineer': `${prefix} Engineer`,
+    'manager_software_engineering': `${prefix} Manager Engineering`,
+  };
+  
+  const folderName = roleToFolderName[roleType];
+  if (!folderName) return undefined;
+  
+  const folder = GOOGLE_DRIVE_FOLDERS.find(f => f.name === folderName);
+  return folder?.id;
+}
