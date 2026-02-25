@@ -18,6 +18,7 @@ interface CoverLetterGeneratorProps {
   initialCoverLetter?: string;
   onCoverLetterGenerated: (coverLetter: string) => void;
   onBack: () => void;
+  onUploadSuccess?: () => void;
 }
 
 export default function CoverLetterGenerator({
@@ -26,6 +27,7 @@ export default function CoverLetterGenerator({
   initialCoverLetter = '',
   onCoverLetterGenerated,
   onBack,
+  onUploadSuccess,
 }: CoverLetterGeneratorProps) {
   const [coverLetter, setCoverLetter] = useState<string>(initialCoverLetter);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -33,7 +35,6 @@ export default function CoverLetterGenerator({
   const [folderId, setFolderId] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [tone, setTone] = useState<'professional' | 'conversational' | 'enthusiastic'>('professional');
   const [customInstructions, setCustomInstructions] = useState('');
 
@@ -127,7 +128,7 @@ export default function CoverLetterGenerator({
     setUploadSuccess(null);
 
     try {
-      const response = await fetch('/api/google-drive-upload', {
+      const response = await fetch('/.netlify/functions/google-drive-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -145,6 +146,7 @@ export default function CoverLetterGenerator({
 
       if (data.success && data.uploads[0]) {
         setUploadSuccess(data.uploads[0].webViewLink);
+        onUploadSuccess?.();
       } else {
         setError(data.error || 'Upload failed');
       }
