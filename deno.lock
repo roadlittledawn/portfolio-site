@@ -23,6 +23,7 @@
         "npm:astro@4",
         "npm:bcryptjs@^3.0.3",
         "npm:clsx@^2.1.1",
+        "npm:googleapis@^171.4.0",
         "npm:graphql-request@^6.1.0",
         "npm:graphql@^16.9.0",
         "npm:isomorphic-dompurify@^2.35.0",
