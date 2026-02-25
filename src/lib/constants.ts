@@ -356,12 +356,12 @@ export interface GoogleDriveFolder {
 }
 
 export const GOOGLE_DRIVE_FOLDERS: GoogleDriveFolder[] = [
-  { id: "folder-id-1", name: "Personal Applications" },
-  { id: "folder-id-2", name: "Client A" },
-  { id: "folder-id-3", name: "Client B" },
-  { id: "folder-id-4", name: "Consulting Projects" },
-  { id: "folder-id-5", name: "Full-Time Roles" },
-  { id: "folder-id-6", name: "Contract Work" },
-  { id: "folder-id-7", name: "Archive" },
-  { id: "folder-id-8", name: "Templates" },
+  { id: "1nQEV2mL-OkRDnp9fqNQ_1Jun6toGy2MI", name: "JDs: Technical Writing" },
+  { id: "1JTb75UsJozfY1J-TASz_JwOnROvS4aAY", name: "JDs: Engineer" },
+  { id: "1jvoknTI_k6aFoNAEOZvY0U79Gtg4oY8Y", name: "JDs: Manager Technical Writing" },
+  { id: "1EMpDax26zfZjWz4A45eDVhksif19zMH0", name: "JDs: Manager Engineering" },
+  { id: "1ASFZCXyhRBWj5hghV9LLblktQv8_H27j", name: "Applications: Technical Writing" },
+  { id: "1qRhBZ0dPkXWhWDHu_AJWy-Iw9QF3sZxt", name: "Applications: Engineer" },
+  { id: "1gX0DGyIBCqZ_1OOeEa9w6df_bWNvfzBO", name: "Applications: Manager Technical Writing" },
+  { id: "1wsdfl3AX3ZE_55h-Ets4CQpgMPHYjGuQ", name: "Applications: Manager Engineering" },
 ];
