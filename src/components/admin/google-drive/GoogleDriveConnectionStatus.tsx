@@ -17,7 +17,7 @@ export default function GoogleDriveConnectionStatus() {
 
   const checkStatus = async () => {
     try {
-      const response = await fetch('/api/google-drive-status');
+      const response = await fetch('/.netlify/functions/google-drive-status');
       const data = await response.json();
       setStatus(data);
     } catch (error) {
@@ -31,7 +31,7 @@ export default function GoogleDriveConnectionStatus() {
   const handleConnect = async () => {
     setConnecting(true);
     try {
-      const response = await fetch('/api/google-oauth-init');
+      const response = await fetch('/.netlify/functions/google-oauth-init');
       const data = await response.json();
       if (data.authUrl) {
         window.location.href = data.authUrl;
