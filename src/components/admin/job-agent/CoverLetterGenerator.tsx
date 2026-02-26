@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_COVER_LETTER_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader, Textarea } from '../ui';
+import { GoogleDriveFolderSelector } from '../google-drive';
+import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
 
 interface CoverLetterGeneratorProps {
@@ -17,6 +19,7 @@ interface CoverLetterGeneratorProps {
   initialCoverLetter?: string;
   onCoverLetterGenerated: (coverLetter: string) => void;
   onBack: () => void;
+  onUploadSuccess?: () => void;
 }
 
 export default function CoverLetterGenerator({
@@ -25,10 +28,22 @@ export default function CoverLetterGenerator({
   initialCoverLetter = '',
   onCoverLetterGenerated,
   onBack,
+  onUploadSuccess,
 }: CoverLetterGeneratorProps) {
   const [coverLetter, setCoverLetter] = useState<string>(initialCoverLetter);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [folderId, setFolderId] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+
+  // Set default folder based on role type
+  useEffect(() => {
+    const defaultFolder = getDefaultFolderForRole(jobInfo.jobType, 'application');
+    if (defaultFolder) {
+      setFolderId(defaultFolder);
+    }
+  }, [jobInfo.jobType]);
   const [tone, setTone] = useState<'professional' | 'conversational' | 'enthusiastic'>('professional');
   const [customInstructions, setCustomInstructions] = useState('');
 
@@ -111,6 +126,43 @@ export default function CoverLetterGenerator({
       document.execCommand('copy');
       document.body.removeChild(textArea);
       alert('Cover letter copied to clipboard!');
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!folderId) return;
+
+    setUploading(true);
+    setError(null);
+    setUploadSuccess(null);
+
+    try {
+      const response = await fetch('/.netlify/functions/google-drive-upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          files: [{
+            content: coverLetter,
+            type: 'cover-letter',
+            folderId,
+            jobTitle: jobInfo.jobType,
+            companyName: jobInfo.companyName || 'company',
+          }],
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.uploads[0]) {
+        setUploadSuccess(data.uploads[0].webViewLink);
+        onUploadSuccess?.();
+      } else {
+        setError(data.error || 'Upload failed');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -208,6 +260,35 @@ export default function CoverLetterGenerator({
               className="p-6 bg-white text-gray-900 overflow-auto max-h-[500px] markdown-preview"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(coverLetter) as string) }}
             />
+          </div>
+
+          {/* Upload to Google Drive */}
+          <div className="border-t border-dark-border pt-6">
+            <h3 className="text-lg font-medium text-text-primary mb-4">Upload to Google Drive</h3>
+            <div className="space-y-4">
+              <GoogleDriveFolderSelector
+                value={folderId}
+                onChange={setFolderId}
+                disabled={uploading}
+              />
+              <Button
+                onClick={handleUpload}
+                isLoading={uploading}
+                disabled={!folderId}
+              >
+                Upload Cover Letter to Drive
+              </Button>
+              {uploadSuccess && (
+                <a
+                  href={uploadSuccess}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-3 bg-accent-green/10 border border-accent-green/20 rounded-lg text-accent-green text-sm hover:bg-accent-green/20 transition-colors"
+                >
+                  ✓ Uploaded successfully - View in Drive
+                </a>
+              )}
+            </div>
           </div>
         </div>
       )}

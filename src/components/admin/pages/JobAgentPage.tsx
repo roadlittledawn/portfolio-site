@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { JobInfoForm, ResumeGenerator, CoverLetterGenerator } from '../job-agent';
 import { Button, Card, CardHeader, Textarea } from '../ui';
+import { GoogleDriveConnectionStatus, GoogleDriveBatchUpload } from '../google-drive';
 
 type Step = 'job-info' | 'context' | 'resume' | 'cover-letter' | 'complete';
 
@@ -18,6 +19,9 @@ export default function JobAgentPage() {
   const [resume, setResume] = useState<string>('');
   const [coverLetter, setCoverLetter] = useState<string>('');
   const [additionalContext, setAdditionalContext] = useState<string>('');
+  const [resumeUploaded, setResumeUploaded] = useState(false);
+  const [coverLetterUploaded, setCoverLetterUploaded] = useState(false);
+  const [jobDescUploaded, setJobDescUploaded] = useState(false);
 
   const handleJobInfoSubmit = (data: JobInfo) => {
     setJobInfo(data);
@@ -38,6 +42,9 @@ export default function JobAgentPage() {
     setResume('');
     setCoverLetter('');
     setAdditionalContext('');
+    setResumeUploaded(false);
+    setCoverLetterUploaded(false);
+    setJobDescUploaded(false);
   };
 
   // Progress indicator
@@ -124,10 +131,17 @@ export default function JobAgentPage() {
 
       {/* Step Content */}
       {step === 'job-info' && (
-        <JobInfoForm
-          onSubmit={handleJobInfoSubmit}
-          initialData={jobInfo || undefined}
-        />
+        <>
+          {/* Temporary: Google Drive Connection Status for testing */}
+          <div className="mb-6 flex justify-center">
+            <GoogleDriveConnectionStatus />
+          </div>
+          
+          <JobInfoForm
+            onSubmit={handleJobInfoSubmit}
+            initialData={jobInfo || undefined}
+          />
+        </>
       )}
 
       {step === 'context' && jobInfo && (
@@ -170,6 +184,7 @@ export default function JobAgentPage() {
             additionalContext={additionalContext}
             onResumeGenerated={handleResumeGenerated}
             onBack={() => setStep('context')}
+            onUploadSuccess={() => setResumeUploaded(true)}
           />
           {resume && (
             <div className="flex justify-center mt-6">
@@ -192,6 +207,7 @@ export default function JobAgentPage() {
             initialCoverLetter={coverLetter}
             onCoverLetterGenerated={handleCoverLetterGenerated}
             onBack={() => setStep('resume')}
+            onUploadSuccess={() => setCoverLetterUploaded(true)}
           />
           {coverLetter && (
             <div className="flex justify-center mt-6">
@@ -207,8 +223,8 @@ export default function JobAgentPage() {
       )}
 
       {step === 'complete' && (
-        <div className="text-center space-y-6">
-          <div className="p-8 bg-dark-card border border-dark-border rounded-lg">
+        <div className="space-y-6">
+          <div className="text-center p-8 bg-dark-card border border-dark-border rounded-lg">
             <div className="w-16 h-16 mx-auto mb-4 bg-accent-green/20 rounded-full flex items-center justify-center">
               <svg className="w-8 h-8 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
@@ -239,6 +255,30 @@ export default function JobAgentPage() {
               </button>
             </div>
           </div>
+
+          {/* Google Drive Connection Status */}
+          <div className="flex justify-center">
+            <GoogleDriveConnectionStatus />
+          </div>
+
+          {/* Batch Upload */}
+          {jobInfo && (
+            <GoogleDriveBatchUpload
+              resume={resume}
+              coverLetter={coverLetter}
+              jobDescription={jobInfo.description}
+              jobTitle={jobInfo.jobType}
+              companyName={jobInfo.companyName || 'company'}
+              resumeUploaded={resumeUploaded}
+              coverLetterUploaded={coverLetterUploaded}
+              jobDescUploaded={jobDescUploaded}
+              onUploadSuccess={(type) => {
+                if (type === 'resume') setResumeUploaded(true);
+                if (type === 'cover-letter') setCoverLetterUploaded(true);
+                if (type === 'job-description') setJobDescUploaded(true);
+              }}
+            />
+          )}
         </div>
       )}
     </div>

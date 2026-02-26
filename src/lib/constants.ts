@@ -345,3 +345,47 @@ export function getFocusFromRoleTypes(
   });
   return Array.from(focuses);
 }
+
+// ============================================================================
+// Google Drive Folders
+// ============================================================================
+
+export interface GoogleDriveFolder {
+  id: string;
+  name: string;
+}
+
+export const GOOGLE_DRIVE_FOLDERS: GoogleDriveFolder[] = [
+  { id: "1nQEV2mL-OkRDnp9fqNQ_1Jun6toGy2MI", name: "JDs: Technical Writing" },
+  { id: "1JTb75UsJozfY1J-TASz_JwOnROvS4aAY", name: "JDs: Engineer" },
+  { id: "1jvoknTI_k6aFoNAEOZvY0U79Gtg4oY8Y", name: "JDs: Manager Technical Writing" },
+  { id: "1EMpDax26zfZjWz4A45eDVhksif19zMH0", name: "JDs: Manager Engineering" },
+  { id: "1ASFZCXyhRBWj5hghV9LLblktQv8_H27j", name: "Applications: Technical Writing" },
+  { id: "1qRhBZ0dPkXWhWDHu_AJWy-Iw9QF3sZxt", name: "Applications: Engineer" },
+  { id: "1gX0DGyIBCqZ_1OOeEa9w6df_bWNvfzBO", name: "Applications: Manager Technical Writing" },
+  { id: "1wsdfl3AX3ZE_55h-Ets4CQpgMPHYjGuQ", name: "Applications: Manager Engineering" },
+];
+
+// Map role types to default Google Drive folders
+export function getDefaultFolderForRole(
+  roleType: string,
+  fileType: 'job-description' | 'application'
+): string | undefined {
+  const prefix = fileType === 'job-description' ? 'JDs:' : 'Applications:';
+  
+  // Normalize role type (handle both kebab-case and snake_case)
+  const normalizedRole = roleType.replace(/-/g, '_');
+  
+  const roleToFolderName: Record<string, string> = {
+    'technical_writer': `${prefix} Technical Writing`,
+    'manager_technical_writing': `${prefix} Manager Technical Writing`,
+    'software_engineer': `${prefix} Engineer`,
+    'manager_software_engineering': `${prefix} Manager Engineering`,
+  };
+  
+  const folderName = roleToFolderName[normalizedRole];
+  if (!folderName) return undefined;
+  
+  const folder = GOOGLE_DRIVE_FOLDERS.find(f => f.name === folderName);
+  return folder?.id;
+}
