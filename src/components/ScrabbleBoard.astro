@@ -412,6 +412,45 @@ function getAnimationDelay(row: number, col: number): number {
     white-space: nowrap;
     border-width: 0;
   }
+
+  /* Mobile responsiveness - scale down for smaller screens */
+  @media (max-width: 640px) {
+    /* Reduce grid gap */
+    .crossword-grid {
+      gap: 2px;
+    }
+
+    /* Scale down tiles for mobile */
+    .crossword-puzzle :global(.scrabble-tile) {
+      --tile-width: 32px !important;
+      --tile-height: 32px !important;
+      --letter-size: 18px !important;
+      --point-size: 8px !important;
+    }
+
+    /* Reduce padding on mobile */
+    .crossword-puzzle {
+      @apply py-4;
+    }
+
+    .reveal-button-container {
+      @apply mb-2;
+    }
+  }
+
+  /* Extra small screens - even smaller tiles */
+  @media (max-width: 375px) {
+    .crossword-grid {
+      gap: 1px;
+    }
+
+    .crossword-puzzle :global(.scrabble-tile) {
+      --tile-width: 28px !important;
+      --tile-height: 28px !important;
+      --letter-size: 16px !important;
+      --point-size: 7px !important;
+    }
+  }
 </style>
 
 <script is:inline>

@@ -145,6 +145,57 @@ const letters = tiles.split('');
       transform: none !important;
     }
   }
+
+  /* Mobile responsiveness */
+  @media (max-width: 640px) {
+    .tile-rack-container {
+      @apply mt-4;
+    }
+
+    .tile-rack {
+      @apply px-2 py-2;
+    }
+
+    .rack-base {
+      @apply gap-0.5 px-2 py-1.5;
+    }
+
+    /* Scale down tiles for mobile */
+    .tile-rack-container :global(.scrabble-tile) {
+      --tile-width: 32px !important;
+      --tile-height: 32px !important;
+      --letter-size: 18px !important;
+      --point-size: 8px !important;
+    }
+
+    .rack-arrow {
+      @apply ml-1;
+    }
+
+    .rack-arrow :global(svg) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* Extra small screens */
+  @media (max-width: 375px) {
+    .rack-base {
+      @apply gap-0 px-1.5 py-1;
+    }
+
+    .tile-rack-container :global(.scrabble-tile) {
+      --tile-width: 28px !important;
+      --tile-height: 28px !important;
+      --letter-size: 16px !important;
+      --point-size: 7px !important;
+    }
+
+    .rack-arrow :global(svg) {
+      width: 18px;
+      height: 18px;
+    }
+  }
 </style>
 
 <script is:inline>
