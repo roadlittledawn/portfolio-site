@@ -1,21 +1,20 @@
 ---
 /**
  * CrosswordPuzzle Component
- * Displays an interactive crossword puzzle featuring personal and professional keywords
+ * Decorative crossword-style layout featuring personal and professional keywords
  * Words: CLINTON, LANGOSCH, WRITER, ENGINEER, CODE
- * 
- * Grid Layout (10 rows × 9 cols):
+ *
+ * Grid Layout (10 rows × 9 cols) - Restored from original PR design:
  *        C0 C1 C2 C3 C4 C5 C6 C7 C8
- *   R0:                    
- *   R1:                    C
- *   R2:     C  L  I  N  T  O  N
- *   R3:        A           D  W
- *   R4:     E  N  G  I  N  E  E  R
- *   R5:        G              I
- *   R6:        O              T
- *   R7:        S              E
- *   R8:        C              R
- *   R9:        H
+ *   R0:  .  .  .  .  .  .  C  .  .
+ *   R1:  .  C  L  I  N  T  O  N  .
+ *   R2:  .  .  A  .  .  .  D  .  W
+ *   R3:  E  N  G  I  N  E  E  R  .
+ *   R4:  .  .  G  .  .  .  .  I  .
+ *   R5:  .  .  O  .  .  .  .  T  .
+ *   R6:  .  .  S  .  .  .  .  E  .
+ *   R7:  .  .  C  .  .  .  .  R  .
+ *   R8:  .  .  H  .  .  .  .  .  .
  */
 
 export interface Props {
@@ -23,100 +22,137 @@ export interface Props {
   className?: string;
 }
 
-const { 
-  animateOnLoad = true, 
-  className = '' 
+const {
+  animateOnLoad = true,
+  className = ''
 } = Astro.props;
 
 // Define grid dimensions
-const ROWS = 10;
+const ROWS = 9;
 const COLS = 9;
 
-// Word definitions with positions
+// Word definitions with clue numbers and positions
 interface WordDef {
+  number: number;
   word: string;
   startRow: number;
   startCol: number;
-  direction: 'horizontal' | 'vertical';
+  direction: 'across' | 'down';
   clue: string;
-  category: 'name' | 'profession';
+  isCircled?: boolean; // For CLINTON and LANGOSCH
+  link?: string; // Optional link for navigation clues
 }
 
+// Original PR design - decorative crossword style
 const words: WordDef[] = [
-  { 
-    word: 'CLINTON', 
-    startRow: 2, 
-    startCol: 1, 
-    direction: 'horizontal',
-    clue: 'First name',
-    category: 'name'
-  },
-  { 
-    word: 'CODE', 
-    startRow: 1, 
-    startCol: 6, 
-    direction: 'vertical',
+  {
+    number: 1,
+    word: 'CODE',
+    startRow: 0,
+    startCol: 6,
+    direction: 'down',
     clue: 'What engineers write',
-    category: 'profession'
   },
-  { 
-    word: 'LANGOSCH', 
-    startRow: 2, 
-    startCol: 2, 
-    direction: 'vertical',
-    clue: 'Last name',
-    category: 'name'
+  {
+    number: 2,
+    word: 'CLINTON',
+    startRow: 1,
+    startCol: 1,
+    direction: 'across',
+    clue: 'With 3-down, the person behind this portfolio',
+    isCircled: true
   },
-  { 
-    word: 'ENGINEER', 
-    startRow: 4, 
-    startCol: 1, 
-    direction: 'horizontal',
-    clue: 'Software professional',
-    category: 'profession'
+  {
+    number: 3,
+    word: 'LANGOSCH',
+    startRow: 1,
+    startCol: 2,
+    direction: 'down',
+    clue: 'See 2-across',
+    isCircled: true
   },
-  { 
-    word: 'WRITER', 
-    startRow: 3, 
-    startCol: 8, 
-    direction: 'vertical',
+  {
+    number: 4,
+    word: 'ENGINEER',
+    startRow: 3,
+    startCol: 1,
+    direction: 'across',
+    clue: 'Builder of software systems',
+  },
+  {
+    number: 5,
+    word: 'WRITER',
+    startRow: 2,
+    startCol: 8,
+    direction: 'down',
     clue: 'Technical communicator',
-    category: 'profession'
   }
 ];
 
-// Build the grid
+// Build the grid with enhanced cell data
+interface WordRef {
+  number: number;
+  direction: 'across' | 'down';
+  letterIndex: number;
+  isCircled: boolean;
+}
+
 type CellData = {
   letter: string;
-  wordIndices: number[];
-  isIntersection: boolean;
+  wordRefs: WordRef[];
+  cellNumber?: number; // Number displayed in top-left if start of word(s)
   row: number;
   col: number;
 } | null;
 
-const grid: CellData[][] = Array.from({ length: ROWS }, () => 
+const grid: CellData[][] = Array.from({ length: ROWS }, () =>
   Array.from({ length: COLS }, () => null)
 );
 
-// Populate the grid with words
-words.forEach((wordDef, wordIndex) => {
-  const { word, startRow, startCol, direction } = wordDef;
-  
+// Track which cells are word starts for numbering
+const wordStarts = new Map<string, number[]>(); // key: "row,col", value: word numbers
+
+// First pass: identify word start positions
+words.forEach((wordDef) => {
+  const key = `${wordDef.startRow},${wordDef.startCol}`;
+  if (!wordStarts.has(key)) {
+    wordStarts.set(key, []);
+  }
+  wordStarts.get(key)!.push(wordDef.number);
+});
+
+// Second pass: populate the grid with words
+words.forEach((wordDef) => {
+  const { word, startRow, startCol, direction, number, isCircled = false } = wordDef;
+
   for (let i = 0; i < word.length; i++) {
-    const row = direction === 'horizontal' ? startRow : startRow + i;
-    const col = direction === 'horizontal' ? startCol + i : startCol;
-    
+    const row = direction === 'across' ? startRow : startRow + i;
+    const col = direction === 'across' ? startCol + i : startCol;
+
     const existingCell = grid[row][col];
-    
+
     if (existingCell) {
-      // This is an intersection
-      existingCell.wordIndices.push(wordIndex);
-      existingCell.isIntersection = true;
+      // This cell is already part of another word (intersection)
+      existingCell.wordRefs.push({
+        number,
+        direction,
+        letterIndex: i,
+        isCircled
+      });
     } else {
+      // New cell
+      const key = `${row},${col}`;
+      const cellNumber = wordStarts.has(key) ? Math.min(...wordStarts.get(key)!) : undefined;
+
       grid[row][col] = {
         letter: word[i],
-        wordIndices: [wordIndex],
-        isIntersection: false,
+        wordRefs: [{
+          number,
+          direction,
+          letterIndex: i,
+          isCircled
+        }],
+        cellNumber,
         row,
         col
       };
@@ -133,86 +169,119 @@ function getAnimationDelay(row: number, col: number): number {
 
 <div class={`crossword-puzzle ${className}`} data-animate={animateOnLoad}>
   <div class="crossword-container">
-    <div class="crossword-grid" style={`--grid-cols: ${COLS}; --grid-rows: ${ROWS};`}>
-      {grid.map((row, rowIndex) => 
-        row.map((cell, colIndex) => {
-          if (cell) {
-            const delay = getAnimationDelay(rowIndex, colIndex);
-            const wordCategories = cell.wordIndices.map(i => words[i].category);
-            const isProfession = wordCategories.includes('profession');
-            const isName = wordCategories.includes('name');
-            
-            return (
-              <div 
-                class={`crossword-cell opacity-0 ${cell.isIntersection ? 'intersection' : ''} ${isProfession ? 'profession' : ''} ${isName ? 'name' : ''}`}
-                style={`--row: ${rowIndex}; --col: ${colIndex}; --delay: ${delay}ms;`}
-                data-letter={cell.letter}
-                data-row={rowIndex}
-                data-col={colIndex}
-                data-words={cell.wordIndices.join(',')}
-              >
-                <span class="letter">{cell.letter}</span>
-              </div>
-            );
-          } else {
-            return (
-              <div 
-                class="crossword-empty"
-                style={`--row: ${rowIndex}; --col: ${colIndex};`}
-              />
-            );
-          }
-        })
-      )}
+    <!-- Reveal Button -->
+    <div class="reveal-button-container">
+      <button
+        class="reveal-button"
+        aria-label="Reveal all letters immediately"
+      >
+        Reveal
+      </button>
     </div>
-    
-    <!-- Word clues for accessibility (clues only, without answers) -->
+
+    <!-- Centered Grid -->
+    <div class="crossword-layout">
+      <div class="crossword-grid" style={`--grid-cols: ${COLS}; --grid-rows: ${ROWS};`}>
+        {grid.map((row, rowIndex) =>
+          row.map((cell, colIndex) => {
+            if (cell) {
+              const delay = getAnimationDelay(rowIndex, colIndex);
+              const isCircled = cell.wordRefs.some(ref => ref.isCircled);
+
+              return (
+                <div
+                  class={`crossword-cell opacity-0 ${isCircled ? 'circled' : ''}`}
+                  style={`--row: ${rowIndex}; --col: ${colIndex}; --delay: ${delay}ms;`}
+                  data-letter={cell.letter}
+                  data-row={rowIndex}
+                  data-col={colIndex}
+                  data-is-circled={isCircled}
+                >
+                  <span class="letter">{cell.letter}</span>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  class="crossword-empty"
+                  style={`--row: ${rowIndex}; --col: ${colIndex};`}
+                />
+              );
+            }
+          })
+        )}
+      </div>
+    </div>
+
+    <!-- Screen reader content -->
     <div class="sr-only">
-      <h2>Crossword Puzzle</h2>
-      <p>An interactive crossword puzzle featuring personal and professional keywords.</p>
-      <h3>Clues</h3>
-      <ul>
-        {words.map((w, i) => (
-          <li>{i + 1}. {w.clue}</li>
-        ))}
-      </ul>
+      <h2>Crossword-Style Display</h2>
+      <p>A decorative crossword-style layout featuring: Clinton Langosch, Engineer, Writer, Code</p>
     </div>
   </div>
 </div>
 
 <style>
   .crossword-puzzle {
-    @apply py-8 flex justify-center;
+    @apply py-8 w-full;
   }
-  
+
   .crossword-container {
-    @apply relative;
+    @apply relative w-full max-w-7xl mx-auto;
   }
-  
+
+  /* Reveal Button */
+  .reveal-button-container {
+    @apply flex justify-end mb-4;
+  }
+
+  .reveal-button {
+    @apply px-4 py-2 text-sm font-medium;
+    @apply bg-dark-card text-text-secondary;
+    @apply border border-dark-border rounded-md;
+    @apply hover:bg-dark-hover hover:text-accent-blue;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+  }
+
+  .reveal-button.hidden {
+    display: none;
+  }
+
+  /* Centered layout */
+  .crossword-layout {
+    @apply flex justify-center;
+  }
+
   .crossword-grid {
     display: grid;
     grid-template-columns: repeat(var(--grid-cols), 1fr);
     grid-template-rows: repeat(var(--grid-rows), 1fr);
     gap: 3px;
-    
+    background-color: transparent;
+
     /* Responsive sizing */
-    --cell-size: 36px;
+    --cell-size: 32px;
   }
-  
+
   @media (min-width: 640px) {
     .crossword-grid {
-      --cell-size: 48px;
-      gap: 4px;
+      --cell-size: 40px;
     }
   }
-  
+
   @media (min-width: 768px) {
     .crossword-grid {
-      --cell-size: 56px;
-      gap: 5px;
+      --cell-size: 44px;
     }
   }
-  
+
+  @media (min-width: 1024px) {
+    .crossword-grid {
+      --cell-size: 48px;
+    }
+  }
+
   .crossword-cell,
   .crossword-empty {
     width: var(--cell-size);
@@ -220,96 +289,101 @@ function getAnimationDelay(row: number, col: number): number {
     grid-row: calc(var(--row) + 1);
     grid-column: calc(var(--col) + 1);
   }
-  
+
   .crossword-empty {
-    /* Empty cells are invisible */
+    /* Hidden - only show cells with letters */
     background: transparent;
+    pointer-events: none;
   }
-  
+
   .crossword-cell {
     @apply relative flex items-center justify-center;
-    @apply transition-all duration-300;
-    
-    /* Define CSS variables for theming - uses colors close to Tailwind config */
-    --cell-bg-start: rgb(36, 57, 61); /* dark-card */
-    --cell-bg-end: rgb(21, 29, 30); /* dark-layer */
-    --cell-border: rgba(92, 179, 255, 0.3); /* accent-blue with opacity */
-    --cell-hover-bg-start: rgb(46, 74, 79); /* dark-hover */
-    --cell-hover-bg-end: rgb(36, 57, 61); /* dark-card */
-    
-    /* Base styling - dark theme crossword tile */
-    background: linear-gradient(135deg, var(--cell-bg-start) 0%, var(--cell-bg-end) 100%);
-    border: 1px solid var(--cell-border);
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+
+    /* NYT-style cell background */
+    background: #2A4045; /* Lighter than dark-card for contrast */
+    border: 1px solid rgba(92, 179, 255, 0.2);
     border-radius: 4px;
-    
-    /* Subtle 3D effect */
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 2px 4px rgba(0, 0, 0, 0.3);
+
+    /* Cell number positioning */
+    position: relative;
   }
-  
-  .crossword-cell:hover {
-    background: linear-gradient(135deg, var(--cell-hover-bg-start) 0%, var(--cell-hover-bg-end) 100%);
-    border-color: rgba(92, 179, 255, 0.6);
-    transform: scale(1.05);
-    z-index: 10;
-  }
-  
-  /* Intersection cells get special highlight */
-  .crossword-cell.intersection {
-    border-color: rgba(255, 194, 102, 0.5); /* accent-amber with opacity */
-  }
-  
-  .crossword-cell.intersection:hover {
-    border-color: rgba(255, 194, 102, 0.8);
-  }
-  
-  /* Category-based styling - subtle variations */
-  .crossword-cell.name {
-    --cell-bg-start: rgb(45, 58, 66);
-    --cell-bg-end: rgb(30, 40, 48);
-  }
-  
-  .crossword-cell.profession {
-    --cell-bg-start: rgb(42, 63, 66);
-    --cell-bg-end: rgb(30, 45, 48);
-  }
-  
-  .crossword-cell.name.profession {
-    /* Intersection of name and profession */
-    --cell-bg-start: rgb(45, 64, 69);
-    --cell-bg-end: rgb(30, 42, 45);
-  }
-  
-  .letter {
-    font-family: 'Oswald', 'Arial Black', sans-serif;
-    font-weight: 700;
-    color: #e6e8e9;
-    text-transform: uppercase;
-    
-    /* Responsive font size */
-    font-size: 18px;
+
+  .cell-number {
+    @apply absolute top-0 left-0;
+    @apply text-xs font-bold;
+    color: #94A3B8; /* Muted text */
     line-height: 1;
-    
-    /* Subtle text shadow for depth */
-    text-shadow: 
-      0 1px 2px rgba(0, 0, 0, 0.5),
-      0 0 20px rgba(92, 179, 255, 0.2);
+    padding: 2px;
+    font-size: 10px;
   }
-  
+
+  .letter {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700;
+    color: #E6E8E9; /* text-primary */
+    text-transform: uppercase;
+
+    /* Responsive font size */
+    font-size: 16px;
+    line-height: 1;
+  }
+
   @media (min-width: 640px) {
+    .letter {
+      font-size: 20px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .letter {
+      font-size: 22px;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .letter {
       font-size: 24px;
     }
   }
-  
-  @media (min-width: 768px) {
-    .letter {
-      font-size: 28px;
+
+  /* Circled letters (CLINTON and LANGOSCH) - bigger circles touching edges */
+  .crossword-cell.circled {
+    position: relative;
+  }
+
+  .crossword-cell.circled::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border: 2px solid rgba(92, 179, 255, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  @media (min-width: 640px) {
+    .crossword-cell.circled::after {
+      border-width: 2.5px;
     }
   }
-  
+
+  @media (min-width: 1024px) {
+    .crossword-cell.circled::after {
+      border-width: 3px;
+    }
+  }
+
+  /* Hover states */
+  .crossword-cell:hover {
+    background: rgba(92, 179, 255, 0.35);
+    transform: scale(1.05);
+    z-index: 10;
+  }
+
   /* Animation keyframes */
   @keyframes cellReveal {
     0% {
@@ -325,25 +399,24 @@ function getAnimationDelay(row: number, col: number): number {
       transform: scale(1) rotateX(0deg);
     }
   }
-  
+
   .cell-animate {
     animation: cellReveal 0.5s ease-out both;
     animation-delay: var(--delay, 0ms);
   }
-  
+
   /* Respect reduced motion preference */
   @media (prefers-reduced-motion: reduce) {
     .crossword-cell {
       animation: none !important;
       opacity: 1 !important;
-      transform: none !important;
     }
-    
-    .crossword-cell:hover {
-      transform: none !important;
+
+    .cell-animate {
+      animation: none !important;
     }
   }
-  
+
   /* Screen reader only class */
   .sr-only {
     position: absolute;
@@ -359,46 +432,81 @@ function getAnimationDelay(row: number, col: number): number {
 </style>
 
 <script is:inline>
-  function initCrosswordAnimation() {
+  function initCrosswordPuzzle() {
     const crosswordPuzzle = document.querySelector('.crossword-puzzle');
     if (!crosswordPuzzle) {
       return; // Component not present on this page
     }
-    
+
     const shouldAnimate = crosswordPuzzle.dataset.animate === 'true';
     const cells = crosswordPuzzle.querySelectorAll('.crossword-cell');
-    
+    const revealButton = crosswordPuzzle.querySelector('.reveal-button');
+
     // Respect user's motion preferences
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    if (prefersReducedMotion || !shouldAnimate) {
-      // Show all cells immediately
+
+    let animationComplete = false;
+
+    // Function to reveal all cells immediately
+    function revealAllCells() {
       cells.forEach(cell => {
         cell.classList.remove('opacity-0');
+        cell.classList.remove('cell-animate');
       });
-      return;
+      animationComplete = true;
+      if (revealButton) {
+        revealButton.classList.add('hidden');
+      }
     }
-    
-    // Animate cells with staggered delay
-    function animateCells() {
-      cells.forEach(cell => {
-        cell.classList.remove('opacity-0');
-        cell.classList.add('cell-animate');
+
+    // Animation logic
+    if (prefersReducedMotion) {
+      // User prefers reduced motion - show immediately
+      revealAllCells();
+    } else if (!shouldAnimate) {
+      // Animation disabled via prop
+      revealAllCells();
+    } else {
+      // Animate cells with staggered delay
+      function animateCells() {
+        cells.forEach(cell => {
+          cell.classList.remove('opacity-0');
+          cell.classList.add('cell-animate');
+        });
+
+        // Hide reveal button after animation completes
+        const maxDelay = Math.max(...Array.from(cells).map(cell => {
+          const delay = cell.style.getPropertyValue('--delay');
+          return parseInt(delay) || 0;
+        }));
+        const animationDuration = 500; // matches cellReveal animation duration
+        setTimeout(() => {
+          animationComplete = true;
+          if (revealButton) {
+            revealButton.classList.add('hidden');
+          }
+        }, maxDelay + animationDuration);
+      }
+
+      // Start animation after a short delay
+      setTimeout(animateCells, 300);
+    }
+
+    // Reveal button click handler
+    if (revealButton) {
+      revealButton.addEventListener('click', () => {
+        revealAllCells();
       });
     }
-    
-    // Start animation after a short delay
-    setTimeout(animateCells, 300);
   }
-  
-  // Initialize when DOM is ready - DOMContentLoaded ensures element exists
+
+  // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCrosswordAnimation);
+    document.addEventListener('DOMContentLoaded', initCrosswordPuzzle);
   } else {
-    // DOM already loaded, run immediately
-    initCrosswordAnimation();
+    initCrosswordPuzzle();
   }
-  
+
   // Handle Astro page transitions
-  document.addEventListener('astro:page-load', initCrosswordAnimation);
+  document.addEventListener('astro:page-load', initCrosswordPuzzle);
 </script>
