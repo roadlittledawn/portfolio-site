@@ -8,9 +8,10 @@ import NavLink from '../components/NavLink.astro';
 export interface Props {
   title: string;
   description?: string;
+  hideHeader?: boolean;
 }
 
-const { title, description = "Clinton Langosch - Technical Writer & Software Engineer" } = Astro.props;
+const { title, description = "Clinton Langosch - Technical Writer & Software Engineer", hideHeader = false } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -23,46 +24,48 @@ const currentPath = Astro.url.pathname;
     <title>{title}</title>
   </head>
   <body class="font-sans text-text-primary bg-dark-base">
-    <header class="sticky top-0 bg-dark-layer/95 backdrop-blur-sm z-50 border-b border-dark-border-subtle">
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
-            <ScrabbleLogo size="sm" />
-          </a>
-          <!-- Desktop Navigation (hidden on mobile) -->
-          <div class="hidden md:flex items-center gap-1 sm:gap-2">
-            <NavLink href="/skills" currentPath={currentPath}>Skills</NavLink>
-            <NavLink href="/projects" currentPath={currentPath}>Projects</NavLink>
-            <NavLink href="/experience" currentPath={currentPath}>Experience</NavLink>
-            <NavLink href="/technical-writing" currentPath={currentPath}>Technical Writing</NavLink>
-            <NavLink href="/software-engineering" currentPath={currentPath}>Software Engineering</NavLink>
-            <div class="flex items-center gap-2 ml-4 pl-4 border-l border-dark-border">
-              <a 
-                href="https://github.com/roadlittledawn" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all"
-                aria-label="GitHub Profile"
-              >
-                <Icon name="github" size="20" />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/clinton-langosch/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all"
-                aria-label="LinkedIn Profile"
-              >
-                <Icon name="linkedin" size="20" />
-              </a>
+    {!hideHeader && (
+      <header class="sticky top-0 bg-dark-layer/95 backdrop-blur-sm z-50 border-b border-dark-border-subtle">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+              <ScrabbleLogo size="sm" transition:persist />
+            </a>
+            <!-- Desktop Navigation (hidden on mobile) -->
+            <div class="hidden md:flex items-center gap-1 sm:gap-2">
+              <NavLink href="/skills" currentPath={currentPath}>Skills</NavLink>
+              <NavLink href="/projects" currentPath={currentPath}>Projects</NavLink>
+              <NavLink href="/experience" currentPath={currentPath}>Experience</NavLink>
+              <NavLink href="/technical-writing" currentPath={currentPath}>Technical Writing</NavLink>
+              <NavLink href="/software-engineering" currentPath={currentPath}>Software Engineering</NavLink>
+              <div class="flex items-center gap-2 ml-4 pl-4 border-l border-dark-border">
+                <a
+                  href="https://github.com/roadlittledawn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all"
+                  aria-label="GitHub Profile"
+                >
+                  <Icon name="github" size="20" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/clinton-langosch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-2 rounded-md text-text-secondary hover:bg-dark-card hover:text-accent-blue transition-all"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Icon name="linkedin" size="20" />
+                </a>
+              </div>
             </div>
+
+            <!-- Mobile Navigation -->
+            <MobileNav currentPath={currentPath} />
           </div>
-          
-          <!-- Mobile Navigation -->
-          <MobileNav currentPath={currentPath} />
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
+    )}
 
     <main class="min-h-screen">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

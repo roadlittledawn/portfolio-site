@@ -1,0 +1,174 @@
+---
+/**
+ * ScrabbleTiles Component
+ * Reusable component for displaying text as Scrabble tiles
+ * Can be used for crossword puzzles, words, or any text display
+ */
+
+export interface Props {
+  word: string;
+  className?: string;
+  showPoints?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  animateOnLoad?: boolean;
+  animationDelay?: number;
+  isCircled?: boolean; // For special highlighting
+}
+
+const {
+  word,
+  className = '',
+  showPoints = true,
+  size = 'md',
+  animateOnLoad = false,
+  animationDelay = 0,
+  isCircled = false
+} = Astro.props;
+
+// Scrabble letter values
+const letterValues: Record<string, number> = {
+  'A': 1, 'E': 1, 'I': 1, 'L': 1, 'N': 1, 'O': 1, 'R': 1, 'S': 1, 'T': 1, 'U': 1,
+  'D': 2, 'G': 2,
+  'B': 3, 'C': 3, 'M': 3, 'P': 3,
+  'F': 4, 'H': 4, 'V': 4, 'W': 4, 'Y': 4,
+  'K': 5,
+  'J': 8, 'X': 8,
+  'Q': 10, 'Z': 10
+};
+
+// Size configurations
+const sizeConfig = {
+  sm: { width: 32, height: 32, fontSize: 18, pointSize: 8 },
+  md: { width: 44, height: 44, fontSize: 24, pointSize: 10 },
+  lg: { width: 56, height: 56, fontSize: 32, pointSize: 12 }
+};
+
+const config = sizeConfig[size];
+---
+
+<div
+  class={`scrabble-tile ${animateOnLoad ? 'opacity-0' : ''} ${isCircled ? 'circled' : ''} ${className}`}
+  data-letter={word}
+  data-delay={animationDelay}
+  style={`--tile-width: ${config.width}px; --tile-height: ${config.height}px; --letter-size: ${config.fontSize}px; --point-size: ${config.pointSize}px;`}
+>
+  <div class="tile-inner">
+    <span class="letter">{word}</span>
+    {showPoints && letterValues[word.toUpperCase()] && (
+      <span class="points">{letterValues[word.toUpperCase()]}</span>
+    )}
+  </div>
+</div>
+
+<style>
+  .scrabble-tile {
+    @apply relative;
+    animation-fill-mode: both;
+    transition: transform 0.2s ease;
+  }
+
+  .scrabble-tile .tile-inner {
+    @apply relative flex items-center justify-center;
+
+    width: var(--tile-width);
+    height: var(--tile-height);
+
+    /* Authentic Scrabble tile styling with wood texture */
+    background-color: #f5cf90;
+    background-image: url('/src/images/veneer-birch-texture-fs8.png');
+
+    /* 3D Scrabble tile borders */
+    border-style: solid;
+    border-top-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 3px;
+
+    border-top-color: rgba(255, 255, 255, 0.45);
+    border-left-color: rgba(255, 255, 255, 0.25);
+    border-right-color: rgba(0, 0, 0, 0.15);
+    border-bottom-color: rgba(0, 0, 0, 0.30);
+
+    border-radius: 3px;
+
+    /* Enhanced 3D shadow effect for dark theme */
+    box-shadow:
+      0 3px 2px -1px rgba(0, 0, 0, 0.6),
+      0 6px 8px -2px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .scrabble-tile .letter {
+    font-family: 'Oswald', 'Arial Black', sans-serif;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1;
+    font-size: var(--letter-size);
+
+    /* Enhanced letter styling with depth */
+    text-shadow:
+      3px 3px 5px #f5cf90,
+      0 0 0 rgba(0, 0, 0, 0.7),
+      1px 2px 1px rgba(255, 255, 255, 0.5);
+  }
+
+  .scrabble-tile .points {
+    color: rgba(0, 0, 0, 0.7);
+    font-family: sans-serif;
+    font-weight: 600;
+    position: absolute;
+    right: 12.5%;
+    bottom: 12.5%;
+    transform: translate(50%, 50%);
+    font-size: var(--point-size);
+    line-height: 1;
+  }
+
+  /* Circled tiles (for special emphasis) */
+  .scrabble-tile.circled .tile-inner::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 2px solid rgba(200, 50, 50, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Hover effect */
+  .scrabble-tile:hover {
+    transform: scale(1.05) rotate(var(--tile-rotation, 0deg));
+    z-index: 10;
+  }
+
+  /* Drop-in animation */
+  @keyframes dropIn {
+    0% {
+      transform: translate(var(--tile-translate-x, 0px), calc(var(--tile-translate-y, 0px) - 30px)) scale(0.8) rotate(var(--tile-rotation, 0deg));
+      opacity: 0;
+    }
+    60% {
+      transform: translate(var(--tile-translate-x, 0px), calc(var(--tile-translate-y, 0px) + 5px)) scale(1.05) rotate(var(--tile-rotation, 0deg));
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tile-translate-x, 0px), var(--tile-translate-y, 0px)) scale(1) rotate(var(--tile-rotation, 0deg));
+      opacity: 1;
+    }
+  }
+
+  .tile-animate {
+    animation: dropIn 0.5s ease-out both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .scrabble-tile {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+</style>
