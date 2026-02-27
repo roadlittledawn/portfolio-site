@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GridContainer from '../components/GridContainer.astro';
 import FocusCard from '../components/FocusCard.astro';
-import QuickNav from '../components/QuickNav.astro';
-import CrosswordPuzzle from '../components/CrosswordPuzzle.astro';
+import ScrabbleBoard from '../components/ScrabbleBoard.astro';
+import TileRack from '../components/TileRack.astro';
 import Icon from '../components/Icon.astro';
 
 const title = "Clinton Langosch - Technical Writer & Software Engineer";
@@ -23,25 +23,17 @@ const focusAreas = [
     href: "/software-engineering"
   }
 ];
-
-const quickNavLinks = [
-  { href: "/skills", label: "Skills" },
-  { href: "/projects", label: "Projects" },
-  { href: "/experience", label: "Experience" },
-];
 ---
 
 <BaseLayout title={title} description={description} hideHeader={true}>
-  <!-- Hero Section with Crossword -->
+  <!-- Hero Section with Interactive Scrabble Board -->
   <section class="text-center py-8 md:py-12 lg:py-16">
     <div class="max-w-5xl mx-auto px-4">
-      <!-- Crossword Puzzle as main hero element -->
-      <CrosswordPuzzle className="mb-8" />
+      <!-- Scrabble Board as main hero element with clickable navigation -->
+      <ScrabbleBoard className="mb-8" />
 
-      <div>
-        <QuickNav links={quickNavLinks} className="mb-8" />
-      </div>
-      
+      <!-- Tile Rack navigation to Technical Writing -->
+      <TileRack tiles="GOCSITE" href="/technical-writing" />
     </div>
   </section>
 </BaseLayout>

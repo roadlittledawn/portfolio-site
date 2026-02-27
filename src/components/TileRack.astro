@@ -1,0 +1,195 @@
+---
+/**
+ * TileRack Component
+ * Displays Scrabble tiles in an authentic wooden tile holder/rack
+ * Used for interactive navigation element on homepage
+ */
+
+import ScrabbleTiles from './ScrabbleTiles.astro';
+import Icon from './Icon.astro';
+
+export interface Props {
+  tiles: string;          // Letters to display (e.g., "GOCSITE")
+  href: string;           // Navigation URL
+  includeArrow?: boolean; // Show arrow after tiles
+  className?: string;
+}
+
+const {
+  tiles,
+  href,
+  includeArrow = true,
+  className = ''
+} = Astro.props;
+
+const letters = tiles.split('');
+---
+
+<div class={`tile-rack-container ${className}`}>
+  <a href={href} class="tile-rack-link" aria-label="View Technical Writing portfolio">
+    <div class="tile-rack">
+      <!-- Rack base with wooden styling -->
+      <div class="rack-base">
+        {letters.map((letter, index) => (
+          <div class="rack-tile" data-index={index}>
+            <ScrabbleTiles
+              word={letter}
+              size="md"
+              showPoints={true}
+              animateOnLoad={false}
+            />
+          </div>
+        ))}
+        {includeArrow && (
+          <div class="rack-arrow">
+            <Icon name="arrow-right" size="24" />
+          </div>
+        )}
+      </div>
+    </div>
+  </a>
+</div>
+
+<style>
+  .tile-rack-container {
+    @apply mt-8 flex justify-center;
+  }
+
+  .tile-rack-link {
+    @apply block transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-dark-base;
+    @apply rounded-lg;
+    text-decoration: none;
+  }
+
+  .tile-rack-link:hover .tile-rack {
+    @apply transform scale-105;
+  }
+
+  .tile-rack-link:hover .rack-tile {
+    @apply transform -translate-y-1;
+  }
+
+  .tile-rack {
+    @apply relative px-4 py-3;
+    @apply transition-all duration-200;
+  }
+
+  .rack-base {
+    @apply relative flex items-center gap-1 px-3 py-2 rounded-md;
+
+    /* Wooden rack styling */
+    /* background: linear-gradient(180deg,
+      rgba(139, 90, 43, 0.9) 0%,
+      rgba(101, 67, 33, 0.95) 50%,
+      rgba(79, 52, 26, 1) 100%
+    ); */
+
+    /* 3D rack effect */
+    /* box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.1),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+
+    border: 2px solid rgba(79, 52, 26, 0.8);
+    border-radius: 8px; */
+  }
+
+  /* Tile notches/grooves in rack */
+  .rack-base::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.2) 0px,
+      rgba(0, 0, 0, 0.2) 2px,
+      transparent 2px,
+      transparent 46px
+    );
+  }
+
+  .rack-tile {
+    @apply transition-all duration-200;
+  }
+
+  .rack-arrow {
+    @apply ml-2 text-accent-blue;
+    @apply transition-all duration-200;
+  }
+
+  .tile-rack-link:hover .rack-arrow {
+    @apply transform translate-x-1;
+  }
+
+  /* Accessibility: keyboard focus */
+  .tile-rack-link:focus-visible .rack-base {
+    @apply ring-2 ring-accent-blue;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .tile-rack-link,
+    .tile-rack,
+    .rack-tile,
+    .rack-arrow {
+      transition: none !important;
+    }
+
+    .tile-rack-link:hover .tile-rack,
+    .tile-rack-link:hover .rack-tile,
+    .tile-rack-link:hover .rack-arrow {
+      transform: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initTileRack() {
+    const tileRack = document.querySelector('.tile-rack-container');
+    if (!tileRack) {
+      return; // Component not present on this page
+    }
+
+    // Apply natural randomization to rack tiles
+    const tiles = tileRack.querySelectorAll('.scrabble-tile');
+
+    tiles.forEach(tile => {
+      // Smaller random rotation for rack tiles (more contained)
+      const rotation = (Math.random() * 6) - 3; // ±3 degrees
+
+      // Minimal translation for natural look
+      const translateX = (Math.random() * 2) - 1; // ±1px horizontal
+      const translateY = (Math.random() * 2) - 1; // ±1px vertical
+
+      // Set CSS custom properties
+      tile.style.setProperty('--tile-rotation', `${rotation}deg`);
+      tile.style.setProperty('--tile-translate-x', `${translateX}px`);
+      tile.style.setProperty('--tile-translate-y', `${translateY}px`);
+
+      // Apply initial transform
+      tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+
+      // Randomize wood grain background position
+      const tileInner = tile.querySelector('.tile-inner');
+      if (tileInner) {
+        const bgX = Math.random() * 600;
+        const bgY = Math.random() * 600;
+        tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTileRack);
+  } else {
+    initTileRack();
+  }
+
+  // Handle Astro page transitions
+  document.addEventListener('astro:page-load', initTileRack);
+</script>

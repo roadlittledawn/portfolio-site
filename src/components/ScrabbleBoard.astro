@@ -1,0 +1,541 @@
+---
+/**
+ * ScrabbleBoard Component
+ * Interactive Scrabble-style board featuring personal and professional keywords with navigation
+ * Words: CLINTON, LANGOSCH, WRITER, ENGINEER, CODE, PROJECTS, SKILLS, EXPERIENCE
+ *
+ * Grid Layout (15 rows × 12 cols) - Interactive navigation board with proper intersections:
+ *        C0 C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11
+ *   R0:  C  .  .  .  .  .  .  .  .  .  .  .
+ *   R1:  O  C  L  I  N  T  O  N  L  .  .  .
+ *   R2:  D  .  .  .  .  .  .  .  A  .  .  .
+ *   R3:  E  N  G  I  N  E  E  R  N  .  .  .
+ *   R4:  .  .  .  .  .  .  .  .  G  .  .  .
+ *   R5:  .  .  .  .  .  .  .  .  O  .  .  .
+ *   R6:  .  P  R  O  J  E  C  T  S  .  .  .
+ *   R7:  .  .  W  .  .  .  .  .  C  .  .  .
+ *   R8:  .  .  R  .  .  .  .  .  H  .  .  .
+ *   R9:  .  .  I  .  .  .  .  S  .  .  .  .
+ *  R10:  .  .  T  .  .  .  .  K  .  .  .  .
+ *  R11:  .  .  E  X  P  E  R  I  E  N  C  E
+ *  R12:  .  .  R  .  .  .  .  L  .  .  .  .
+ *  R13:  .  .  .  .  .  .  .  L  .  .  .  .
+ *  R14:  .  .  .  .  .  .  .  S  .  .  .  .
+ *
+ * Key Intersections:
+ * - PROJECTS(S) ∩ LANGOSCH(S) at R6,C8
+ * - EXPERIENCE(E) ∩ WRITER(E) at R11,C2
+ * - SKILLS(I) ∩ EXPERIENCE(I) at R11,C7
+ */
+
+import ScrabbleTiles from './ScrabbleTiles.astro';
+
+export interface Props {
+  animateOnLoad?: boolean;
+  className?: string;
+}
+
+const {
+  animateOnLoad = true,
+  className = ''
+} = Astro.props;
+
+// Define grid dimensions
+const ROWS = 15;
+const COLS = 12;
+
+// Word definitions with clue numbers and positions
+interface WordDef {
+  number: number;
+  word: string;
+  startRow: number;
+  startCol: number;
+  direction: 'across' | 'down';
+  clue: string;
+  isCircled?: boolean; // For CLINTON and LANGOSCH
+  link?: string; // Optional link for navigation clues
+}
+
+// Interactive Scrabble board with navigable words
+const words: WordDef[] = [
+  {
+    number: 1,
+    word: 'CODE',
+    startRow: 0,
+    startCol: 7,
+    direction: 'down',
+    clue: 'What engineers write',
+  },
+  {
+    number: 2,
+    word: 'CLINTON',
+    startRow: 1,
+    startCol: 2,
+    direction: 'across',
+    clue: 'With 3-down, the person behind this portfolio',
+    isCircled: true
+  },
+  {
+    number: 3,
+    word: 'LANGOSCH',
+    startRow: 1,
+    startCol: 3,
+    direction: 'down',
+    clue: 'See 2-across',
+    isCircled: true
+  },
+  {
+    number: 4,
+    word: 'ENGINEER',
+    startRow: 3,
+    startCol: 7,
+    direction: 'across',
+    clue: 'Builder of software systems',
+    link: '/software-engineering'
+  },
+  {
+    number: 5,
+    word: 'WRITER',
+    startRow: 2,
+    startCol: 14,
+    direction: 'down',
+    clue: 'Technical communicator',
+    link: '/technical-writing'
+  },
+  {
+    number: 6,
+    word: 'PROJECTS',
+    startRow: 5,
+    startCol: 1,
+    direction: 'across',
+    clue: 'Portfolio work',
+    link: '/projects'
+  },
+  {
+    number: 7,
+    word: 'SKILLS',
+    startRow: 5,
+    startCol: 8,
+    direction: 'down',
+    clue: 'Technical expertise',
+    link: '/skills'
+  },
+  {
+    number: 8,
+    word: 'EXPERIENCE',
+    startRow: 5,
+    startCol: 5,
+    direction: 'down',
+    clue: 'Work history',
+    link: '/experience'
+  }
+];
+
+// Build the grid with enhanced cell data
+interface WordRef {
+  number: number;
+  direction: 'across' | 'down';
+  letterIndex: number;
+  isCircled: boolean;
+  word: string; // Word text for grouping
+  link?: string; // Navigation link if clickable
+}
+
+type CellData = {
+  letter: string;
+  wordRefs: WordRef[];
+  cellNumber?: number; // Number displayed in top-left if start of word(s)
+  row: number;
+  col: number;
+} | null;
+
+const grid: CellData[][] = Array.from({ length: ROWS }, () =>
+  Array.from({ length: COLS }, () => null)
+);
+
+// Track which cells are word starts for numbering
+const wordStarts = new Map<string, number[]>(); // key: "row,col", value: word numbers
+
+// First pass: identify word start positions
+words.forEach((wordDef) => {
+  const key = `${wordDef.startRow},${wordDef.startCol}`;
+  if (!wordStarts.has(key)) {
+    wordStarts.set(key, []);
+  }
+  wordStarts.get(key)!.push(wordDef.number);
+});
+
+// Second pass: populate the grid with words
+words.forEach((wordDef) => {
+  const { word, startRow, startCol, direction, number, isCircled = false, link } = wordDef;
+
+  for (let i = 0; i < word.length; i++) {
+    const row = direction === 'across' ? startRow : startRow + i;
+    const col = direction === 'across' ? startCol + i : startCol;
+
+    const existingCell = grid[row][col];
+
+    if (existingCell) {
+      // This cell is already part of another word (intersection)
+      existingCell.wordRefs.push({
+        number,
+        direction,
+        letterIndex: i,
+        isCircled,
+        word,
+        link
+      });
+    } else {
+      // New cell
+      const key = `${row},${col}`;
+      const cellNumber = wordStarts.has(key) ? Math.min(...wordStarts.get(key)!) : undefined;
+
+      grid[row][col] = {
+        letter: word[i],
+        wordRefs: [{
+          number,
+          direction,
+          letterIndex: i,
+          isCircled,
+          word,
+          link
+        }],
+        cellNumber,
+        row,
+        col
+      };
+    }
+  }
+});
+
+// Calculate animation delays based on position
+function getAnimationDelay(row: number, col: number): number {
+  // Animate from top-left to bottom-right
+  return (row + col) * 80;
+}
+---
+
+<div class={`crossword-puzzle ${className}`} data-animate={animateOnLoad}>
+  <div class="crossword-container">
+    <!-- Reveal Button -->
+    <div class="reveal-button-container">
+      <button
+        class="reveal-button"
+        aria-label="Reveal all letters immediately"
+      >
+        Reveal
+      </button>
+    </div>
+
+    <!-- Centered Scrabble Grid -->
+    <div class="crossword-layout">
+      <div class="crossword-grid" style={`--grid-cols: ${COLS}; --grid-rows: ${ROWS};`}>
+        {grid.map((row, rowIndex) =>
+          row.map((cell, colIndex) => {
+            if (cell) {
+              const delay = getAnimationDelay(rowIndex, colIndex);
+              const isCircled = cell.wordRefs.some(ref => ref.isCircled);
+
+              // Check if this cell belongs to any navigable word
+              const navigableRef = cell.wordRefs.find(ref => ref.link);
+
+              if (navigableRef) {
+                // Render as clickable tile
+                const isFirstTile = navigableRef.letterIndex === 0;
+                const wordGroup = navigableRef.word;
+
+                return (
+                  <a
+                    href={navigableRef.link}
+                    class="grid-cell tile-link"
+                    style={`--row: ${rowIndex}; --col: ${colIndex};`}
+                    data-row={rowIndex}
+                    data-col={colIndex}
+                    data-word-group={wordGroup}
+                    data-tile-index={navigableRef.letterIndex}
+                    tabindex={isFirstTile ? 0 : -1}
+                    aria-label={isFirstTile ? `Navigate to ${wordGroup}` : undefined}
+                  >
+                    <ScrabbleTiles
+                      word={cell.letter}
+                      size="md"
+                      showPoints={true}
+                      animateOnLoad={animateOnLoad}
+                      animationDelay={delay}
+                      isCircled={isCircled}
+                    />
+                  </a>
+                );
+              } else {
+                // Render as non-clickable tile
+                return (
+                  <div
+                    class="grid-cell"
+                    style={`--row: ${rowIndex}; --col: ${colIndex};`}
+                    data-row={rowIndex}
+                    data-col={colIndex}
+                  >
+                    <ScrabbleTiles
+                      word={cell.letter}
+                      size="md"
+                      showPoints={true}
+                      animateOnLoad={animateOnLoad}
+                      animationDelay={delay}
+                      isCircled={isCircled}
+                    />
+                  </div>
+                );
+              }
+            } else {
+              return (
+                <div
+                  class="grid-cell empty"
+                  style={`--row: ${rowIndex}; --col: ${colIndex};`}
+                />
+              );
+            }
+          })
+        )}
+      </div>
+    </div>
+
+    <!-- Screen reader content -->
+    <div class="sr-only">
+      <h2>Interactive Scrabble Board Navigation</h2>
+      <p>A Scrabble-style board featuring Clinton Langosch with clickable navigation:</p>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="/skills">Skills - View technical expertise</a></li>
+          <li><a href="/projects">Projects - View portfolio work</a></li>
+          <li><a href="/experience">Experience - View work history</a></li>
+          <li><a href="/technical-writing">Writer - View technical writing</a></li>
+          <li><a href="/software-engineering">Engineer - View software engineering</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<style>
+  .crossword-puzzle {
+    @apply py-8 w-full;
+  }
+
+  .crossword-container {
+    @apply relative w-full max-w-7xl mx-auto;
+  }
+
+  /* Reveal Button */
+  .reveal-button-container {
+    @apply flex justify-end mb-4;
+  }
+
+  .reveal-button {
+    @apply px-4 py-2 text-sm font-medium;
+    @apply bg-dark-card text-text-secondary;
+    @apply border border-dark-border rounded-md;
+    @apply hover:bg-dark-hover hover:text-accent-blue;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+  }
+
+  .reveal-button.hidden {
+    display: none;
+  }
+
+  /* Centered layout */
+  .crossword-layout {
+    @apply flex justify-center;
+  }
+
+  /* Grid using CSS Grid for positioning */
+  .crossword-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), min-content);
+    grid-template-rows: repeat(var(--grid-rows), min-content);
+    gap: 4px;
+    background-color: transparent;
+  }
+
+  @media (min-width: 640px) {
+    .crossword-grid {
+      gap: 5px;
+    }
+  }
+
+  /* Grid cell positioning */
+  .grid-cell {
+    grid-row: calc(var(--row) + 1);
+    grid-column: calc(var(--col) + 1);
+  }
+
+  .grid-cell.empty {
+    /* Hidden - only show cells with letters */
+    background: transparent;
+    pointer-events: none;
+  }
+
+  /* Clickable tile styling */
+  .tile-link {
+    @apply block relative cursor-pointer;
+    @apply transition-all duration-200;
+    text-decoration: none;
+  }
+
+  .tile-link:hover {
+    @apply transform scale-105;
+    z-index: 40;
+  }
+
+  .tile-link:focus-visible {
+    @apply outline-none;
+    @apply ring-2 ring-accent-blue ring-offset-2 ring-offset-dark-base;
+    @apply rounded-sm;
+    z-index: 50;
+  }
+
+  /* Word group hover coordination */
+  .tile-link.word-hover {
+    @apply transform scale-105;
+    filter: brightness(1.1);
+  }
+
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
+
+<script is:inline>
+  function initScrabbleBoard() {
+    const scrabbleBoard = document.querySelector('.crossword-puzzle');
+    if (!scrabbleBoard) {
+      return; // Component not present on this page
+    }
+
+    const shouldAnimate = scrabbleBoard.dataset.animate === 'true';
+    const tiles = scrabbleBoard.querySelectorAll('.scrabble-tile');
+    const revealButton = scrabbleBoard.querySelector('.reveal-button');
+
+    // Respect user's motion preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let animationComplete = false;
+
+    // Initialize word group hover coordination
+    const wordGroups = new Map();
+
+    // Group tiles by word
+    scrabbleBoard.querySelectorAll('.tile-link[data-word-group]').forEach(tile => {
+      const word = tile.dataset.wordGroup;
+      if (!wordGroups.has(word)) wordGroups.set(word, []);
+      wordGroups.get(word).push(tile);
+    });
+
+    // Coordinate hover states for word groups
+    wordGroups.forEach((tiles, word) => {
+      tiles.forEach(tile => {
+        tile.addEventListener('mouseenter', () => {
+          tiles.forEach(t => t.classList.add('word-hover'));
+        });
+        tile.addEventListener('mouseleave', () => {
+          tiles.forEach(t => t.classList.remove('word-hover'));
+        });
+      });
+    });
+
+    // Add natural randomization to tiles for authentic Scrabble placement
+    tiles.forEach(tile => {
+      // Random rotation between -8 and 8 degrees
+      const rotation = (Math.random() * 16) - 8;
+
+      // Random translation for natural scatter
+      const translateX = (Math.random() * 6) - 3; // ±3px horizontal
+      const translateY = (Math.random() * 4) - 2; // ±2px vertical
+
+      // Set CSS custom properties for animation
+      tile.style.setProperty('--tile-rotation', `${rotation}deg`);
+      tile.style.setProperty('--tile-translate-x', `${translateX}px`);
+      tile.style.setProperty('--tile-translate-y', `${translateY}px`);
+
+      // Apply initial transform
+      tile.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+
+      // Randomize wood grain background position
+      const tileInner = tile.querySelector('.tile-inner');
+      if (tileInner) {
+        const bgX = Math.random() * 600;
+        const bgY = Math.random() * 600;
+        tileInner.style.backgroundPosition = `${bgX}px ${bgY}px`;
+      }
+    });
+
+    // Function to reveal all tiles immediately
+    function revealAllTiles() {
+      tiles.forEach(tile => {
+        tile.classList.remove('opacity-0');
+      });
+      animationComplete = true;
+      if (revealButton) {
+        revealButton.classList.add('hidden');
+      }
+    }
+
+    // Animation logic
+    if (prefersReducedMotion) {
+      // User prefers reduced motion - show immediately
+      revealAllTiles();
+    } else if (!shouldAnimate) {
+      // Animation disabled via prop
+      revealAllTiles();
+    } else {
+      // Animate tiles with staggered delay
+      function animateTiles() {
+        tiles.forEach(tile => {
+          tile.classList.remove('opacity-0');
+          tile.classList.add('tile-animate');
+        });
+
+        // Hide reveal button after animation completes
+        const maxDelay = Math.max(...Array.from(tiles).map(tile => {
+          return parseInt(tile.dataset.delay) || 0;
+        }));
+        const animationDuration = 500; // matches dropIn animation duration
+        setTimeout(() => {
+          animationComplete = true;
+          if (revealButton) {
+            revealButton.classList.add('hidden');
+          }
+        }, maxDelay + animationDuration);
+      }
+
+      // Start animation after a short delay
+      setTimeout(animateTiles, 300);
+    }
+
+    // Reveal button click handler
+    if (revealButton) {
+      revealButton.addEventListener('click', () => {
+        revealAllTiles();
+      });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrabbleBoard);
+  } else {
+    initScrabbleBoard();
+  }
+
+  // Handle Astro page transitions
+  document.addEventListener('astro:page-load', initScrabbleBoard);
+</script>
