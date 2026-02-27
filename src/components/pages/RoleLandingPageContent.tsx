@@ -122,7 +122,6 @@ export default function RoleLandingPageContent({
         ),
       )
       .sort((a, b) => b.rating - a.rating)
-      .slice(0, 12);
 
     const projects = data.projects
       .filter((project) =>
