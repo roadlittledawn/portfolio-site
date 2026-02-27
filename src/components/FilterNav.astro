@@ -238,7 +238,13 @@ const {
         const cardFocus = card.dataset.focus || '';
         const cardLevel = card.dataset.level || '';
         
-        const focusMatch = focus === 'all' || cardFocus.includes(focus) || cardFocus.includes('both');
+        let focusMatch = focus === 'all';
+        if (!focusMatch && focus === 'engineering') {
+          focusMatch = cardFocus.includes('engineering');
+        } else if (!focusMatch && focus === 'writing') {
+          focusMatch = cardFocus.includes('writing') || cardFocus.includes('technical_writing');
+        }
+        
         const levelMatch = level === 'all' || cardLevel.toLowerCase() === level.toLowerCase();
         
         card.style.display = (focusMatch && levelMatch) ? '' : 'none';

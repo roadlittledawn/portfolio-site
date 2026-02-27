@@ -1,0 +1,18 @@
+---
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import AdminPageHeader from "../../../components/admin/layout/AdminPageHeader.astro";
+import { EducationEditPage } from "../../../components/admin/pages";
+---
+
+<AdminLayout title="New Education | Career Admin">
+  <div class="space-y-6">
+    <AdminPageHeader
+      title="New Education"
+      subtitle="Add a new education entry"
+      backHref="/admin/education"
+    />
+
+    <EducationEditPage client:only="react" />
+  </div>
+</AdminLayout>

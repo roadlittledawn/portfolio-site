@@ -1,42 +1,117 @@
+# Portfolio Site
+
+Personal portfolio site with integrated admin panel for managing career data.
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/784104a7-d750-4a1a-b38f-17308981182b/deploy-status)](https://app.netlify.com/sites/clintonlangosch/deploys)
 
-# Hi, I'm Clinton 👋
+## Architecture
 
-# Site tech
+- **Framework**: Astro (hybrid SSR/static) + React Islands
+- **Styling**: Tailwind CSS dark theme
+- **Auth**: Cookie-based JWT via Netlify middleware
+- **Data**: GraphQL proxy → external API (different domain)
+- **AI**: Claude API proxy for resume/cover letter generation
 
-This is the repo for all professional things Clinton. My site is built with [Gatsby](https://www.gatsbyjs.com/) and deployed via [Netlify](https://www.netlify.com/).
+```
+portfolio-site/
+├── src/
+│   ├── components/        # Astro components (public site)
+│   ├── components/admin/  # React components (admin UI)
+│   ├── pages/            # Public pages (static)
+│   ├── pages/admin/      # Admin pages (SSR)
+│   ├── lib/              # Shared utilities, types, auth
+│   ├── middleware.ts     # Cookie-based auth check
+│   └── data/             # Cached career data JSON
+├── netlify/functions/    # Auth, GraphQL proxy, AI proxy
+└── scripts/              # Dev utilities
+```
 
-The design is my own, cobbled together from various patterns / designs in recent projects.
+## Local Development
 
-I use [Feather](https://feathericons.com/) and [Devicon](https://devicon.dev/) for icons.
+### Prerequisites
 
-Site logo was made my [Matt Morris-Cook](https://www.linkedin.com/in/mmc-resume/) (aka, MMC || Cookie).
+- Node.js 22+
+- Netlify CLI (`npm i -g netlify-cli`)
+- [Career Data GraphQL Service](https://github.com/roadlittledawn/career-data-graphql) running on port 8888
 
-# Run locally
+### Setup
 
-Requirements to run locally:
+1. Clone and install:
 
-- Node.js version 16 or higher
-- [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+   ```bash
+   git clone <repo-url>
+   cd portfolio-site
+   npm install
+   ```
 
-To run locally:
+2. Generate auth secrets:
 
-1. Clone the repo.
-2. Run `yarn`.
-3. Run local development server via `yarn start`.
+   ```bash
+   npm run generate-secrets <your-password>
+   ```
 
-# Deploy to Netlify
+3. Create `.env` file:
 
-PRs to `main-tw` branch will automatically deploy to Netlify.
+   ```bash
+   # GraphQL API - Server-side (required for proxy)
+   GRAPHQL_ENDPOINT=http://localhost:4000/graphql
+   GRAPHQL_API_KEY=<your-api-key>
 
-# Site domain
+   # Admin Auth
+   AUTH_SECRET=<generated-secret>
+   ADMIN_USERNAME=<your-username>
+   ADMIN_PASSWORD_HASH=<generated-hash>
 
-Site is live at https://tw.clintonlangosch.com/.
+   # AI Assistant (optional)
+   ANTHROPIC_API_KEY=<your-key>
+   ```
 
-# Generate resume PDF
+4. Start the GraphQL service (separate terminal):
 
-Repo contains a workflow that can automatically generate resume PDF. Currently only works by hitting production resume page.
+   ```bash
+   cd ../career-data-graphql
+   npm run dev
+   ```
 
-# Sync career data
+5. Start the dev server:
 
-Repo contains a script to sync career data. This is vestigal from when career data was housed in gitconnected. I kept it around because there's a chance I create my own API to serve it. Until then, data is kept in the repo.
+   ```bash
+   npm run dev
+   ```
+
+6. Access:
+   - Public site: http://localhost:8080
+   - Admin panel: http://localhost:8080/admin
+
+**Important**: Use port 8080 (Netlify Dev proxy), not 4321 (Astro direct). Functions only work through the proxy.
+
+## Scripts
+
+| Script                     | Description                           |
+| -------------------------- | ------------------------------------- |
+| `npm run dev`              | Start Netlify Dev (Astro + Functions) |
+| `npm run dev:astro`        | Start Astro only (no functions)       |
+| `npm run build`            | Production build                      |
+| `npm run sync-data`        | Sync career data from GraphQL API     |
+| `npm run generate-secrets` | Generate auth secrets                 |
+
+## Deployment
+
+Pushes to `main` auto-deploy to Netlify. Required env vars:
+
+- `GRAPHQL_ENDPOINT` - GraphQL API URL (server-side)
+- `GRAPHQL_API_KEY` - API key for GraphQL requests
+- `AUTH_SECRET` - JWT signing secret
+- `ADMIN_USERNAME` - Admin login username
+- `ADMIN_PASSWORD_HASH` - Bcrypt password hash
+- `ANTHROPIC_API_KEY` - Optional, for AI features
+
+## Data Sync
+
+Career data syncs automatically via GitHub Actions (weekly) or manually:
+
+```bash
+npm run sync-data
+```
+
+This fetches from the GraphQL API and updates `src/data/careerData.json`.

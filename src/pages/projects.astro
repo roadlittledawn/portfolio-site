@@ -1,64 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import FilterNav from '../components/FilterNav.astro';
-import GridContainer from '../components/GridContainer.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import careerData from '../data/careerData.json';
+import ProjectsPageContent from '../components/pages/ProjectsPageContent';
 
 const title = "Projects - Clinton Langosch";
 const description = "Software engineering and technical writing projects spanning documentation platforms, web applications, and content systems.";
-
-// Get all projects
-const allProjects = careerData.projects;
-
-// Count projects by focus
-const engineeringCount = allProjects.filter(p => p.focus?.includes('engineering')).length;
-const writingCount = allProjects.filter(p => p.focus?.includes('writing')).length;
-
-// Prepare filter options (no view toggle for projects)
-const filterOptions = [
-  { value: 'all', label: 'All Projects', icon: 'layers', count: allProjects.length },
-  { value: 'engineering', label: 'Engineering', icon: 'cpu', count: engineeringCount },
-  { value: 'writing', label: 'Writing', icon: 'edit-3', count: writingCount }
-];
-
-// Sort projects: featured first, then by name
-const sortedProjects = [...allProjects].sort((a, b) => {
-  if (a.featured && !b.featured) return -1;
-  if (!a.featured && b.featured) return 1;
-  return (a.displayName || a.name).localeCompare(b.displayName || b.name);
-});
 ---
 
 <BaseLayout title={title} description={description}>
-  <PageHeader 
+  <PageHeader
     title="Projects & Work"
-    description="A collection of software engineering and technical writing projects that showcase expertise in web development, documentation systems, and content strategy."
   />
 
-  <FilterNav 
-    filters={filterOptions}
-    defaultFilter="all"
-  />
-
-  <!-- Projects Grid -->
-  <div class="projects-grid-view">
-    <GridContainer columns={{ default: 1, lg: 2 }} gap="lg">
-      {sortedProjects.map(project => (
-        <ProjectCard project={project} />
-      ))}
-    </GridContainer>
-  </div>
-
-  <!-- Project Stats -->
-  <div class="mt-12 pt-8 border-t border-dark-border">
-    <div class="text-center">
-      <p class="text-text-secondary">
-        <span class="font-semibold text-accent text-lg">{allProjects.length}</span> projects showcasing 
-        <span class="font-semibold text-accent text-lg">{engineeringCount}</span> engineering and 
-        <span class="font-semibold text-accent text-lg">{writingCount}</span> writing initiatives
-      </p>
-    </div>
-  </div>
+  <ProjectsPageContent client:only="react" />
 </BaseLayout>

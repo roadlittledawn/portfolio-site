@@ -1,134 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroSection from '../components/HeroSection.astro';
-import GridContainer from '../components/GridContainer.astro';
-import StrengthCard from '../components/StrengthCard.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import SkillCard from '../components/SkillCard.astro';
-import ExperienceCard from '../components/ExperienceCard.astro';
-import Button from '../components/Button.astro';
-import careerData from '../data/careerData.json';
+import RoleLandingPageContent from '../components/pages/RoleLandingPageContent';
 
 const title = "Software Engineering - Clinton Langosch";
 const description = "Full-stack software engineer and engineering manager with 10 years of experience building scalable web applications and leading high-performing teams.";
-
-// Filter for engineering-focused content
-const engineeringSkills = careerData.skills
-  .filter(skill => skill.focus?.includes('engineering') || skill.focus?.includes('both'))
-  .sort((a, b) => b.rating - a.rating)
-  .slice(0, 12);
-
-const engineeringProjects = careerData.projects
-  .filter(project => project.focus?.includes('engineering') || project.focus?.includes('both'))
-  .filter(project => project.featured);
-
-const engineeringRoles = careerData.work
-  .filter(role => role.focus?.includes('engineering') || role.focus?.includes('both'))
-  .sort((a, b) => (b.start?.year || 0) - (a.start?.year || 0));
-
-const strengths = [
-  {
-    title: "Full-Stack Development",
-    description: "React, Node.js, GraphQL, and modern web application architecture"
-  },
-  {
-    title: "Engineering Leadership", 
-    description: "Team building, hiring, mentoring, and scaling engineering organizations"
-  },
-  {
-    title: "Developer Experience",
-    description: "Content tooling, CI/CD, performance optimization, and developer productivity"
-  },
-  {
-    title: "System Architecture",
-    description: "Scalable systems, observability, microservices, and cloud platforms (AWS)"
-  }
-];
 ---
 
 <BaseLayout title={title} description={description}>
   <HeroSection
     title="Software Engineering & Technical Leadership"
-    subtitle="10 years of full-stack development experience building scalable web applications and leading high-performing engineering teams."
-    description="Builder and life-long learner at heart – I ship resilient, high-throughput teams and systems. My engineering background spans frontend to backend, with deep expertise in web technologies and team leadership."
+    subtitle="6 years of full-stack development experience building sites and services and 3 years managing customer focused engineering teams"
   />
 
-  <!-- Core Expertise -->
-  <section class="py-16">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Core Expertise</h2>
-    </div>
-    
-    <GridContainer columns={{ default: 1, md: 2, lg: 4 }} gap="lg">
-      {strengths.map(strength => (
-        <StrengthCard 
-          title={strength.title}
-          description={strength.description}
-        />
-      ))}
-    </GridContainer>
-  </section>
-
-  <!-- Featured Projects -->
-  <section class="py-16 bg-dark-bg-secondary">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Engineering Projects</h2>
-      </div>
-      
-      <GridContainer columns={{ default: 1, lg: 2 }} gap="lg">
-        {engineeringProjects.map(project => (
-          <ProjectCard project={project} />
-        ))}
-      </GridContainer>
-      
-      <div class="text-center mt-8">
-        <Button href="/projects?focus=engineering" variant="secondary">
-          View All Engineering Projects →
-        </Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Technical Skills -->
-  <section class="py-16">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Technical Skills</h2>
-      </div>
-      
-      <GridContainer columns={{ default: 1, md: 2, lg: 3, xl: 4 }} gap="md">
-        {engineeringSkills.map(skill => (
-          <SkillCard skill={skill} variant="grid" />
-        ))}
-      </GridContainer>
-      
-      <div class="text-center mt-8">
-        <Button href="/skills?focus=engineering" variant="secondary">
-          View All Technical Skills →
-        </Button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Experience Highlights -->
-  <section class="py-16 bg-dark-bg-secondary">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-text-primary mb-4">Engineering Leadership Experience</h2>
-      </div>
-      
-      <div class="space-y-6">
-        {engineeringRoles.slice(0, 3).map((role: any) => (
-          <ExperienceCard role={role} showHighlights={-1} />
-        ))}
-      </div>
-      
-      <div class="text-center mt-8">
-        <Button href="/experience" variant="secondary">
-          View Full Experience →
-        </Button>
-      </div>
-    </div>
-  </section>
+  <RoleLandingPageContent roleType="engineering" client:only="react" />
 </BaseLayout>

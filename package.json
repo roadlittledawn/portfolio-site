@@ -3,18 +3,41 @@
   "type": "module",
   "version": "2.0.0",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "rm -rf .netlify .astro && netlify dev",
+    "dev:astro": "astro dev",
+    "start": "netlify dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync-data": "node --env-file=.env scripts/sync-career-data.js",
+    "sync-data:ci": "node scripts/sync-career-data.js",
+    "generate-secrets": "node scripts/generate-auth-secrets.js"
   },
   "dependencies": {
-    "astro": "^4.0.0"
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@astrojs/netlify": "^5.5.4",
+    "@astrojs/react": "^3.6.3",
+    "astro": "^4.0.0",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "googleapis": "^171.4.0",
+    "graphql": "^16.9.0",
+    "graphql-request": "^6.1.0",
+    "isomorphic-dompurify": "^2.35.0",
+    "jsonwebtoken": "^9.0.3",
+    "marked": "^15.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-select": "^5.9.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.3.0",
     "@astrojs/tailwind": "^5.0.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "tailwindcss": "^3.0.0",
     "typescript": "^5.0.0"
   },

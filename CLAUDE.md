@@ -140,11 +140,28 @@ portfolio-site/
 
 ### Data Management
 
-Content is managed through JSON files in `src/data/`:
-
+**Public Site**: Content is managed through JSON files in `src/data/`:
 - Career data including skills, projects, and work experience
 - Focus tagging system for content filtering
 - Structured data optimized for component consumption
+
+**Admin Panel**: React-based CRUD interface at `/admin` for managing career data:
+- Cookie-based JWT authentication via Netlify middleware
+- Direct GraphQL API access with API key-based authentication
+- React Islands for SSR admin pages
+- Forms use react-hook-form
+
+**Data Management**: Career data is managed through a GraphQL API with direct access:
+- Admin mutations connect directly to the GraphQL API using write API key (injected server-side, not bundled by Vite)
+- Public queries use read-only API key
+- Extracts API key from environment variables
+- Connects to GraphQL service with appropriate permissions
+- Required for both public data fetching and admin CRUD operations
+
+**Relevant files**:
+- `src/lib/graphql-client.ts` - Client with read/write key support
+- `src/middleware.ts` - Cookie validation for admin access
+- `src/components/admin/` - React admin components
 
 ## 🎨 Design System
 

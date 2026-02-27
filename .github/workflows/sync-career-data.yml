@@ -1,0 +1,67 @@
+name: Sync Career Data
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Weekly on Sunday at midnight UTC
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Sync career data
+        env:
+          GRAPHQL_ENDPOINT: ${{ secrets.GRAPHQL_ENDPOINT }}
+          GRAPHQL_API_KEY: ${{ secrets.GRAPHQL_API_KEY }}
+        run: npm run sync-data:ci
+        continue-on-error: true
+        id: sync
+        
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet src/data/careerData.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Create Pull Request
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        id: create-pr
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          branch: chore/sync-career-data
+          base: develop
+          title: "chore: update career data from API"
+          commit-message: "chore: update career data from API"
+          body: |
+            Automated update of career data from the API.
+
+            This PR was created automatically by the sync-career-data workflow.
+          delete-branch: true
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.changes.outputs.changed }}" == "true" ]; then
+            echo "✅ Career data updated - PR created: ${{ steps.create-pr.outputs.pull-request-url }}"
+          else
+            echo "ℹ️ No changes detected in career data"
+          fi
