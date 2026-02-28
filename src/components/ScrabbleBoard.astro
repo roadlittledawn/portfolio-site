@@ -468,7 +468,7 @@ function getCellDelay(cell: { wordRefs: Array<{ number: number; letterIndex: num
       return; // Component not present on this page
     }
 
-    const shouldAnimate = scrabbleBoard.dataset.animate === 'true';
+    const shouldAnimate = scrabbleBoard.hasAttribute('data-animate');
     const tiles = scrabbleBoard.querySelectorAll('.scrabble-tile');
     const revealButton = scrabbleBoard.querySelector('.reveal-button');
 
@@ -546,21 +546,24 @@ function getCellDelay(cell: { wordRefs: Array<{ number: number; letterIndex: num
     } else {
       // Animate tiles with word-by-word staggered delay
       function animateTiles() {
-        // Set --delay CSS var from data-delay so animation-delay: var(--delay) staggers correctly
+        var maxDelay = 0;
+
         tiles.forEach(tile => {
           const d = parseInt(tile.dataset.delay || '0', 10);
-          tile.style.setProperty('--delay', d + 'ms');
-        });
-        tiles.forEach(tile => {
-          tile.classList.remove('opacity-0');
-          tile.classList.add('tile-animate');
+          if (d > maxDelay) maxDelay = d;
+
+          // --delay: 0ms so CSS animation-delay doesn't interfere;
+          // stagger is driven entirely by the setTimeout below.
+          tile.style.setProperty('--delay', '0ms');
+
+          setTimeout(() => {
+            tile.classList.remove('opacity-0');
+            tile.classList.add('tile-animate');
+          }, d);
         });
 
-        // Hide reveal button after animation completes
-        const maxDelay = Math.max(...Array.from(tiles).map(tile => {
-          return parseInt(tile.dataset.delay) || 0;
-        }));
-        const animationDuration = 500; // matches dropIn animation duration
+        // Hide reveal button after last tile finishes animating
+        const animationDuration = 500; // matches dropIn duration
         setTimeout(() => {
           animationComplete = true;
           if (revealButton) {
