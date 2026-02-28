@@ -199,6 +199,10 @@ const description = "Experienced technical writer and full-stack engineer specia
       tile.style.setProperty('--tile-rotation',    r.toFixed(2)  + 'deg');
       tile.style.setProperty('--tile-translate-x', tx.toFixed(2) + 'px');
       tile.style.setProperty('--tile-translate-y', ty.toFixed(2) + 'px');
+      // Reset CSS animation-delay to 0 — stagger for resize drop-in is handled
+      // via setTimeout below, not via CSS animation-delay (which was set on
+      // initial page load for the word-by-word sequence and must not persist here)
+      tile.style.setProperty('--delay', '0ms');
       tile.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) rotate(' + r + 'deg)';
 
       var inner = tile.querySelector('.tile-inner');
