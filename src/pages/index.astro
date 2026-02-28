@@ -16,16 +16,299 @@ const description = "Experienced technical writer and full-stack engineer specia
   <!-- Hero Section with Interactive Scrabble Board -->
   <section class="text-center py-8 md:py-12 lg:py-16">
     <div class="max-w-5xl mx-auto px-4">
-      <!-- Desktop: full crossword board (≥768px) -->
-      <div class="hidden md:block">
+      <!-- Desktop: full crossword board (≥768px) — JS takes over visibility after init -->
+      <div id="desktop-layout" class="hidden md:block">
         <ScrabbleBoard className="mb-8" />
         <TileRack tiles="GOCSITE" href="/technical-writing" />
       </div>
 
-      <!-- Mobile: mini-crossword + nav words (<768px) -->
-      <div class="block md:hidden">
+      <!-- Mobile: mini-crossword + nav words (<768px) — JS takes over visibility after init -->
+      <div id="mobile-layout" class="block md:hidden">
         <ScrabbleMobileHome />
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style is:global>
+  /* ── Scatter OUT: tiles explode outward from center ── */
+  @keyframes scatterOut {
+    0% {
+      transform:
+        translate(var(--tile-translate-x, 0px), var(--tile-translate-y, 0px))
+        rotate(var(--tile-rotation, 0deg))
+        scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform:
+        translate(var(--scatter-x, 0px), var(--scatter-y, 0px))
+        rotate(var(--scatter-rotation, 180deg))
+        scale(0.15);
+      opacity: 0;
+    }
+  }
+
+  .tile-scatter {
+    animation: scatterOut 0.35s ease-in forwards;
+    pointer-events: none;
+  }
+
+  /* ── Scatter IN: tiles fly chaotically into position (mobile only) ── */
+  @keyframes scatterIn {
+    0% {
+      transform:
+        translate(var(--scatter-x, 0px), var(--scatter-y, 0px))
+        rotate(var(--scatter-rotation, 180deg))
+        scale(0.15);
+      opacity: 0;
+    }
+    65% {
+      opacity: 1;
+    }
+    100% {
+      transform:
+        translate(var(--tile-translate-x, 0px), var(--tile-translate-y, 0px))
+        rotate(var(--tile-rotation, 0deg))
+        scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Spring-like snap: fast approach, slight overshoot, settles */
+  .tile-scatter-in {
+    animation: scatterIn 1.75s cubic-bezier(0.22, 1.1, 0.36, 1) forwards;
+    pointer-events: none;
+  }
+</style>
+
+<script is:inline>
+(function () {
+  var BREAKPOINT = 768;
+  var pendingTimeouts = [];
+  var mqlRef      = null;
+  var listenerRef = null;
+
+  // Schedule a cancellable timeout
+  function later(fn, delay) {
+    var id = setTimeout(fn, delay);
+    pendingTimeouts.push(id);
+  }
+
+  // Cancel all pending transition timeouts
+  function cancelAll() {
+    pendingTimeouts.forEach(clearTimeout);
+    pendingTimeouts = [];
+  }
+
+  // ── SCATTER OUT ──
+  // Tiles explode outward from the container's center, then call done().
+  function scatterOut(container, done) {
+    var tiles = container.querySelectorAll('.scrabble-tile');
+    if (!tiles.length) { done(); return; }
+
+    // Remove any prior animation classes and force a reflow so
+    // re-adding tile-scatter actually restarts the animation.
+    tiles.forEach(function (tile) {
+      tile.classList.remove('tile-scatter', 'tile-scatter-in', 'tile-animate');
+    });
+    void container.offsetHeight;
+
+    var bbox = container.getBoundingClientRect();
+    var cx   = bbox.width  / 2;
+    var cy   = bbox.height / 2;
+
+    // Read all positions first (avoids interleaved reflows)
+    var positions = [];
+    tiles.forEach(function (tile) {
+      var r = tile.getBoundingClientRect();
+      positions.push({
+        cx: r.left - bbox.left + r.width  / 2,
+        cy: r.top  - bbox.top  + r.height / 2
+      });
+    });
+
+    // Set scatter targets and start animation
+    tiles.forEach(function (tile, i) {
+      var angle = Math.atan2(positions[i].cy - cy, positions[i].cx - cx)
+                  + (Math.random() - 0.5) * 1.4;   // slight directional randomness
+      var dist  = 130 + Math.random() * 200;
+
+      tile.style.setProperty('--scatter-x',        (Math.cos(angle) * dist).toFixed(1) + 'px');
+      tile.style.setProperty('--scatter-y',        (Math.sin(angle) * dist).toFixed(1) + 'px');
+      tile.style.setProperty('--scatter-rotation', ((Math.random() * 360) - 180).toFixed(1) + 'deg');
+      tile.classList.add('tile-scatter');
+    });
+
+    later(done, 380);
+  }
+
+  // ── SCATTER IN (mobile) ──
+  // Tiles fly in chaotically from random positions and snap into place.
+  function scatterIn(container) {
+    var tiles = container.querySelectorAll('.scrabble-tile');
+
+    tiles.forEach(function (tile) {
+      tile.classList.remove('tile-scatter', 'tile-scatter-in', 'tile-animate', 'opacity-0');
+
+      // Final resting position (natural Scrabble jitter)
+      var r  = (Math.random() * 16) - 8;
+      var tx = (Math.random() * 6)  - 3;
+      var ty = (Math.random() * 4)  - 2;
+      tile.style.setProperty('--tile-rotation',    r.toFixed(2)  + 'deg');
+      tile.style.setProperty('--tile-translate-x', tx.toFixed(2) + 'px');
+      tile.style.setProperty('--tile-translate-y', ty.toFixed(2) + 'px');
+      // Set inline transform as the base state (visible if animation class removed)
+      tile.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) rotate(' + r + 'deg)';
+
+      // Starting position — tile flies in FROM here
+      var angle = Math.random() * Math.PI * 2;
+      var dist  = 160 + Math.random() * 180;
+      tile.style.setProperty('--scatter-x',        (Math.cos(angle) * dist).toFixed(1) + 'px');
+      tile.style.setProperty('--scatter-y',        (Math.sin(angle) * dist).toFixed(1) + 'px');
+      tile.style.setProperty('--scatter-rotation', ((Math.random() * 360) - 180).toFixed(1) + 'deg');
+
+      var inner = tile.querySelector('.tile-inner');
+      if (inner) {
+        inner.style.backgroundPosition =
+          Math.round(Math.random() * 600) + 'px ' +
+          Math.round(Math.random() * 600) + 'px';
+      }
+
+      // Random stagger (0–180ms) — feels chaotic, not choreographed
+      var stagger = Math.round(Math.random() * 180);
+      later(function (t) {
+        return function () { t.classList.add('tile-scatter-in'); };
+      }(tile), stagger);
+    });
+  }
+
+  // ── DROP IN (desktop) ──
+  // Tiles fall from above with stagger based on grid position (existing behaviour).
+  function dropIn(container) {
+    var tiles    = container.querySelectorAll('.scrabble-tile');
+    var maxDelay = 0;
+
+    tiles.forEach(function (tile) {
+      tile.classList.remove('tile-scatter', 'tile-scatter-in', 'tile-animate');
+      tile.classList.add('opacity-0');
+
+      var r  = (Math.random() * 16) - 8;
+      var tx = (Math.random() * 6)  - 3;
+      var ty = (Math.random() * 4)  - 2;
+      tile.style.setProperty('--tile-rotation',    r.toFixed(2)  + 'deg');
+      tile.style.setProperty('--tile-translate-x', tx.toFixed(2) + 'px');
+      tile.style.setProperty('--tile-translate-y', ty.toFixed(2) + 'px');
+      tile.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) rotate(' + r + 'deg)';
+
+      var inner = tile.querySelector('.tile-inner');
+      if (inner) {
+        inner.style.backgroundPosition =
+          Math.round(Math.random() * 600) + 'px ' +
+          Math.round(Math.random() * 600) + 'px';
+      }
+
+      var d = parseInt(tile.dataset.delay || '0', 10);
+      if (d > maxDelay) maxDelay = d;
+    });
+
+    // Re-show the Reveal button
+    var revealBtn = container.querySelector('.reveal-button');
+    if (revealBtn) revealBtn.classList.remove('hidden');
+
+    // Force reflow so opacity-0 is committed before animation starts
+    void container.offsetHeight;
+
+    // Stagger drop-in
+    later(function () {
+      tiles.forEach(function (tile) {
+        var d = parseInt(tile.dataset.delay || '0', 10);
+        later(function (t) {
+          return function () {
+            t.classList.remove('opacity-0');
+            t.classList.add('tile-animate');
+          };
+        }(tile), d);
+      });
+    }, 60);
+  }
+
+  // ── BREAKPOINT CHANGE HANDLER ──
+  function handleBreakpointChange(e) {
+    // Cancel any in-progress transition immediately
+    cancelAll();
+
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var desktop = document.getElementById('desktop-layout');
+    var mobile  = document.getElementById('mobile-layout');
+    if (!desktop || !mobile) return;
+
+    var goingToDesktop = e.matches;
+    var outgoing = goingToDesktop ? mobile  : desktop;
+    var incoming = goingToDesktop ? desktop : mobile;
+
+    if (prefersReducedMotion) {
+      outgoing.style.display = 'none';
+      incoming.style.display = 'block';
+      return;
+    }
+
+    // If outgoing is already hidden (rapid re-crossing), skip scatter-out and
+    // just animate the correct incoming layout directly.
+    if (outgoing.style.display === 'none') {
+      incoming.style.display = 'block';
+      goingToDesktop ? dropIn(incoming) : scatterIn(incoming);
+      return;
+    }
+
+    // Phase 1 — scatter out the current layout
+    scatterOut(outgoing, function () {
+      outgoing.style.display = 'none';
+      // Clean up scatter classes on now-hidden tiles
+      outgoing.querySelectorAll('.scrabble-tile').forEach(function (tile) {
+        tile.classList.remove('tile-scatter');
+      });
+
+      // Phase 2 — animate the incoming layout into view
+      incoming.style.display = 'block';
+      goingToDesktop ? dropIn(incoming) : scatterIn(incoming);
+    });
+  }
+
+  // ── INIT: hand visibility control from Tailwind to JS ──
+  function initResizeTransition() {
+    var desktop = document.getElementById('desktop-layout');
+    var mobile  = document.getElementById('mobile-layout');
+    if (!desktop || !mobile) return;
+
+    // Remove previous listener (Astro SPA navigation)
+    if (mqlRef && listenerRef) {
+      mqlRef.removeEventListener('change', listenerRef);
+    }
+    cancelAll();
+
+    // Strip Tailwind responsive classes — JS drives display from here on
+    ['hidden', 'block', 'md:block', 'md:hidden'].forEach(function (cls) {
+      desktop.classList.remove(cls);
+      mobile.classList.remove(cls);
+    });
+
+    mqlRef = window.matchMedia('(min-width: ' + BREAKPOINT + 'px)');
+
+    // Mirror the Tailwind initial state with inline styles
+    desktop.style.display = mqlRef.matches ? 'block' : 'none';
+    mobile.style.display  = mqlRef.matches ? 'none'  : 'block';
+
+    listenerRef = handleBreakpointChange;
+    mqlRef.addEventListener('change', listenerRef);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initResizeTransition);
+  } else {
+    initResizeTransition();
+  }
+
+  document.addEventListener('astro:page-load', initResizeTransition);
+}());
+</script>
