@@ -208,10 +208,27 @@ words.forEach((wordDef) => {
   }
 });
 
-// Calculate animation delays based on position
-function getAnimationDelay(row: number, col: number): number {
-  // Animate from top-left to bottom-right
-  return (row + col) * 80;
+// ── Word-by-word animation ──
+// Words appear in Scrabble-play order: each word intersects an already-placed word.
+//   CLINTON (seed) → LANGOSCH (off L) → CODE (off O) → ENGINEER (off E)
+//   → WRITER (off R) → PROJECTS (off O) → SKILLS (off S) → HISTORY (off S)
+const PLAY_SEQUENCE = [2, 3, 1, 4, 5, 6, 7, 8]; // word numbers in play order
+const WORD_GAP_MS   = 500; // ms between each word starting
+const LETTER_MS     =  60; // ms between letters within a word
+
+// word number → position in play sequence
+const wordPlayPos = new Map(PLAY_SEQUENCE.map((num, i) => [num, i]));
+
+// Return the animation delay for a cell.
+// Intersection tiles are timed by whichever word in their wordRefs plays first.
+function getCellDelay(cell: { wordRefs: Array<{ number: number; letterIndex: number }> }): number {
+  const firstRef = cell.wordRefs.reduce((best, ref) => {
+    const bestPos = wordPlayPos.get(best.number) ?? Infinity;
+    const refPos  = wordPlayPos.get(ref.number)  ?? Infinity;
+    return refPos < bestPos ? ref : best;
+  });
+  const seqIndex = wordPlayPos.get(firstRef.number) ?? 0;
+  return seqIndex * WORD_GAP_MS + firstRef.letterIndex * LETTER_MS;
 }
 ---
 
@@ -224,7 +241,7 @@ function getAnimationDelay(row: number, col: number): number {
         {grid.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
             if (cell) {
-              const delay = getAnimationDelay(rowIndex, colIndex);
+              const delay = getCellDelay(cell);
               const isCircled = cell.wordRefs.some(ref => ref.isCircled);
 
               // Check if this cell belongs to any navigable word
@@ -527,8 +544,13 @@ function getAnimationDelay(row: number, col: number): number {
       // Animation disabled via prop
       revealAllTiles();
     } else {
-      // Animate tiles with staggered delay
+      // Animate tiles with word-by-word staggered delay
       function animateTiles() {
+        // Set --delay CSS var from data-delay so animation-delay: var(--delay) staggers correctly
+        tiles.forEach(tile => {
+          const d = parseInt(tile.dataset.delay || '0', 10);
+          tile.style.setProperty('--delay', d + 'ms');
+        });
         tiles.forEach(tile => {
           tile.classList.remove('opacity-0');
           tile.classList.add('tile-animate');
