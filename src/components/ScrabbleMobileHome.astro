@@ -1,0 +1,249 @@
+---
+/**
+ * ScrabbleMobileHome Component
+ * Mobile-only hero for the homepage (shown below md breakpoint).
+ *
+ * Part 1 — Mini-crossword (7 cols × 8 rows):
+ *      C0  C1  C2  C3  C4  C5  C6
+ * R0:   C  [L]  I   N   T   O   N   ← CLINTON (across, circled)
+ * R1:   .   A   .   .   .   .   .
+ * R2:   .   N   .   .   .   .   .
+ * R3:   .   G   .   .   .   .   .   ← LANGOSCH (down, circled)
+ * R4:   .   O   .   .   .   .   .
+ * R5:   .   S   .   .   .   .   .
+ * R6:   .   C   .   .   .   .   .
+ * R7:   .   H   .   .   .   .   .
+ * [L] = shared intersection tile at R0,C1
+ *
+ * Part 2 — Nav words: ENGINEER, WRITER, PROJECTS, SKILLS, EXPERIENCE
+ */
+
+import ScrabbleTiles from './ScrabbleTiles.astro';
+
+// CLINTON across (R0, C0–C6)
+const clintonLetters = ['C', 'L', 'I', 'N', 'T', 'O', 'N'];
+
+// LANGOSCH down (C1, R0–R7) — L at R0 is shared; render R1–R7 separately
+const langoscHRest = ['A', 'N', 'G', 'O', 'S', 'C', 'H'];
+
+// Nav destinations
+const navWords = [
+  { word: 'ENGINEER',   href: '/software-engineering' },
+  { word: 'WRITER',     href: '/technical-writing' },
+  { word: 'PROJECTS',   href: '/projects' },
+  { word: 'SKILLS',     href: '/skills' },
+  { word: 'HISTORY', href: '/experience' },
+];
+
+// Stagger delay: (row + col) * 80ms — same formula as ScrabbleBoard
+function delay(row: number, col: number): number {
+  return (row + col) * 80;
+}
+---
+
+<div class="mobile-home">
+  <!-- ── Mini-crossword ── -->
+  <div class="mini-grid">
+    <!-- CLINTON across: R0, C0–C6 -->
+    {clintonLetters.map((letter, colIdx) => (
+      <div class="grid-cell" style={`grid-row: 1; grid-column: ${colIdx + 1};`}>
+        <ScrabbleTiles
+          word={letter}
+          size="md"
+          showPoints={true}
+          animateOnLoad={true}
+          animationDelay={delay(0, colIdx)}
+          isCircled={true}
+        />
+      </div>
+    ))}
+
+    <!-- LANGOSCH down (skip L — already placed): R1–R7, C1 -->
+    {langoscHRest.map((letter, idx) => {
+      const rowIdx = idx + 1; // 1-indexed row (R1–R7)
+      return (
+        <div class="grid-cell" style={`grid-row: ${rowIdx + 1}; grid-column: 2;`}>
+          <ScrabbleTiles
+            word={letter}
+            size="md"
+            showPoints={true}
+            animateOnLoad={true}
+            animationDelay={delay(rowIdx, 1)}
+            isCircled={true}
+          />
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- ── Navigation words ── -->
+  <nav class="mobile-nav" aria-label="Main navigation">
+    {navWords.map(({ word, href }) => (
+      <a href={href} class="nav-word" aria-label={`Navigate to ${word.toLowerCase()}`}>
+        {word.split('').map((letter) => (
+          <ScrabbleTiles
+            word={letter}
+            size="sm"
+            showPoints={true}
+            animateOnLoad={false}
+          />
+        ))}
+      </a>
+    ))}
+  </nav>
+
+  <!-- Screen reader navigation (accessible fallback) -->
+  <div class="sr-only">
+    <nav aria-label="Portfolio sections">
+      <ul>
+        <li><a href="/software-engineering">Software Engineering</a></li>
+        <li><a href="/technical-writing">Technical Writing</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/skills">Skills</a></li>
+        <li><a href="/experience">Experience</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<style>
+  .mobile-home {
+    @apply py-8 w-full text-center;
+  }
+
+  /* ── Mini-crossword grid ── */
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(7, min-content);
+    grid-template-rows: repeat(8, min-content);
+    gap: 4px;
+    justify-content: center;
+    margin: 0 auto 2rem;
+  }
+
+  .grid-cell {
+    /* Position controlled by inline grid-row / grid-column styles */
+  }
+
+  /* ── Nav ── */
+  .mobile-nav {
+    @apply flex flex-col items-center gap-3;
+  }
+
+  .nav-word {
+    @apply flex items-center gap-1;
+    text-decoration: none;
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Highlight all tiles on word hover */
+  .nav-word:hover :global(.scrabble-tile .tile-inner) {
+    filter: brightness(1.15);
+  }
+
+  /* ── Responsive tile sizing ── */
+
+  /* 375–480px: md tiles (44px) fit fine (332px grid vs ~343px content) */
+  /* Below 375px: switch to sm tiles (32px, 236px grid) */
+  @media (max-width: 374px) {
+    .mini-grid {
+      gap: 2px;
+    }
+
+    .mini-grid :global(.scrabble-tile) {
+      --tile-width: 32px !important;
+      --tile-height: 32px !important;
+      --letter-size: 18px !important;
+      --point-size: 8px !important;
+    }
+  }
+
+  /* Screen reader only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
+
+<script is:inline>
+  function initMobileHome() {
+    const mobileHome = document.querySelector('.mobile-home');
+    if (!mobileHome) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── Randomise name tiles (mini-grid) ──
+    const nameTiles = mobileHome.querySelectorAll('.mini-grid .scrabble-tile');
+    nameTiles.forEach(function(tile) {
+      var rotation   = (Math.random() * 16) - 8;       // ±8°
+      var translateX = (Math.random() * 6)  - 3;       // ±3px
+      var translateY = (Math.random() * 4)  - 2;       // ±2px
+
+      tile.dataset.rotation   = rotation;
+      tile.dataset.translateX = translateX;
+      tile.dataset.translateY = translateY;
+
+      tile.style.setProperty('--tile-rotation',    rotation   + 'deg');
+      tile.style.setProperty('--tile-translate-x', translateX + 'px');
+      tile.style.setProperty('--tile-translate-y', translateY + 'px');
+      tile.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) rotate(' + rotation + 'deg)';
+
+      var inner = tile.querySelector('.tile-inner');
+      if (inner) {
+        inner.style.backgroundPosition = (Math.random() * 600) + 'px ' + (Math.random() * 600) + 'px';
+      }
+    });
+
+    // ── Randomise nav tiles (no animation, just natural placement) ──
+    var navTiles = mobileHome.querySelectorAll('.nav-word .scrabble-tile');
+    navTiles.forEach(function(tile) {
+      var rotation   = (Math.random() * 10) - 5;       // ±5°
+      var translateX = (Math.random() * 4)  - 2;       // ±2px
+      var translateY = (Math.random() * 2)  - 1;       // ±1px
+
+      tile.style.setProperty('--tile-rotation',    rotation   + 'deg');
+      tile.style.setProperty('--tile-translate-x', translateX + 'px');
+      tile.style.setProperty('--tile-translate-y', translateY + 'px');
+      tile.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) rotate(' + rotation + 'deg)';
+
+      var inner = tile.querySelector('.tile-inner');
+      if (inner) {
+        inner.style.backgroundPosition = (Math.random() * 600) + 'px ' + (Math.random() * 600) + 'px';
+      }
+    });
+
+    // ── Reduced motion: reveal immediately ──
+    if (prefersReducedMotion) {
+      nameTiles.forEach(function(tile) { tile.classList.remove('opacity-0'); });
+      return;
+    }
+
+    // ── Staggered drop-in animation for name tiles ──
+    setTimeout(function() {
+      nameTiles.forEach(function(tile) {
+        var d = parseInt(tile.dataset.delay || '0', 10);
+        setTimeout(function() {
+          tile.classList.remove('opacity-0');
+          tile.classList.add('tile-animate');
+        }, d);
+      });
+    }, 300);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileHome);
+  } else {
+    initMobileHome();
+  }
+
+  document.addEventListener('astro:page-load', initMobileHome);
+</script>

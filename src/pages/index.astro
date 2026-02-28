@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GridContainer from '../components/GridContainer.astro';
 import FocusCard from '../components/FocusCard.astro';
 import ScrabbleBoard from '../components/ScrabbleBoard.astro';
+import ScrabbleMobileHome from '../components/ScrabbleMobileHome.astro';
 import TileRack from '../components/TileRack.astro';
 import Icon from '../components/Icon.astro';
 
@@ -15,11 +16,16 @@ const description = "Experienced technical writer and full-stack engineer specia
   <!-- Hero Section with Interactive Scrabble Board -->
   <section class="text-center py-8 md:py-12 lg:py-16">
     <div class="max-w-5xl mx-auto px-4">
-      <!-- Scrabble Board as main hero element with clickable navigation -->
-      <ScrabbleBoard className="mb-8" />
+      <!-- Desktop: full crossword board (≥768px) -->
+      <div class="hidden md:block">
+        <ScrabbleBoard className="mb-8" />
+        <TileRack tiles="GOCSITE" href="/technical-writing" />
+      </div>
 
-      <!-- Tile Rack navigation to Technical Writing -->
-      <TileRack tiles="GOCSITE" href="/technical-writing" />
+      <!-- Mobile: mini-crossword + nav words (<768px) -->
+      <div class="block md:hidden">
+        <ScrabbleMobileHome />
+      </div>
     </div>
   </section>
 </BaseLayout>
