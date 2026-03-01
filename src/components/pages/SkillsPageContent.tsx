@@ -149,7 +149,7 @@ export default function SkillsPageContent() {
   return (
     <div className="space-y-8">
       {/* Filter Navigation */}
-      <div className="flex flex-wrap gap-4 items-center justify-between bg-dark-layer p-4 rounded-lg">
+      <div className="flex flex-col gap-3 bg-dark-layer p-4 rounded-lg sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
           {[
             { value: "all", label: "All Skills", count: skills.length },
@@ -174,11 +174,11 @@ export default function SkillsPageContent() {
           ))}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <select
             value={level}
             onChange={(e) => setLevel(e.target.value)}
-            className="px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-sm text-text-primary"
+            className="px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-sm text-text-primary min-w-0"
           >
             <option value="all">All Levels</option>
             <option value="expert">Expert</option>
@@ -190,7 +190,7 @@ export default function SkillsPageContent() {
           <select
             value={tag}
             onChange={(e) => setTag(e.target.value)}
-            className="px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-sm text-text-primary"
+            className="px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-sm text-text-primary min-w-0"
           >
             <option value="all">All Categories</option>
             {allTags.map((t) => (
@@ -201,7 +201,7 @@ export default function SkillsPageContent() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-sm text-text-primary"
+            className="px-3 py-2 bg-dark-card border border-dark-border rounded-lg text-sm text-text-primary min-w-0"
           >
             <option value="name-asc">A-Z</option>
             <option value="name-desc">Z-A</option>
