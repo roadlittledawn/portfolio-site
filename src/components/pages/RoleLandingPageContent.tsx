@@ -7,6 +7,8 @@ import {
   PROFILE_QUERY,
 } from "../../lib/graphql";
 import type { Skill, Project, Experience, Profile } from "../../lib/types";
+import SkillCard from "../SkillCard";
+import ProjectCard from "../ProjectCard";
 
 interface RoleLandingPageContentProps {
   roleType: "engineering" | "writing";
@@ -227,6 +229,7 @@ export default function RoleLandingPageContent({
               ))}
             </div>
 
+
             <div className="text-center mt-8">
               <a
                 href="/projects"
@@ -248,29 +251,9 @@ export default function RoleLandingPageContent({
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredData.skills.map((skill) => (
-              <div
-                key={skill.id}
-                className="bg-dark-card border border-dark-border rounded-lg p-4 flex items-center justify-between"
-              >
-                <div>
-                  <h4 className="font-medium text-text-primary">
-                    {skill.name}
-                  </h4>
-                  <span className="text-xs text-text-muted">{skill.level}</span>
-                </div>
-                <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      className={`text-sm ${star <= skill.rating ? "text-accent-amber" : "text-dark-border"}`}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <SkillCard key={skill.id} skill={skill} variant="list" />
             ))}
           </div>
 
@@ -335,43 +318,3 @@ export default function RoleLandingPageContent({
   );
 }
 
-// Project Card Component
-function ProjectCard({ project }: { project: Project }) {
-  const slug = project.name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-
-  return (
-    <a
-      href={`/projects/${slug}`}
-      className="block bg-dark-card border border-dark-border rounded-lg p-6 hover:bg-dark-hover transition-all"
-    >
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-xl font-semibold text-text-primary">
-          {project.name}
-        </h3>
-        {project.featured && (
-          <span className="px-2 py-1 bg-accent-amber/20 text-accent-amber text-xs font-medium rounded">
-            Featured
-          </span>
-        )}
-      </div>
-      <p className="text-text-secondary mb-4 line-clamp-2">
-        {project.overview}
-      </p>
-      {project.technologies && project.technologies.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {project.technologies.slice(0, 4).map((tech) => (
-            <span
-              key={tech}
-              className="px-2 py-0.5 bg-dark-layer text-xs text-text-muted rounded"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      )}
-    </a>
-  );
-}
