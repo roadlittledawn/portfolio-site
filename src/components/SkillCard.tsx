@@ -75,29 +75,27 @@ export default function SkillCard({ skill, variant = 'grid', className = '' }: P
   const focus = skill.roleRelevance?.join(' ');
 
   const cardBody = (
-    <>
-      {/* Row 1: icon + name left, years right */}
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <SkillIcon name={iconName} className="text-text-muted shrink-0" />
-          {variant === 'grid'
-            ? <h3 className="text-base font-semibold text-text-primary truncate">{skill.name}</h3>
-            : <span className="font-medium text-text-primary truncate">{skill.name}</span>
-          }
-        </div>
-        {skill.yearsOfExperience && (
-          <span className="text-xs text-text-muted shrink-0">
+    <div className="flex items-stretch gap-2">
+      {/* Left: icon + name, vertically centered across full card height */}
+      <div className="flex items-center gap-2 flex-1 min-w-0">
+        <SkillIcon name={iconName} className="text-text-muted shrink-0" />
+        {variant === 'grid'
+          ? <h3 className="text-base font-semibold text-text-primary break-words [overflow-wrap:anywhere]">{skill.name}</h3>
+          : <span className="font-medium text-text-primary break-words [overflow-wrap:anywhere]">{skill.name}</span>
+        }
+      </div>
+      {/* Right: years on top, level badge below */}
+      <div className="flex flex-col items-end shrink-0 justify-between gap-1">
+        {skill.yearsOfExperience ? (
+          <span className="text-xs text-text-muted whitespace-nowrap">
             {skill.yearsOfExperience}yr{skill.yearsOfExperience !== 1 ? 's' : ''}
           </span>
-        )}
-      </div>
-      {/* Row 2: level badge below name */}
-      <div className="mt-1.5 pl-7">
-        <span className={`text-xs px-2 py-0.5 rounded font-medium ${levelClasses}`}>
+        ) : null}
+        <span className={`text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap ${levelClasses}`}>
           {skill.level}
         </span>
       </div>
-    </>
+    </div>
   );
 
   if (variant === 'list') {

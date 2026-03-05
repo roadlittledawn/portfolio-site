@@ -20,10 +20,9 @@ export default function SkillsForm({
   const [error, setError] = useState("");
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
   const [newTag, setNewTag] = useState("");
-  const [keywords, setKeywords] = useState<string[]>(
+  const [keywords] = useState<string[]>(
     initialData?.keywords || [],
   );
-  const [newKeyword, setNewKeyword] = useState("");
   const [roleRelevance, setRoleRelevance] = useState<string[]>(
     initialData?.roleRelevance || [],
   );
@@ -86,17 +85,6 @@ export default function SkillsForm({
 
   const removeTag = (index: number) => {
     setTags(tags.filter((_, i) => i !== index));
-  };
-
-  const addKeyword = () => {
-    if (newKeyword.trim() && !keywords.includes(newKeyword.trim())) {
-      setKeywords([...keywords, newKeyword.trim()]);
-      setNewKeyword("");
-    }
-  };
-
-  const removeKeyword = (index: number) => {
-    setKeywords(keywords.filter((_, i) => i !== index));
   };
 
   const toggleRole = (roleValue: string) => {
@@ -256,43 +244,6 @@ export default function SkillsForm({
             {tags.map((tag, index) => (
               <Tag key={index} onRemove={() => removeTag(index)}>
                 {tag}
-              </Tag>
-            ))}
-          </div>
-        )}
-      </Card>
-
-      {/* Keywords Section */}
-      <Card>
-        <CardHeader
-          title="Keywords"
-          description="Add keywords for search and filtering"
-        />
-
-        <div className="flex gap-2 mb-4">
-          <input
-            type="text"
-            value={newKeyword}
-            onChange={(e) => setNewKeyword(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                addKeyword();
-              }
-            }}
-            placeholder="Add a keyword..."
-            className="flex-1 px-4 py-2 bg-dark-layer border border-dark-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent-blue"
-          />
-          <Button type="button" variant="secondary" onClick={addKeyword}>
-            Add
-          </Button>
-        </div>
-
-        {keywords.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {keywords.map((keyword, index) => (
-              <Tag key={index} onRemove={() => removeKeyword(index)}>
-                {keyword}
               </Tag>
             ))}
           </div>
