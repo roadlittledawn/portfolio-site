@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { getGraphQLClient } from '../../../lib/graphql-client';
-import { PROJECT_QUERY, DELETE_PROJECT_MUTATION } from '../../../lib/graphql';
-import type { Project } from '../../../lib/types';
-import { Button, Card, Badge } from '../ui';
-import { ConfirmModal } from '../ui/Modal';
+import { useState, useEffect } from "react";
+import { getGraphQLClient } from "../../../lib/graphql-client";
+import { PROJECT_QUERY, DELETE_PROJECT_MUTATION } from "../../../lib/graphql";
+import type { Project } from "../../../lib/types";
+import { Button, Card, Badge } from "../ui";
+import { ConfirmModal } from "../ui/Modal";
 
 interface ProjectDetailPageProps {
   projectId: string;
@@ -13,7 +13,9 @@ interface ProjectResponse {
   project: Project | null;
 }
 
-export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
+export default function ProjectDetailPage({
+  projectId,
+}: ProjectDetailPageProps) {
   const [project, setProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,11 +31,13 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
     setError(null);
     try {
       const client = getGraphQLClient();
-      const data = await client.request<ProjectResponse>(PROJECT_QUERY, { id: projectId });
+      const data = await client.request<ProjectResponse>(PROJECT_QUERY, {
+        id: projectId,
+      });
       setProject(data.project);
     } catch (err) {
-      console.error('Failed to fetch project:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch project');
+      console.error("Failed to fetch project:", err);
+      setError(err instanceof Error ? err.message : "Failed to fetch project");
     } finally {
       setIsLoading(false);
     }
@@ -44,10 +48,10 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
     try {
       const client = getGraphQLClient();
       await client.request(DELETE_PROJECT_MUTATION, { id: projectId });
-      window.location.href = '/admin/projects';
+      window.location.href = "/admin/projects";
     } catch (err) {
-      console.error('Failed to delete project:', err);
-      setError(err instanceof Error ? err.message : 'Failed to delete project');
+      console.error("Failed to delete project:", err);
+      setError(err instanceof Error ? err.message : "Failed to delete project");
       setIsDeleting(false);
       setShowDeleteModal(false);
     }
@@ -85,18 +89,27 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         <div className="flex justify-between items-start">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h2 className="text-2xl font-bold text-text-primary">{project.name}</h2>
+              <h2 className="text-2xl font-bold text-text-primary">
+                {project.name}
+              </h2>
               <Badge>{project.type}</Badge>
               {project.featured && <Badge variant="primary">Featured</Badge>}
             </div>
             {project.date && (
-              <p className="text-text-muted">{new Date(project.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+              <p className="text-text-muted">
+                {new Date(project.date).toLocaleDateString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
             )}
           </div>
           <div className="flex gap-2">
             <Button
               variant="secondary"
-              onClick={() => window.location.href = `/admin/projects/${projectId}/edit`}
+              onClick={() =>
+                (window.location.href = `/admin/projects/${projectId}/edit`)
+              }
             >
               Edit
             </Button>
@@ -113,7 +126,9 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         {/* Overview */}
         <Card>
           <div className="p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-3">Overview</h3>
+            <h3 className="text-lg font-semibold text-text-primary mb-3">
+              Overview
+            </h3>
             <p className="text-text-secondary">{project.overview}</p>
           </div>
         </Card>
@@ -124,24 +139,36 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
             {project.challenge && (
               <Card>
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">Challenge</h3>
-                  <p className="text-text-secondary text-sm">{project.challenge}</p>
+                  <h3 className="text-lg font-semibold text-text-primary mb-3">
+                    Challenge
+                  </h3>
+                  <p className="text-text-secondary text-sm">
+                    {project.challenge}
+                  </p>
                 </div>
               </Card>
             )}
             {project.approach && (
               <Card>
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">Approach</h3>
-                  <p className="text-text-secondary text-sm">{project.approach}</p>
+                  <h3 className="text-lg font-semibold text-text-primary mb-3">
+                    Approach
+                  </h3>
+                  <p className="text-text-secondary text-sm">
+                    {project.approach}
+                  </p>
                 </div>
               </Card>
             )}
             {project.outcome && (
               <Card>
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">Outcome</h3>
-                  <p className="text-text-secondary text-sm">{project.outcome}</p>
+                  <h3 className="text-lg font-semibold text-text-primary mb-3">
+                    Outcome
+                  </h3>
+                  <p className="text-text-secondary text-sm">
+                    {project.outcome}
+                  </p>
                 </div>
               </Card>
             )}
@@ -152,7 +179,9 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         {project.impact && (
           <Card>
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-3">Impact</h3>
+              <h3 className="text-lg font-semibold text-text-primary mb-3">
+                Impact
+              </h3>
               <p className="text-text-secondary">{project.impact}</p>
             </div>
           </Card>
@@ -162,10 +191,12 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         {project.roleTypes && project.roleTypes.length > 0 && (
           <Card>
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-3">Role Types</h3>
+              <h3 className="text-lg font-semibold text-text-primary mb-3">
+                Role Types
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {project.roleTypes.map((role) => (
-                  <Badge key={role}>{role.replace(/_/g, ' ')}</Badge>
+                  <Badge key={role}>{role.replace(/_/g, " ")}</Badge>
                 ))}
               </div>
             </div>
@@ -176,7 +207,9 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         {project.technologies && project.technologies.length > 0 && (
           <Card>
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-3">Technologies</h3>
+              <h3 className="text-lg font-semibold text-text-primary mb-3">
+                Technologies
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
                   <span
@@ -195,7 +228,9 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
         {project.links && project.links.length > 0 && (
           <Card>
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-3">Links</h3>
+              <h3 className="text-lg font-semibold text-text-primary mb-3">
+                Links
+              </h3>
               <div className="space-y-2">
                 {project.links.map((link, index) => (
                   <a
@@ -206,29 +241,20 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
                     className="flex items-center gap-2 text-accent-blue hover:underline"
                   >
                     <span>{link.linkText || link.type}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
                     </svg>
                   </a>
-                ))}
-              </div>
-            </div>
-          </Card>
-        )}
-
-        {/* Keywords */}
-        {project.keywords && project.keywords.length > 0 && (
-          <Card>
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-text-primary mb-3">Keywords</h3>
-              <div className="flex flex-wrap gap-2">
-                {project.keywords.map((keyword) => (
-                  <span
-                    key={keyword}
-                    className="px-3 py-1 bg-accent-blue/20 text-accent-blue rounded-full text-sm"
-                  >
-                    {keyword}
-                  </span>
                 ))}
               </div>
             </div>
