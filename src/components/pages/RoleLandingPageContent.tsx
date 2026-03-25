@@ -8,6 +8,7 @@ import {
 } from "../../lib/graphql";
 import type { Skill, Project, Experience, Profile } from "../../lib/types";
 import SkillCard from "../SkillCard";
+import Loading from "../Loading";
 import ProjectCard from "../ProjectCard";
 
 interface RoleLandingPageContentProps {
@@ -159,11 +160,7 @@ export default function RoleLandingPageContent({
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-text-secondary">Loading...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
