@@ -22,7 +22,7 @@ export default function Loading() {
         />
       </svg>
       <span className="text-text-secondary">
-        Loading data (slowly but at freely 🤑)
+        Loading data (slowly but cost-effectively 🤑)
       </span>
     </div>
   );
