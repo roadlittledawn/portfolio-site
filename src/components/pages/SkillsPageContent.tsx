@@ -4,6 +4,7 @@ import { SKILLS_QUERY } from "../../lib/graphql";
 import type { Skill } from "../../lib/types";
 import { isEngineeringRole, isWritingRole } from "../../lib/constants";
 import SkillCard from "../SkillCard";
+import Loading from "../Loading";
 
 interface SkillsResponse {
   skills: Skill[];
@@ -123,11 +124,7 @@ export default function SkillsPageContent() {
   ).length;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-text-secondary">Loading skills...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {

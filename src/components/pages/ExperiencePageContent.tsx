@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getGraphQLClient } from '../../lib/graphql-client';
 import { EXPERIENCES_QUERY } from '../../lib/graphql';
 import type { Experience } from '../../lib/types';
+import Loading from '../Loading';
 
 interface ExperiencesResponse {
   experiences: Experience[];
@@ -43,11 +44,7 @@ export default function ExperiencePageContent() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-text-secondary">Loading experience...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {

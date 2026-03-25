@@ -3,6 +3,7 @@ import { getGraphQLClient } from '../../lib/graphql-client';
 import { PROJECTS_QUERY } from '../../lib/graphql';
 import type { Project, ProjectsResponse } from '../../lib/types';
 import ProjectCard, { FeaturedProjectCard } from '../ProjectCard';
+import Loading from '../Loading';
 
 export default function ProjectsPageContent() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -67,11 +68,7 @@ export default function ProjectsPageContent() {
   }, [projects, filter]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-text-secondary">Loading projects...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {

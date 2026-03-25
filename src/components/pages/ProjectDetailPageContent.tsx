@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getGraphQLClient } from "../../lib/graphql-client";
 import { PROJECT_QUERY } from "../../lib/graphql";
 import type { Project, ProjectResponse } from "../../lib/types";
+import Loading from "../Loading";
 
 export default function ProjectDetailPageContent() {
   const [project, setProject] = useState<Project | null>(null);
@@ -59,11 +60,7 @@ export default function ProjectDetailPageContent() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-text-secondary">Loading project...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error || !project) {
