@@ -3,11 +3,13 @@ import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
-import { GENERATE_RESUME_MUTATION } from '../../../lib/graphql';
+import { GENERATE_RESUME_MUTATION, REVISE_RESUME_MUTATION } from '../../../lib/graphql';
 import { Button, Card, CardHeader } from '../ui';
 import { GoogleDriveFolderSelector } from '../google-drive';
 import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
+
+type TabType = 'edit' | 'preview';
 
 interface ResumeGeneratorProps {
   jobInfo: {
@@ -38,6 +40,16 @@ export default function ResumeGenerator({
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
 
+  // Editing state
+  const [activeTab, setActiveTab] = useState<TabType>('preview');
+  const [editedResume, setEditedResume] = useState<string>(initialResume);
+  const hasUnsavedChanges = editedResume !== resume;
+
+  // AI refinement state
+  const [isRefining, setIsRefining] = useState(false);
+  const [refinementFeedback, setRefinementFeedback] = useState('');
+  const [showRefinement, setShowRefinement] = useState(false);
+
   // Set default folder based on role type
   useEffect(() => {
     const defaultFolder = getDefaultFolderForRole(jobInfo.jobType, 'application');
@@ -45,6 +57,11 @@ export default function ResumeGenerator({
       setFolderId(defaultFolder);
     }
   }, [jobInfo.jobType]);
+
+  // Sync editedResume when resume changes (from generation or AI refinement)
+  useEffect(() => {
+    setEditedResume(resume);
+  }, [resume]);
 
   const generateResume = async () => {
     setIsGenerating(true);
@@ -88,7 +105,7 @@ export default function ResumeGenerator({
   };
 
   const downloadResume = () => {
-    const blob = new Blob([resume], { type: 'text/markdown' });
+    const blob = new Blob([editedResume], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -101,17 +118,83 @@ export default function ResumeGenerator({
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(resume);
+      await navigator.clipboard.writeText(editedResume);
       alert('Resume copied to clipboard!');
     } catch {
       // Fallback
       const textArea = document.createElement('textarea');
-      textArea.value = resume;
+      textArea.value = editedResume;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
       alert('Resume copied to clipboard!');
+    }
+  };
+
+  const handleApplyChanges = () => {
+    setResume(editedResume);
+    onResumeGenerated(editedResume);
+  };
+
+  const handleDiscardChanges = () => {
+    setEditedResume(resume);
+    setActiveTab('preview');
+  };
+
+  const handleRegenerateClick = () => {
+    if (hasUnsavedChanges) {
+      const confirmed = window.confirm(
+        'You have unsaved changes. Are you sure you want to regenerate? Your edits will be lost.'
+      );
+      if (!confirmed) return;
+    }
+    setResume('');
+    setEditedResume('');
+  };
+
+  const handleRefineResume = async () => {
+    if (!refinementFeedback.trim()) return;
+
+    setIsRefining(true);
+    setError(null);
+
+    try {
+      const client = getGraphQLClient();
+
+      const jobInfoInput = {
+        description: jobInfo.description,
+        jobType: jobInfo.jobType.replace(/-/g, '_'),
+      };
+
+      interface ReviseResumeResponse {
+        reviseResume: {
+          content: string;
+          usage: {
+            inputTokens: number;
+            outputTokens: number;
+          };
+        };
+      }
+
+      const data = await client.request<ReviseResumeResponse>(
+        REVISE_RESUME_MUTATION,
+        {
+          jobInfo: jobInfoInput,
+          feedback: refinementFeedback,
+        }
+      );
+
+      setResume(data.reviseResume.content);
+      setEditedResume(data.reviseResume.content);
+      onResumeGenerated(data.reviseResume.content);
+      setRefinementFeedback('');
+      setActiveTab('preview');
+    } catch (err) {
+      console.error('Resume refinement error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to refine resume');
+    } finally {
+      setIsRefining(false);
     }
   };
 
@@ -128,7 +211,7 @@ export default function ResumeGenerator({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           files: [{
-            content: resume,
+            content: editedResume,
             type: 'resume',
             folderId,
             jobTitle: jobInfo.jobType,
@@ -203,31 +286,132 @@ export default function ResumeGenerator({
               </svg>
               Copy to Clipboard
             </Button>
-            <Button onClick={() => setResume('')} variant="ghost">
+            <Button onClick={handleRegenerateClick} variant="ghost">
               Regenerate
             </Button>
           </div>
 
-          {/* Preview */}
+          {/* Tab-based Edit/Preview */}
           <div className="border border-dark-border rounded-lg overflow-hidden">
-            <div className="px-4 py-2 bg-dark-layer border-b border-dark-border">
-              <span className="text-sm font-medium text-text-secondary">Preview</span>
+            {/* Tab Bar */}
+            <div className="flex bg-dark-layer border-b border-dark-border">
+              <button
+                onClick={() => setActiveTab('edit')}
+                className={`px-4 py-2 text-sm font-medium transition-colors ${
+                  activeTab === 'edit'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-surface'
+                    : 'text-text-secondary hover:text-text-primary'
+                }`}
+              >
+                <svg className="w-4 h-4 inline mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button
+                onClick={() => setActiveTab('preview')}
+                className={`px-4 py-2 text-sm font-medium transition-colors ${
+                  activeTab === 'preview'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-surface'
+                    : 'text-text-secondary hover:text-text-primary'
+                }`}
+              >
+                <svg className="w-4 h-4 inline mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                Preview
+              </button>
+              {hasUnsavedChanges && (
+                <span className="ml-auto px-3 py-2 text-xs text-amber-400 flex items-center">
+                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="6" />
+                  </svg>
+                  Unsaved changes
+                </span>
+              )}
             </div>
-            <div
-              className="p-6 bg-white text-gray-900 overflow-auto max-h-[600px] markdown-preview"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(resume) as string) }}
-            />
+
+            {/* Editor */}
+            {activeTab === 'edit' && (
+              <div className="bg-dark-surface">
+                <textarea
+                  value={editedResume}
+                  onChange={(e) => setEditedResume(e.target.value)}
+                  className="w-full h-[500px] p-4 bg-dark-surface text-text-primary font-mono text-sm resize-none focus:outline-none"
+                  placeholder="Edit your resume markdown here..."
+                />
+              </div>
+            )}
+
+            {/* Preview */}
+            {activeTab === 'preview' && (
+              <div
+                className="p-6 bg-white text-gray-900 overflow-auto max-h-[600px] markdown-preview"
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(editedResume) as string) }}
+              />
+            )}
           </div>
 
-          {/* Raw Markdown */}
-          <details>
-            <summary className="text-sm text-text-secondary hover:text-text-primary cursor-pointer">
-              View Raw Markdown
-            </summary>
-            <pre className="mt-2 p-4 bg-dark-layer rounded-lg text-sm text-text-primary overflow-auto max-h-96">
-              {resume}
-            </pre>
-          </details>
+          {/* Apply/Discard Changes */}
+          {hasUnsavedChanges && (
+            <div className="flex gap-3 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+              <Button onClick={handleApplyChanges} size="sm">
+                Apply Changes
+              </Button>
+              <Button onClick={handleDiscardChanges} variant="ghost" size="sm">
+                Discard Changes
+              </Button>
+              <span className="ml-auto text-sm text-amber-400 flex items-center">
+                Your edits will be used for download, copy, and upload
+              </span>
+            </div>
+          )}
+
+          {/* AI Refinement Panel */}
+          <div className="border border-dark-border rounded-lg overflow-hidden">
+            <button
+              onClick={() => setShowRefinement(!showRefinement)}
+              className="w-full px-4 py-3 bg-dark-layer text-left flex items-center justify-between hover:bg-dark-surface transition-colors"
+            >
+              <span className="text-sm font-medium text-text-primary flex items-center">
+                <svg className="w-4 h-4 mr-2 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                AI Refinement
+              </span>
+              <svg
+                className={`w-4 h-4 text-text-secondary transition-transform ${showRefinement ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {showRefinement && (
+              <div className="p-4 bg-dark-surface border-t border-dark-border space-y-4">
+                <p className="text-sm text-text-secondary">
+                  Provide feedback to have AI revise the resume. Note: This regenerates from the original job context, so manual edits will be replaced.
+                </p>
+                <textarea
+                  value={refinementFeedback}
+                  onChange={(e) => setRefinementFeedback(e.target.value)}
+                  placeholder="e.g., Make it more concise, emphasize leadership experience, add more metrics..."
+                  className="w-full h-24 p-3 bg-dark-layer border border-dark-border rounded-lg text-text-primary text-sm resize-none focus:outline-none focus:border-accent-blue"
+                />
+                <Button
+                  onClick={handleRefineResume}
+                  isLoading={isRefining}
+                  disabled={!refinementFeedback.trim()}
+                  size="sm"
+                >
+                  {isRefining ? 'Refining...' : 'Request AI Refinement'}
+                </Button>
+              </div>
+            )}
+          </div>
 
           {/* Upload to Google Drive */}
           <div className="border-t border-dark-border pt-6">
@@ -252,7 +436,7 @@ export default function ResumeGenerator({
                   rel="noopener noreferrer"
                   className="block p-3 bg-accent-green/10 border border-accent-green/20 rounded-lg text-accent-green text-sm hover:bg-accent-green/20 transition-colors"
                 >
-                  ✓ Uploaded successfully - View in Drive
+                  Uploaded successfully - View in Drive
                 </a>
               )}
             </div>
