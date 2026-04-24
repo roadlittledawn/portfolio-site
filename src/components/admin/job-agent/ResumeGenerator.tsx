@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
+import Editor from 'react-simple-code-editor';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-markdown';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_RESUME_MUTATION, REVISE_RESUME_MUTATION } from '../../../lib/graphql';
@@ -8,6 +11,7 @@ import { Button, Card, CardHeader } from '../ui';
 import { GoogleDriveFolderSelector } from '../google-drive';
 import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
+import './prism-dark-theme.css';
 
 type TabType = 'edit' | 'preview';
 
@@ -299,7 +303,7 @@ export default function ResumeGenerator({
                 onClick={() => setActiveTab('edit')}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === 'edit'
-                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-surface'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-layer'
                     : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
@@ -312,7 +316,7 @@ export default function ResumeGenerator({
                 onClick={() => setActiveTab('preview')}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === 'preview'
-                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-surface'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-card'
                     : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
@@ -334,12 +338,24 @@ export default function ResumeGenerator({
 
             {/* Editor */}
             {activeTab === 'edit' && (
-              <div className="bg-dark-surface">
-                <textarea
+              <div className="bg-dark-layer overflow-auto max-h-[500px]">
+                <Editor
                   value={editedResume}
-                  onChange={(e) => setEditedResume(e.target.value)}
-                  className="w-full h-[500px] p-4 bg-dark-surface text-text-primary font-mono text-sm resize-none focus:outline-none"
+                  onValueChange={setEditedResume}
+                  highlight={(code) =>
+                    Prism.highlight(code, Prism.languages.markdown, 'markdown')
+                  }
+                  padding={16}
                   placeholder="Edit your resume markdown here..."
+                  style={{
+                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                    fontSize: '0.875rem',
+                    lineHeight: '1.5',
+                    minHeight: '500px',
+                    backgroundColor: '#151D1E', // dark-layer
+                    color: '#E6E8E9', // text-primary
+                  }}
+                  textareaClassName="focus:outline-none"
                 />
               </div>
             )}
@@ -372,7 +388,7 @@ export default function ResumeGenerator({
           <div className="border border-dark-border rounded-lg overflow-hidden">
             <button
               onClick={() => setShowRefinement(!showRefinement)}
-              className="w-full px-4 py-3 bg-dark-layer text-left flex items-center justify-between hover:bg-dark-surface transition-colors"
+              className="w-full px-4 py-3 bg-dark-layer text-left flex items-center justify-between hover:bg-dark-card transition-colors"
             >
               <span className="text-sm font-medium text-text-primary flex items-center">
                 <svg className="w-4 h-4 mr-2 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -391,7 +407,7 @@ export default function ResumeGenerator({
             </button>
 
             {showRefinement && (
-              <div className="p-4 bg-dark-surface border-t border-dark-border space-y-4">
+              <div className="p-4 bg-dark-card border-t border-dark-border space-y-4">
                 <p className="text-sm text-text-secondary">
                   Provide feedback to have AI revise the resume. Note: This regenerates from the original job context, so manual edits will be replaced.
                 </p>
