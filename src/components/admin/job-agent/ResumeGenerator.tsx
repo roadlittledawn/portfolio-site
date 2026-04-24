@@ -299,7 +299,7 @@ export default function ResumeGenerator({
                 onClick={() => setActiveTab('edit')}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === 'edit'
-                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-surface'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-card'
                     : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
@@ -312,7 +312,7 @@ export default function ResumeGenerator({
                 onClick={() => setActiveTab('preview')}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === 'preview'
-                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-surface'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-card'
                     : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
@@ -334,11 +334,11 @@ export default function ResumeGenerator({
 
             {/* Editor */}
             {activeTab === 'edit' && (
-              <div className="bg-dark-surface">
+              <div className="bg-dark-card">
                 <textarea
                   value={editedResume}
                   onChange={(e) => setEditedResume(e.target.value)}
-                  className="w-full h-[500px] p-4 bg-dark-surface text-text-primary font-mono text-sm resize-none focus:outline-none"
+                  className="w-full h-[500px] p-4 bg-dark-card text-text-primary font-mono text-sm resize-none focus:outline-none"
                   placeholder="Edit your resume markdown here..."
                 />
               </div>
@@ -372,7 +372,7 @@ export default function ResumeGenerator({
           <div className="border border-dark-border rounded-lg overflow-hidden">
             <button
               onClick={() => setShowRefinement(!showRefinement)}
-              className="w-full px-4 py-3 bg-dark-layer text-left flex items-center justify-between hover:bg-dark-surface transition-colors"
+              className="w-full px-4 py-3 bg-dark-layer text-left flex items-center justify-between hover:bg-dark-card transition-colors"
             >
               <span className="text-sm font-medium text-text-primary flex items-center">
                 <svg className="w-4 h-4 mr-2 text-accent-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -391,7 +391,7 @@ export default function ResumeGenerator({
             </button>
 
             {showRefinement && (
-              <div className="p-4 bg-dark-surface border-t border-dark-border space-y-4">
+              <div className="p-4 bg-dark-card border-t border-dark-border space-y-4">
                 <p className="text-sm text-text-secondary">
                   Provide feedback to have AI revise the resume. Note: This regenerates from the original job context, so manual edits will be replaced.
                 </p>
