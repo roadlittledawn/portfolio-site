@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
+import Editor from 'react-simple-code-editor';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-markdown';
 import type { JobType } from '../../../lib/job-agent-prompts';
 import { getGraphQLClient } from '../../../lib/graphql-client';
 import { GENERATE_RESUME_MUTATION, REVISE_RESUME_MUTATION } from '../../../lib/graphql';
@@ -8,6 +11,7 @@ import { Button, Card, CardHeader } from '../ui';
 import { GoogleDriveFolderSelector } from '../google-drive';
 import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
+import './prism-dark-theme.css';
 
 type TabType = 'edit' | 'preview';
 
@@ -299,7 +303,7 @@ export default function ResumeGenerator({
                 onClick={() => setActiveTab('edit')}
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === 'edit'
-                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-card'
+                    ? 'text-accent-blue border-b-2 border-accent-blue bg-dark-layer'
                     : 'text-text-secondary hover:text-text-primary'
                 }`}
               >
@@ -334,12 +338,24 @@ export default function ResumeGenerator({
 
             {/* Editor */}
             {activeTab === 'edit' && (
-              <div className="bg-dark-card">
-                <textarea
+              <div className="bg-dark-layer overflow-auto max-h-[500px]">
+                <Editor
                   value={editedResume}
-                  onChange={(e) => setEditedResume(e.target.value)}
-                  className="w-full h-[500px] p-4 bg-dark-card text-text-primary font-mono text-sm resize-none focus:outline-none"
+                  onValueChange={setEditedResume}
+                  highlight={(code) =>
+                    Prism.highlight(code, Prism.languages.markdown, 'markdown')
+                  }
+                  padding={16}
                   placeholder="Edit your resume markdown here..."
+                  style={{
+                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                    fontSize: '0.875rem',
+                    lineHeight: '1.5',
+                    minHeight: '500px',
+                    backgroundColor: '#151D1E', // dark-layer
+                    color: '#E6E8E9', // text-primary
+                  }}
+                  textareaClassName="focus:outline-none"
                 />
               </div>
             )}
