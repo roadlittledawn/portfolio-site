@@ -1,16 +1,9 @@
 import { google } from 'googleapis';
-import jwt from 'jsonwebtoken';
+import { requireAdmin } from '../../src/lib/server/clang-auth';
 
 export const handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
+  // Same-origin only (called from the admin UI), so no CORS headers.
+  const headers = { 'Content-Type': 'application/json' };
 
   if (event.httpMethod !== 'GET') {
     return {
@@ -20,31 +13,9 @@ export const handler = async (event) => {
     };
   }
 
-  // Verify auth token
-  const cookies = event.headers.cookie?.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
-
-  const token = cookies?.auth_token;
-  if (!token) {
-    return {
-      statusCode: 401,
-      headers,
-      body: JSON.stringify({ error: 'Unauthorized' }),
-    };
-  }
-
-  try {
-    jwt.verify(token, process.env.AUTH_SECRET);
-  } catch (error) {
-    return {
-      statusCode: 401,
-      headers,
-      body: JSON.stringify({ error: 'Invalid token' }),
-    };
-  }
+  // clang-auth admin cookie (+ same-origin check for POST)
+  const auth = await requireAdmin(event);
+  if (!auth.ok) return auth.response;
 
   // Create OAuth2 client
   const oauth2Client = new google.auth.OAuth2(
