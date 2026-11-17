@@ -44,11 +44,7 @@ portfolio-site/
    npm install
    ```
 
-2. Generate auth secrets:
-
-   ```bash
-   npm run generate-secrets <your-password>
-   ```
+2. Run clang-auth locally for admin sign-in (see `docs/auth-flow-diagram.md` → Local development).
 
 3. Create `.env` file:
 
@@ -57,10 +53,11 @@ portfolio-site/
    GRAPHQL_ENDPOINT=http://localhost:4000/graphql
    GRAPHQL_API_KEY=<your-api-key>
 
-   # Admin Auth
-   AUTH_SECRET=<generated-secret>
-   ADMIN_USERNAME=<your-username>
-   ADMIN_PASSWORD_HASH=<generated-hash>
+   # Admin auth (clang-auth)
+   AUTH_BASE_URL=http://auth.localtest.me:4000
+   PUBLIC_AUTH_BASE_URL=http://auth.localtest.me:4000
+   AUTH_APP_SLUG=portfolio
+   APP_ORIGIN=http://portfolio.localtest.me:8080
 
    # AI Assistant (optional)
    ANTHROPIC_API_KEY=<your-key>
@@ -93,7 +90,7 @@ portfolio-site/
 | `npm run dev:astro`        | Start Astro only (no functions)       |
 | `npm run build`            | Production build                      |
 | `npm run sync-data`        | Sync career data from GraphQL API     |
-| `npm run generate-secrets` | Generate auth secrets                 |
+| `npm test`                 | Run unit tests (vitest)               |
 
 ## Deployment
 
@@ -101,9 +98,9 @@ Pushes to `main` auto-deploy to Netlify. Required env vars:
 
 - `GRAPHQL_ENDPOINT` - GraphQL API URL (server-side)
 - `GRAPHQL_API_KEY` - API key for GraphQL requests
-- `AUTH_SECRET` - JWT signing secret
-- `ADMIN_USERNAME` - Admin login username
-- `ADMIN_PASSWORD_HASH` - Bcrypt password hash
+- `AUTH_BASE_URL`, `PUBLIC_AUTH_BASE_URL` - clang-auth base URL (`https://auth.clintonlangosch.com`)
+- `AUTH_APP_SLUG` - `portfolio`
+- `APP_ORIGIN` - `https://clintonlangosch.com`
 - `ANTHROPIC_API_KEY` - Optional, for AI features
 
 ## Data Sync

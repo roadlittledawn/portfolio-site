@@ -146,13 +146,13 @@ portfolio-site/
 - Structured data optimized for component consumption
 
 **Admin Panel**: React-based CRUD interface at `/admin` for managing career data:
-- Cookie-based JWT authentication via Netlify middleware
+- Sign-in via the shared clang-auth service; `src/middleware.ts` verifies the `ca_access` ES256 cookie locally (JWKS) and requires `apps.portfolio` ∋ `admin`
 - Direct GraphQL API access with API key-based authentication
 - React Islands for SSR admin pages
 - Forms use react-hook-form
 
 **Data Management**: Career data is managed through a GraphQL API with direct access:
-- Admin mutations connect directly to the GraphQL API using write API key (injected server-side, not bundled by Vite)
+- Admin queries/mutations connect directly to the GraphQL API with the `ca_access` cookie (`credentials: "include"`); no key or token in page JS. See `docs/auth-flow-diagram.md`
 - Public queries use read-only API key
 - Extracts API key from environment variables
 - Connects to GraphQL service with appropriate permissions
@@ -160,7 +160,9 @@ portfolio-site/
 
 **Relevant files**:
 - `src/lib/graphql-client.ts` - Client with read/write key support
-- `src/middleware.ts` - Cookie validation for admin access
+- `src/middleware.ts` - clang-auth token check for `/admin/*`
+- `src/lib/server/clang-auth.ts` - Token verification + `requireAdmin(event)` for Netlify functions
+- `src/lib/auth-client.ts` - Browser helpers: `authFetch` (refresh + retry), `logout`
 - `src/components/admin/` - React admin components
 
 ## 🎨 Design System

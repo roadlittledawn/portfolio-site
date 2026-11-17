@@ -59,15 +59,12 @@ portfolio-site/
 │   │   ├── filterEngine.ts     # Client-side filtering logic
 │   │   ├── urlState.ts         # URL state management
 │   │   └── roleTypeMapping.ts  # Role type mappings
-│   ├── middleware.ts           # Cookie-based auth check
+│   ├── middleware.ts           # clang-auth check for /admin/*
 ├── netlify/functions/           # Serverless functions (ES modules)
-│   ├── auth-login.js           # JWT login
-│   ├── auth-verify.js          # Token verification
-│   ├── auth-logout.js          # Logout
+│   ├── auth-me.ts              # Signed-in admin (clang-auth)
 │   └── ai-assistant.js         # Claude API proxy
 ├── scripts/
-│   ├── sync-career-data.js     # Fetch data from GraphQL API
-│   └── generate-auth-secrets.js# Generate AUTH_SECRET and password hash
+│   └── sync-career-data.js     # Fetch data from GraphQL API
 ├── netlify.toml                # Netlify configuration
 ├── astro.config.mjs            # Astro configuration
 └── tailwind.config.mjs         # Tailwind configuration
@@ -80,21 +77,21 @@ portfolio-site/
 **How it works**: The portfolio site connects directly to the GraphQL API using API key-based authentication. There are two types of API keys:
 
 1. **Read-only key** (`PUBLIC_GRAPHQL_READ_KEY`): Used on public pages, allows queries only
-2. **Write key** (`GRAPHQL_WRITE_KEY`): Used on admin pages, allows both queries and mutations
+2. **Admin pages** use no key: the browser sends the clang-auth `ca_access` cookie (`credentials: "include"`), which the API verifies (admin grant + Origin check)
 
-**Security**: The write key has no `PUBLIC_` prefix so Vite never bundles it into client JS. Instead, `AdminLayout.astro` injects it server-side via `window.__GRAPHQL_WRITE_KEY__` only after middleware validates the auth cookie.
+**Security**: No key or token is ever put in page JS. See `docs/auth-flow-diagram.md`.
 
 **Flow**:
 
 1. Public pages make GraphQL queries directly to the API with read-only key
-2. Admin UI makes GraphQL requests directly to the API with write key
+2. Admin UI makes GraphQL requests directly to the API with the clang-auth cookie
 3. No proxy or intermediary needed
 4. Eliminates timeout issues for long-running operations (job agent)
 
 **Relevant files**:
 
 - `src/lib/graphql-client.ts` - Client configuration with read/write key support
-- `src/middleware.ts` - Sets/validates auth cookies for admin access
+- `src/middleware.ts` - Verifies the clang-auth cookie for admin access
 
 ### Astro Pages vs React Components
 
@@ -125,15 +122,6 @@ import { SkillsList } from '../../../components/admin/lists';
   <SkillsList client:only="react" />
 </AdminLayout>
 
-<script>
-  import { verifyToken } from "../../../lib/auth";
-  // Client-side auth check
-  async function checkAuth() {
-    const result = await verifyToken();
-    if (!result.valid) window.location.href = "/admin/login";
-  }
-  checkAuth();
-</script>
 ```
 
 ### React Component Pattern
@@ -177,34 +165,29 @@ export default function SkillsForm({
 Functions use ES module syntax:
 
 ```javascript
-// netlify/functions/auth-login.js
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+// netlify/functions/my-admin-function.js
+import { requireAdmin } from "../../src/lib/server/clang-auth";
 
-export const handler = async (event, context) => {
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-  };
+export const handler = async (event) => {
+  // clang-auth cookie + admin grant; POST/PUT/PATCH/DELETE also need a same-origin Origin
+  const auth = await requireAdmin(event);
+  if (!auth.ok) return auth.response;
 
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers, body: "" };
-  }
-
-  // ... handler logic
+  // auth.user = { sub, email, name, roles }; forward auth.token as
+  // `Authorization: Bearer` when calling the GraphQL API.
+  // Same-origin only: no CORS headers. Call it from the browser with authFetch().
 };
 ```
 
 ### Authentication Flow
 
-1. User submits credentials to `/admin/login`
-2. `LoginForm.tsx` calls `auth.login()` → `/.netlify/functions/auth-login`
-3. Function validates with bcrypt, returns JWT and sets `auth_token` cookie
-4. `src/middleware.ts` checks cookie on admin page requests
-5. Admin pages run `checkAuth()` script on load
-6. `verifyToken()` calls `/.netlify/functions/auth-verify`
-7. Invalid/missing token redirects to `/admin/login`
+1. `src/middleware.ts` verifies the clang-auth `ca_access` cookie on every `/admin/*` request (ES256 via JWKS, `apps.portfolio` ∋ `admin`)
+2. Signed out/expired → 302 to `${AUTH_BASE_URL}/login?redirect_uri=…`; no grant → 403 page
+3. Admin pages need no client-side auth check; `Astro.locals.user` holds the user
+4. Browser requests use `authFetch()` / `createWriteClient()`, which refresh the 15-minute token on 401 and retry
+5. Sign out calls clang-auth `/logout` (signs out of every app on the domain)
+
+Details: `docs/auth-flow-diagram.md`.
 
 ### Data Types
 
@@ -311,12 +294,13 @@ colors: {
 | --- | --- | --- |
 | `GRAPHQL_ENDPOINT` | GraphQL API URL (server-side) | Yes |
 | `GRAPHQL_API_KEY` | GraphQL API key (server-side) | Yes |
-| `AUTH_SECRET` | JWT signing secret (64 char hex) | Yes |
-| `ADMIN_USERNAME` | Admin login username | Yes |
-| `ADMIN_PASSWORD_HASH` | bcrypt hash of admin password | Yes |
+| `AUTH_BASE_URL` | clang-auth base URL (server) | Yes |
+| `PUBLIC_AUTH_BASE_URL` | clang-auth base URL (browser, build time) | Yes |
+| `AUTH_APP_SLUG` | App slug in the token's `apps` claim (`portfolio`) | Yes |
+| `APP_ORIGIN` | Canonical site origin (redirects, CSRF check) | Yes |
 | `ANTHROPIC_API_KEY` | Claude API key for AI features | Yes (for Job Agent and AI chat features) |
 
-Generate auth secrets: `npm run generate-secrets <password>`
+Tests: `npm test` (vitest; `src/**/__tests__`)
 
 ## Local Development Notes
 
@@ -343,14 +327,6 @@ import { MyComponent } from "../../components/admin/pages";
   <MyComponent client:only="react" />
 </AdminLayout>
 
-<script>
-  import { verifyToken } from "../../lib/auth";
-  async function checkAuth() {
-    const result = await verifyToken();
-    if (!result.valid) window.location.href = "/admin/login";
-  }
-  checkAuth();
-</script>
 ```
 
 2. Create React component in `src/components/admin/pages/`
