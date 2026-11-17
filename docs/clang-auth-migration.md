@@ -83,10 +83,10 @@ The site is served at `clintonlangosch.com` (www 301s to it). The apex receives 
    - `AUTH_APP_SLUG=portfolio`
    - `APP_ORIGIN=https://clintonlangosch.com`
    - `PUBLIC_GRAPHQL_ENDPOINT` / `GRAPHQL_ENDPOINT` switch to the new API host **in the same deploy as Part 2/3** (rollout step 3), not before.
-3. **Lambda env vars** (`career-data-api`): `AUTH_BASE_URL=https://auth.clintonlangosch.com`, `AUTH_APP_SLUG=portfolio`, `ALLOWED_ADMIN_ORIGINS=https://clintonlangosch.com`. The function's config is managed by hand and includes Datadog variables added outside CI. `update-function-configuration --environment` **replaces the whole map**, so merge:
+3. **Lambda env vars** (`api-career-data`): `AUTH_BASE_URL=https://auth.clintonlangosch.com`, `AUTH_APP_SLUG=portfolio`, `ALLOWED_ADMIN_ORIGINS=https://clintonlangosch.com`. The function's config is managed by hand and includes Datadog variables added outside CI. `update-function-configuration --environment` **replaces the whole map**, so merge:
 
    ```sh
-   FN=career-data-api; REGION=us-west-2
+   FN=api-career-data; REGION=us-west-2
    aws lambda get-function-configuration --function-name $FN --region $REGION \
      --query 'Environment.Variables' > env.json
    jq '. + {AUTH_BASE_URL:"https://auth.clintonlangosch.com", AUTH_APP_SLUG:"portfolio",
