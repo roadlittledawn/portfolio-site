@@ -9,4 +9,7 @@ export default defineConfig({
   output: 'hybrid', // Static by default, SSR where needed
   adapter: netlify(),
   integrations: [tailwind(), react()],
+  // Local clang-auth testing runs on *.localtest.me so cookies are shared
+  // (see docs/auth-flow-diagram.md#local-development).
+  vite: { server: { allowedHosts: ['.localtest.me'] } },
 });
