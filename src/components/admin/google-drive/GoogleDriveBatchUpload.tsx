@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Card, CardHeader } from '../ui';
 import GoogleDriveFolderSelector from './GoogleDriveFolderSelector';
 import { getDefaultFolderForRole } from '../../../lib/constants';
+import { authFetch } from '../../../lib/auth-client';
 
 interface UploadResult {
   type: string;
@@ -99,7 +100,7 @@ export default function GoogleDriveBatchUpload({
     setUploads([]);
 
     try {
-      const response = await fetch('/.netlify/functions/google-drive-upload', {
+      const response = await authFetch('/.netlify/functions/google-drive-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ files: filesToUpload }),

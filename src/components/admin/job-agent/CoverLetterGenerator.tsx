@@ -8,6 +8,7 @@ import { Button, Card, CardHeader, Textarea } from '../ui';
 import { GoogleDriveFolderSelector } from '../google-drive';
 import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
+import { authFetch } from '../../../lib/auth-client';
 
 interface CoverLetterGeneratorProps {
   jobInfo: {
@@ -137,7 +138,7 @@ export default function CoverLetterGenerator({
     setUploadSuccess(null);
 
     try {
-      const response = await fetch('/.netlify/functions/google-drive-upload', {
+      const response = await authFetch('/.netlify/functions/google-drive-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

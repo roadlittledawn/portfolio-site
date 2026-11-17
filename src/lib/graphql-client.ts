@@ -4,14 +4,14 @@
  *
  * Security Model:
  * - Read-only key (PUBLIC_GRAPHQL_READ_KEY): Public, embedded in client JS, only allows queries
- * - Write key (GRAPHQL_WRITE_KEY): Injected server-side by AdminLayout.astro into
- *   window.__GRAPHQL_WRITE_KEY__. Never bundled into static JS by Vite.
- * - Auth token (auth_token cookie): Injected server-side by AdminLayout.astro into
- *   window.__GRAPHQL_AUTH_TOKEN__. Sent as Authorization: Bearer header for mutations,
- *   providing a second authentication factor alongside the write key.
+ * - Admin pages: no key or token in page JS. The browser sends the clang-auth
+ *   `ca_access` cookie (HttpOnly, Domain=.clintonlangosch.com) with
+ *   `credentials: "include"`; the API verifies it and checks the admin grant
+ *   and Origin. See docs/clang-auth-migration.md.
  */
 
 import { GraphQLClient } from 'graphql-request';
+import { authFetch } from './auth-client';
 
 /**
  * Get the GraphQL endpoint URL
@@ -54,32 +54,16 @@ export function createReadOnlyClient(): GraphQLClient {
 
 /**
  * Create a GraphQL client for admin operations (mutations and queries)
- * Uses a write API key injected at SSR time via AdminLayout.astro
  *
- * Security: The write key and auth token are injected server-side into admin page
- * HTML only after middleware validates the auth cookie. Neither value is bundled
- * into any JS file by Vite, so unauthenticated users cannot extract them from
- * static assets. Mutations require both the write key (X-API-Key) and a valid
- * JWT (Authorization: Bearer) as a second authentication factor.
+ * Authenticates with the clang-auth cookie only. On a 401 (expired access
+ * token) it refreshes the session and retries once; if there's no session it
+ * sends the user to sign in.
  */
 export function createWriteClient(): GraphQLClient {
-  const endpoint = getGraphQLEndpoint();
-  const apiKey = (typeof window !== 'undefined' && (window as any).__GRAPHQL_WRITE_KEY__) || '';
-  const authToken = (typeof window !== 'undefined' && (window as any).__GRAPHQL_AUTH_TOKEN__) || '';
-
-  if (!apiKey) {
-    throw new Error('GRAPHQL_WRITE_KEY not available. Ensure you are on an authenticated admin page.');
-  }
-
-  const headers: Record<string, string> = {
-    'X-API-Key': apiKey,
-  };
-
-  if (authToken) {
-    headers['Authorization'] = `Bearer ${authToken}`;
-  }
-
-  return new GraphQLClient(endpoint, { headers });
+  return new GraphQLClient(getGraphQLEndpoint(), {
+    credentials: 'include',
+    fetch: authFetch,
+  });
 }
 
 /**
@@ -89,7 +73,7 @@ export function createWriteClient(): GraphQLClient {
  */
 export function createServerGraphQLClient(endpoint?: string, apiKey?: string): GraphQLClient {
   const url = endpoint || process.env.GRAPHQL_ENDPOINT;
-  const key = apiKey || process.env.GRAPHQL_WRITE_KEY || process.env.GRAPHQL_API_KEY || '';
+  const key = apiKey || process.env.GRAPHQL_API_KEY || '';
 
   if (!url) {
     throw new Error('GRAPHQL_ENDPOINT environment variable is required');
