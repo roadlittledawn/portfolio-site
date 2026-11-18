@@ -1,12 +1,11 @@
 import { createContext, useState, useEffect, useCallback, useContext, type ReactNode } from 'react';
-import type { AuthUser } from '../../lib/auth';
-import * as auth from '../../lib/auth';
+import { fetchMe, logout as signOut, redirectToLogin, type AuthUser } from '../../lib/auth-client';
 
 interface AuthContextType {
   user: AuthUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<void>;
+  /** Ends the clang-auth session: signs out of every app on the domain. */
   logout: () => Promise<void>;
 }
 
@@ -17,80 +16,55 @@ interface AuthProviderProps {
   onAuthChange?: (isAuthenticated: boolean) => void;
 }
 
+/**
+ * Client-side view of the signed-in admin, from `auth-me`.
+ *
+ * The middleware already guarantees a signed-in admin when an /admin page
+ * renders, so a 401 here means the 15-minute access token expired: fetchMe()
+ * tries a session refresh, and if that fails we send the user to clang-auth
+ * sign-in (never /admin/login).
+ */
 export default function AuthProvider({ children, onAuthChange }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Verify token on mount
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const result = await auth.verifyToken();
-        if (result.valid && result.user) {
-          setUser(result.user);
-          onAuthChange?.(true);
-        } else {
+    let cancelled = false;
+    fetchMe()
+      .then((me) => {
+        if (cancelled) return;
+        setUser(me);
+        onAuthChange?.(me !== null);
+        if (!me) redirectToLogin();
+      })
+      .catch((error) => {
+        console.error('Auth check failed:', error);
+        if (!cancelled) {
           setUser(null);
           onAuthChange?.(false);
-          // Redirect to login if not on login page
-          if (window.location.pathname !== '/admin/login') {
-            window.location.href = '/admin/login';
-          }
         }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-        setUser(null);
-        onAuthChange?.(false);
-        if (window.location.pathname !== '/admin/login') {
-          window.location.href = '/admin/login';
-        }
-      } finally {
-        setIsLoading(false);
-      }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
     };
-
-    checkAuth();
   }, [onAuthChange]);
 
-  const handleLogin = useCallback(
-    async (username: string, password: string) => {
-      try {
-        const response = await auth.login(username, password);
-        setUser(response.user);
-        onAuthChange?.(true);
-        window.location.href = '/admin';
-      } catch (error) {
-        console.error('Login failed:', error);
-        throw error;
-      }
-    },
-    [onAuthChange]
-  );
-
   const handleLogout = useCallback(async () => {
-    try {
-      await auth.logout();
-      setUser(null);
-      onAuthChange?.(false);
-      window.location.href = '/admin/login';
-    } catch (error) {
-      console.error('Logout failed:', error);
-      // Clear state anyway
-      setUser(null);
-      onAuthChange?.(false);
-      window.location.href = '/admin/login';
-    }
+    setUser(null);
+    onAuthChange?.(false);
+    await signOut();
   }, [onAuthChange]);
 
   const value: AuthContextType = {
     user,
     isLoading,
     isAuthenticated: user !== null,
-    login: handleLogin,
     logout: handleLogout,
   };
 
-  // Show loading state
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -99,14 +73,9 @@ export default function AuthProvider({ children, onAuthChange }: AuthProviderPro
     );
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-// Hook to use auth context
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

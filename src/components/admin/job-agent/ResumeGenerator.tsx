@@ -12,6 +12,7 @@ import { GoogleDriveFolderSelector } from '../google-drive';
 import { getDefaultFolderForRole } from '../../../lib/constants';
 import './markdown-preview.css';
 import './prism-dark-theme.css';
+import { authFetch } from '../../../lib/auth-client';
 
 type TabType = 'edit' | 'preview';
 
@@ -210,7 +211,7 @@ export default function ResumeGenerator({
     setUploadSuccess(null);
 
     try {
-      const response = await fetch('/.netlify/functions/google-drive-upload', {
+      const response = await authFetch('/.netlify/functions/google-drive-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

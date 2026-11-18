@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import jwt from 'jsonwebtoken';
+import { requireAdmin } from '../../src/lib/server/clang-auth';
 import { GraphQLClient } from 'graphql-request';
 import { Readable } from 'stream';
 
@@ -17,11 +17,14 @@ function generateFilename(type, jobTitle, companyName) {
   return `${date}-${type}-${sluggedTitle}-${sluggedCompany}.md`;
 }
 
-async function getOAuthCredentials(authToken) {
+/**
+ * Fetch the stored Google credentials. Admin-only on the API, so this forwards
+ * the user's clang-auth access token as a Bearer token.
+ */
+async function getOAuthCredentials(accessToken) {
   const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT || process.env.PUBLIC_GRAPHQL_ENDPOINT, {
     headers: {
-      'X-API-Key': process.env.GRAPHQL_WRITE_KEY,
-      'Authorization': `Bearer ${authToken}`,
+      'Authorization': `Bearer ${accessToken}`,
     },
   });
 
@@ -66,15 +69,8 @@ async function uploadFile(oauth2Client, content, filename, folderId) {
 }
 
 export const handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
+  // Same-origin only (called from the admin UI), so no CORS headers.
+  const headers = { 'Content-Type': 'application/json' };
 
   if (event.httpMethod !== 'POST') {
     return {
@@ -84,31 +80,9 @@ export const handler = async (event) => {
     };
   }
 
-  // Verify auth token
-  const cookies = event.headers.cookie?.split(';').reduce((acc, cookie) => {
-    const [key, value] = cookie.trim().split('=');
-    acc[key] = value;
-    return acc;
-  }, {});
-
-  const authToken = cookies?.auth_token;
-  if (!authToken) {
-    return {
-      statusCode: 401,
-      headers,
-      body: JSON.stringify({ error: 'Unauthorized' }),
-    };
-  }
-
-  try {
-    jwt.verify(authToken, process.env.AUTH_SECRET);
-  } catch (error) {
-    return {
-      statusCode: 401,
-      headers,
-      body: JSON.stringify({ error: 'Invalid token' }),
-    };
-  }
+  // clang-auth admin cookie (+ same-origin check for POST)
+  const auth = await requireAdmin(event);
+  if (!auth.ok) return auth.response;
 
   // Parse request body
   let body;
@@ -133,7 +107,7 @@ export const handler = async (event) => {
 
   try {
     // Get OAuth credentials from API
-    const credentials = await getOAuthCredentials(authToken);
+    const credentials = await getOAuthCredentials(auth.token);
     if (!credentials) {
       return {
         statusCode: 404,

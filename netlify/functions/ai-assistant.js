@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import jwt from 'jsonwebtoken';
+import { requireAdmin } from '../../src/lib/server/clang-auth';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -10,21 +10,8 @@ const anthropic = new Anthropic({
  * Proxies requests to Claude API with career data context
  */
 export const handler = async (event, context) => {
-  // CORS headers
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
-
-  // Handle preflight OPTIONS request
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: ''
-    };
-  }
+  // Same-origin only (called from the admin UI), so no CORS headers.
+  const headers = { 'Content-Type': 'application/json' };
 
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
@@ -35,24 +22,9 @@ export const handler = async (event, context) => {
     };
   }
 
-  // Authentication check - get token from cookie
-  let authToken;
-  if (event.headers.cookie) {
-    const cookies = event.headers.cookie.split(';').reduce((acc, cookie) => {
-      const [key, value] = cookie.trim().split('=');
-      acc[key] = value;
-      return acc;
-    }, {});
-    authToken = cookies.auth_token;
-  }
-  
-  if (!isAuthenticated(authToken)) {
-    return {
-      statusCode: 401,
-      headers,
-      body: JSON.stringify({ error: 'Unauthorized' })
-    };
-  }
+  // clang-auth admin cookie + same-origin check (POST)
+  const auth = await requireAdmin(event);
+  if (!auth.ok) return auth.response;
 
   try {
     const { messages, context: aiContext, options = {} } = JSON.parse(event.body);
@@ -296,19 +268,3 @@ Remember: Be helpful, specific, and actionable. Focus on making the user's caree
   return prompt;
 }
 
-/**
- * Verify JWT authentication token
- */
-function isAuthenticated(token) {
-  if (!token) {
-    return false;
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.AUTH_SECRET);
-    return decoded && decoded.username === process.env.ADMIN_USERNAME;
-  } catch (error) {
-    console.error('Auth error:', error.message);
-    return false;
-  }
-}

@@ -1,308 +1,222 @@
 # Authentication & Request Flow Architecture
 
+Admin sign-in uses the shared **clang-auth** service at `https://auth.clintonlangosch.com`. Neither this site nor the GraphQL API stores passwords or signing secrets: both verify a short-lived ES256 access token locally against clang-auth's public JWKS. Migration plan and rollout: [`clang-auth-migration.md`](./clang-auth-migration.md).
+
 ## System Overview
 
 ```mermaid
 graph TB
-    Portfolio["Portfolio Site (Netlify)<br/>https://clintonlangosch.com"]
-    API["GraphQL API (AWS Lambda)<br/>Different domain/deployment"]
-    
-    Portfolio -->|Direct GraphQL requests<br/>with API keys| API
-    
-    style Portfolio fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    Browser["Browser"]
+    Site["Portfolio Site (Netlify)<br/>https://clintonlangosch.com"]
+    API["GraphQL API (Lambda via CloudFront)<br/>https://api.portfolio.clintonlangosch.com"]
+    Auth["clang-auth<br/>https://auth.clintonlangosch.com"]
+
+    Browser -->|"public pages, /admin/* (SSR), functions"| Site
+    Browser -->|"queries: X-API-Key read key<br/>admin: ca_access cookie"| API
+    Browser -->|"sign-in, refresh, sign-out"| Auth
+    Site -.->|"JWKS (cached)"| Auth
+    API -.->|"JWKS (cached)"| Auth
+    Site -->|"functions → Bearer ca_access"| API
+
+    style Browser fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style Site fill:#2d333b,stroke:#58a6ff,color:#e6edf3
     style API fill:#2d333b,stroke:#58a6ff,color:#e6edf3
+    style Auth fill:#2d333b,stroke:#58a6ff,color:#e6edf3
 ```
 
-## Key Architecture Changes
+### The token
 
-**Previous**: GraphQL requests were proxied through a Netlify function to add authentication headers from cookies.
+- **`ca_access`**: ES256 JWT set by clang-auth with `Domain=.clintonlangosch.com; HttpOnly; Secure; SameSite=Lax`, valid 15 minutes. Every `*.clintonlangosch.com` host (including the apex) receives it. Page JavaScript can't read it.
+- Claims: `sub`, `email`, `name`, `iss` (= `AUTH_BASE_URL`), `exp`, and `apps`, e.g. `{ "portfolio": ["admin"] }`.
+- **Admin access** means `apps.portfolio` (the `AUTH_APP_SLUG`) includes `"admin"`.
+- Verification (`src/lib/server/clang-auth.ts` here, `api/middleware/clang-auth.ts` in the API): ES256 only, key chosen by `kid` from `${AUTH_BASE_URL}/.well-known/jwks.json` (cached, re-fetched on unknown `kid`), `iss` must equal `AUTH_BASE_URL`, 30 s clock tolerance.
 
-**Current**: Direct GraphQL API access using API key-based authentication:
-- **Read-only key**: Public, safe to expose in browser, allows queries only
-- **Write key**: Injected server-side by AdminLayout.astro (not bundled in JS), allows queries and mutations
+### CSRF
 
-## 1. Unauthenticated Frontend Requests (Public Site)
+Sibling apps (`lexicon.clintonlangosch.com`, …) are *same-site* with the apex under `SameSite=Lax`, so the cookie alone doesn't prove a request came from this site. Every state-changing request authenticated by the cookie must carry an `Origin` (or, failing that, `Referer`) that matches:
 
-**Flow**: Public pages → React component → GraphQL API (read-only key)
+- `APP_ORIGIN` for the site's Netlify functions;
+- `ALLOWED_ADMIN_ORIGINS` for the API (cookie-authenticated requests).
+
+Server-to-server calls send the token as `Authorization: Bearer`, which browsers never attach automatically, so they skip the origin check.
+
+## 1. Public pages
+
+Unchanged: public pages query the API with the public read-only key and never contact clang-auth.
 
 ```mermaid
 sequenceDiagram
-    participant Browser as Browser<br/>(Visitor)
-    participant Astro as skills.astro<br/>(Static Page)
-    participant React as SkillsPageContent.tsx<br/>(React Component)
-    participant API as GraphQL API<br/>(AWS Lambda)
-    
-    Browser->>Astro: 1. GET /skills
-    Astro->>Browser: 2. HTML with React component
-    Browser->>React: 3. Component hydrates
-    React->>React: 4. useEffect(() => fetchSkills())
-    React->>API: 5. POST /graphql<br/>X-API-Key: READ_KEY<br/>Body: { query: "query { skills {...} }" }
-    
-    Note over API: Validate read-only key<br/>Execute query
-    
-    API->>React: 6. { data: { skills: [...] } }
-    React->>React: 7. setSkills(data.skills)
-    React->>Browser: 8. Render skill cards
+    participant Browser as Browser (visitor)
+    participant React as SkillsPageContent.tsx
+    participant API as GraphQL API
+
+    Browser->>React: GET /skills, component hydrates
+    React->>API: POST /graphql<br/>X-API-Key: READ_KEY<br/>{ query: "{ skills {...} }" }
+    Note over API: Parse document → query<br/>read key OK
+    API->>React: { data: { skills: [...] } }
 ```
 
-**Key Points**:
-- Public pages use **React components** that fetch data at runtime
-- GraphQL **queries** use read-only API key
-- Read-only key is safe to expose in browser (queries only)
-- No authentication required for public data
+The API decides query vs. mutation by **parsing** the GraphQL document (`graphql`'s `parse()`), so a comment, fragment or second operation before `mutation` can't sneak a mutation past the read key. Unparsable documents get `400`.
 
----
-
-## 2. Admin Login Flow
-
-**Flow**: Login form → Netlify Function → JWT cookie set
+## 2. Opening an admin page
 
 ```mermaid
 sequenceDiagram
-    participant Browser as Browser<br/>(Admin)
-    participant Form as LoginForm.tsx
-    participant Login as auth-login.js<br/>(Netlify Function)
-    
-    Browser->>Form: 1. Navigate to /admin/login<br/>Enter username/password
-    Form->>Login: 2. POST /.netlify/functions/auth-login<br/>Body: { username, password }<br/>credentials: 'include'
-    
-    Note over Login: 1. Validate username === ADMIN_USERNAME<br/>2. bcrypt.compare(password, ADMIN_PASSWORD_HASH)<br/>3. Generate JWT:<br/>jwt.sign({ username, iat }, AUTH_SECRET, { 24h })<br/>4. Set HTTP-only cookie:<br/>Set-Cookie: auth_token=<JWT>;<br/>HttpOnly; Secure; SameSite=Lax;<br/>Path=/; Max-Age=86400
-    
-    Login->>Browser: 3. Response with Set-Cookie header<br/>{ success: true, user: { username } }
-    
-    Note over Browser: Stores auth_token cookie<br/>(HTTP-only, can't access via JS)
-    
-    Browser->>Browser: 4. Redirect to /admin
-```
+    participant Browser
+    participant MW as src/middleware.ts (SSR)
+    participant Auth as clang-auth
 
-**Security Features**:
-- Password stored as bcrypt hash in `ADMIN_PASSWORD_HASH` env var
-- JWT signed with `AUTH_SECRET` (64-char hex)
-- Cookie is **HTTP-only** (JavaScript cannot access)
-- Cookie is **Secure** in production (HTTPS only)
-- Cookie is **SameSite=Lax** (CSRF protection)
-- Token expires in 24 hours
-
----
-
-## 3. Admin Page Access (Server-Side Auth Check)
-
-**Flow**: Request admin page → Middleware validates cookie → Allow/Deny
-
-```mermaid
-sequenceDiagram
-    participant Browser as Browser<br/>(Admin)
-    participant Middleware as middleware.ts<br/>(Astro Middleware)
-    participant Verify as auth-verify.js<br/>(Netlify Function)
-    participant Page as Admin Page<br/>(SSR)
-    
-    Browser->>Middleware: 1. GET /admin/skills<br/>Cookie: auth_token=<JWT>
-    
-    Note over Middleware: Check path starts with /admin<br/>(except /admin/login)<br/>Extract auth_token from cookies
-    
-    alt No token
-        Middleware->>Browser: redirect('/admin/login')
-    else Has token
-        Middleware->>Verify: 2. POST /.netlify/functions/auth-verify<br/>Body: { token }
-        
-        Note over Verify: jwt.verify(token, AUTH_SECRET)
-        
-        Verify->>Middleware: 3. { valid: true/false }
-        
-        alt Invalid token
-            Middleware->>Browser: redirect('/admin/login')
-        else Valid token
-            Middleware->>Page: 4. Continue to page
-            Page->>Browser: 5. HTML response<br/>(with React component)
-        end
+    Browser->>MW: GET /admin/skills<br/>Cookie: ca_access=…
+    Note over MW: verify ES256 via JWKS, iss, exp<br/>apps.portfolio ∋ "admin"
+    alt no / invalid / expired token
+        MW->>Browser: 302 → AUTH_BASE_URL/login?redirect_uri=APP_ORIGIN/admin/skills
+        Browser->>Auth: sign in (silent if the clang-auth session is alive)
+        Auth->>Browser: Set-Cookie ca_access, 302 → /admin/skills
+    else signed in, no portfolio admin grant
+        MW->>Browser: 403 "No access" page (no redirect, which would loop)
+    else admin
+        Note over MW: locals.user = { sub, email, name, roles }
+        MW->>Browser: 200 page, Cache-Control: no-store
     end
 ```
 
-**Two-Layer Auth**:
-1. **Server-side** (middleware): Validates token before rendering page
-2. **Client-side** (script): Additional check after page loads (see next section)
+- `/admin/login` is kept for old bookmarks: signed out, the middleware sends you to clang-auth (returning to `/admin`); signed in, the page redirects to `/admin`.
+- `AdminLayout.astro` shows "Signed in as …" from `Astro.locals.user`. No key or token is written into page JavaScript.
 
----
-
-## 4. Client-Side Auth Check (After Page Load)
-
-**Flow**: Page loads → Script verifies token → Stay/Redirect
+## 3. Admin GraphQL requests
 
 ```mermaid
 sequenceDiagram
-    participant Browser as Browser
-    participant Script as Admin Page Script
-    participant Auth as auth.ts<br/>(verifyToken)
-    participant Verify as auth-verify.js<br/>(Netlify Function)
-    
-    Browser->>Script: 1. Page loads, script executes
-    Script->>Auth: 2. checkAuth() calls verifyToken()
-    Auth->>Verify: 3. POST /.netlify/functions/auth-verify<br/>credentials: 'include' (sends cookie)
-    
-    Note over Verify: Extract auth_token from cookies<br/>jwt.verify(token, AUTH_SECRET)
-    
-    Verify->>Auth: 4. { valid: true/false, user: {...} }
-    
-    alt Invalid token
-        Auth->>Browser: 5. window.location.href = "/admin/login"
-    else Valid token
-        Auth->>Script: 5. Token valid
-        Script->>Browser: 6. Stay on page, React components hydrate
+    participant UI as Admin React component
+    participant Client as createWriteClient()
+    participant API as GraphQL API
+    participant Auth as clang-auth
+
+    UI->>Client: request(mutation)
+    Client->>API: POST /graphql (credentials: "include")<br/>Cookie: ca_access=…<br/>Origin: https://clintonlangosch.com
+    Note over API: verify token, admin grant,<br/>Origin ∈ ALLOWED_ADMIN_ORIGINS
+    alt 401 (token expired)
+        API->>Client: 401 UNAUTHENTICATED
+        Client->>Auth: POST /api/session/refresh (credentials: "include")
+        Auth->>Client: 200, new ca_access cookie
+        Client->>API: retry once
+    end
+    API->>Client: { data }
+```
+
+- `createWriteClient()` (`src/lib/graphql-client.ts`) sends no `X-API-Key` and no `Authorization` header; it relies on the cookie. Its `fetch` is `authFetch()` (`src/lib/auth-client.ts`), which on a `401` refreshes the session and retries once, or sends the user to sign in if the refresh fails.
+- Admin queries are also authorized by the cookie, so the admin UI needs no API key at all.
+- API error codes are unchanged: `UNAUTHENTICATED` (401) and `FORBIDDEN` (403) in `errors[].extensions.code`.
+- The API's CORS config allows credentials for an exact origin list (never `*`) and the `Content-Type`, `Authorization` and `X-API-Key` headers.
+
+## 4. Admin Netlify functions
+
+`ai-assistant`, `google-drive-status`, `google-oauth-init`, `google-drive-upload`, `google-oauth-callback` and `auth-me` call `requireAdmin(event)` from `src/lib/server/clang-auth.ts`:
+
+- Reads only the `ca_access` cookie (an `Authorization` header from a browser is ignored).
+- `401` signed out/expired, `403` no admin grant, `403` for a `POST/PUT/PATCH/DELETE` whose `Origin`/`Referer` isn't `APP_ORIGIN`.
+- Returns the user and the raw token. Functions that call the API forward it as `Authorization: Bearer <ca_access>`.
+- They're same-origin only: no `Access-Control-Allow-Origin` headers.
+
+The browser calls them through `authFetch()`, so an expired token is refreshed transparently.
+
+`auth-me` returns `{ email, name, roles }` for the signed-in admin (used by `AuthProvider`).
+
+### Google Drive OAuth
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant Init as google-oauth-init
+    participant Google
+    participant CB as google-oauth-callback
+    participant API as GraphQL API
+
+    Browser->>Init: GET (cookie)
+    Init->>Browser: { authUrl }
+    Browser->>Google: consent
+    Google->>Browser: 302 → callback?code=…
+    Browser->>CB: GET ?code=… (top-level GET, so the Lax cookie is sent)
+    Note over CB: requireAdmin(event) before using the code
+    alt token expired during consent
+        CB->>Browser: 302 → clang-auth /login?redirect_uri=/admin/job-agent?oauth=expired
+        Note over Browser: page asks the user to connect again
+    else admin
+        CB->>Google: exchange code
+        CB->>API: storeOAuthToken mutation<br/>Authorization: Bearer <ca_access>
+        CB->>Browser: 302 → /admin/job-agent?oauth=success
     end
 ```
 
-**Why Two Checks?**
-- **Middleware**: Prevents unauthorized page rendering (server-side)
-- **Client script**: Catches expired tokens after page load (client-side)
+`getOAuthTokenWithCredentials` returns the stored refresh token, so the API serves it only to admin callers (a clang-auth admin token, or the legacy write key during the transition), never to the public read key. `google-drive-upload` fetches it with the forwarded Bearer token.
 
----
+## 5. Signing out
 
-## 5. Admin Data Mutations (Direct GraphQL Access)
+The **Sign out** button calls `logout()` (`src/lib/auth-client.ts`): `POST ${PUBLIC_AUTH_BASE_URL}/logout` with `credentials: "include"`, then navigates to `/`. This ends the clang-auth session for **every** app on the domain.
 
-**Flow**: React form → GraphQL API (write key + JWT)
+## Environment variables
 
-```mermaid
-sequenceDiagram
-    participant Browser as Browser<br/>(Admin)
-    participant Form as SkillsForm.tsx<br/>(React Component)
-    participant Client as graphql-client.ts
-    participant API as GraphQL API<br/>(AWS Lambda)
+### Portfolio site (Netlify)
 
-    Browser->>Form: 1. User submits form (add/edit skill)
-    Form->>Client: 2. onSubmit calls GraphQL mutation
-
-    Note over Client: Get write client<br/>Includes write API key<br/>and JWT auth token
-
-    Client->>API: 3. POST /graphql<br/>X-API-Key: WRITE_KEY<br/>Authorization: Bearer JWT<br/>Body: { query: "mutation { ... }" }
-
-    Note over API: 1. Validate write key<br/>2. Verify JWT signature<br/>3. Execute mutation
-
-    API->>Client: 4. { data: { ... } }
-    Client->>Form: 5. Update UI
-    Form->>Browser: 6. Show success message
-```
-
-**Key Points**:
-- Admin mutations require **both** write API key and valid JWT (two-factor auth)
-- Write key and JWT are injected server-side by AdminLayout.astro
-- JWT is the same admin auth token used for page access (auth_token cookie)
-- Neither credential alone is sufficient — prevents leaked key abuse
-- No proxy needed - direct API access
-- Eliminates timeout issues for long-running operations (job agent)
-
----
-
-## 6. GraphQL API Authentication Model
-
-The GraphQL API validates API keys on all requests, with JWT as a second factor for mutations:
-
-### Query Requests
-```
-REQUIRED: X-API-Key header
-- Read-only key: Allows queries only
-- Write key: Also allows queries
-```
-
-### Mutation Requests
-```
-REQUIRED: X-API-Key header (write key)
-REQUIRED: Authorization: Bearer <JWT> header
-- Both credentials must be valid
-- JWT is verified against AUTH_SECRET (shared between portfolio site and API)
-```
-
-### Security Layers
-1. **Read-only key**: Public, safe to expose, queries only
-2. **Write key**: Injected server-side, never in static JS, allows mutations
-3. **JWT second factor**: Admin auth token forwarded as Bearer token, required for mutations
-4. **Cookie auth**: Controls access to admin pages
-5. **Middleware validation**: Server-side check before page render
-6. **Client validation**: Client-side check after page load
-
----
-
-## 7. Environment Variables
-
-### Portfolio Site (Netlify)
 ```bash
-# GraphQL API endpoint (public, used by client-side code)
-PUBLIC_GRAPHQL_ENDPOINT=<graphql-api-url>
-
-# Read-only API key (public, safe to expose, queries only)
+PUBLIC_GRAPHQL_ENDPOINT=https://api.portfolio.clintonlangosch.com/graphql
+GRAPHQL_ENDPOINT=https://api.portfolio.clintonlangosch.com/graphql   # functions
 PUBLIC_GRAPHQL_READ_KEY=<read-key>
 
-# Write API key (server-side only, injected by AdminLayout.astro, allows mutations)
-GRAPHQL_WRITE_KEY=<write-key>
-
-# Legacy env vars (for backwards compatibility with scripts)
-GRAPHQL_ENDPOINT=${PUBLIC_GRAPHQL_ENDPOINT}
-GRAPHQL_API_KEY=${GRAPHQL_WRITE_KEY}
-
-# Admin Auth
-AUTH_SECRET=<64-char-hex>
-ADMIN_USERNAME=<username>
-ADMIN_PASSWORD_HASH=<bcrypt-hash>
-
-# AI (optional)
-ANTHROPIC_API_KEY=<key>
+AUTH_BASE_URL=https://auth.clintonlangosch.com          # server: verification + redirects
+PUBLIC_AUTH_BASE_URL=https://auth.clintonlangosch.com   # browser: refresh, sign-out (build time)
+AUTH_APP_SLUG=portfolio
+APP_ORIGIN=https://clintonlangosch.com
 ```
 
-### GraphQL API (AWS Lambda)
+### GraphQL API (Lambda)
+
 ```bash
-# API Authentication
-API_READ_KEY=<read-key>   # Must match PUBLIC_GRAPHQL_READ_KEY
-API_WRITE_KEY=<write-key> # Must match GRAPHQL_WRITE_KEY
+API_READ_KEY=<read-key>
+AUTH_BASE_URL=https://auth.clintonlangosch.com
+AUTH_APP_SLUG=portfolio
+ALLOWED_ADMIN_ORIGINS=https://clintonlangosch.com
 
-# JWT Verification (must match AUTH_SECRET in portfolio site)
-AUTH_SECRET=<64-char-hex>
+# Legacy, transition only (remove in rollout step 4):
+API_WRITE_KEY=<write-key>
+AUTH_SECRET=<hs256-secret>
 ```
 
----
+## Files
 
-## 8. Key Files Reference
-
-### Portfolio Site
 ```
-netlify/functions/
-├── auth-login.js          # Login, set JWT cookie
-├── auth-verify.js         # Verify JWT from cookie
-├── auth-logout.js         # Clear cookie
-└── ai-assistant.js        # Claude API proxy
-
 src/
-├── middleware.ts          # Server-side auth check
+├── middleware.ts                 # /admin/* gate: verify ca_access, redirect/403, locals.user
 ├── lib/
-│   ├── auth.ts           # Client auth utilities
-│   └── graphql-client.ts # GraphQL client (direct access with API keys)
-└── components/
-    ├── pages/            # Public page components (use read-only key)
-    └── admin/            # Admin components (use write key)
+│   ├── server/clang-auth.ts      # verifyAccessToken, authenticateToken, requireAdmin
+│   ├── auth-client.ts            # loginUrl, refreshSession, authFetch, fetchMe, logout
+│   └── graphql-client.ts         # read-only client (read key) / write client (cookie)
+├── layouts/AdminLayout.astro     # "Signed in as …", Sign out
+└── components/admin/AuthProvider.tsx  # client-side user from auth-me
+
+netlify/functions/
+├── auth-me.ts                    # { email, name, roles } or 401/403
+├── ai-assistant.js               # requireAdmin
+├── google-drive-status.js        # requireAdmin
+├── google-oauth-init.js          # requireAdmin
+├── google-oauth-callback.js      # requireAdmin, forwards Bearer token
+└── google-drive-upload.js        # requireAdmin, forwards Bearer token
 ```
 
-### GraphQL API
-```
-src/
-└── middleware/
-    └── auth.ts           # API key validation
-```
+## Local development
 
----
+Cookies need a shared parent domain, so use `*.localtest.me` (resolves to 127.0.0.1), not `localhost`:
 
-## 9. Migration from Proxy Architecture
+- clang-auth at `http://auth.localtest.me:4000`, with the dev app registered:
+  `clang-auth app create portfolio --name Portfolio --origin http://portfolio.localtest.me:8080` and
+  `clang-auth grant set dev@localtest.me portfolio --role admin`.
+- This site via `netlify dev`, opened at `http://portfolio.localtest.me:8080`, with
+  `AUTH_BASE_URL`/`PUBLIC_AUTH_BASE_URL=http://auth.localtest.me:4000`, `AUTH_APP_SLUG=portfolio`, `APP_ORIGIN=http://portfolio.localtest.me:8080`.
+- The API at `http://api.portfolio.localtest.me:<port>` with `ALLOWED_ADMIN_ORIGINS=http://portfolio.localtest.me:8080`; point `PUBLIC_GRAPHQL_ENDPOINT`/`GRAPHQL_ENDPOINT` at it.
+- API-only testing: `TOKEN=$(clang-auth token mint dev@localtest.me --ttl 1h)` and `curl … -H "Authorization: Bearer $TOKEN"`.
 
-### What Changed
-- **Removed**: `netlify/functions/graphql-proxy.js` - No longer needed
-- **Updated**: `src/lib/graphql-client.ts` - Now uses direct API access with keys
-- **New**: API key-based authentication (read-only and write keys)
+## Known limitations
 
-### What Stayed the Same
-- Cookie-based admin authentication (middleware + JWT)
-- Admin page protection via middleware
-- Login/logout/verify flow unchanged
-- Security model for admin access unchanged
-
-### Benefits
-- **No timeouts**: Direct API access eliminates Netlify function timeout issues
-- **Simpler architecture**: One less moving part (no proxy)
-- **Better performance**: Fewer network hops
-- **Easier debugging**: Direct request/response flow
+- Deploy previews (`*--clintonlangosch.netlify.app`) never receive the cookie, so admin doesn't work there.
+- Signing out is global across `*.clintonlangosch.com`.
+- Revoking a grant takes effect within the 15-minute token lifetime, not instantly.
