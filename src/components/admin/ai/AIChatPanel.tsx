@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { authFetch } from '../../../lib/auth-client';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -51,7 +52,7 @@ export default function AIChatPanel({
         content: msg.content,
       }));
 
-      const response = await fetch('/.netlify/functions/ai-assistant', {
+      const response = await authFetch('/.netlify/functions/ai-assistant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

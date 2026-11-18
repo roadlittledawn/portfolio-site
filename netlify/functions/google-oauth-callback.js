@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import { GraphQLClient } from 'graphql-request';
-import jwt from 'jsonwebtoken';
+import { loginUrl, requireAdmin } from '../../src/lib/server/clang-auth';
 
 export const handler = async (event) => {
   if (event.httpMethod !== 'GET') {
@@ -8,6 +8,25 @@ export const handler = async (event) => {
       statusCode: 405,
       body: 'Method not allowed',
     };
+  }
+
+  // Google's redirect back is a top-level GET, so the SameSite=Lax ca_access
+  // cookie is sent. Check it before using the (single-use) code: only the
+  // admin may connect a Drive account.
+  const auth = await requireAdmin(event);
+  if (!auth.ok) {
+    if (auth.status === 401 && auth.settings) {
+      // Token expired during the consent screen: sign in again, then retry.
+      return {
+        statusCode: 302,
+        headers: {
+          Location: loginUrl(auth.settings.authBaseUrl, `${auth.settings.appOrigin}/admin/job-agent?oauth=expired`),
+          'Cache-Control': 'no-store',
+        },
+        body: '',
+      };
+    }
+    return auth.response;
   }
 
   const code = event.queryStringParameters?.code;
@@ -43,18 +62,11 @@ export const handler = async (event) => {
     const { data } = await oauth2.userinfo.get();
     console.log('User email:', data.email);
 
-    // Generate a valid JWT for server-to-server auth
-    const token = jwt.sign(
-      { username: 'admin', iat: Math.floor(Date.now() / 1000) },
-      process.env.AUTH_SECRET,
-      { expiresIn: '1h' }
-    );
-
-    // Store tokens in MongoDB via GraphQL API
+    // Store tokens in MongoDB via GraphQL API, forwarding the admin's
+    // clang-auth access token (server-to-server: Bearer, no Origin check).
     const client = new GraphQLClient(process.env.GRAPHQL_ENDPOINT || process.env.PUBLIC_GRAPHQL_ENDPOINT, {
       headers: {
-        'X-API-Key': process.env.GRAPHQL_WRITE_KEY,
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${auth.token}`,
       },
     });
 

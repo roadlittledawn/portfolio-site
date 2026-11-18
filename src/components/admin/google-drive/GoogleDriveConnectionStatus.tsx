@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '../ui';
+import { authFetch } from '../../../lib/auth-client';
 
 interface ConnectionStatus {
   connected: boolean;
@@ -10,6 +11,11 @@ export default function GoogleDriveConnectionStatus() {
   const [status, setStatus] = useState<ConnectionStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(false);
+  // Set by google-oauth-callback when the clang-auth session expired during
+  // Google's consent screen: the user signed in again but must reconnect.
+  const [oauthExpired] = useState(
+    () => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('oauth') === 'expired'
+  );
 
   useEffect(() => {
     checkStatus();
@@ -17,7 +23,7 @@ export default function GoogleDriveConnectionStatus() {
 
   const checkStatus = async () => {
     try {
-      const response = await fetch('/.netlify/functions/google-drive-status');
+      const response = await authFetch('/.netlify/functions/google-drive-status');
       const data = await response.json();
       setStatus(data);
     } catch (error) {
@@ -31,7 +37,7 @@ export default function GoogleDriveConnectionStatus() {
   const handleConnect = async () => {
     setConnecting(true);
     try {
-      const response = await fetch('/.netlify/functions/google-oauth-init');
+      const response = await authFetch('/.netlify/functions/google-oauth-init');
       const data = await response.json();
       if (data.authUrl) {
         window.location.href = data.authUrl;
@@ -66,8 +72,15 @@ export default function GoogleDriveConnectionStatus() {
   }
 
   return (
-    <Button onClick={handleConnect} isLoading={connecting} size="sm">
-      Connect Google Drive
-    </Button>
+    <div className="flex items-center gap-3">
+      {oauthExpired && (
+        <span className="text-sm text-accent-amber">
+          Your session expired while connecting. Please connect again.
+        </span>
+      )}
+      <Button onClick={handleConnect} isLoading={connecting} size="sm">
+        Connect Google Drive
+      </Button>
+    </div>
   );
 }

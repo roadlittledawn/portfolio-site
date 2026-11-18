@@ -48,14 +48,15 @@ export default function AdminNav() {
       ))}
 
       <div className="flex items-center gap-4 ml-6 pl-6 border-l border-dark-border">
-        <span className="text-sm text-text-secondary">
-          {auth.user?.username}
+        <span className="text-sm text-text-secondary" title={auth.user?.email}>
+          {auth.user?.name ?? auth.user?.email}
         </span>
         <button
           onClick={() => auth.logout()}
           className="text-sm text-text-secondary hover:text-red-400 transition-colors"
+          title="Signs you out of every clintonlangosch.com app"
         >
-          Logout
+          Sign out
         </button>
       </div>
     </nav>
